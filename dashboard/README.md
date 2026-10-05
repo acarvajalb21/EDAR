@@ -39,9 +39,11 @@ facturación habilitada para desplegarlo.
 El archivo `.gcloudignore` deja fuera los microdatos y permite enviar los CSV agregados que
 requiere la app. La cuenta de Google Cloud puede ser distinta de la cuenta de GitHub.
 
-Desde la raíz del repositorio, con `gcloud` autenticado y el proyecto seleccionado:
+Proyecto creado para este trabajo: `eda-salud-atlantico-2018`. Tras activar la facturación,
+desde la raíz del repositorio con `gcloud` autenticado:
 
 ```powershell
+gcloud config set project eda-salud-atlantico-2018
 gcloud run deploy eda-salud-atlantico --source . --region us-east1 --allow-unauthenticated --min-instances 0 --max-instances 2 --memory 512Mi --cpu 1
 ```
 
