@@ -42,7 +42,7 @@ En RStudio, abra `EDAR.Rproj` y use Build → Build Book. También puede ejecuta
 & "C:\Program Files\R\R-4.4.1\bin\Rscript.exe" build_bookdown.R
 ```
 
-El libro se compiló y verificó el 5 de octubre de 2026 con R 4.4.1 y los tres CSV departamentales. La carpeta `docs/` contiene una versión lista para publicarse sin distribuir los microdatos. El flujo de GitHub Pages publica esa carpeta cuando se envíe al repositorio; los CSV no se cargan a GitHub.
+El libro se compiló y verificó el 5 de octubre de 2026 con R 4.4.1 y los tres CSV departamentales. La carpeta `docs/` contiene una versión lista para publicarse sin distribuir los microdatos. El flujo de GitHub Pages se ejecuta manualmente cuando se habilite Pages y se decida publicar el sitio; los CSV no se cargan a GitHub.
 
 ## Cifras de control
 
