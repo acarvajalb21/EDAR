@@ -1,0 +1,9 @@
+bookdown::gitbook:
+  css: book.css
+  split_by: chapter
+  config:
+    toc:
+      collapse: section
+    download: false
+    sharing: null
+    info: false

@@ -1,0 +1,1353 @@
+# Análisis exploratorio completo {#analisis}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE,
+                      fig.align = "center", fig.retina = 2, dpi = 110)
+```
+
+<style>
+table th, h1, h2, h3, h4, h5, h6 {
+  font-weight: normal !important;
+}
+</style>
+
+El Censo Nacional de Población y Vivienda (CNPV) preguntó si la persona tuvo un problema de salud
+que no requirió hospitalización durante los 30 días previos. Para quienes respondieron afirmativamente,
+registró el tratamiento principal y, cuando acudieron a su entidad de seguridad social, si fueron atendidos.
+Este trabajo describe el acceso observado a atención formal en ese grupo. No mide afiliación, necesidad
+clínica, calidad de la atención ni acceso de toda la población departamental.
+
+## Pregunta de investigación
+
+¿Cómo varía el acceso a atención formal entre las personas censadas en el Atlántico que reportaron
+un problema de salud, según sus características funcionales, sociodemográficas, habitacionales y territoriales?
+
+## Objetivo general
+
+Describir el acceso a atención formal en esta población y su distribución según características
+funcionales, sociodemográficas, habitacionales y territoriales observadas en el CNPV 2018.
+
+## Objetivos específicos
+
+1. Construir y documentar una medida binaria de acceso a partir del tratamiento principal y la atención
+   recibida, y cuantificar los casos que no se pueden clasificar.
+2. Describir la distribución de la respuesta, la calidad de los datos y las características de las personas
+   y los hogares incluidos.
+3. Comparar descriptivamente el acceso entre grupos de dificultad funcional, sexo, edad, estrato,
+   personas por cuarto, clase territorial y municipio, indicando el tamaño y el denominador de cada grupo.
+4. Examinar cuánto cambia la diferencia por dificultad funcional al estandarizar las tasas por edad.
+
+La unidad de análisis es la persona. El universo operativo son los registros censales del Atlántico
+con `P_ENFERMO = 1` y una respuesta de acceso clasificable. Las cifras describen ese conjunto de
+microdatos, no una muestra aleatoria ni a quienes no reportaron un problema de salud.
+
+## Metodología y diccionario de variables
+
+### Variables originales del CNPV 2018
+
+La tabla de personas es la base; hogar y vivienda se incorporan con sus claves. Los códigos son
+categorías, aunque se lean como números. Las definiciones se contrastaron con el diccionario del
+DANE (ficha 643); los valores presentes y faltantes se revisan más adelante al cargar los archivos.
+
+<table>
+<thead><tr><th style="font-weight:normal">Variable original</th><th style="font-weight:normal">Fuente y función</th><th style="font-weight:normal">Codificación o unidad</th><th style="font-weight:normal">Escala</th></tr></thead>
+<tbody>
+<tr><td><code>P_ENFERMO</code></td><td>Personas; filtro</td><td>1 sí, 2 no, 9 no informa</td><td>Nominal binaria</td></tr>
+<tr><td><code>P_QUEHIZO_PPAL</code></td><td>Personas; construye respuesta</td><td>1 entidad de seguridad social; 2 médico particular; 3 a 9 otras acciones; 11 no aplica y 99 no informa según DANE; 0 observado sin categoría válida</td><td>Nominal</td></tr>
+<tr><td><code>PA_LO_ATENDIERON</code></td><td>Personas; construye respuesta si <code>P_QUEHIZO_PPAL=1</code></td><td>1 sí, 2 no; 4 no aplica; 9 no informa</td><td>Nominal binaria</td></tr>
+<tr><td><code>CONDICION_FISICA</code></td><td>Personas; explicativa</td><td>1 con dificultad funcional, 2 sin dificultad, 9 no informa</td><td>Nominal binaria</td></tr>
+<tr><td><code>P_SEXO</code></td><td>Personas; explicativa</td><td>1 hombre, 2 mujer</td><td>Nominal binaria</td></tr>
+<tr><td><code>P_EDADR</code></td><td>Personas; explicativa</td><td>1 a 21: grupos quinquenales desde 0–4 hasta 100 años o más</td><td>Ordinal</td></tr>
+<tr><td><code>UA_CLASE</code></td><td>Personas; explicativa territorial</td><td>1 cabecera, 2 centro poblado, 3 rural disperso en el archivo departamental</td><td>Nominal</td></tr>
+<tr><td><code>U_MPIO</code></td><td>Personas; explicativa territorial</td><td>Código municipal de tres dígitos, junto con <code>U_DPTO=08</code></td><td>Nominal</td></tr>
+<tr><td><code>VA1_ESTRATO</code></td><td>Viviendas; explicativa</td><td>0 sin estrato, 1 a 6 estratos, 9 no sabe</td><td>Ordinal para 1–6; 0 separado</td></tr>
+<tr><td><code>H_NRO_CUARTOS</code></td><td>Hogares; descripción y derivación</td><td>Número de cuartos; 99 no informa</td><td>Cuantitativa discreta</td></tr>
+<tr><td><code>H_NRO_DORMIT</code></td><td>Hogares; descripción</td><td>Cuartos para dormir; 99 no informa</td><td>Cuantitativa discreta</td></tr>
+<tr><td><code>HA_TOT_PER</code></td><td>Hogares; descripción y derivación</td><td>Número de personas</td><td>Cuantitativa discreta</td></tr>
+<tr><td><code>P_PARENTESCOR</code>, <code>PA1_GRP_ETNIC</code>, <code>P_ALFABETA</code>, <code>PA_ASISTENCIA</code>, <code>P_NIVEL_ANOSR</code>, <code>P_TRABAJO</code>, <code>P_EST_CIVIL</code></td><td>Personas; perfil descriptivo</td><td>Categorías detalladas en <code>etiquetas</code>; códigos de no respuesta y de no aplicación se recodifican por separado</td><td>Nominal u ordinal según variable</td></tr>
+<tr><td><code>PA1_CALIDAD_SERV</code></td><td>Personas; dato posterior a la atención, solo contextual</td><td>1 muy bueno a 4 muy malo</td><td>Ordinal</td></tr>
+<tr><td><code>COD_ENCUESTAS</code>, <code>U_VIVIENDA</code>, <code>P_NROHOG</code>, <code>P_NRO_PER</code></td><td>Claves de unión y control de duplicados</td><td>Identificadores, no magnitudes</td><td>Identificador</td></tr>
+</tbody>
+</table>
+
+Los códigos explícitos de no aplicación son 4 en `P_ALFABETA` y `PA_ASISTENCIA`,
+12 en `P_NIVEL_ANOSR` y 10 en `P_TRABAJO` y `P_EST_CIVIL`. En las tablas univariadas
+se cuentan dentro del total como «Sin dato»; en las comparaciones por grupo se excluyen los
+registros sin categoría válida. «No aplica» y «no informa» se distinguen en el registro de limpieza.
+
+Las siete explicativas del análisis bivariado son `CONDICION_FISICA`, `P_SEXO`, `P_EDADR`,
+`VA1_ESTRATO`, `PERS_POR_CUARTO`, `UA_CLASE` y `U_MPIO`. Los cuartos y el tamaño del hogar
+se describen, pero no se cuentan de nuevo como explicativas porque forman el cociente
+`PERS_POR_CUARTO`. `P_ENFERMO` delimita la población; `P_QUEHIZO_PPAL` y `PA_LO_ATENDIERON`
+definen la respuesta y no pueden explicarla independientemente. `PA1_CALIDAD_SERV` solo se
+observa después de recibir atención y tampoco es una explicativa válida.
+
+### Ingeniería de características
+
+<table>
+<thead><tr><th style="font-weight:normal">Variable creada</th><th style="font-weight:normal">Regla</th><th style="font-weight:normal">Escala y uso</th></tr></thead>
+<tbody>
+<tr><td><code>ACCESO_FORMAL_SALUD</code></td><td>1 si acudió a su entidad y fue atendido, o si acudió a médico particular; 0 si acudió a su entidad y no fue atendido, o eligió las opciones 3–9; faltante en otros casos</td><td>Respuesta nominal binaria</td></tr>
+<tr><td><code>PERS_POR_CUARTO</code></td><td><code>HA_TOT_PER / H_NRO_CUARTOS</code>, después de pasar 99 a faltante; el denominador debe ser mayor que cero</td><td>Razón cuantitativa, personas por cuarto</td></tr>
+<tr><td><code>ACCESO</code>, <code>DIFICULTAD</code>, <code>SEXO</code>, <code>EDAD_GRUPO</code>, <code>ZONA</code>, <code>ESTRATO</code>, <code>MUNICIPIO</code></td><td>Etiquetas de lectura; conservan el código original</td><td>Categorías sin cambio de significado</td></tr>
+<tr><td><code>NIVEL_EDUCATIVO</code>, <code>ACTIVIDAD</code>, <code>GRUPO_ETNICO</code></td><td>Etiquetas de lectura tras recodificar la no respuesta específica</td><td>Perfil descriptivo</td></tr>
+<tr><td>Tramos de personas por cuarto</td><td>hasta 1; más de 1 hasta 1,5; más de 1,5 hasta 2; más de 2 hasta 3; más de 3; solo para mostrar tasas por grupo</td><td>Ordinal derivada; no reemplaza el cociente continuo</td></tr>
+</tbody>
+</table>
+
+La atención por médico particular se considera atención profesional, aunque la encuesta no pregunta
+si la consulta se completó. Por ello la medida es una definición operativa de acceso y debe leerse
+con esa limitación. Los porcentajes descriptivos no usan ponderadores: se calculan sobre los
+registros censales clasificables. Las tasas por grupo excluyen únicamente los faltantes de la
+variable que define el grupo; cada tabla informa su denominador.
+
+## Preparación del entorno
+
+Las siguientes celdas cargan los archivos, comprueban las claves de unión y generan las tablas y
+figuras. La paleta usa azul oscuro para «Accedió» y azul claro para «No accedió».
+Las comparaciones por dificultad funcional usan esos mismos dos tonos y mantienen las etiquetas en todo el cuaderno.
+
+```{r librerias}
+library(tidyverse)
+library(scales)
+library(knitr)
+
+# La misma gama azul del cuaderno de Python, en tonos oscuro y claro.
+AZUL   <- "#0D6E96"
+AZUL_CLARO <- "#8CBBD0"
+FONDO  <- "#F7F8FA"
+TINTA  <- "#152536"
+TINTA2 <- "#66727D"
+GRID   <- "#DDE2E6"
+
+FUENTE <- "Fuente: DANE, Censo Nacional de Población y Vivienda 2018."
+
+# Tema común: fondo claro, sin bordes, cuadrícula suave y títulos a la izquierda
+tema_eda <- function(grid = "y") {
+  t <- theme_minimal(base_size = 12) +
+    theme(
+      plot.background       = element_rect(fill = FONDO, color = NA),
+      panel.background      = element_rect(fill = FONDO, color = NA),
+      panel.grid.minor      = element_blank(),
+      panel.grid.major      = element_line(color = GRID, linewidth = 0.4),
+      plot.title            = element_text(face = "plain", color = TINTA, size = 13),
+      plot.subtitle         = element_text(color = TINTA2, size = 10.5,
+                                           margin = margin(b = 12)),
+      plot.caption          = element_text(color = TINTA2, size = 8.5, hjust = 0),
+      plot.title.position   = "plot",
+      plot.caption.position = "plot",
+      axis.title            = element_text(color = TINTA2, size = 10),
+      axis.text             = element_text(color = TINTA2),
+      legend.position       = "bottom",
+      legend.title          = element_blank(),
+      legend.text           = element_text(color = TINTA)
+    )
+  if (grid == "y") t <- t + theme(panel.grid.major.x = element_blank())
+  if (grid == "x") t <- t + theme(panel.grid.major.y = element_blank())
+  if (grid == "no") t <- t + theme(panel.grid.major = element_blank())
+  t
+}
+
+# Formatos numéricos al estilo colombiano: punto de miles y coma decimal
+mil <- label_number(big.mark = ".", decimal.mark = ",", accuracy = 1)
+pct <- label_number(big.mark = ".", decimal.mark = ",", accuracy = 0.1, suffix = " %")
+
+paquetes <- c("tidyverse", "dplyr", "readr", "tidyr", "ggplot2", "scales", "knitr")
+
+tibble(
+  paquete   = c("R", paquetes),
+  `versión` = c(paste(R.version$major, R.version$minor, sep = "."),
+                map_chr(paquetes, ~ as.character(packageVersion(.x))))
+) %>%
+  kable()
+```
+
+## Carga y estructura de los datos
+
+Se leen los archivos departamentales del Atlántico. Personas es la unidad principal; hogares y
+viviendas aportan las características habitacionales. El archivo de fallecidos no interviene.
+El archivo MGN de microdatos permite ampliar códigos territoriales, pero aquí basta el código
+municipal de personas y una capa cartográfica externa para el mapa.
+
+```{r inventario}
+requeridos <- c("CNPV2018_1VIV_A2_08.CSV", "CNPV2018_2HOG_A2_08.CSV",
+               "CNPV2018_5PER_A2_08.CSV")
+DATA_DIR <- "datos"
+if (!all(file.exists(file.path(DATA_DIR, requeridos)))) {
+  DATA_DIR <- file.path("..", "..", "EDAPYTHON-main", "EDAPYTHON-main", "datos")
+}
+if (!all(file.exists(file.path(DATA_DIR, requeridos)))) {
+  stop("Faltan los tres CSV del Atlántico en datos/ o en el proyecto de Python.")
+}
+archivos <- list.files(DATA_DIR, pattern = "\\.CSV$", full.names = TRUE)
+resumen_archivos <- tibble(
+  archivo = basename(archivos),
+  peso_mb = round(file.size(archivos) / 1024^2, 1),
+  n_columnas = map_int(archivos, ~ ncol(read_csv(.x, n_max = 0, show_col_types = FALSE)))
+)
+kable(resumen_archivos)
+```
+
+Los cinco archivos corresponden a niveles distintos de la misma estructura: una vivienda contiene
+uno o más hogares, y un hogar contiene una o más personas. El archivo de fallecidos y el marco de
+georreferenciación son complementarios.
+
+<table>
+<thead><tr><th style="font-weight:normal">Archivo</th><th style="font-weight:normal">Nivel</th><th style="font-weight:normal">Para qué sirve aquí</th></tr></thead>
+<tbody>
+<tr><td><code>1VIV</code></td><td>Vivienda</td><td>Estrato socioeconómico</td></tr>
+<tr><td><code>2HOG</code></td><td>Hogar</td><td>Cuartos, dormitorios, número de personas</td></tr>
+<tr><td><code>3FALL</code></td><td>Persona fallecida</td><td>No se usa en este análisis</td></tr>
+<tr><td><code>5PER</code></td><td>Persona</td><td>Tabla principal: salud, dificultad funcional, sociodemografía</td></tr>
+<tr><td><code>MGN</code></td><td>Vivienda (geografía)</td><td>Códigos territoriales</td></tr>
+</tbody>
+</table>
+
+La tabla principal tiene que ser `5PER` porque la unidad de análisis es la persona y ahí están las
+tres variables que definen el problema: si tuvo un problema de salud, qué hizo y si lo atendieron.
+De hogar y vivienda solo vamos a tomar unas pocas columnas, no a hacer un EDA separado de cada
+archivo.
+
+```{r columnas_personas}
+archivo_personas <- file.path(DATA_DIR, "CNPV2018_5PER_A2_08.CSV")
+
+columnas_personas <- names(read_csv(archivo_personas, n_max = 0, show_col_types = FALSE))
+
+numeradas <- paste0(seq_along(columnas_personas), ". ", columnas_personas)
+filas <- ceiling(length(numeradas) / 3)
+bloques <- split(numeradas, rep(1:3, each = filas, length.out = length(numeradas)))
+bloques <- lapply(bloques, function(b) c(b, rep("", filas - length(b))))
+
+as_tibble(setNames(bloques, paste("bloque", 1:3))) %>%
+  kable(caption = paste("El archivo de personas tiene",
+                        length(columnas_personas), "columnas"))
+```
+
+## Carga de las variables de personas
+
+Cargar las 48 columnas del archivo de personas para usar 20 es desperdiciar memoria. Con
+`usecols` se leen solo las que interesan.
+
+Los identificadores se cargan como texto a propósito. `COD_ENCUESTAS` y `U_VIVIENDA` son códigos,
+no cantidades: si `pandas` los interpreta como números pierde los ceros a la izquierda y después
+las uniones con hogar y vivienda fallan sin avisar.
+
+```{r carga_personas}
+variables_personas <- c(
+  "U_DPTO", "U_MPIO", "UA_CLASE", "COD_ENCUESTAS", "U_VIVIENDA",
+  "P_NROHOG", "P_NRO_PER",
+  "P_SEXO", "P_EDADR", "P_PARENTESCOR", "PA1_GRP_ETNIC",
+  "P_ENFERMO", "P_QUEHIZO_PPAL", "PA_LO_ATENDIERON", "PA1_CALIDAD_SERV",
+  "CONDICION_FISICA",
+  "P_ALFABETA", "PA_ASISTENCIA", "P_NIVEL_ANOSR", "P_TRABAJO", "P_EST_CIVIL"
+)
+
+df_personas <- read_csv(
+  archivo_personas,
+  col_select = all_of(variables_personas),
+  col_types = cols(
+    U_DPTO        = col_character(),
+    U_MPIO        = col_character(),
+    COD_ENCUESTAS = col_character(),
+    U_VIVIENDA    = col_character(),
+    .default      = col_double()
+  )
+)
+
+tibble(
+  concepto = c("Filas cargadas", "Columnas cargadas"),
+  valor    = c(mil(nrow(df_personas)), as.character(ncol(df_personas)))
+) %>%
+  kable()
+
+```
+
+Las tres preguntas de salud se revisan antes de definir la respuesta. Cada tabla presenta n
+y porcentaje sobre las personas a quienes corresponde esa pregunta. Los nulos de las
+preguntas de seguimiento pueden reflejar el salto previsto por el cuestionario.
+
+```{r vistazo_salud}
+preguntas_salud <- list(
+  P_ENFERMO = df_personas,
+  P_QUEHIZO_PPAL = filter(df_personas, P_ENFERMO == 1),
+  PA_LO_ATENDIERON = filter(df_personas, P_ENFERMO == 1, P_QUEHIZO_PPAL == 1)
+)
+for (nombre in names(preguntas_salud)) {
+  elegibles <- preguntas_salud[[nombre]]
+  tabla <- tibble(codigo = ifelse(is.na(elegibles[[nombre]]),
+                                 "Sin dato", as.character(elegibles[[nombre]]))) %>%
+    count(codigo, name = "n", sort = TRUE) %>%
+    mutate(`% del grupo elegible` = round(n / nrow(elegibles) * 100, 2))
+  print(kable(tabla, caption = paste0(nombre, ": n = ", mil(nrow(elegibles)),
+                                      " personas elegibles"), format.args = list(big.mark = ".")))
+}
+```
+
+La ejecución verificada en el cuaderno registró 136.114 personas con `P_ENFERMO=1`.
+`P_QUEHIZO_PPAL` solo corresponde a ese grupo; `PA_LO_ATENDIERON` se pregunta a quienes
+declararon que acudieron a la entidad de seguridad social. No hay que confundir esos saltos del
+cuestionario con omisiones de respuesta. El médico particular se clasifica por la acción declarada;
+el censo no confirma por separado que la consulta se haya completado.
+
+## Codificación observada
+
+Las etiquetas siguientes reproducen las categorías del diccionario del DANE y los códigos que
+aparecieron en la ejecución verificada. La no respuesta se trata por variable, porque el valor 9
+puede ser una categoría válida en una pregunta y significar «no informa» en otra. En la versión
+departamental, `UA_CLASE` aparece con tres códigos: 1 cabecera, 2 centro poblado y 3 rural disperso;
+la interpretación se contrasta con la estructura del Marco Geoestadístico Nacional. Los nombres
+municipales se vinculan mediante el código de tres dígitos, no mediante coincidencias de texto.
+
+```{r diccionario}
+etiq_edad <- c("0-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39",
+               "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74",
+               "75-79", "80-84", "85-89", "90-94", "95-99", "100+")
+
+etiq_quehizo <- c("Acudió a su entidad de seguridad social",
+                  "Acudió a un médico particular",
+                  "Acudió al boticario o droguista",
+                  "Asistió a terapias alternativas",
+                  "Acudió a autoridad indígena espiritual",
+                  "Acudió a otro médico de un grupo étnico",
+                  "Usó remedios caseros",
+                  "Se autorrecetó",
+                  "No hizo nada")
+
+etiq_etnia <- c("Indígena", "Gitano(a) o Rrom", "Raizal", "Palenquero(a)",
+                "Negro(a), mulato(a), afrodescendiente", "Ningún grupo étnico")
+
+etiq_nivel <- c("Preescolar", "Básica primaria", "Básica secundaria", "Media académica",
+                "Media técnica", "Normalista", "Técnica o tecnológica", "Universitario",
+                "Posgrado", "Ninguno")
+
+etiq_trabajo <- c("Trabajó", "Trabajó sin pago en un negocio", "No trabajó pero tenía empleo",
+                  "Buscó trabajo", "Vivió de jubilación, pensión o renta", "Estudió",
+                  "Oficios del hogar", "Incapacitado permanentemente", "Otra situación")
+
+etiq_estrato <- c("Sin estrato", "Estrato 1", "Estrato 2", "Estrato 3",
+                  "Estrato 4", "Estrato 5", "Estrato 6")
+
+# Nombres de municipio (DIVIPOLA, departamento 08)
+municipios <- c(
+  "001" = "Barranquilla",     "078" = "Baranoa",         "137" = "Campo de la Cruz",
+  "141" = "Candelaria",       "296" = "Galapa",          "372" = "Juan de Acosta",
+  "421" = "Luruaco",          "433" = "Malambo",         "436" = "Manatí",
+  "520" = "Palmar de Varela", "549" = "Piojó",           "558" = "Polonuevo",
+  "560" = "Ponedera",         "573" = "Puerto Colombia", "606" = "Repelón",
+  "634" = "Sabanagrande",     "638" = "Sabanalarga",     "675" = "Santa Lucía",
+  "685" = "Santo Tomás",      "758" = "Soledad",         "770" = "Suan",
+  "832" = "Tubará",           "849" = "Usiacurí"
+)
+
+tibble(
+  diccionario = c("Grupos de edad", "Municipios del Atlántico"),
+  n           = c(length(etiq_edad), length(municipios))
+) %>%
+  kable()
+```
+
+## Construcción de la variable respuesta
+
+Se incluyen las personas con `P_ENFERMO=1`. Se asigna acceso (1) a quien acudió a su entidad de
+seguridad social y fue atendido, o acudió a un médico particular. Se asigna no acceso (0) a quien
+acudió a la entidad y no fue atendido, o declaró alguna de las opciones 3 a 9. Los registros con
+tratamiento no válido o con atención sin informar se dejan sin clasificar. La ejecución verificada
+registró 80 casos (0,06 % de quienes reportaron un problema); se excluyen del denominador de las
+tasas de acceso. Esa fracción pequeña no elimina el posible sesgo de clasificación.
+
+```{r construir_respuesta}
+df_salud <- df_personas %>%
+  filter(P_ENFERMO == 1) %>%
+  mutate(
+    ACCESO_FORMAL_SALUD = case_when(
+      (P_QUEHIZO_PPAL == 1 & PA_LO_ATENDIERON == 1) | P_QUEHIZO_PPAL == 2 ~ 1,
+      (P_QUEHIZO_PPAL == 1 & PA_LO_ATENDIERON == 2) |
+        P_QUEHIZO_PPAL %in% c(3, 4, 5, 6, 7, 8, 9)                       ~ 0,
+      TRUE                                                                ~ NA_real_
+    )
+  )
+
+tibble(
+  concepto   = c("Población censada", "Reportaron problema de salud"),
+  personas   = c(nrow(df_personas), nrow(df_salud)),
+  porcentaje = c(100, round(nrow(df_salud) / nrow(df_personas) * 100, 2))
+) %>%
+  kable(format.args = list(big.mark = "."))
+
+df_salud %>%
+  count(ACCESO_FORMAL_SALUD) %>%
+  kable(format.args = list(big.mark = "."))
+```
+
+```{r casos_sin_clasificar}
+df_salud %>%
+  filter(is.na(ACCESO_FORMAL_SALUD)) %>%
+  count(P_QUEHIZO_PPAL, PA_LO_ATENDIERON) %>%
+  kable(caption = "Casos sin clasificar, por combinación de códigos")
+```
+
+```{r base_analitica}
+df_eda <- df_salud %>%
+  filter(!is.na(ACCESO_FORMAL_SALUD)) %>%
+  mutate(
+    # Se usan factores para que el orden de las categorías quede fijo en tablas y gráficos
+    ACCESO     = factor(ACCESO_FORMAL_SALUD, levels = c(1, 0),
+                        labels = c("Accedió", "No accedió")),
+    DIFICULTAD = factor(CONDICION_FISICA, levels = c(1, 2),
+                        labels = c("Con dificultad funcional", "Sin dificultad funcional")),
+    SEXO       = factor(P_SEXO, levels = c(1, 2), labels = c("Hombre", "Mujer")),
+    ZONA       = factor(UA_CLASE, levels = c(1, 2, 3),
+                        labels = c("Cabecera municipal", "Centro poblado", "Rural disperso")),
+    EDAD_GRUPO = factor(P_EDADR, levels = 1:21, labels = etiq_edad),
+    MUNICIPIO  = factor(U_MPIO, levels = names(municipios), labels = unname(municipios))
+  )
+
+tibble(concepto = "Base analítica", personas = nrow(df_eda)) %>%
+  kable(format.args = list(big.mark = "."))
+
+df_eda %>%
+  count(ACCESO_FORMAL_SALUD, ACCESO) %>%
+  kable(caption = "Verificación de que código y etiqueta coinciden",
+        format.args = list(big.mark = "."))
+```
+
+En la ejecución verificada, 2.342.265 personas figuraron en el archivo departamental;
+136.114 reportaron un problema de salud y 136.034 tuvieron una respuesta de acceso clasificable.
+La proporción de acceso se refiere solo a estas últimas personas. Aproximadamente 5,8 % de las
+personas censadas reportaron el problema de salud definido por la pregunta.
+
+## Integración de hogar y vivienda
+
+La edad se registra en grupos quinquenales y el estrato es ordinal: sus códigos no son edades
+ni cantidades. Para describir magnitudes habitacionales se usan los conteos de cuartos,
+dormitorios y personas del hogar. La unión respeta la relación de una vivienda con uno o más
+hogares y de un hogar con una o más personas. `validate="many_to_one"` y el control del número
+de filas impiden multiplicar personas por claves repetidas.
+
+```{r cargar_hogar_vivienda}
+df_hogares <- read_csv(
+  file.path(DATA_DIR, "CNPV2018_2HOG_A2_08.CSV"),
+  col_select = c(COD_ENCUESTAS, U_VIVIENDA, H_NROHOG,
+                 H_NRO_CUARTOS, H_NRO_DORMIT, HA_TOT_PER),
+  col_types = cols(COD_ENCUESTAS = col_character(),
+                   U_VIVIENDA    = col_character(),
+                   .default      = col_double())
+)
+
+df_viviendas <- read_csv(
+  file.path(DATA_DIR, "CNPV2018_1VIV_A2_08.CSV"),
+  col_select = c(COD_ENCUESTAS, U_VIVIENDA, VA1_ESTRATO),
+  col_types = cols(COD_ENCUESTAS = col_character(),
+                   U_VIVIENDA    = col_character(),
+                   .default      = col_double())
+)
+
+tibble(
+  tabla              = c("Hogares", "Viviendas"),
+  filas              = c(nrow(df_hogares), nrow(df_viviendas)),
+  `claves repetidas` = c(
+    sum(duplicated(df_hogares[c("COD_ENCUESTAS", "U_VIVIENDA", "H_NROHOG")])),
+    sum(duplicated(df_viviendas[c("COD_ENCUESTAS", "U_VIVIENDA")]))
+  )
+) %>%
+  kable(format.args = list(big.mark = "."))
+```
+
+```{r unir}
+n_antes <- nrow(df_eda)
+
+df_eda <- df_eda %>%
+  left_join(
+    df_hogares %>% rename(P_NROHOG = H_NROHOG),
+    by = c("COD_ENCUESTAS", "U_VIVIENDA", "P_NROHOG"),
+    relationship = "many-to-one"
+  ) %>%
+  left_join(
+    df_viviendas,
+    by = c("COD_ENCUESTAS", "U_VIVIENDA"),
+    relationship = "many-to-one"
+  )
+
+stopifnot(nrow(df_eda) == n_antes)
+
+tibble(
+  concepto = c("Filas antes de unir", "Filas después de unir"),
+  filas    = c(n_antes, nrow(df_eda))
+) %>%
+  kable(format.args = list(big.mark = "."))
+
+df_eda %>%
+  summarise(across(c(H_NRO_CUARTOS, H_NRO_DORMIT, HA_TOT_PER, VA1_ESTRATO),
+                   ~ sum(is.na(.x)))) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "nulos") %>%
+  kable(caption = "Valores nulos que quedaron tras la unión",
+        format.args = list(big.mark = "."))
+```
+
+La unión de la ejecución verificada conservó las 136.034 filas. Hubo 1.398 registros sin valor de
+estrato tras unir las viviendas; el archivo disponible no permite atribuirlos a una causa única.
+Después se recodifican los códigos de no respuesta documentados. La ausencia estructural por
+saltos del cuestionario se distingue de una respuesta omitida siempre que la información lo permite.
+
+```{r recodificar_no_informa}
+vars_no_informa <- c("H_NRO_CUARTOS", "H_NRO_DORMIT", "VA1_ESTRATO", "P_ALFABETA",
+                     "PA_ASISTENCIA", "P_NIVEL_ANOSR", "P_TRABAJO", "PA1_GRP_ETNIC",
+                     "P_EST_CIVIL", "CONDICION_FISICA")
+codigos_no_informa <- c("99", "99", "9", "9", "9", "99", "0", "9", "9", "9")
+
+nulos_antes <- map_int(vars_no_informa, ~ sum(is.na(df_eda[[.x]])))
+
+df_eda <- df_eda %>%
+  mutate(
+    across(c(H_NRO_CUARTOS, H_NRO_DORMIT), ~ na_if(.x, 99)),
+    VA1_ESTRATO   = na_if(VA1_ESTRATO, 9),    # 9 = "no sabe"; el 0 = "sin estrato" sí es válido
+    P_ALFABETA    = na_if(P_ALFABETA, 9),
+    PA_ASISTENCIA = na_if(PA_ASISTENCIA, 9),
+    P_NIVEL_ANOSR = na_if(P_NIVEL_ANOSR, 99), # aquí el código es 99, no 9
+    P_TRABAJO     = na_if(P_TRABAJO, 0),      # y aquí es 0
+    PA1_GRP_ETNIC = na_if(PA1_GRP_ETNIC, 9),
+    P_EST_CIVIL   = na_if(P_EST_CIVIL, 9),
+    CONDICION_FISICA = na_if(CONDICION_FISICA, 9)
+  )
+
+tibble(
+  variable         = vars_no_informa,
+  `código a nulo`  = codigos_no_informa,
+  `nulos añadidos` = map_int(vars_no_informa, ~ sum(is.na(df_eda[[.x]]))) - nulos_antes
+) %>%
+  kable(format.args = list(big.mark = "."))
+```
+
+En `H_NRO_CUARTOS` y `H_NRO_DORMIT`, 99 representa no respuesta y se convierte en faltante antes
+de calcular descriptivos o personas por cuarto. La media de cuartos de la ejecución verificada pasó
+a 3,59 después de excluir esos 89 registros. No se interpreta 99 como
+un número real de habitaciones.
+
+```{r variables_derivadas}
+stopifnot(all(df_eda$H_NRO_CUARTOS[!is.na(df_eda$H_NRO_CUARTOS)] > 0))
+df_eda <- df_eda %>%
+  mutate(
+    # Personas por cuarto: medida clásica de hacinamiento
+    PERS_POR_CUARTO = HA_TOT_PER / H_NRO_CUARTOS,
+    ESTRATO         = factor(VA1_ESTRATO, levels = 0:6, labels = etiq_estrato),
+    NIVEL_EDUCATIVO = factor(P_NIVEL_ANOSR, levels = 1:10, labels = etiq_nivel),
+    ACTIVIDAD       = factor(P_TRABAJO, levels = 1:9, labels = etiq_trabajo),
+    GRUPO_ETNICO    = factor(PA1_GRP_ETNIC, levels = 1:6, labels = etiq_etnia)
+  )
+
+tibble(
+  concepto = "Base analítica final",
+  filas    = nrow(df_eda),
+  columnas = ncol(df_eda)
+) %>%
+  kable(format.args = list(big.mark = "."))
+```
+
+## Calidad de los datos
+
+Se comprueban faltantes por variable, claves repetidas y rangos de las cantidades del hogar.
+Los porcentajes de faltantes usan como denominador las 136.034 filas de la base analítica de la
+ejecución verificada. Algunos campos de educación y trabajo no se aplican a todos los grupos de edad.
+
+```{r faltantes}
+variables_revisar <- c("ACCESO_FORMAL_SALUD", "CONDICION_FISICA", "P_SEXO", "P_EDADR",
+                       "UA_CLASE", "U_MPIO", "PA1_GRP_ETNIC", "P_ALFABETA", "PA_ASISTENCIA",
+                       "P_NIVEL_ANOSR", "P_TRABAJO", "P_EST_CIVIL", "VA1_ESTRATO",
+                       "H_NRO_CUARTOS", "H_NRO_DORMIT", "HA_TOT_PER")
+
+df_eda %>%
+  select(all_of(variables_revisar)) %>%
+  summarise(across(everything(), ~ sum(is.na(.x)))) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "n_faltantes") %>%
+  mutate(porcentaje = round(n_faltantes / nrow(df_eda) * 100, 2)) %>%
+  arrange(desc(porcentaje)) %>%
+  kable(format.args = list(big.mark = "."))
+```
+
+En la ejecución verificada, trabajo tuvo 17,09 % de faltantes, estado civil 15,88 % y nivel educativo
+10,05 %. Parte de esos valores corresponde a preguntas que no aplican a determinadas edades;
+los códigos explícitos de no respuesta se cuentan aparte en la celda de recodificación. No se
+eliminan todas las filas con algún faltante: cada análisis usa los registros válidos de sus
+variables y muestra el tamaño correspondiente.
+
+```{r duplicados_rangos}
+duplicados <- df_eda %>%
+  select(COD_ENCUESTAS, U_VIVIENDA, P_NROHOG, P_NRO_PER) %>%
+  duplicated() %>%
+  sum()
+
+tibble(concepto = "Filas con clave de persona repetida", n = duplicados) %>%
+  kable()
+
+df_eda %>%
+  summarise(across(c(H_NRO_CUARTOS, H_NRO_DORMIT, HA_TOT_PER, PERS_POR_CUARTO),
+                   list(minimo = ~ min(.x, na.rm = TRUE),
+                        maximo = ~ max(.x, na.rm = TRUE)))) %>%
+  pivot_longer(everything(), names_to = c("variable", ".value"), names_pattern = "(.*)_(minimo|maximo)") %>%
+  kable(caption = "Rangos de las variables cuantitativas después de la limpieza", digits = 2)
+```
+
+La ejecución verificada no encontró claves de persona repetidas. Los máximos observados fueron 20
+cuartos, 30 personas por hogar y 17 personas por cuarto. Son extremos que merecen inspección,
+pero no se descartan sin comprobar si son errores. Los cuartiles y la mediana complementan las
+medias cuando hay asimetría.
+
+## Descripción univariada de las categorías
+
+Cada tabla reúne frecuencia absoluta y porcentaje. El porcentaje usa todas las filas de la base
+analítica, incluidos los faltantes como categoría visible. En las comparaciones de acceso por
+grupo, el denominador cambia a los registros válidos de ese grupo y se informa allí.
+
+```{r carpeta_figuras}
+FIG_DIR <- "figuras"
+if (!dir.exists(FIG_DIR)) dir.create(FIG_DIR)
+
+resumen_categorico <- function(datos, variable) {
+  datos %>% count({{ variable }}, .drop = FALSE) %>%
+    mutate(porcentaje = round(n / sum(n) * 100, 2))
+}
+
+tabla_acceso_por <- function(datos, grupo) {
+  datos %>% filter(!is.na({{ grupo }})) %>%
+    group_by({{ grupo }}) %>%
+    summarise(`n válido` = n(), `Accedió: n` = sum(ACCESO_FORMAL_SALUD),
+              `No accedió: n` = `n válido` - `Accedió: n`,
+              `Accedió: % del grupo` = round(`Accedió: n` / `n válido` * 100, 2),
+              `No accedió: % del grupo` = round(`No accedió: n` / `n válido` * 100, 2),
+              .groups = "drop")
+}
+
+distribucion_acceso <- resumen_categorico(df_eda, ACCESO)
+kable(distribucion_acceso, format.args = list(big.mark = "."))
+```
+
+```{r g1_distribucion_acceso, fig.width=9.5, fig.height=3}
+colores_acceso <- c("Accedió" = AZUL, "No accedió" = AZUL_CLARO)
+
+distribucion_acceso %>%
+  mutate(dentro = porcentaje > 55,
+         etiqueta = paste0(pct(porcentaje), "   (", mil(n), " personas)")) %>%
+  ggplot(aes(x = porcentaje, y = fct_rev(ACCESO), fill = ACCESO)) +
+  geom_col(width = 0.55) +
+  geom_text(aes(label = etiqueta,
+                hjust = ifelse(dentro, 1.04, -0.04),
+                color = dentro),
+            size = 3.9, fontface = "plain") +
+  scale_fill_manual(values = colores_acceso, guide = "none") +
+  scale_color_manual(values = c(`TRUE` = "white", `FALSE` = TINTA), guide = "none") +
+  scale_x_continuous(limits = c(0, 100), labels = label_percent(scale = 1)) +
+  labs(title = "Acceso a atención formal entre personas con problema de salud",
+       subtitle = paste0("Personas del Atlántico que reportaron un problema de salud en los ",
+                         "últimos 30 días (n = ", mil(nrow(df_eda)), ")"),
+       x = NULL, y = NULL, caption = FUENTE) +
+  tema_eda("x") -> g1
+
+ggsave(file.path(FIG_DIR, "01_distribucion_acceso.png"), g1,
+       width = 9.5, height = 3, dpi = 300, bg = FONDO)
+g1
+```
+
+En la ejecución verificada, 107.384 de 136.034 personas clasificables accedieron (78,94 %) y
+28.650 no accedieron (21,06 %). Por tanto, más de la mitad del grupo analizado accedió;
+aproximadamente una de cada cinco personas no lo hizo según la definición operativa. La tabla
+siguiente muestra la acción principal declarada, que ayuda a interpretar esa última cifra.
+
+```{r detalle_quehizo}
+df_eda %>%
+  mutate(tratamiento = factor(P_QUEHIZO_PPAL, levels = 1:9, labels = etiq_quehizo)) %>%
+  count(tratamiento) %>%
+  mutate(porcentaje = round(n / sum(n) * 100, 2)) %>%
+  arrange(desc(n)) %>%
+  kable(format.args = list(big.mark = "."))
+```
+
+La automedicación fue la acción principal de 14.288 personas, cerca de la mitad de las 28.650
+clasificadas sin acceso. Otras 6.011 declararon remedios caseros y 3.271 no hicieron nada.
+Además, 1.907 acudieron a su entidad de seguridad social y declararon no haber sido atendidas.
+El censo registra acciones, pero no permite atribuir las demás situaciones de no acceso a
+preferencias individuales, barreras de oferta o gravedad del problema.
+
+```{r univariado_basico}
+kable(resumen_categorico(df_eda, DIFICULTAD), caption = "Dificultad funcional",
+      format.args = list(big.mark = "."))
+kable(resumen_categorico(df_eda, SEXO), caption = "Sexo",
+      format.args = list(big.mark = "."))
+kable(resumen_categorico(df_eda, ZONA), caption = "Zona",
+      format.args = list(big.mark = "."))
+kable(resumen_categorico(df_eda, EDAD_GRUPO), caption = "Grupo de edad",
+      format.args = list(big.mark = "."))
+```
+
+```{r univariado_socioeconomico}
+kable(resumen_categorico(df_eda, ESTRATO), caption = "Estrato",
+      format.args = list(big.mark = "."))
+kable(resumen_categorico(df_eda, NIVEL_EDUCATIVO), caption = "Nivel educativo",
+      format.args = list(big.mark = "."))
+kable(resumen_categorico(df_eda, GRUPO_ETNICO), caption = "Reconocimiento étnico",
+      format.args = list(big.mark = "."))
+```
+
+En la ejecución verificada, 93,94 % de la base analítica vivía en cabecera municipal, 57,31 % eran
+mujeres y el grupo de 0 a 4 años representaba 9,54 %. Son distribuciones de quienes reportaron
+un problema de salud y tuvieron acceso clasificable; no describen la composición de todo el
+departamento ni prueban diferencias en la frecuencia de enfermedad entre grupos.
+
+```{r univariado_perfil}
+for (variable in c("P_PARENTESCOR", "P_ALFABETA", "PA_ASISTENCIA",
+                   "P_TRABAJO", "P_EST_CIVIL")) {
+  tabla <- df_eda %>% count(codigo = .data[[variable]], .drop = FALSE) %>%
+    mutate(porcentaje = round(n / sum(n) * 100, 2))
+  print(kable(tabla, caption = variable, format.args = list(big.mark = ".")))
+}
+```
+
+Los estratos 1 y 2 reunieron 72,94 % de la base en la ejecución verificada. El 10,05 % no tenía
+un nivel educativo registrado o aplicable. En reconocimiento étnico, 89,19 % no se identificó
+con ninguno de los grupos listados y 8,65 % se reconoció como negro, mulato o afrodescendiente.
+Las categorías con pocos registros se muestran en la descripción, pero se evitan comparaciones
+de tasas de acceso que dependerían de muy pocos casos.
+
+## Descripción univariada de las cantidades del hogar
+
+Para las cuatro variables cuantitativas se informa el número de observaciones válidas, la media,
+la mediana (percentil 50), la desviación estándar, mínimo, cuartiles y máximo. Son cantidades
+del hogar repetidas para cada persona incluida: los resultados se ponderan implícitamente por
+el número de personas elegibles en cada hogar y no describen el hogar típico del departamento.
+
+```{r resumen_cuantitativo}
+cuantitativas <- c("H_NRO_CUARTOS", "H_NRO_DORMIT", "HA_TOT_PER", "PERS_POR_CUARTO")
+
+df_eda %>%
+  select(all_of(cuantitativas)) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "valor") %>%
+  group_by(variable) %>%
+  summarise(
+    n_validos   = sum(!is.na(valor)),
+    media       = mean(valor, na.rm = TRUE),
+    mediana     = median(valor, na.rm = TRUE),
+    ds          = sd(valor, na.rm = TRUE),
+    minimo      = min(valor, na.rm = TRUE),
+    q1          = quantile(valor, 0.25, na.rm = TRUE),
+    q3          = quantile(valor, 0.75, na.rm = TRUE),
+    maximo      = max(valor, na.rm = TRUE),
+    IQR         = q3 - q1,
+    n_faltantes = sum(is.na(valor)),
+    pct_falt    = round(sum(is.na(valor)) / n() * 100, 2),
+    .groups = "drop"
+  ) %>%
+  kable(digits = 3)
+```
+
+```{r g2_histogramas, fig.width=13, fig.height=4.2}
+# Cada variable necesita su propio ancho de barra, así que va en su propia capa
+recortar <- function(datos, columna, tope, nombre) {
+  datos %>%
+    transmute(valor = pmin(.data[[columna]], tope),
+              variable = factor(nombre,
+                                levels = c("Cuartos del hogar", "Personas del hogar",
+                                           "Personas por cuarto"))) %>%
+    filter(!is.na(valor))
+}
+
+d_cuartos  <- recortar(df_eda, "H_NRO_CUARTOS",   12, "Cuartos del hogar")
+d_personas <- recortar(df_eda, "HA_TOT_PER",      12, "Personas del hogar")
+d_hacina   <- recortar(df_eda, "PERS_POR_CUARTO",  5, "Personas por cuarto")
+
+medianas <- tibble(
+  variable = factor(c("Cuartos del hogar", "Personas del hogar", "Personas por cuarto"),
+                    levels = levels(d_cuartos$variable)),
+  mediana  = c(median(df_eda$H_NRO_CUARTOS, na.rm = TRUE),
+               median(df_eda$HA_TOT_PER, na.rm = TRUE),
+               median(df_eda$PERS_POR_CUARTO, na.rm = TRUE))
+)
+
+ggplot() +
+  geom_histogram(data = d_cuartos,  aes(x = valor), binwidth = 1,
+                 fill = AZUL, color = FONDO, linewidth = 0.6) +
+  geom_histogram(data = d_personas, aes(x = valor), binwidth = 1,
+                 fill = AZUL, color = FONDO, linewidth = 0.6) +
+  geom_histogram(data = d_hacina,   aes(x = valor), binwidth = 0.25,
+                 fill = AZUL, color = FONDO, linewidth = 0.4) +
+  geom_vline(data = medianas, aes(xintercept = mediana),
+             color = TINTA2, linewidth = 0.9, linetype = "dashed") +
+  geom_text(data = medianas,
+            aes(x = Inf, y = Inf,
+                label = paste0("mediana = ", format(round(mediana, 2), decimal.mark = ","))),
+            hjust = 1.05, vjust = 1.6, color = TINTA2, size = 3.4) +
+  facet_wrap(~ variable, scales = "free") +
+  scale_y_continuous(labels = label_number(scale = 1e-3, suffix = "k", accuracy = 1)) +
+  labs(title = "Condiciones del hogar de la población analizada",
+       subtitle = paste("Cuartos y personas del hogar recortados en 12, y personas por cuarto",
+                        "en 5, para que se vea la forma de la distribución"),
+       x = NULL, y = NULL, caption = FUENTE) +
+  tema_eda("y") +
+  theme(strip.text = element_text(face = "plain", color = TINTA, hjust = 0, size = 11)) -> g2
+
+ggsave(file.path(FIG_DIR, "02_histogramas_cuantitativas.png"), g2,
+       width = 13, height = 4.2, dpi = 300, bg = FONDO)
+g2
+```
+
+En la ejecución verificada, la mediana fue 4 cuartos, 4 personas y 1,25 personas por cuarto.
+La mediana es el percentil 50: la mitad de las observaciones válidas queda en ese valor o por
+debajo. La media de personas por cuarto fue 1,37 y el máximo 17, lo que muestra una cola derecha.
+El histograma recorta el eje horizontal para ver la forma central; la tabla conserva los máximos
+sin recortar.
+
+```{r g3_mediana_hogar, fig.width=9, fig.height=3.7}
+resumen_ocupacion <- df_eda %>%
+  group_by(ACCESO) %>%
+  summarise(n = sum(!is.na(PERS_POR_CUARTO)),
+            mediana = median(PERS_POR_CUARTO, na.rm = TRUE), .groups = "drop")
+g3 <- ggplot(resumen_ocupacion, aes(x = mediana, y = fct_rev(ACCESO), fill = ACCESO)) +
+  geom_col(width = 0.45) +
+  geom_text(aes(label = paste0("P50 = ", format(round(mediana, 2), decimal.mark = ","),
+                               "; n = ", mil(n))), hjust = -0.08, size = 3.5) +
+  scale_fill_manual(values = colores_acceso, guide = "none") +
+  scale_x_continuous(limits = c(0, 1.8)) +
+  labs(title = "Ocupación del hogar según acceso",
+       subtitle = "Mediana (percentil 50) de personas por cuarto sobre registros válidos",
+       x = "Mediana de personas por cuarto", y = NULL, caption = FUENTE) +
+  tema_eda("x")
+ggsave(file.path(FIG_DIR, "03_mediana_hogar_acceso.png"), g3,
+       width = 9, height = 3.7, dpi = 300, bg = FONDO)
+g3
+```
+
+```{r cuantitativas_por_acceso}
+df_eda %>%
+  group_by(ACCESO) %>%
+  summarise(`n válido` = sum(!is.na(PERS_POR_CUARTO)),
+            media = mean(PERS_POR_CUARTO, na.rm = TRUE),
+            `desv. estándar` = sd(PERS_POR_CUARTO, na.rm = TRUE),
+            mínimo = min(PERS_POR_CUARTO, na.rm = TRUE),
+            Q1 = quantile(PERS_POR_CUARTO, 0.25, na.rm = TRUE),
+            `mediana (P50)` = median(PERS_POR_CUARTO, na.rm = TRUE),
+            Q3 = quantile(PERS_POR_CUARTO, 0.75, na.rm = TRUE),
+            máximo = max(PERS_POR_CUARTO, na.rm = TRUE), .groups = "drop") %>%
+  kable(digits = 3, caption = "Personas por cuarto según acceso")
+```
+
+La ejecución verificada mostró una mediana de 1,20 personas por cuarto entre quienes accedieron y
+1,33 entre quienes no accedieron. La mediana es el percentil 50, pero por sí sola no describe
+toda la distribución. La tabla complementaria presenta el número de observaciones válidas,
+media, desviación estándar, extremos y cuartiles de cada grupo. Para comparar el acceso dentro
+de niveles de ocupación se usa más adelante una tabla de tasas por tramos. La diferencia
+observada no demuestra un efecto del hacinamiento.
+
+## Acceso según las variables explicativas
+
+El análisis bivariado se organiza alrededor de `ACCESO_FORMAL_SALUD`. En cada tabla se presentan
+el número de registros con dato válido, los conteos de acceso y no acceso, y sus porcentajes
+dentro de cada grupo. Así se comparan tasas con denominadores explícitos. Las diferencias son
+descriptivas; no implican causalidad ni significación estadística.
+
+```{r bivariado_dificultad}
+tabla_dificultad <- tabla_acceso_por(df_eda, DIFICULTAD)
+kable(tabla_dificultad, format.args = list(big.mark = "."),
+      caption = "Acceso según dificultad funcional")
+pct_dificultad <- df_eda %>% count(DIFICULTAD, ACCESO) %>%
+  group_by(DIFICULTAD) %>% mutate(porcentaje = round(n / sum(n) * 100, 2)) %>%
+  ungroup()
+```
+
+```{r g4_acceso_dificultad, fig.width=10, fig.height=3.1}
+g4 <- ggplot(pct_dificultad,
+             aes(x = porcentaje, y = fct_rev(DIFICULTAD), fill = ACCESO)) +
+  geom_col(width = 0.5, color = FONDO, linewidth = 1.4,
+           position = position_stack(reverse = TRUE)) +
+  geom_text(aes(label = pct(porcentaje), color = ACCESO),
+            position = position_stack(vjust = 0.5, reverse = TRUE), size = 3.9) +
+  scale_fill_manual(values = colores_acceso) +
+  scale_color_manual(values = c("Accedió" = "white", "No accedió" = TINTA), guide = "none") +
+  scale_x_continuous(labels = NULL, breaks = NULL) +
+  labs(title = "Acceso según dificultad funcional",
+       subtitle = "Distribución del acceso a atención formal dentro de cada grupo",
+       x = NULL, y = NULL, caption = FUENTE) + tema_eda("no")
+ggsave(file.path(FIG_DIR, "04_acceso_por_dificultad.png"), g4,
+       width = 10, height = 3.1, dpi = 300, bg = FONDO)
+g4
+```
+
+En la ejecución verificada, accedió 84,94 % de quienes declararon dificultad funcional frente a
+77,63 % de quienes no la declararon: una diferencia descriptiva cercana a 7,3 puntos porcentuales.
+Los grupos tienen estructuras de edad distintas. Por eso se muestran las tasas por edad y una
+comparación estandarizada antes de interpretar la cifra agregada.
+
+```{r acceso_edad_dificultad}
+tabla_edad_dificultad <- df_eda %>%
+  group_by(EDAD_GRUPO, DIFICULTAD) %>%
+  summarise(n = n(), acceso_n = sum(ACCESO_FORMAL_SALUD),
+            no_acceso_n = n - acceso_n,
+            acceso_pct = round(acceso_n / n * 100, 2),
+            no_acceso_pct = round(no_acceso_n / n * 100, 2), .groups = "drop")
+kable(tabla_edad_dificultad, caption = "Acceso por edad y dificultad funcional",
+      format.args = list(big.mark = "."))
+acceso_edad <- tabla_edad_dificultad %>%
+  transmute(EDAD_GRUPO, DIFICULTAD, pct_accedio = acceso_pct, n)
+```
+
+```{r g5_acceso_edad, fig.width=11.5, fig.height=5}
+colores_dif <- c("Con dificultad funcional" = AZUL, "Sin dificultad funcional" = AZUL_CLARO)
+
+etiquetas_final <- acceso_edad %>%
+  filter(EDAD_GRUPO == last(levels(EDAD_GRUPO))) %>%
+  mutate(texto = if_else(DIFICULTAD == "Con dificultad funcional",
+                         "Con dificultad", "Sin dificultad"))
+
+acceso_edad %>%
+  ggplot(aes(x = EDAD_GRUPO, y = pct_accedio, color = DIFICULTAD, group = DIFICULTAD)) +
+  geom_line(linewidth = 0.9) +
+  geom_point(size = 1.9) +
+  geom_text(data = etiquetas_final, aes(label = texto),
+            hjust = -0.15, vjust = 0.4, fontface = "plain", size = 3.5, show.legend = FALSE) +
+  scale_color_manual(values = colores_dif) +
+  scale_y_continuous(limits = c(60, 102), labels = label_percent(scale = 1)) +
+  scale_x_discrete(expand = expansion(mult = c(0.02, 0.16))) +
+  labs(title = "Acceso por edad y dificultad funcional",
+       subtitle = "Porcentaje que accedió a atención formal, por grupo de edad y dificultad funcional",
+       x = NULL, y = NULL, caption = FUENTE) +
+  tema_eda("y") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 9)) -> g5
+
+ggsave(file.path(FIG_DIR, "05_acceso_edad_dificultad.png"), g5,
+       width = 11.5, height = 5, dpi = 300, bg = FONDO)
+g5
+```
+
+En la ejecución verificada, el acceso fue menor entre los grupos de 10 a 24 años y aumentó desde
+la adultez media hacia las edades avanzadas. El grupo de 0 a 4 años no siguió esa secuencia:
+tuvo tasas mayores. La diferencia por dificultad funcional fue más visible en edades jóvenes
+y se estrechó desde los 50 años, aunque no desapareció en todos los grupos. En 100 años o más,
+los subgrupos tenían 35 y 23 personas; sus porcentajes cambian mucho con un solo registro.
+Estos patrones no permiten separar la dificultad funcional de otras características asociadas
+a la edad.
+
+```{r g6_acceso_sexo, fig.width=9.5, fig.height=3.4}
+acceso_sexo <- df_eda %>%
+  group_by(SEXO, DIFICULTAD) %>%
+  summarise(pct_accedio = mean(ACCESO_FORMAL_SALUD) * 100,
+            n = n(), .groups = "drop")
+
+df_eda %>% group_by(SEXO, DIFICULTAD) %>%
+  summarise(n = n(), acceso_n = sum(ACCESO_FORMAL_SALUD),
+            no_acceso_n = n - acceso_n,
+            acceso_pct = round(acceso_n / n * 100, 2),
+            no_acceso_pct = round(no_acceso_n / n * 100, 2), .groups = "drop") %>%
+  kable(caption = "Acceso por sexo y dificultad funcional",
+        format.args = list(big.mark = "."))
+
+segmentos <- acceso_sexo %>%
+  select(SEXO, DIFICULTAD, pct_accedio) %>%
+  pivot_wider(names_from = DIFICULTAD, values_from = pct_accedio) %>%
+  rename(con = `Con dificultad funcional`, sin = `Sin dificultad funcional`)
+
+ggplot(acceso_sexo, aes(y = fct_rev(SEXO))) +
+  geom_segment(data = segmentos, aes(x = sin, xend = con, y = fct_rev(SEXO), yend = fct_rev(SEXO)),
+               color = GRID, linewidth = 2.2, inherit.aes = FALSE, lineend = "round") +
+  geom_point(aes(x = pct_accedio, color = DIFICULTAD), size = 4.5) +
+  geom_text(data = segmentos, aes(x = sin, y = fct_rev(SEXO), label = pct(sin)),
+            hjust = 1.35, size = 3.5, color = TINTA, inherit.aes = FALSE) +
+  geom_text(data = segmentos, aes(x = con, y = fct_rev(SEXO), label = pct(con)),
+            hjust = -0.35, size = 3.5, color = TINTA, inherit.aes = FALSE) +
+  scale_color_manual(values = colores_dif) +
+  scale_x_continuous(limits = c(72, 89), labels = label_percent(scale = 1)) +
+  labs(title = "Acceso por sexo y dificultad funcional",
+       subtitle = "Porcentaje que accedió a atención formal, por sexo y dificultad funcional",
+       x = NULL, y = NULL, caption = FUENTE) +
+  tema_eda("x") -> g6
+
+ggsave(file.path(FIG_DIR, "06_acceso_sexo_dificultad.png"), g6,
+       width = 9.5, height = 3.4, dpi = 300, bg = FONDO)
+g6
+```
+
+En la ejecución verificada, entre quienes declararon dificultad funcional accedieron 85,47 % de
+las mujeres y 84,16 % de los hombres; sin dificultad, 78,99 % y 75,85 %, respectivamente.
+Son diferencias de 1,31 y 3,14 puntos dentro de cada grupo de dificultad. Las tasas se
+calculan con sus propios denominadores y no establecen un efecto independiente del sexo.
+
+```{r g7_acceso_estrato, fig.width=10, fig.height=4.4}
+promedio_general <- mean(df_eda$ACCESO_FORMAL_SALUD) * 100
+
+acceso_estrato <- df_eda %>%
+  filter(!is.na(ESTRATO)) %>%
+  group_by(ESTRATO) %>%
+  summarise(pct_accedio = mean(ACCESO_FORMAL_SALUD) * 100, n = n(), .groups = "drop") %>%
+  mutate(etiqueta_eje = paste0(ESTRATO, "\nn = ", mil(n)))
+
+kable(acceso_estrato %>% select(-etiqueta_eje), digits = 2,
+      format.args = list(big.mark = "."))
+
+acceso_estrato %>%
+  ggplot(aes(x = fct_inorder(etiqueta_eje), y = pct_accedio)) +
+  geom_col(fill = AZUL, width = 0.6) +
+  geom_hline(yintercept = promedio_general, color = TINTA2,
+             linewidth = 0.9, linetype = "dashed") +
+  geom_text(aes(label = format(round(pct_accedio, 1), decimal.mark = ",")),
+            vjust = -0.6, size = 3.6, color = TINTA) +
+  annotate("text", x = 0.55, y = promedio_general + 2, hjust = 0, vjust = 0,
+           label = paste0("Promedio\ndepartamental\n", pct(promedio_general)),
+           color = TINTA2, size = 3.2, lineheight = 1.1) +
+  scale_y_continuous(limits = c(0, 100), labels = label_percent(scale = 1)) +
+  labs(title = "Acceso dentro de cada estrato",
+       subtitle = "Porcentaje que accedió a atención formal, según estrato de la vivienda",
+       x = NULL, y = NULL, caption = FUENTE) +
+  tema_eda("y") -> g7
+
+ggsave(file.path(FIG_DIR, "07_acceso_por_estrato.png"), g7,
+       width = 10, height = 4.4, dpi = 300, bg = FONDO)
+g7
+```
+
+En la ejecución verificada, el acceso observado fue 77,89 %, 78,58 % y 79,29 % en los estratos
+1, 2 y 3; subió a 85,91 % en el 4 y luego fue 85,94 % y 87,56 % en 5 y 6.
+La serie 1–6 no muestra aumentos iguales de un estrato al siguiente. El grupo sin estrato
+(n = 1.245) tuvo 68,43 % y se presenta aparte porque 0 no representa un nivel inferior en
+la misma escala. Un boxplot de la respuesta binaria frente al código ordinal del estrato
+concentraría las cajas en 0 y 1, por lo que el gráfico de tasas por estrato permite evaluar
+mejor el acceso dentro de cada categoría. Las diferencias son descriptivas y podrían reflejar
+otras características de sus residentes.
+
+```{r hacinamiento_tramos}
+df_eda %>%
+  mutate(TRAMO = cut(PERS_POR_CUARTO, breaks = c(0, 1, 1.5, 2, 3, Inf),
+                     labels = c("Hasta 1", "1 a 1,5", "1,5 a 2", "2 a 3", "Más de 3"))) %>%
+  tabla_acceso_por(TRAMO) %>%
+  kable(caption = "Acceso según personas por cuarto", format.args = list(big.mark = "."))
+```
+
+En la ejecución verificada, la tasa de acceso fue 81,95 % entre quienes vivían con hasta una
+persona por cuarto y 69,80 % con más de tres. Las tasas descendieron en cada tramo intermedio,
+con denominadores que van de 4.228 a 63.125 personas. Los tramos facilitan la comparación,
+pero la agrupación y las características de los hogares pueden influir en el patrón observado.
+
+## Acceso territorial
+
+La clase territorial y el municipio son dos formas de describir la variación espacial de la
+misma respuesta. Los porcentajes se calculan dentro de cada territorio. Se muestran los tamaños
+porque municipios con pocos registros pueden cambiar notablemente de tasa con pocos casos.
+
+```{r acceso_zona}
+tabla_acceso_por(df_eda, ZONA) %>%
+  kable(caption = "Acceso según clase territorial", format.args = list(big.mark = "."))
+```
+
+En la ejecución verificada, accedió 79,24 % de las 127.790 personas clasificables de cabecera,
+75,23 % de las 6.160 de centro poblado y 71,69 % de las 2.084 de rural disperso.
+La diferencia entre cabecera y rural disperso fue 7,55 puntos porcentuales. La comparación
+describe a quienes reportaron un problema de salud en cada clase, no la cobertura de servicios
+de todos sus residentes.
+
+```{r g8_acceso_municipio, fig.width=10, fig.height=7.5}
+tabla_acceso_por(df_eda, MUNICIPIO) %>%
+  arrange(`Accedió: % del grupo`) %>%
+  kable(caption = "Acceso por municipio", format.args = list(big.mark = "."))
+acceso_mpio <- df_eda %>% group_by(MUNICIPIO) %>%
+  summarise(pct_accedio = mean(ACCESO_FORMAL_SALUD) * 100,
+            n = n(), .groups = "drop") %>%
+  mutate(MUNICIPIO = fct_reorder(MUNICIPIO, pct_accedio),
+         etiqueta = paste0(pct(pct_accedio), "  n = ", mil(n), if_else(n < 500, "†", "")))
+g8 <- ggplot(acceso_mpio, aes(x = pct_accedio, y = MUNICIPIO)) +
+  geom_col(fill = AZUL, width = 0.65) +
+  geom_vline(xintercept = promedio_general, color = TINTA2,
+             linewidth = 0.7, linetype = "dashed") +
+  geom_text(aes(label = etiqueta), hjust = -0.05, size = 3.1, color = TINTA) +
+  scale_x_continuous(limits = c(0, 108), breaks = seq(0, 100, 25),
+                     labels = label_percent(scale = 1)) +
+  labs(title = "Acceso por municipio",
+       subtitle = "† Menos de 500 registros clasificables; porcentaje sensible a pocos casos",
+       x = NULL, y = NULL, caption = FUENTE) + tema_eda("x")
+ggsave(file.path(FIG_DIR, "08_acceso_por_municipio.png"), g8,
+       width = 10, height = 7.5, dpi = 300, bg = FONDO)
+g8
+```
+
+### Mapa municipal
+
+La geometría proviene de la capa oficial de municipios del MGN integrado 2018 del DANE,
+guardada en `datos/mgn2018_municipios_atlantico.geojson`. Se une por `U_DPTO=08` y el código
+municipal de tres dígitos. Antes de dibujar se comprueba que los 23 códigos son únicos y
+corresponden a los de la base. Gris significa que el municipio no tiene registros
+clasificables; una tasa válida de 0 % se colorea en el extremo inferior de la escala.
+Cada municipio se identifica con su nombre al lado del mapa y una línea que señala su polígono;
+esto evita que los nombres de los municipios pequeños se superpongan. La tabla contigua informa
+el número de personas por municipio. El mapa muestra proporciones
+entre quienes reportaron un problema de salud, sin ajuste por omisión censal.
+
+```{r g9_mapa, fig.width=14, fig.height=10}
+geo_path <- file.path("datos", "mgn2018_municipios_atlantico.geojson")
+if (!file.exists(geo_path)) stop("Falta la capa municipal oficial del DANE en datos/.")
+geo <- jsonlite::fromJSON(geo_path, simplifyVector = FALSE)
+features <- geo$features
+geo_codigos <- vapply(features, function(f) f$properties$MPIO_CCDGO, character(1))
+stopifnot(length(features) == 23, length(unique(geo_codigos)) == 23,
+          setequal(geo_codigos, names(municipios)),
+          all(df_eda$U_MPIO %in% geo_codigos))
+
+tabla_mapa <- tibble(codigo = geo_codigos,
+                    municipio_MGN = vapply(features, function(f) f$properties$MPIO_CNMBR,
+                                            character(1))) %>%
+  left_join(df_eda %>% group_by(codigo = U_MPIO) %>%
+              summarise(n = n(), accedieron = sum(ACCESO_FORMAL_SALUD),
+                        porcentaje = round(mean(ACCESO_FORMAL_SALUD) * 100, 2),
+                        .groups = "drop"), by = "codigo")
+stopifnot(sum(tabla_mapa$n, na.rm = TRUE) == nrow(df_eda))
+kable(tabla_mapa %>% arrange(codigo),
+      caption = "Unión de los 23 municipios del CNPV con la geometría oficial",
+      format.args = list(big.mark = "."))
+
+anillo <- function(f) {
+  if (f$geometry$type == "Polygon") {
+    ring <- f$geometry$coordinates[[1]]
+  } else {
+    ring <- f$geometry$coordinates[[1]][[1]]
+  }
+  do.call(rbind, lapply(ring, unlist))
+}
+mapa_poligonos <- map_dfr(features, function(f) {
+  a <- anillo(f)
+  tibble(codigo = f$properties$MPIO_CCDGO, x = a[, 1], y = a[, 2])
+}) %>% left_join(tabla_mapa, by = "codigo")
+
+centro_interior <- function(a) {
+  x <- a[, 1]; y <- a[, 2]
+  i <- seq_len(length(x) - 1)
+  cruz <- x[i] * y[i + 1] - x[i + 1] * y[i]
+  area <- sum(cruz) / 2
+  centro <- c(sum((x[i] + x[i + 1]) * cruz),
+              sum((y[i] + y[i + 1]) * cruz)) / (6 * area)
+  dentro <- function(p) {
+    tocado <- FALSE
+    for (j in i) {
+      if ((y[j] > p[2]) != (y[j + 1] > p[2]) &&
+          p[1] < (x[j + 1] - x[j]) * (p[2] - y[j]) / (y[j + 1] - y[j]) + x[j])
+        tocado <- !tocado
+    }
+    tocado
+  }
+  if (dentro(centro)) return(centro)
+  candidatos <- as.matrix(expand.grid(seq(min(x), max(x), length.out = 35),
+                                      seq(min(y), max(y), length.out = 35)))
+  candidatos <- candidatos[apply(candidatos, 1, dentro), , drop = FALSE]
+  stopifnot(nrow(candidatos) > 0)
+  candidatos[which.min(rowSums((candidatos - matrix(centro, nrow(candidatos), 2,
+                                                   byrow = TRUE))^2)), ]
+}
+etiquetas_mapa <- map_dfr(features, function(f) {
+  centro <- centro_interior(anillo(f))
+  tibble(codigo = f$properties$MPIO_CCDGO, municipio = municipios[[codigo]],
+         x = centro[1], y = centro[2])
+})
+lim_x <- range(mapa_poligonos$x); lim_y <- range(mapa_poligonos$y)
+etiquetas_mapa <- etiquetas_mapa %>%
+  mutate(lado = if_else(x < -74.92, "izquierda", "derecha")) %>%
+  group_by(lado) %>% arrange(desc(y), .by_group = TRUE) %>%
+  mutate(x_texto = if_else(lado == "izquierda", lim_x[1] - 0.15, lim_x[2] + 0.11),
+         y_texto = seq(lim_y[2] - 0.03, lim_y[1] + 0.03, length.out = n())) %>%
+  ungroup()
+
+g9 <- ggplot(mapa_poligonos, aes(x, y, group = codigo, fill = porcentaje)) +
+  geom_polygon(color = "white", linewidth = 0.2) +
+  geom_segment(data = etiquetas_mapa,
+               aes(x = x, y = y, xend = x_texto, yend = y_texto),
+               inherit.aes = FALSE, color = TINTA2, linewidth = 0.25, alpha = 0.75) +
+  geom_point(data = etiquetas_mapa, aes(x = x, y = y), inherit.aes = FALSE,
+             color = TINTA, size = 0.8) +
+  geom_text(data = etiquetas_mapa,
+            aes(x = x_texto, y = y_texto, label = municipio,
+                hjust = if_else(lado == "izquierda", 1, 0)),
+            inherit.aes = FALSE, size = 3, color = TINTA) +
+  scale_fill_gradientn(colors = c("#EAF2F8", "#9EC8DA", AZUL),
+                       values = scales::rescale(c(0, 75, 100)), limits = c(0, 100),
+                       na.value = "#D9DEE3", name = "Acceso (%)") +
+  coord_equal(xlim = c(lim_x[1] - 0.75, lim_x[2] + 0.3),
+              ylim = c(lim_y[1] - 0.05, lim_y[2] + 0.05), expand = FALSE) +
+  labs(title = "Acceso a atención formal por municipio del Atlántico",
+       subtitle = "Cada nombre señala el municipio correspondiente; el color indica el porcentaje de acceso",
+       caption = "Porcentaje entre personas con problema de salud y respuesta clasificable.\nFuente: DANE, CNPV 2018 y MGN integrado 2018.") +
+  theme_void(base_size = 11) +
+  theme(plot.background = element_rect(fill = FONDO, color = NA),
+        panel.background = element_rect(fill = FONDO, color = NA),
+        plot.title = element_text(color = TINTA, size = 14),
+        plot.subtitle = element_text(color = TINTA2),
+        plot.caption = element_text(color = TINTA2, hjust = 0),
+        legend.position = "bottom")
+ggsave(file.path(FIG_DIR, "09_mapa_acceso_municipal.png"), g9,
+       width = 14, height = 10, dpi = 300, bg = FONDO)
+g9
+```
+
+En la ejecución verificada, Malambo tuvo la tasa más baja (71,2 %, n = 8.319) y Manatí una de las
+más altas (94,3 %, n = 1.567). Piojó alcanzó 94,1 %, pero correspondió a 32 de 34 personas;
+un cambio de un caso equivale a 2,94 puntos porcentuales. Barranquilla y Soledad concentraron
+65,7 % de la base analítica y registraron 78,6 % y 78,0 % de acceso, respectivamente.
+La ubicación de la oferta sanitaria, los trámites o la gravedad no se midieron aquí; no se
+atribuyen a esos factores las diferencias entre municipios.
+
+## Magnitud descriptiva de las asociaciones
+
+El CNPV es una operación censal y los microdatos empleados no son una muestra aleatoria de
+personas enfermas de una población futura. Además, la respuesta se construye con una regla
+analítica y hay cobertura y faltantes. Por estos motivos no se interpretan pruebas de hipótesis
+ni valores p como evidencia de diferencias poblacionales. La V de Cramér resume únicamente la
+intensidad de la asociación en las tablas observadas; un valor pequeño puede coexistir con
+diferencias descriptivas visibles en grupos concretos.
+
+```{r cramer_descriptiva}
+v_cramer_descriptiva <- function(x, y) {
+  tabla <- table(x, y)
+  n <- sum(tabla)
+  esperada <- outer(rowSums(tabla), colSums(tabla)) / n
+  chi2 <- sum((tabla - esperada)^2 / esperada)
+  tibble(`n válido` = n,
+         `V de Cramér` = round(sqrt(chi2 / (n * (min(dim(tabla)) - 1))), 4))
+}
+asociaciones <- bind_rows(
+  v_cramer_descriptiva(df_eda$DIFICULTAD, df_eda$ACCESO) %>% mutate(variable = "Dificultad funcional"),
+  v_cramer_descriptiva(df_eda$SEXO, df_eda$ACCESO) %>% mutate(variable = "Sexo"),
+  v_cramer_descriptiva(df_eda$ZONA, df_eda$ACCESO) %>% mutate(variable = "Clase territorial"),
+  v_cramer_descriptiva(df_eda$ESTRATO, df_eda$ACCESO) %>% mutate(variable = "Estrato"),
+  v_cramer_descriptiva(df_eda$EDAD_GRUPO, df_eda$ACCESO) %>% mutate(variable = "Grupo de edad"),
+  v_cramer_descriptiva(df_eda$MUNICIPIO, df_eda$ACCESO) %>% mutate(variable = "Municipio")
+) %>% select(variable, everything()) %>% arrange(desc(`V de Cramér`))
+kable(asociaciones, format.args = list(big.mark = "."))
+```
+
+En la ejecución verificada, la V de Cramér fue 0,163 para grupo de edad, 0,085 para municipio y
+menor de 0,07 para las demás variables consideradas. Esto indica asociaciones marginales
+modestas en las tablas observadas; no mide capacidad predictiva individual ni ajusta por
+variables relacionadas. La comparación de dificultad funcional se complementa con una
+estandarización directa por edad.
+
+### Estandarización por edad
+
+Se aplican las tasas de acceso de cada grupo de dificultad en cada tramo de edad a una misma
+estructura de edades: la de toda la base clasificable. Se informan las tasas crudas y
+estandarizadas, siempre como comparaciones descriptivas. Todos los tramos necesitan observaciones
+en ambos grupos; la celda siguiente comprueba esa condición.
+
+```{r estandarizacion}
+# Porcentaje de personas de 60 años o más en cada grupo (P_EDADR >= 13)
+df_eda %>%
+  group_by(DIFICULTAD) %>%
+  summarise(pct_60_o_mas = round(mean(P_EDADR >= 13) * 100, 2), .groups = "drop") %>%
+  kable()
+
+# Peso de cada grupo de edad en la base completa
+pesos_edad <- df_eda %>%
+  count(P_EDADR) %>%
+  mutate(peso = n / sum(n)) %>%
+  select(P_EDADR, peso)
+
+# Cada grupo de edad debe tener personas en ambas categorías de dificultad.
+stopifnot(all(table(df_eda$P_EDADR, df_eda$DIFICULTAD) > 0))
+# Tasa de acceso por edad y grupo, ponderada por la estructura de edad general
+estandarizado <- df_eda %>%
+  group_by(P_EDADR, DIFICULTAD) %>%
+  summarise(tasa = mean(ACCESO_FORMAL_SALUD), .groups = "drop") %>%
+  left_join(pesos_edad, by = "P_EDADR") %>%
+  group_by(DIFICULTAD) %>%
+  summarise(pct_estandarizado = sum(tasa * peso) * 100, .groups = "drop")
+
+crudo <- df_eda %>%
+  group_by(DIFICULTAD) %>%
+  summarise(pct_crudo = mean(ACCESO_FORMAL_SALUD) * 100, .groups = "drop")
+
+comparacion <- left_join(crudo, estandarizado, by = "DIFICULTAD")
+
+comparacion %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2))) %>%
+  bind_rows(tibble(
+    DIFICULTAD        = "Diferencia (con − sin)",
+    pct_crudo         = round(diff(rev(comparacion$pct_crudo)), 2),
+    pct_estandarizado = round(diff(rev(comparacion$pct_estandarizado)), 2)
+  )) %>%
+  kable()
+```
+
+En la ejecución verificada, 46,17 % de quienes declararon dificultad funcional tenía 60 años o
+más, frente a 18,00 % entre quienes no la declararon. La diferencia cruda de acceso fue
+7,30 puntos porcentuales y la estandarizada por edad, 4,25. La composición por edad explica
+parte de la discrepancia entre las tasas agregadas; los 4,25 puntos restantes no deben
+interpretarse como efecto causal de la dificultad funcional, porque pueden intervenir otros
+factores no controlados.
+
+## Hallazgos, límites y conclusión
+
+En la ejecución verificada, 78,94 % de las 136.034 personas clasificables accedió a
+atención formal según la definición del proyecto. La mediana de personas por cuarto fue 1,25;
+como percentil 50, divide las observaciones válidas en dos mitades alrededor de ese valor.
+El acceso mostró tasas distintas por edad, dificultad funcional, sexo, ocupación del hogar,
+estrato y territorio. La diferencia por dificultad se redujo de 7,30 a 4,25 puntos al
+estandarizar por edad. El acceso entre estratos 1–3 fue próximo al 78–79 %, con un aumento
+visible en el 4; no se presume un incremento uniforme por nivel. Entre municipios, las
+diferencias deben leerse junto al número de registros de cada uno.
+
+El resultado está condicionado por la pregunta sobre un problema de salud en los 30 días
+anteriores, el tratamiento principal declarado y la regla que considera al médico particular
+como acceso formal. La consulta privada no cuenta con una confirmación separada de atención.
+El censo tampoco ofrece aquí gravedad, tiempo de espera, distancia o motivo de la decisión.
+Los faltantes de preguntas que no aplican a ciertos grupos de edad no se interpretan como
+rechazo de respuesta. Las comparaciones describen los registros censales incluidos: no son
+pruebas de causalidad ni de diferencias estadísticamente significativas. Tampoco se corrige
+la omisión censal ni se extrapola a todos los residentes del Atlántico.
+
+En conjunto, la base permite ubicar grupos y territorios con tasas observadas distintas,
+sin identificar por sí sola los mecanismos que produjeron esas diferencias. Los resultados numéricos, las tablas y las figuras se recalcularon de principio a fin
+con los CSV departamentales del DANE el 5 de octubre de 2026.
+
+## Exportación
+
+La base procesada se guarda en `salidas/` y las figuras en `figuras/`. Los CSV originales no se
+distribuyen con el proyecto. La exportación solo debe considerarse actual después de ejecutar
+las celdas desde el inicio con los archivos fuente.
+
+```{r exportar}
+SALIDA <- "salidas"
+if (!dir.exists(SALIDA)) dir.create(SALIDA)
+
+df_eda %>%
+  select(U_MPIO, MUNICIPIO, UA_CLASE, ZONA,
+         ACCESO_FORMAL_SALUD, ACCESO, CONDICION_FISICA, DIFICULTAD,
+         P_SEXO, SEXO, P_EDADR, EDAD_GRUPO,
+         P_NIVEL_ANOSR, NIVEL_EDUCATIVO, P_TRABAJO, ACTIVIDAD,
+         PA1_GRP_ETNIC, GRUPO_ETNICO, P_ALFABETA, PA_ASISTENCIA, P_EST_CIVIL,
+         VA1_ESTRATO, ESTRATO,
+         H_NRO_CUARTOS, H_NRO_DORMIT, HA_TOT_PER, PERS_POR_CUARTO) %>%
+  write_csv(file.path(SALIDA, "base_analitica_acceso_salud.csv"))
+
+write_csv(tabla_mapa, file.path(SALIDA, "resumen_municipal_acceso.csv"))
+
+tibble(
+  concepto = c("Archivo", "Filas", "Columnas"),
+  valor    = c(file.path(SALIDA, "base_analitica_acceso_salud.csv"),
+               mil(nrow(df_eda)), as.character(ncol(df_eda %>% select(U_MPIO, MUNICIPIO, UA_CLASE, ZONA, ACCESO_FORMAL_SALUD, ACCESO, CONDICION_FISICA, DIFICULTAD, P_SEXO, SEXO, P_EDADR, EDAD_GRUPO, P_NIVEL_ANOSR, NIVEL_EDUCATIVO, P_TRABAJO, ACTIVIDAD, PA1_GRP_ETNIC, GRUPO_ETNICO, P_ALFABETA, PA_ASISTENCIA, P_EST_CIVIL, VA1_ESTRATO, ESTRATO, H_NRO_CUARTOS, H_NRO_DORMIT, HA_TOT_PER, PERS_POR_CUARTO))))
+) %>%
+  kable(caption = "Base exportada")
+
+figuras <- sort(list.files(FIG_DIR, pattern = "\\.png$"))
+
+tibble(
+  figura      = figuras,
+  `tamaño_kb` = round(file.size(file.path(FIG_DIR, figuras)) / 1024)
+) %>%
+  kable(caption = "Figuras exportadas en figuras/")
+```
+
+## Fuentes
+
+- DANE. [Diccionario de datos del CNPV 2018, ficha 643](https://microdatos.dane.gov.co/index.php/catalog/643/data-dictionary).
+- DANE. [Marco Geoestadístico Nacional integrado, capa de municipios 2018](https://geoportal.dane.gov.co/mparcgis/rest/services/MGN2018/Serv_CapaMunicipiosInt_2018/MapServer/0).
+- DANE. [Instructivo de integración MGN-CNPV 2018](https://microdatos.dane.gov.co/catalog/643/download/14157/Instructivo_Integracion_MGN_CNPV2018.pdf).
+
+```{r sesion}
+bind_rows(
+  tibble(elemento = "R",          `versión` = paste(R.version$major, R.version$minor, sep = ".")),
+  tibble(elemento = "Plataforma", `versión` = R.version$platform),
+  tibble(elemento = names(sessionInfo()$otherPkgs),
+         `versión` = map_chr(sessionInfo()$otherPkgs, ~ .x$Version))
+) %>%
+  kable()
+```
+

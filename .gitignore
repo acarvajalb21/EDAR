@@ -1,0 +1,25 @@
+# Microdatos del censo: se descargan del DANE (ver README.md)
+datos/*.CSV
+datos/*.csv
+*.CSV
+*.csv
+*.zip
+
+# Salidas que se regeneran al knitear
+salidas/
+
+# Jupyter Book / MyST
+_build/
+.myst.session.json
+node_modules/
+
+# R / RStudio
+.Rproj.user/
+.bookdown-library/
+.Rhistory
+.RData
+.Ruserdata
+
+# Sistema
+.DS_Store
+Thumbs.db

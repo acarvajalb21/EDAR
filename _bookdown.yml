@@ -1,0 +1,9 @@
+book_filename: "eda-acceso-salud-atlantico"
+output_dir: "docs"
+rmd_files:
+  - index.Rmd
+  - EDA_acceso_salud_Atlantico_CNPV2018.Rmd
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Capítulo "

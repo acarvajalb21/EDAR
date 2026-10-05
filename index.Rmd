@@ -1,0 +1,19 @@
+---
+title: "Acceso a atención formal en salud en el Atlántico"
+subtitle: "Análisis exploratorio del CNPV 2018"
+author: "Alejandro Carvajal y Mateo Chang"
+date: "`r format(Sys.Date(), '%d/%m/%Y')`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+description: "Análisis exploratorio del acceso a atención formal en salud en el Atlántico a partir del CNPV 2018."
+---
+
+# Presentación {-}
+
+Este libro describe el acceso observado a atención formal entre las personas censadas en el Atlántico que reportaron un problema de salud durante los 30 días previos y cuya respuesta puede clasificarse. La medida se construye con el tratamiento principal declarado y la atención recibida en la entidad de seguridad social. No equivale a afiliación ni a cobertura de toda la población.
+
+La pregunta de investigación es: ¿cómo varía el acceso a atención formal entre estas personas según sus características funcionales, sociodemográficas, habitacionales y territoriales?
+
+El capítulo de análisis presenta los objetivos, el diccionario de variables, la preparación de los microdatos, tablas con conteos y porcentajes, descriptivos cuantitativos, comparaciones por grupo, una estandarización descriptiva por edad y un mapa de los 23 municipios con sus nombres. Las comparaciones describen asociaciones observadas, sin atribuir causalidad.
+
+El análisis se verificó con los archivos departamentales del DANE. Los CSV censales originales no se publican con el libro; las instrucciones para repetir la ejecución están en `README.md`.
