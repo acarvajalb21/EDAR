@@ -3,6 +3,7 @@ datos/*.CSV
 datos/*.csv
 *.CSV
 *.csv
+!dashboard/data/*.csv
 *.zip
 
 # Salidas que se regeneran al knitear
@@ -16,6 +17,8 @@ node_modules/
 # R / RStudio
 .Rproj.user/
 .bookdown-library/
+.venv/
+__pycache__/
 .Rhistory
 .RData
 .Ruserdata

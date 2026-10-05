@@ -1,0 +1,15 @@
+.git
+.github
+**/.venv
+dashboard/.venv
+**/__pycache__
+.bookdown-library
+salidas
+docs
+figuras
+eda-acceso-salud-atlantico_files
+datos/*.CSV
+datos/*.csv
+*.zip
+*.RData
+*.Rhistory

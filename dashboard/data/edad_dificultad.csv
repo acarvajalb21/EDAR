@@ -1,0 +1,184 @@
+codigo,edad,dificultad,n,accedieron
+DEP,0–19,Con dificultad funcional,2404,1942
+DEP,0–19,Sin dificultad funcional,32844,24671
+DEP,20–39,Con dificultad funcional,3129,2451
+DEP,20–39,Sin dificultad funcional,29660,21534
+DEP,40–59,Con dificultad funcional,7560,6142
+DEP,40–59,Sin dificultad funcional,29098,22866
+DEP,60–79,Con dificultad funcional,7885,7024
+DEP,60–79,Sin dificultad funcional,17071,14862
+DEP,80 o más,Con dificultad funcional,3345,3100
+DEP,80 o más,Sin dificultad funcional,3038,2792
+001,0–19,Con dificultad funcional,924,737
+001,0–19,Sin dificultad funcional,13450,9899
+001,20–39,Con dificultad funcional,1306,1016
+001,20–39,Sin dificultad funcional,13634,9788
+001,40–59,Con dificultad funcional,3135,2526
+001,40–59,Sin dificultad funcional,13741,10699
+001,60–79,Con dificultad funcional,3823,3416
+001,60–79,Sin dificultad funcional,9073,7864
+001,80 o más,Con dificultad funcional,1880,1744
+001,80 o más,Sin dificultad funcional,1750,1624
+078,0–19,Con dificultad funcional,131,110
+078,0–19,Sin dificultad funcional,1760,1370
+078,20–39,Con dificultad funcional,147,123
+078,20–39,Sin dificultad funcional,1370,1025
+078,40–59,Con dificultad funcional,432,377
+078,40–59,Sin dificultad funcional,1150,908
+078,60–79,Con dificultad funcional,411,382
+078,60–79,Sin dificultad funcional,612,530
+078,80 o más,Con dificultad funcional,161,157
+078,80 o más,Sin dificultad funcional,94,85
+137,0–19,Sin dificultad funcional,180,170
+137,20–39,Sin dificultad funcional,96,84
+137,40–59,Con dificultad funcional,41,37
+137,40–59,Sin dificultad funcional,143,132
+137,60–79,Con dificultad funcional,33,32
+137,60–79,Sin dificultad funcional,101,96
+141,0–19,Sin dificultad funcional,212,173
+141,20–39,Con dificultad funcional,37,33
+141,20–39,Sin dificultad funcional,172,142
+141,40–59,Con dificultad funcional,81,78
+141,40–59,Sin dificultad funcional,160,135
+141,60–79,Con dificultad funcional,86,77
+141,60–79,Sin dificultad funcional,105,99
+141,80 o más,Con dificultad funcional,36,32
+296,0–19,Sin dificultad funcional,384,270
+296,20–39,Sin dificultad funcional,372,276
+296,40–59,Con dificultad funcional,51,45
+296,40–59,Sin dificultad funcional,368,297
+296,60–79,Con dificultad funcional,47,43
+296,60–79,Sin dificultad funcional,185,159
+372,0–19,Sin dificultad funcional,185,147
+372,20–39,Sin dificultad funcional,148,103
+372,40–59,Con dificultad funcional,52,36
+372,40–59,Sin dificultad funcional,154,123
+372,60–79,Con dificultad funcional,60,52
+372,60–79,Sin dificultad funcional,73,68
+421,0–19,Con dificultad funcional,55,48
+421,0–19,Sin dificultad funcional,755,614
+421,20–39,Con dificultad funcional,48,39
+421,20–39,Sin dificultad funcional,540,392
+421,40–59,Con dificultad funcional,154,125
+421,40–59,Sin dificultad funcional,466,351
+421,60–79,Con dificultad funcional,134,118
+421,60–79,Sin dificultad funcional,254,217
+421,80 o más,Con dificultad funcional,55,50
+421,80 o más,Sin dificultad funcional,46,41
+433,0–19,Con dificultad funcional,234,163
+433,0–19,Sin dificultad funcional,2275,1459
+433,20–39,Con dificultad funcional,307,215
+433,20–39,Sin dificultad funcional,1818,1180
+433,40–59,Con dificultad funcional,760,573
+433,40–59,Sin dificultad funcional,1390,1002
+433,60–79,Con dificultad funcional,603,520
+433,60–79,Sin dificultad funcional,693,600
+433,80 o más,Con dificultad funcional,163,149
+433,80 o más,Sin dificultad funcional,76,59
+436,0–19,Sin dificultad funcional,549,525
+436,20–39,Sin dificultad funcional,355,331
+436,40–59,Con dificultad funcional,42,40
+436,40–59,Sin dificultad funcional,315,292
+436,60–79,Con dificultad funcional,38,37
+436,60–79,Sin dificultad funcional,161,152
+436,80 o más,Sin dificultad funcional,43,41
+520,0–19,Sin dificultad funcional,345,248
+520,20–39,Sin dificultad funcional,266,186
+520,40–59,Sin dificultad funcional,268,193
+520,60–79,Sin dificultad funcional,161,126
+520,80 o más,Sin dificultad funcional,38,32
+558,0–19,Con dificultad funcional,44,32
+558,0–19,Sin dificultad funcional,471,374
+558,20–39,Con dificultad funcional,42,38
+558,20–39,Sin dificultad funcional,282,204
+558,40–59,Con dificultad funcional,82,67
+558,40–59,Sin dificultad funcional,266,217
+558,60–79,Con dificultad funcional,72,59
+558,60–79,Sin dificultad funcional,153,135
+558,80 o más,Sin dificultad funcional,34,30
+560,0–19,Con dificultad funcional,63,54
+560,0–19,Sin dificultad funcional,628,506
+560,20–39,Con dificultad funcional,50,35
+560,20–39,Sin dificultad funcional,431,328
+560,40–59,Con dificultad funcional,122,102
+560,40–59,Sin dificultad funcional,445,356
+560,60–79,Con dificultad funcional,126,122
+560,60–79,Sin dificultad funcional,238,207
+560,80 o más,Con dificultad funcional,46,42
+560,80 o más,Sin dificultad funcional,36,35
+573,0–19,Con dificultad funcional,32,27
+573,0–19,Sin dificultad funcional,574,503
+573,20–39,Con dificultad funcional,37,29
+573,20–39,Sin dificultad funcional,648,538
+573,40–59,Con dificultad funcional,64,58
+573,40–59,Sin dificultad funcional,774,651
+573,60–79,Con dificultad funcional,88,87
+573,60–79,Sin dificultad funcional,422,384
+573,80 o más,Con dificultad funcional,53,48
+573,80 o más,Sin dificultad funcional,86,83
+606,0–19,Con dificultad funcional,76,66
+606,0–19,Sin dificultad funcional,1080,818
+606,20–39,Con dificultad funcional,96,70
+606,20–39,Sin dificultad funcional,612,428
+606,40–59,Con dificultad funcional,230,177
+606,40–59,Sin dificultad funcional,569,437
+606,60–79,Con dificultad funcional,212,177
+606,60–79,Sin dificultad funcional,353,296
+606,80 o más,Con dificultad funcional,60,52
+606,80 o más,Sin dificultad funcional,64,60
+634,0–19,Con dificultad funcional,46,36
+634,0–19,Sin dificultad funcional,501,429
+634,20–39,Con dificultad funcional,51,42
+634,20–39,Sin dificultad funcional,412,315
+634,40–59,Con dificultad funcional,103,87
+634,40–59,Sin dificultad funcional,386,309
+634,60–79,Con dificultad funcional,66,61
+634,60–79,Sin dificultad funcional,201,179
+634,80 o más,Con dificultad funcional,45,42
+638,0–19,Con dificultad funcional,148,122
+638,0–19,Sin dificultad funcional,1938,1474
+638,20–39,Con dificultad funcional,190,151
+638,20–39,Sin dificultad funcional,1616,1206
+638,40–59,Con dificultad funcional,434,366
+638,40–59,Sin dificultad funcional,1521,1186
+638,60–79,Con dificultad funcional,389,354
+638,60–79,Sin dificultad funcional,786,659
+638,80 o más,Con dificultad funcional,150,144
+638,80 o más,Sin dificultad funcional,152,128
+675,0–19,Sin dificultad funcional,97,86
+675,20–39,Sin dificultad funcional,93,79
+675,40–59,Con dificultad funcional,36,34
+675,40–59,Sin dificultad funcional,116,102
+675,60–79,Sin dificultad funcional,83,79
+685,0–19,Con dificultad funcional,37,32
+685,0–19,Sin dificultad funcional,373,318
+685,20–39,Con dificultad funcional,33,28
+685,20–39,Sin dificultad funcional,305,256
+685,40–59,Con dificultad funcional,99,80
+685,40–59,Sin dificultad funcional,289,253
+685,60–79,Con dificultad funcional,77,70
+685,60–79,Sin dificultad funcional,155,135
+758,0–19,Con dificultad funcional,450,362
+758,0–19,Sin dificultad funcional,6485,4786
+758,20–39,Con dificultad funcional,627,495
+758,20–39,Sin dificultad funcional,6080,4339
+758,40–59,Con dificultad funcional,1529,1235
+758,40–59,Sin dificultad funcional,6118,4826
+758,60–79,Con dificultad funcional,1472,1282
+758,60–79,Sin dificultad funcional,3013,2656
+758,80 o más,Con dificultad funcional,482,443
+758,80 o más,Sin dificultad funcional,416,387
+770,0–19,Sin dificultad funcional,424,348
+770,20–39,Sin dificultad funcional,246,189
+770,40–59,Con dificultad funcional,51,41
+770,40–59,Sin dificultad funcional,260,221
+770,60–79,Con dificultad funcional,55,51
+770,60–79,Sin dificultad funcional,131,111
+832,0–19,Sin dificultad funcional,96,80
+832,20–39,Sin dificultad funcional,98,84
+832,40–59,Sin dificultad funcional,115,96
+832,60–79,Sin dificultad funcional,54,48
+849,0–19,Sin dificultad funcional,75,68
+849,20–39,Sin dificultad funcional,64,59
+849,40–59,Sin dificultad funcional,78,74
+849,60–79,Sin dificultad funcional,64,62

@@ -1,0 +1,546 @@
+codigo,variable,categoria,n,accedieron
+DEP,sexo,Hombre,58071,44869
+DEP,sexo,Mujer,77963,62515
+001,sexo,Hombre,26180,20231
+001,sexo,Mujer,36536,29082
+078,sexo,Hombre,2779,2183
+078,sexo,Mujer,3489,2884
+137,sexo,Hombre,276,257
+137,sexo,Mujer,391,362
+141,sexo,Hombre,397,345
+141,sexo,Mujer,542,468
+296,sexo,Hombre,660,506
+296,sexo,Mujer,824,656
+372,sexo,Hombre,360,275
+372,sexo,Mujer,398,323
+421,sexo,Hombre,1118,855
+421,sexo,Mujer,1389,1140
+433,sexo,Hombre,3603,2446
+433,sexo,Mujer,4716,3474
+436,sexo,Hombre,730,686
+436,sexo,Mujer,837,792
+520,sexo,Hombre,529,384
+520,sexo,Mujer,627,470
+558,sexo,Hombre,723,578
+558,sexo,Mujer,748,599
+560,sexo,Hombre,1013,816
+560,sexo,Mujer,1172,971
+573,sexo,Hombre,1180,1008
+573,sexo,Mujer,1598,1400
+606,sexo,Hombre,1557,1153
+606,sexo,Mujer,1795,1428
+634,sexo,Hombre,821,656
+634,sexo,Mujer,1018,869
+638,sexo,Hombre,3069,2331
+638,sexo,Mujer,4255,3459
+675,sexo,Hombre,206,179
+675,sexo,Mujer,316,292
+685,sexo,Hombre,654,551
+685,sexo,Mujer,762,669
+758,sexo,Hombre,11302,8661
+758,sexo,Mujer,15370,12150
+770,sexo,Hombre,511,414
+770,sexo,Mujer,735,621
+832,sexo,Hombre,236,194
+832,sexo,Mujer,237,213
+849,sexo,Hombre,156,149
+849,sexo,Mujer,185,172
+DEP,dificultad,Con dificultad funcional,24323,20659
+DEP,dificultad,Sin dificultad funcional,111711,86725
+001,dificultad,Con dificultad funcional,11068,9439
+001,dificultad,Sin dificultad funcional,51648,39874
+078,dificultad,Con dificultad funcional,1282,1149
+078,dificultad,Sin dificultad funcional,4986,3918
+137,dificultad,Con dificultad funcional,125,116
+137,dificultad,Sin dificultad funcional,542,503
+141,dificultad,Con dificultad funcional,268,247
+141,dificultad,Sin dificultad funcional,671,566
+296,dificultad,Con dificultad funcional,148,137
+296,dificultad,Sin dificultad funcional,1336,1025
+372,dificultad,Con dificultad funcional,183,145
+372,dificultad,Sin dificultad funcional,575,453
+421,dificultad,Con dificultad funcional,446,380
+421,dificultad,Sin dificultad funcional,2061,1615
+433,dificultad,Con dificultad funcional,2067,1620
+433,dificultad,Sin dificultad funcional,6252,4300
+436,dificultad,Con dificultad funcional,144,137
+436,dificultad,Sin dificultad funcional,1423,1341
+520,dificultad,Con dificultad funcional,78,69
+520,dificultad,Sin dificultad funcional,1078,785
+558,dificultad,Con dificultad funcional,265,217
+558,dificultad,Sin dificultad funcional,1206,960
+560,dificultad,Con dificultad funcional,407,355
+560,dificultad,Sin dificultad funcional,1778,1432
+573,dificultad,Con dificultad funcional,274,249
+573,dificultad,Sin dificultad funcional,2504,2159
+606,dificultad,Con dificultad funcional,674,542
+606,dificultad,Sin dificultad funcional,2678,2039
+634,dificultad,Con dificultad funcional,311,268
+634,dificultad,Sin dificultad funcional,1528,1257
+638,dificultad,Con dificultad funcional,1311,1137
+638,dificultad,Sin dificultad funcional,6013,4653
+675,dificultad,Con dificultad funcional,115,107
+675,dificultad,Sin dificultad funcional,407,364
+685,dificultad,Con dificultad funcional,268,232
+685,dificultad,Sin dificultad funcional,1148,988
+758,dificultad,Con dificultad funcional,4560,3817
+758,dificultad,Sin dificultad funcional,22112,16994
+770,dificultad,Con dificultad funcional,167,148
+770,dificultad,Sin dificultad funcional,1079,887
+832,dificultad,Con dificultad funcional,100,89
+832,dificultad,Sin dificultad funcional,373,318
+849,dificultad,Con dificultad funcional,46,44
+849,dificultad,Sin dificultad funcional,295,277
+DEP,zona,Cabecera municipal,127790,101256
+DEP,zona,Centro poblado,6160,4634
+DEP,zona,Rural disperso,2084,1494
+001,zona,Cabecera municipal,62691,49291
+078,zona,Cabecera municipal,5059,4240
+078,zona,Centro poblado,950,656
+078,zona,Rural disperso,259,171
+137,zona,Cabecera municipal,621,581
+137,zona,Centro poblado,39,33
+141,zona,Cabecera municipal,564,493
+141,zona,Centro poblado,345,293
+141,zona,Rural disperso,30,27
+296,zona,Cabecera municipal,1427,1108
+296,zona,Rural disperso,50,48
+372,zona,Cabecera municipal,489,402
+372,zona,Centro poblado,186,132
+372,zona,Rural disperso,83,64
+421,zona,Cabecera municipal,1424,1159
+421,zona,Centro poblado,979,761
+421,zona,Rural disperso,104,75
+433,zona,Cabecera municipal,8126,5760
+433,zona,Centro poblado,118,104
+433,zona,Rural disperso,75,56
+436,zona,Cabecera municipal,1509,1423
+436,zona,Centro poblado,43,40
+520,zona,Cabecera municipal,1086,810
+520,zona,Rural disperso,52,31
+558,zona,Cabecera municipal,1154,931
+558,zona,Centro poblado,116,96
+558,zona,Rural disperso,201,150
+560,zona,Cabecera municipal,1565,1311
+560,zona,Centro poblado,448,366
+560,zona,Rural disperso,172,110
+573,zona,Cabecera municipal,2677,2313
+573,zona,Centro poblado,89,85
+606,zona,Cabecera municipal,2655,2021
+606,zona,Centro poblado,654,523
+606,zona,Rural disperso,43,37
+634,zona,Cabecera municipal,1659,1408
+634,zona,Rural disperso,180,117
+638,zona,Cabecera municipal,4917,4158
+638,zona,Centro poblado,1990,1365
+638,zona,Rural disperso,417,267
+675,zona,Cabecera municipal,379,348
+675,zona,Centro poblado,113,102
+675,zona,Rural disperso,30,21
+685,zona,Cabecera municipal,1351,1164
+685,zona,Rural disperso,65,56
+758,zona,Cabecera municipal,26666,20806
+770,zona,Cabecera municipal,1242,1031
+832,zona,Cabecera municipal,165,153
+832,zona,Centro poblado,64,58
+832,zona,Rural disperso,244,196
+849,zona,Cabecera municipal,335,316
+DEP,edad,0–19,35248,26613
+DEP,edad,20–39,32789,23985
+DEP,edad,40–59,36658,29008
+DEP,edad,60–79,24956,21886
+DEP,edad,80 o más,6383,5892
+001,edad,0–19,14374,10636
+001,edad,20–39,14940,10804
+001,edad,40–59,16876,13225
+001,edad,60–79,12896,11280
+001,edad,80 o más,3630,3368
+078,edad,0–19,1891,1480
+078,edad,20–39,1517,1148
+078,edad,40–59,1582,1285
+078,edad,60–79,1023,912
+078,edad,80 o más,255,242
+137,edad,0–19,193,182
+137,edad,20–39,109,96
+137,edad,40–59,184,169
+137,edad,60–79,134,128
+137,edad,80 o más,47,44
+141,edad,0–19,240,200
+141,edad,20–39,209,175
+141,edad,40–59,241,213
+141,edad,60–79,191,176
+141,edad,80 o más,58,49
+296,edad,0–19,400,286
+296,edad,20–39,393,297
+296,edad,40–59,419,342
+296,edad,60–79,232,202
+296,edad,80 o más,40,35
+372,edad,0–19,205,164
+372,edad,20–39,173,121
+372,edad,40–59,206,159
+372,edad,60–79,133,120
+372,edad,80 o más,41,34
+421,edad,0–19,810,662
+421,edad,20–39,588,431
+421,edad,40–59,620,476
+421,edad,60–79,388,335
+421,edad,80 o más,101,91
+433,edad,0–19,2509,1622
+433,edad,20–39,2125,1395
+433,edad,40–59,2150,1575
+433,edad,60–79,1296,1120
+433,edad,80 o más,239,208
+436,edad,0–19,575,550
+436,edad,20–39,376,350
+436,edad,40–59,357,332
+436,edad,60–79,199,189
+436,edad,80 o más,60,57
+520,edad,0–19,352,255
+520,edad,20–39,278,195
+520,edad,40–59,289,213
+520,edad,60–79,181,143
+520,edad,80 o más,56,48
+558,edad,0–19,515,406
+558,edad,20–39,324,242
+558,edad,40–59,348,284
+558,edad,60–79,225,194
+558,edad,80 o más,59,51
+560,edad,0–19,691,560
+560,edad,20–39,481,363
+560,edad,40–59,567,458
+560,edad,60–79,364,329
+560,edad,80 o más,82,77
+573,edad,0–19,606,530
+573,edad,20–39,685,567
+573,edad,40–59,838,709
+573,edad,60–79,510,471
+573,edad,80 o más,139,131
+606,edad,0–19,1156,884
+606,edad,20–39,708,498
+606,edad,40–59,799,614
+606,edad,60–79,565,473
+606,edad,80 o más,124,112
+634,edad,0–19,547,465
+634,edad,20–39,463,357
+634,edad,40–59,489,396
+634,edad,60–79,267,240
+634,edad,80 o más,73,67
+638,edad,0–19,2086,1596
+638,edad,20–39,1806,1357
+638,edad,40–59,1955,1552
+638,edad,60–79,1175,1013
+638,edad,80 o más,302,272
+675,edad,0–19,107,96
+675,edad,20–39,111,95
+675,edad,40–59,152,136
+675,edad,60–79,110,103
+675,edad,80 o más,42,41
+685,edad,0–19,410,350
+685,edad,20–39,338,284
+685,edad,40–59,388,333
+685,edad,60–79,232,205
+685,edad,80 o más,48,48
+758,edad,0–19,6935,5148
+758,edad,20–39,6707,4834
+758,edad,40–59,7647,6061
+758,edad,60–79,4485,3938
+758,edad,80 o más,898,830
+770,edad,0–19,446,368
+770,edad,20–39,268,208
+770,edad,40–59,311,262
+770,edad,60–79,186,162
+770,edad,80 o más,35,35
+832,edad,0–19,111,93
+832,edad,20–39,115,99
+832,edad,40–59,143,121
+832,edad,60–79,81,73
+849,edad,0–19,81,73
+849,edad,20–39,68,63
+849,edad,40–59,88,84
+849,edad,60–79,78,75
+DEP,estrato,Estrato 1,62066,48342
+DEP,estrato,Estrato 2,37150,29193
+DEP,estrato,Estrato 3,21124,16749
+DEP,estrato,Estrato 4,8862,7613
+DEP,estrato,Estrato 5,2425,2084
+DEP,estrato,Estrato 6,1608,1408
+DEP,estrato,Sin dato,1554,1143
+DEP,estrato,Sin estrato,1245,852
+001,estrato,Estrato 1,16339,12488
+001,estrato,Estrato 2,15707,11821
+001,estrato,Estrato 3,18070,14192
+001,estrato,Estrato 4,8304,7170
+001,estrato,Estrato 5,2351,2021
+001,estrato,Estrato 6,1503,1323
+001,estrato,Sin dato,296,199
+001,estrato,Sin estrato,146,99
+078,estrato,Estrato 1,4147,3373
+078,estrato,Estrato 2,1419,1175
+078,estrato,Estrato 3,264,231
+078,estrato,Sin dato,93,69
+078,estrato,Sin estrato,332,210
+137,estrato,Estrato 1,366,343
+137,estrato,Estrato 2,192,174
+137,estrato,Estrato 3,30,29
+137,estrato,Sin dato,79,73
+141,estrato,Estrato 1,741,640
+141,estrato,Estrato 2,116,103
+141,estrato,Sin dato,69,59
+296,estrato,Estrato 1,984,760
+296,estrato,Estrato 2,279,226
+296,estrato,Estrato 3,193,155
+372,estrato,Estrato 1,547,428
+372,estrato,Estrato 2,117,96
+372,estrato,Estrato 3,68,52
+421,estrato,Estrato 1,2145,1708
+421,estrato,Estrato 2,239,196
+421,estrato,Sin dato,76,55
+421,estrato,Sin estrato,36,26
+433,estrato,Estrato 1,7277,5107
+433,estrato,Estrato 2,927,735
+433,estrato,Estrato 3,38,29
+433,estrato,Sin dato,54,36
+436,estrato,Estrato 1,1245,1185
+436,estrato,Estrato 2,298,270
+520,estrato,Estrato 1,735,550
+520,estrato,Estrato 2,322,237
+520,estrato,Estrato 3,57,46
+520,estrato,Sin dato,34,19
+558,estrato,Estrato 1,925,740
+558,estrato,Estrato 2,437,351
+558,estrato,Estrato 3,70,55
+558,estrato,Sin dato,31,27
+560,estrato,Estrato 1,1688,1383
+560,estrato,Estrato 2,301,264
+560,estrato,Sin dato,86,64
+560,estrato,Sin estrato,92,60
+573,estrato,Estrato 1,849,739
+573,estrato,Estrato 2,630,581
+573,estrato,Estrato 3,584,508
+573,estrato,Estrato 4,484,384
+573,estrato,Estrato 5,63,54
+573,estrato,Estrato 6,99,82
+573,estrato,Sin dato,42,37
+606,estrato,Estrato 1,2701,2076
+606,estrato,Estrato 2,378,302
+606,estrato,Sin estrato,226,168
+634,estrato,Estrato 1,1169,1007
+634,estrato,Estrato 2,450,358
+634,estrato,Sin dato,53,32
+634,estrato,Sin estrato,136,101
+638,estrato,Estrato 1,5632,4482
+638,estrato,Estrato 2,819,683
+638,estrato,Estrato 3,447,337
+638,estrato,Sin dato,332,235
+638,estrato,Sin estrato,67,33
+675,estrato,Estrato 1,461,419
+675,estrato,Estrato 2,31,31
+685,estrato,Estrato 1,813,680
+685,estrato,Estrato 2,456,409
+685,estrato,Estrato 3,75,72
+685,estrato,Sin dato,48,39
+758,estrato,Estrato 1,11794,8952
+758,estrato,Estrato 2,13609,10813
+758,estrato,Estrato 3,1069,902
+758,estrato,Sin dato,132,94
+758,estrato,Sin estrato,54,39
+770,estrato,Estrato 1,927,745
+770,estrato,Estrato 2,236,210
+770,estrato,Estrato 3,66,64
+832,estrato,Estrato 1,323,288
+832,estrato,Estrato 2,91,73
+832,estrato,Sin dato,36,27
+849,estrato,Estrato 1,235,227
+849,estrato,Estrato 2,88,77
+DEP,educacion,Básica primaria,31863,25747
+DEP,educacion,Básica secundaria,17445,13230
+DEP,educacion,Media académica,26526,20183
+DEP,educacion,Media técnica,2752,2191
+DEP,educacion,Ninguno,6431,5415
+DEP,educacion,Normalista,679,577
+DEP,educacion,Posgrado,4369,3673
+DEP,educacion,Preescolar,2994,2226
+DEP,educacion,Sin dato,13666,11242
+DEP,educacion,Técnica o tecnológica,13471,10394
+DEP,educacion,Universitario,15838,12506
+001,educacion,Básica primaria,12729,10253
+001,educacion,Básica secundaria,7044,5326
+001,educacion,Media académica,11640,8768
+001,educacion,Media técnica,1206,997
+001,educacion,Ninguno,1738,1470
+001,educacion,Normalista,283,239
+001,educacion,Posgrado,3317,2798
+001,educacion,Preescolar,1265,922
+001,educacion,Sin dato,5477,4429
+001,educacion,Técnica o tecnológica,7056,5403
+001,educacion,Universitario,10961,8708
+078,educacion,Básica primaria,1739,1438
+078,educacion,Básica secundaria,1016,793
+078,educacion,Media académica,1464,1153
+078,educacion,Media técnica,91,70
+078,educacion,Ninguno,328,290
+078,educacion,Normalista,36,30
+078,educacion,Posgrado,72,58
+078,educacion,Preescolar,133,107
+078,educacion,Sin dato,706,589
+078,educacion,Técnica o tecnológica,415,332
+078,educacion,Universitario,268,207
+137,educacion,Básica primaria,252,237
+137,educacion,Básica secundaria,101,94
+137,educacion,Media académica,39,30
+137,educacion,Ninguno,86,82
+137,educacion,Normalista,61,57
+137,educacion,Sin dato,71,67
+141,educacion,Básica primaria,341,305
+141,educacion,Básica secundaria,107,89
+141,educacion,Media académica,140,113
+141,educacion,Ninguno,189,167
+141,educacion,Sin dato,94,80
+296,educacion,Básica primaria,338,266
+296,educacion,Básica secundaria,185,136
+296,educacion,Media académica,354,272
+296,educacion,Media técnica,30,25
+296,educacion,Ninguno,77,66
+296,educacion,Posgrado,32,25
+296,educacion,Sin dato,188,153
+296,educacion,Técnica o tecnológica,141,109
+296,educacion,Universitario,118,93
+372,educacion,Básica primaria,246,194
+372,educacion,Básica secundaria,115,82
+372,educacion,Media académica,69,48
+372,educacion,Media técnica,74,65
+372,educacion,Ninguno,63,52
+372,educacion,Sin dato,87,74
+372,educacion,Técnica o tecnológica,47,34
+372,educacion,Universitario,39,34
+421,educacion,Básica primaria,776,623
+421,educacion,Básica secundaria,376,288
+421,educacion,Media académica,481,347
+421,educacion,Media técnica,52,47
+421,educacion,Ninguno,304,250
+421,educacion,Preescolar,53,46
+421,educacion,Sin dato,331,295
+421,educacion,Técnica o tecnológica,57,48
+421,educacion,Universitario,62,40
+433,educacion,Básica primaria,2222,1636
+433,educacion,Básica secundaria,1415,933
+433,educacion,Media académica,1746,1181
+433,educacion,Media técnica,150,96
+433,educacion,Ninguno,418,327
+433,educacion,Posgrado,42,36
+433,educacion,Preescolar,253,158
+433,educacion,Sin dato,934,700
+433,educacion,Técnica o tecnológica,740,564
+433,educacion,Universitario,379,275
+436,educacion,Básica primaria,430,406
+436,educacion,Básica secundaria,233,215
+436,educacion,Media académica,322,301
+436,educacion,Ninguno,130,119
+436,educacion,Normalista,43,41
+436,educacion,Preescolar,45,43
+436,educacion,Sin dato,245,239
+436,educacion,Técnica o tecnológica,51,48
+436,educacion,Universitario,53,52
+520,educacion,Básica primaria,336,241
+520,educacion,Básica secundaria,185,128
+520,educacion,Media académica,139,99
+520,educacion,Media técnica,49,37
+520,educacion,Ninguno,94,69
+520,educacion,Preescolar,43,32
+520,educacion,Sin dato,148,122
+520,educacion,Técnica o tecnológica,89,67
+520,educacion,Universitario,55,43
+558,educacion,Básica primaria,421,330
+558,educacion,Básica secundaria,222,180
+558,educacion,Media académica,269,222
+558,educacion,Media técnica,61,40
+558,educacion,Ninguno,86,74
+558,educacion,Preescolar,49,35
+558,educacion,Sin dato,174,148
+558,educacion,Técnica o tecnológica,110,83
+558,educacion,Universitario,56,46
+560,educacion,Básica primaria,736,609
+560,educacion,Básica secundaria,320,248
+560,educacion,Media académica,345,273
+560,educacion,Ninguno,285,240
+560,educacion,Preescolar,43,34
+560,educacion,Sin dato,279,236
+560,educacion,Técnica o tecnológica,111,90
+560,educacion,Universitario,53,44
+573,educacion,Básica primaria,515,459
+573,educacion,Básica secundaria,279,238
+573,educacion,Media académica,419,371
+573,educacion,Media técnica,114,95
+573,educacion,Ninguno,87,76
+573,educacion,Posgrado,250,203
+573,educacion,Preescolar,60,50
+573,educacion,Sin dato,243,224
+573,educacion,Técnica o tecnológica,259,231
+573,educacion,Universitario,543,455
+606,educacion,Básica primaria,1063,811
+606,educacion,Básica secundaria,519,388
+606,educacion,Media académica,581,416
+606,educacion,Ninguno,386,323
+606,educacion,Preescolar,132,105
+606,educacion,Sin dato,475,388
+606,educacion,Técnica o tecnológica,119,85
+606,educacion,Universitario,49,40
+634,educacion,Básica primaria,490,416
+634,educacion,Básica secundaria,258,208
+634,educacion,Media académica,398,312
+634,educacion,Media técnica,43,39
+634,educacion,Ninguno,133,111
+634,educacion,Sin dato,234,209
+634,educacion,Técnica o tecnológica,106,90
+634,educacion,Universitario,108,83
+638,educacion,Básica primaria,2023,1621
+638,educacion,Básica secundaria,997,747
+638,educacion,Media académica,1293,1015
+638,educacion,Media técnica,281,208
+638,educacion,Ninguno,702,579
+638,educacion,Normalista,73,58
+638,educacion,Posgrado,107,86
+638,educacion,Preescolar,149,114
+638,educacion,Sin dato,792,645
+638,educacion,Técnica o tecnológica,503,402
+638,educacion,Universitario,404,315
+675,educacion,Básica primaria,205,192
+675,educacion,Básica secundaria,78,67
+675,educacion,Media académica,61,52
+675,educacion,Ninguno,84,74
+675,educacion,Sin dato,37,33
+685,educacion,Básica primaria,372,325
+685,educacion,Básica secundaria,214,180
+685,educacion,Media académica,328,273
+685,educacion,Ninguno,93,74
+685,educacion,Posgrado,32,31
+685,educacion,Sin dato,134,122
+685,educacion,Técnica o tecnológica,95,86
+685,educacion,Universitario,96,84
+758,educacion,Básica primaria,6007,4838
+758,educacion,Básica secundaria,3448,2609
+758,educacion,Media académica,5994,4563
+758,educacion,Media técnica,508,391
+758,educacion,Ninguno,933,789
+758,educacion,Normalista,80,70
+758,educacion,Posgrado,401,335
+758,educacion,Preescolar,635,459
+758,educacion,Sin dato,2772,2278
+758,educacion,Técnica o tecnológica,3410,2590
+758,educacion,Universitario,2484,1889
+770,educacion,Básica primaria,363,317
+770,educacion,Básica secundaria,212,174
+770,educacion,Media académica,279,219
+770,educacion,Ninguno,111,89
+770,educacion,Sin dato,175,149
+770,educacion,Técnica o tecnológica,32,23
+832,educacion,Básica primaria,140,118
+832,educacion,Básica secundaria,71,60
+832,educacion,Media académica,83,76
+832,educacion,Ninguno,61,54
+832,educacion,Sin dato,39,35
+832,educacion,Técnica o tecnológica,35,26
+849,educacion,Básica primaria,113,106
+849,educacion,Básica secundaria,45,42
+849,educacion,Media académica,77,74
+849,educacion,Ninguno,34,33

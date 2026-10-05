@@ -1,0 +1,17 @@
+# Archivos que gcloud no debe enviar al construir la imagen de Cloud Run.
+# Se excluyen los microdatos; los CSV agregados de dashboard/data/ sí se envían.
+.gcloudignore
+.git/
+.github/
+**/.venv/
+**/__pycache__/
+.bookdown-library/
+salidas/
+docs/
+figuras/
+eda-acceso-salud-atlantico_files/
+datos/*.CSV
+datos/*.csv
+*.zip
+*.RData
+*.Rhistory
