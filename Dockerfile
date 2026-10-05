@@ -13,4 +13,4 @@ COPY dashboard/ dashboard/
 COPY datos/mgn2018_municipios_atlantico.geojson datos/mgn2018_municipios_atlantico.geojson
 
 EXPOSE 8080
-CMD ["sh", "-c", "exec gunicorn --chdir dashboard app:server --bind 0.0.0.0:${PORT} --workers 2 --timeout 120"]
+CMD ["sh", "-c", "exec gunicorn --chdir dashboard app:server --bind 0.0.0.0:${PORT} --workers 1 --threads 2 --timeout 120"]
