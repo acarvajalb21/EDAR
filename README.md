@@ -4,6 +4,8 @@ Autores: Alejandro Carvajal y Mateo Chang
 
 Repositorio: [acarvajalb21/EDAR](https://github.com/acarvajalb21/EDAR). El libro HTML compilado está en `docs/`.
 
+**Libro publicado:** [Acceso a atención formal en salud en el Atlántico](https://acarvajalb21.github.io/EDAR/).
+
 Este libro Bookdown describe el acceso a atención formal entre las personas censadas en el Atlántico que reportaron un problema de salud en los 30 días anteriores al CNPV 2018 y cuya respuesta pudo clasificarse. El análisis es descriptivo; las asociaciones observadas no establecen causas.
 
 El análisis completo está en [el archivo R Markdown](EDA_acceso_salud_Atlantico_CNPV2018.Rmd). La versión de la misma pregunta en Python está en [EDAPYTHON](https://github.com/Mateochang82/EDAPYTHON).
@@ -42,7 +44,7 @@ En RStudio, abra `EDAR.Rproj` y use Build → Build Book. También puede ejecuta
 & "C:\Program Files\R\R-4.4.1\bin\Rscript.exe" build_bookdown.R
 ```
 
-El libro se compiló y verificó el 5 de octubre de 2026 con R 4.4.1 y los tres CSV departamentales. La carpeta `docs/` contiene una versión lista para publicarse sin distribuir los microdatos. El flujo de GitHub Pages se ejecuta manualmente cuando se habilite Pages y se decida publicar el sitio; los CSV no se cargan a GitHub.
+El libro se compiló y verificó el 5 de octubre de 2026 con R 4.4.1 y los tres CSV departamentales. La carpeta `docs/` contiene una versión lista para publicarse sin distribuir los microdatos. El flujo de GitHub Pages publica esa carpeta al actualizar `main`; los CSV no se cargan a GitHub.
 
 ## Cifras de control
 
