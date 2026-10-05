@@ -14,6 +14,8 @@ Este libro describe el acceso observado a atención formal entre las personas ce
 
 La pregunta de investigación es: ¿cómo varía el acceso a atención formal entre estas personas según sus características funcionales, sociodemográficas, habitacionales y territoriales?
 
+Para explorar los municipios y comparar grupos de forma interactiva, abra el [Atlas de acceso a salud en el Atlántico](https://eda-salud-atlantico-409319239507.us-east1.run.app/).
+
 El capítulo de análisis presenta los objetivos, el diccionario de variables, la preparación de los microdatos, tablas con conteos y porcentajes, descriptivos cuantitativos, comparaciones por grupo, una estandarización descriptiva por edad y un mapa de los 23 municipios con sus nombres. Las comparaciones describen asociaciones observadas, sin atribuir causalidad.
 
 El análisis se verificó con los archivos departamentales del DANE. Los CSV censales originales no se publican con el libro; las instrucciones para repetir la ejecución están en `README.md`.
