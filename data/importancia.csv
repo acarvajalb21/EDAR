@@ -1,0 +1,27 @@
+﻿feature,mean_ap_drop,std_ap_drop,descripcion
+U_MPIO,0.054654,0.001231,Municipio
+P_EDADR,0.050433,0.002001,Grupo quinquenal de edad
+H_DONDE_PREPALIM,0.019984,0.000639,Lugar de preparación de alimentos
+P_NIVEL_ANOSR,0.012637,0.000712,Nivel educativo registrado
+VA1_ESTRATO,0.012428,0.000961,Estrato del recibo de energía
+HA_TOT_PER,0.010873,0.001494,Personas en el hogar
+VF_INTERNET,0.008033,0.001018,Internet
+CONDICION_FISICA,0.007868,0.002038,Alguna dificultad funcional diaria
+UA_CLASE,0.007627,0.000347,Clase de área censal
+V_MAT_PARED,0.007059,0.001279,Material de las paredes
+P_SEXO,0.006438,0.001028,Sexo registrado
+H_NRO_DORMIT,0.006355,0.000519,Cuartos para dormir
+H_NRO_CUARTOS,0.006174,0.001417,Cuartos del hogar
+P_PARENTESCOR,0.005276,0.000299,Parentesco con la jefatura del hogar
+V_MAT_PISO,0.004653,0.000502,Material del piso
+H_AGUA_COCIN,0.003285,0.000783,Fuente de agua para cocinar
+V_TIPO_VIV,0.002126,0.000176,Tipo de vivienda
+P_ALFABETA,0.001629,0.000708,Sabe leer y escribir
+PA1_GRP_ETNIC,0.001122,0.000783,Autorreconocimiento étnico
+VE_RECBAS,0.000650,0.000067,Recolección de basuras
+VC_ALC,0.000575,0.000084,Alcantarillado
+VD_GAS,0.000433,0.000136,Gas natural
+V_TIPO_SERSA,0.000388,0.000548,Tipo de servicio sanitario
+P_EST_CIVIL,0.000388,0.000566,Estado civil
+VB_ACU,0.000241,0.000041,Acueducto
+VA_EE,0.000000,0.000000,Energía eléctrica

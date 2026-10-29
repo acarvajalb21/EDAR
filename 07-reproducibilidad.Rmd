@@ -1,0 +1,40 @@
+# Reproducibilidad y fuentes {#reproducibilidad}
+
+## Origen de las cifras
+
+Este Bookdown parte de tres archivos originales del CNPV 2018 del Atlántico, almacenados fuera de esta carpeta. La función `load_data` de `ml_salud.entrenar` aplica la misma regla de etiqueta y las mismas uniones usadas en el experimento. `scripts/preparar_resumen.py` recalcula las tablas y figuras descriptivas, verifica las huellas SHA-256 de los CSV frente a `ml_salud/resultados/resultados.json` y detiene la ejecución si difieren. También vuelve a calcular ROC-AUC, AP y Brier de la prueba a partir del artefacto serializado antes de dibujar las curvas.
+
+```{r huellas}
+huellas <- leer("huellas_archivos.csv")
+knitr::kable(huellas, col.names = c("Archivo fuente", "SHA-256"),
+             caption = "Huellas de los CSV usados para generar este informe y el modelo auditado.")
+```
+
+Los CSV incluidos en las fuentes `data/` son **cuadros agregados y resúmenes técnicos**, nunca registros de persona. Para combinaciones de edad o sexo con dificultad y para municipios, el generador descarta celdas con menos de 30 personas o menos de cinco observaciones en cualquiera de las clases. El HTML final contiene los cuadros y gráficos necesarios para leer el informe y no requiere publicar los CSV. La visualización interactiva aplica supresiones y redondeos adicionales. Las imágenes de `figures/` se pueden regenerar con el mismo script.
+
+El detalle de entrenamiento, búsqueda de parámetros, validación y sensibilidad está en `ml_salud/entrenar.py`, `ml_salud/auditoria_sensibilidad.py` y `ml_salud/resultados/INFORME_MODELO.md`. El archivo `ml_salud/resultados/resultados.json` conserva todos los valores, versiones y parámetros que alimentan los cuadros de este libro. La carpeta Bookdown contiene las fuentes R Markdown, la configuración de salida y los productos agregados para leer el informe sin disponer de los microdatos.
+
+## Volver a generar el libro
+
+Desde la raíz de `DATAVIZ`, con el entorno Python del proyecto:
+
+```text
+python bookdown_salud/scripts/preparar_resumen.py --data-dir "RUTA/A/PROYECTO_DISCAPACIDAD/data"
+```
+
+Después, desde `bookdown_salud`, con R y el paquete `bookdown` instalado:
+
+```text
+Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
+```
+
+En este equipo R está instalado en `C:\Program Files\R\R-4.4.1\bin\Rscript.exe`. Los paquetes se instalaron en `.r-lib`, una carpeta local descartable que no forma parte del entregable. El comando exacto para este entorno está en `README.md`. La salida de lectura se encuentra en `_book/index.html` y sus capítulos.
+
+## Referencias de interpretación
+
+- DANE, [ficha y catálogo del CNPV 2018](https://microdatos.dane.gov.co/catalog/643).
+- DANE, [`P_ENFERMO`: problema de salud en los últimos 30 días sin hospitalización](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V581?name=P_ENFERMO).
+- DANE, [`P_QUEHIZO_PPAL`: tratamiento principal declarado](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V582?name=P_QUEHIZO_PPAL).
+- DANE, [`PA_LO_ATENDIERON`: respuesta sobre atención en la entidad](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V583?name=PA_LO_ATENDIERON).
+- DANE, [`P_EDADR`: grupos quinquenales de edad](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V576?name=P_EDADR).
+- DANE, [`CONDICION_FISICA`: dificultad para actividades diarias](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V585?name=CONDICION_FISICA).

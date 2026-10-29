@@ -1,0 +1,8 @@
+﻿metrica,inferior,superior
+selected_ap,0.321829,0.356526
+selected_roc_auc,0.662989,0.683517
+selected_brier,0.152085,0.159890
+selected_f1,0.399162,0.424457
+selected_precision,0.284095,0.308619
+selected_recall,0.659418,0.689534
+delta_ap_vs_competitor,0.003530,0.018266

@@ -1,0 +1,110 @@
+{
+  "logistica_edad_categorica": {
+    "cv_pr_auc": 0.3269294083712708,
+    "params": {
+      "model__C": 0.05,
+      "model__class_weight": null
+    },
+    "validacion": {
+      "threshold": 0.5,
+      "roc_auc": 0.6669521448634347,
+      "pr_auc": 0.3384733499357988,
+      "brier": 0.15650582888790937,
+      "f1": 0.019230769230769232,
+      "precision": 0.5882352941176471,
+      "recall": 0.009775171065493646,
+      "specificity": 0.998174825630663,
+      "confusion": {
+        "tn": 15313,
+        "fp": 28,
+        "fn": 4052,
+        "tp": 40
+      }
+    }
+  },
+  "boost_180_original": {
+    "excluded": [],
+    "n_iter": 180,
+    "validacion": {
+      "threshold": 0.5,
+      "roc_auc": 0.6792965320858633,
+      "pr_auc": 0.35661739392677444,
+      "brier": 0.154812546488472,
+      "f1": 0.03000714455822815,
+      "precision": 0.5887850467289719,
+      "recall": 0.015395894428152493,
+      "specificity": 0.9971318688481846,
+      "confusion": {
+        "tn": 15297,
+        "fp": 44,
+        "fn": 4029,
+        "tp": 63
+      }
+    }
+  },
+  "boost_320_sin_parada": {
+    "excluded": [],
+    "n_iter": 320,
+    "validacion": {
+      "threshold": 0.5,
+      "roc_auc": 0.6805725818717571,
+      "pr_auc": 0.35480935147942694,
+      "brier": 0.15470685594689124,
+      "f1": 0.04719626168224299,
+      "precision": 0.5372340425531915,
+      "recall": 0.024682306940371455,
+      "specificity": 0.994328922495274,
+      "confusion": {
+        "tn": 15254,
+        "fp": 87,
+        "fn": 3991,
+        "tp": 101
+      }
+    }
+  },
+  "boost_320_sin_trabajo_asistencia": {
+    "excluded": [
+      "P_TRABAJO",
+      "PA_ASISTENCIA"
+    ],
+    "n_iter": 320,
+    "validacion": {
+      "threshold": 0.5,
+      "roc_auc": 0.672327764142919,
+      "pr_auc": 0.3460616070316228,
+      "brier": 0.1557329315213242,
+      "f1": 0.03999059044930604,
+      "precision": 0.5345911949685535,
+      "recall": 0.020772238514173997,
+      "specificity": 0.9951763248810377,
+      "confusion": {
+        "tn": 15267,
+        "fp": 74,
+        "fn": 4007,
+        "tp": 85
+      }
+    }
+  },
+  "boost_320_sin_municipio": {
+    "excluded": [
+      "U_MPIO"
+    ],
+    "n_iter": 320,
+    "validacion": {
+      "threshold": 0.5,
+      "roc_auc": 0.6563394160372319,
+      "pr_auc": 0.324943134930064,
+      "brier": 0.15779007812220924,
+      "f1": 0.024314660309892728,
+      "precision": 0.49514563106796117,
+      "recall": 0.012463343108504398,
+      "specificity": 0.9966103904569454,
+      "confusion": {
+        "tn": 15289,
+        "fp": 52,
+        "fn": 4041,
+        "tp": 51
+      }
+    }
+  }
+}

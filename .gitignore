@@ -4,6 +4,8 @@ datos/*.csv
 *.CSV
 *.csv
 !dashboard/data/*.csv
+!data/*.csv
+!ml_salud/experimentos_2026_10/salidas/*.csv
 *.zip
 
 # Salidas que se regeneran al knitear
@@ -18,6 +20,7 @@ node_modules/
 .Rproj.user/
 .bookdown-library/
 .venv/
+.r-lib/
 __pycache__/
 .Rhistory
 .RData

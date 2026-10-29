@@ -1,0 +1,27 @@
+﻿feature,raw_missing,missing_or_sentinel,pct,unique,descripcion
+P_EST_CIVIL,21377,21597,15.876178,8,Estado civil
+P_NIVEL_ANOSR,12977,13666,10.046018,11,Nivel educativo registrado
+P_ALFABETA,12977,13267,9.752709,3,Sabe leer y escribir
+H_AGUA_COCIN,1144,1559,1.146037,12,Fuente de agua para cocinar
+VA1_ESTRATO,1398,1554,1.142361,8,Estrato del recibo de energía
+VF_INTERNET,0,447,0.328594,3,Internet
+VD_GAS,0,428,0.314627,3,Gas natural
+V_TIPO_SERSA,0,424,0.311687,7,Tipo de servicio sanitario
+PA1_GRP_ETNIC,0,267,0.196274,7,Autorreconocimiento étnico
+H_DONDE_PREPALIM,0,130,0.095564,7,Lugar de preparación de alimentos
+H_NRO_DORMIT,0,89,0.065425,13,Cuartos para dormir
+H_NRO_CUARTOS,0,89,0.065425,18,Cuartos del hogar
+CONDICION_FISICA,0,0,0.000000,2,Alguna dificultad funcional diaria
+P_SEXO,0,0,0.000000,2,Sexo registrado
+U_MPIO,0,0,0.000000,23,Municipio
+UA_CLASE,0,0,0.000000,3,Clase de área censal
+P_EDADR,0,0,0.000000,21,Grupo quinquenal de edad
+P_PARENTESCOR,0,0,0.000000,5,Parentesco con la jefatura del hogar
+V_MAT_PISO,0,0,0.000000,6,Material del piso
+V_MAT_PARED,0,0,0.000000,9,Material de las paredes
+V_TIPO_VIV,0,0,0.000000,6,Tipo de vivienda
+HA_TOT_PER,0,0,0.000000,26,Personas en el hogar
+VC_ALC,0,0,0.000000,2,Alcantarillado
+VB_ACU,0,0,0.000000,2,Acueducto
+VA_EE,0,0,0.000000,2,Energía eléctrica
+VE_RECBAS,0,0,0.000000,2,Recolección de basuras

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 2 Datos y método | Acceso formal a salud en el Atlántico</title>
+  <meta name="description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 2 Datos y método | Acceso formal a salud en el Atlántico" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 2 Datos y método | Acceso formal a salud en el Atlántico" />
+  
+  <meta name="twitter:description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
+  
+
+<meta name="author" content="Proyecto DATAVIZ" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="pregunta.html"/>
+<link rel="next" href="calidad.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Acceso formal a salud · Atlántico</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Presentación</a></li>
+<li class="chapter" data-level="1" data-path="pregunta.html"><a href="pregunta.html"><i class="fa fa-check"></i><b>1</b> Pregunta, población y variable objetivo</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="pregunta.html"><a href="pregunta.html#qu%C3%A9-intenta-responder-el-proyecto"><i class="fa fa-check"></i><b>1.1</b> Qué intenta responder el proyecto</a></li>
+<li class="chapter" data-level="1.2" data-path="pregunta.html"><a href="pregunta.html#a-qui%C3%A9n-se-estudia"><i class="fa fa-check"></i><b>1.2</b> A quién se estudia</a></li>
+<li class="chapter" data-level="1.3" data-path="pregunta.html"><a href="pregunta.html#etiqueta"><i class="fa fa-check"></i><b>1.3</b> Regla operativa de acceso</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="datos-metodo.html"><a href="datos-metodo.html"><i class="fa fa-check"></i><b>2</b> Datos y método</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="datos-metodo.html"><a href="datos-metodo.html#archivos-y-unidad-de-an%C3%A1lisis"><i class="fa fa-check"></i><b>2.1</b> Archivos y unidad de análisis</a></li>
+<li class="chapter" data-level="2.2" data-path="datos-metodo.html"><a href="datos-metodo.html#diccionario-de-predictores"><i class="fa fa-check"></i><b>2.2</b> Diccionario de predictores</a></li>
+<li class="chapter" data-level="2.3" data-path="datos-metodo.html"><a href="datos-metodo.html#qu%C3%A9-se-excluy%C3%B3-para-reducir-fuga-de-informaci%C3%B3n"><i class="fa fa-check"></i><b>2.3</b> Qué se excluyó para reducir fuga de información</a></li>
+<li class="chapter" data-level="2.4" data-path="datos-metodo.html"><a href="datos-metodo.html#separaci%C3%B3n-y-preprocesamiento"><i class="fa fa-check"></i><b>2.4</b> Separación y preprocesamiento</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="calidad.html"><a href="calidad.html"><i class="fa fa-check"></i><b>3</b> Calidad de los datos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="calidad.html"><a href="calidad.html#comprobaciones-antes-de-analizar"><i class="fa fa-check"></i><b>3.1</b> Comprobaciones antes de analizar</a></li>
+<li class="chapter" data-level="3.2" data-path="calidad.html"><a href="calidad.html#faltantes-y-c%C3%B3digos-de-no-respuesta"><i class="fa fa-check"></i><b>3.2</b> Faltantes y códigos de no respuesta</a></li>
+<li class="chapter" data-level="3.3" data-path="calidad.html"><a href="calidad.html#controles-que-siguen-siendo-necesarios"><i class="fa fa-check"></i><b>3.3</b> Controles que siguen siendo necesarios</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exploracion.html"><a href="exploracion.html"><i class="fa fa-check"></i><b>4</b> Exploración descriptiva</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="exploracion.html"><a href="exploracion.html#de-qu%C3%A9-est%C3%A1-hecha-la-clasificaci%C3%B3n"><i class="fa fa-check"></i><b>4.1</b> De qué está hecha la clasificación</a></li>
+<li class="chapter" data-level="4.2" data-path="exploracion.html"><a href="exploracion.html#dificultad-funcional"><i class="fa fa-check"></i><b>4.2</b> Dificultad funcional</a></li>
+<li class="chapter" data-level="4.3" data-path="exploracion.html"><a href="exploracion.html#edad-y-sexo-mirar-dentro-de-los-grupos"><i class="fa fa-check"></i><b>4.3</b> Edad y sexo: mirar dentro de los grupos</a></li>
+<li class="chapter" data-level="4.4" data-path="exploracion.html"><a href="exploracion.html#territorio-y-condiciones-de-vivienda"><i class="fa fa-check"></i><b>4.4</b> Territorio y condiciones de vivienda</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="modelo.html"><a href="modelo.html"><i class="fa fa-check"></i><b>5</b> Modelo predictivo y evaluación</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="modelo.html"><a href="modelo.html#pregunta-predictiva-y-criterio-de-%C3%A9xito"><i class="fa fa-check"></i><b>5.1</b> Pregunta predictiva y criterio de éxito</a></li>
+<li class="chapter" data-level="5.2" data-path="modelo.html"><a href="modelo.html#candidatos-y-elecci%C3%B3n"><i class="fa fa-check"></i><b>5.2</b> Candidatos y elección</a></li>
+<li class="chapter" data-level="5.3" data-path="modelo.html"><a href="modelo.html#curvas-calibraci%C3%B3n-y-umbral"><i class="fa fa-check"></i><b>5.3</b> Curvas, calibración y umbral</a></li>
+<li class="chapter" data-level="5.4" data-path="modelo.html"><a href="modelo.html#variables-relevantes-y-diferencias-entre-grupos"><i class="fa fa-check"></i><b>5.4</b> Variables relevantes y diferencias entre grupos</a></li>
+<li class="chapter" data-level="5.5" data-path="modelo.html"><a href="modelo.html#revision-modelo-2026"><i class="fa fa-check"></i><b>5.5</b> Revisión adicional del modelo en 2026</a></li>
+<li class="chapter" data-level="5.6" data-path="modelo.html"><a href="modelo.html#alcance-de-la-prueba"><i class="fa fa-check"></i><b>5.6</b> Alcance de la prueba</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>6</b> Conclusiones y decisiones para el proyecto</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="conclusiones.html"><a href="conclusiones.html#lo-que-s%C3%AD-muestran-los-datos"><i class="fa fa-check"></i><b>6.1</b> Lo que sí muestran los datos</a></li>
+<li class="chapter" data-level="6.2" data-path="conclusiones.html"><a href="conclusiones.html#l%C3%ADmites-que-deben-acompa%C3%B1ar-cada-gr%C3%A1fico"><i class="fa fa-check"></i><b>6.2</b> Límites que deben acompañar cada gráfico</a></li>
+<li class="chapter" data-level="6.3" data-path="conclusiones.html"><a href="conclusiones.html#c%C3%B3mo-llevarlo-al-tablero-interactivo"><i class="fa fa-check"></i><b>6.3</b> Cómo llevarlo al tablero interactivo</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="reproducibilidad.html"><a href="reproducibilidad.html"><i class="fa fa-check"></i><b>7</b> Reproducibilidad y fuentes</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="reproducibilidad.html"><a href="reproducibilidad.html#origen-de-las-cifras"><i class="fa fa-check"></i><b>7.1</b> Origen de las cifras</a></li>
+<li class="chapter" data-level="7.2" data-path="reproducibilidad.html"><a href="reproducibilidad.html#volver-a-generar-el-libro"><i class="fa fa-check"></i><b>7.2</b> Volver a generar el libro</a></li>
+<li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias-de-interpretaci%C3%B3n"><i class="fa fa-check"></i><b>7.3</b> Referencias de interpretación</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Acceso formal a salud en el Atlántico</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="datos-metodo" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Capítulo 2</span> Datos y método<a href="datos-metodo.html#datos-metodo" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="archivos-y-unidad-de-análisis" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Archivos y unidad de análisis<a href="datos-metodo.html#archivos-y-unidad-de-an%C3%A1lisis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se utilizaron los microdatos anonimizados de personas (<code>5PER</code>), hogares (<code>2HOG</code>) y viviendas (<code>1VIV</code>) del CNPV 2018 para el Atlántico. La unidad del análisis es <strong>la persona</strong>. El archivo geográfico <code>MGN</code> se inspeccionó en la revisión del proyecto, pero no se necesita para el modelo ni para las tablas de este libro.</p>
+<p>El vínculo entre personas y hogares usa departamento, municipio, clase de área, encuesta, vivienda y número de hogar. El vínculo posterior con vivienda usa esas mismas claves, excepto el número de hogar. El programa exige unicidad de la clave de hogar y de vivienda, conserva la cardinalidad de personas y detiene la ejecución si alguna persona queda sin enlace. Los 136.034 registros analíticos se enlazaron a hogar y vivienda; no se encontraron claves de persona duplicadas.</p>
+<p>Una revisión adicional de los tres CSV encontró algunas claves de hogar vacías fuera de la población estudiada: 5.831 en el archivo completo de personas y 261 en el de hogares. <strong>Ninguna</strong> de las 136.114 personas que declaró el problema de salud tenía una clave de unión incompleta. También se comprobó que el identificador de vivienda usado para agrupar las particiones conserva el mismo número de viviendas distintas que la clave compuesta original. Estos controles evitan interpretar la ausencia de claves en todo el censo como un problema de la cohorte analítica.</p>
+<table>
+<caption><span id="tab:flujo-cohorte">Table 2.1: </span>Flujo de registros y comprobación de las uniones.</caption>
+<thead>
+<tr class="header">
+<th align="left">Etapa</th>
+<th align="left">Personas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Personas en 5PER</td>
+<td align="left">2.342.265</td>
+</tr>
+<tr class="even">
+<td align="left">Problema de salud sin hospitalización, últimos 30 días</td>
+<td align="left">136.114</td>
+</tr>
+<tr class="odd">
+<td align="left">Sin etiqueta clasificable</td>
+<td align="left">80</td>
+</tr>
+<tr class="even">
+<td align="left">Cohorte analítica</td>
+<td align="left">136.034</td>
+</tr>
+<tr class="odd">
+<td align="left">Enlace con hogar</td>
+<td align="left">136.034</td>
+</tr>
+<tr class="even">
+<td align="left">Enlace con vivienda</td>
+<td align="left">136.034</td>
+</tr>
+</tbody>
+</table>
+<p>Se cuentan los registros observados en los archivos; no se aplican factores de expansión ni se presentan intervalos de muestreo para las tasas descriptivas. El libro no extrapola las cifras de esta cohorte a años posteriores.</p>
+</div>
+<div id="diccionario-de-predictores" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Diccionario de predictores<a href="datos-metodo.html#diccionario-de-predictores" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El modelo principal utiliza <strong>26 variables</strong>: diez de persona, cinco de hogar y once de vivienda. La tabla <a href="datos-metodo.html#tab:diccionario">2.2</a> nombra cada campo y su nivel. Para los códigos de cada respuesta se debe consultar el <a href="https://microdatos.dane.gov.co/catalog/643">catálogo del CNPV 2018</a>. El número que aparece en un CSV no transforma automáticamente una categoría en cantidad: municipio, sexo y materiales son ejemplos de códigos nominales.</p>
+<table>
+<caption><span id="tab:diccionario">Table 2.2: </span>Variables de entrada del modelo principal.</caption>
+<colgroup>
+<col width="22%" />
+<col width="48%" />
+<col width="14%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Código</th>
+<th align="left">Contenido</th>
+<th align="left">Nivel</th>
+<th align="left">Tratamiento</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">U_MPIO</td>
+<td align="left">Municipio</td>
+<td align="left">Territorio</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="even">
+<td align="left">UA_CLASE</td>
+<td align="left">Clase de área censal</td>
+<td align="left">Territorio</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="odd">
+<td align="left">P_SEXO</td>
+<td align="left">Sexo registrado</td>
+<td align="left">Persona</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="even">
+<td align="left">P_EDADR</td>
+<td align="left">Grupo quinquenal de edad</td>
+<td align="left">Persona</td>
+<td align="left">Ordinal</td>
+</tr>
+<tr class="odd">
+<td align="left">P_PARENTESCOR</td>
+<td align="left">Parentesco con la jefatura del hogar</td>
+<td align="left">Persona</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="even">
+<td align="left">PA1_GRP_ETNIC</td>
+<td align="left">Autorreconocimiento étnico</td>
+<td align="left">Persona</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="odd">
+<td align="left">CONDICION_FISICA</td>
+<td align="left">Alguna dificultad funcional diaria</td>
+<td align="left">Persona</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="even">
+<td align="left">P_ALFABETA</td>
+<td align="left">Sabe leer y escribir</td>
+<td align="left">Persona</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="odd">
+<td align="left">P_NIVEL_ANOSR</td>
+<td align="left">Nivel educativo registrado</td>
+<td align="left">Persona</td>
+<td align="left">Ordinal</td>
+</tr>
+<tr class="even">
+<td align="left">P_EST_CIVIL</td>
+<td align="left">Estado civil</td>
+<td align="left">Persona</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="odd">
+<td align="left">H_NRO_CUARTOS</td>
+<td align="left">Cuartos del hogar</td>
+<td align="left">Hogar</td>
+<td align="left">Recuento</td>
+</tr>
+<tr class="even">
+<td align="left">H_NRO_DORMIT</td>
+<td align="left">Cuartos para dormir</td>
+<td align="left">Hogar</td>
+<td align="left">Recuento</td>
+</tr>
+<tr class="odd">
+<td align="left">H_DONDE_PREPALIM</td>
+<td align="left">Lugar de preparación de alimentos</td>
+<td align="left">Hogar</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="even">
+<td align="left">H_AGUA_COCIN</td>
+<td align="left">Fuente de agua para cocinar</td>
+<td align="left">Hogar</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="odd">
+<td align="left">HA_TOT_PER</td>
+<td align="left">Personas en el hogar</td>
+<td align="left">Hogar</td>
+<td align="left">Recuento</td>
+</tr>
+<tr class="even">
+<td align="left">V_TIPO_VIV</td>
+<td align="left">Tipo de vivienda</td>
+<td align="left">Vivienda</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="odd">
+<td align="left">V_MAT_PARED</td>
+<td align="left">Material de las paredes</td>
+<td align="left">Vivienda</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="even">
+<td align="left">V_MAT_PISO</td>
+<td align="left">Material del piso</td>
+<td align="left">Vivienda</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="odd">
+<td align="left">VA_EE</td>
+<td align="left">Energía eléctrica</td>
+<td align="left">Vivienda</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="even">
+<td align="left">VA1_ESTRATO</td>
+<td align="left">Estrato del recibo de energía</td>
+<td align="left">Vivienda</td>
+<td align="left">Ordinal</td>
+</tr>
+<tr class="odd">
+<td align="left">VB_ACU</td>
+<td align="left">Acueducto</td>
+<td align="left">Vivienda</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="even">
+<td align="left">VC_ALC</td>
+<td align="left">Alcantarillado</td>
+<td align="left">Vivienda</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="odd">
+<td align="left">VD_GAS</td>
+<td align="left">Gas natural</td>
+<td align="left">Vivienda</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="even">
+<td align="left">VE_RECBAS</td>
+<td align="left">Recolección de basuras</td>
+<td align="left">Vivienda</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="odd">
+<td align="left">VF_INTERNET</td>
+<td align="left">Internet</td>
+<td align="left">Vivienda</td>
+<td align="left">Categórica</td>
+</tr>
+<tr class="even">
+<td align="left">V_TIPO_SERSA</td>
+<td align="left">Tipo de servicio sanitario</td>
+<td align="left">Vivienda</td>
+<td align="left">Categórica</td>
+</tr>
+</tbody>
+</table>
+<p>La edad <code>P_EDADR</code> corresponde a intervalos quinquenales, de 0–4 hasta 100 años o más, según el <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V576?name=P_EDADR">diccionario del DANE</a>. <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V585?name=CONDICION_FISICA"><code>CONDICION_FISICA</code></a> pregunta si existe alguna dificultad para la vida diaria; en este análisis se interpreta como <strong>dificultad funcional declarada</strong>, no como diagnóstico médico ni registro administrativo de discapacidad. Sus categorías observadas son 1 «con dificultad» y 2 «sin dificultad».</p>
+</div>
+<div id="qué-se-excluyó-para-reducir-fuga-de-información" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Qué se excluyó para reducir fuga de información<a href="datos-metodo.html#qu%C3%A9-se-excluy%C3%B3-para-reducir-fuga-de-informaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>P_QUEHIZO_PPAL</code> y <code>PA_LO_ATENDIERON</code> construyen la respuesta: incluirlas como predictores permitiría al modelo leer directamente la solución. <code>PA1_CALIDAD_SERV</code> se conoce después de la experiencia con el servicio. Se excluyeron también identificadores, copias de la etiqueta y <code>P_ENFERMO</code>, que ya define la cohorte.</p>
+<p>Se retiraron <code>P_TRABAJO</code> y <code>PA_ASISTENCIA</code> del modelo principal porque el censo las registra en una ventana temporal cercana al episodio de salud y podrían reflejar consecuencias de este. Al incluirlas en un contraste de sensibilidad, la AP de validación subió de 0,346 a 0,355. Se aceptó esa diferencia pequeña a cambio de una definición de entrada con menor ambigüedad temporal. Esto <strong>no demuestra</strong> que todas las demás covariables sean anteriores al problema de salud.</p>
+</div>
+<div id="separación-y-preprocesamiento" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Separación y preprocesamiento<a href="datos-metodo.html#separaci%C3%B3n-y-preprocesamiento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La cohorte se dividió en entrenamiento, validación y prueba con estratificación de la etiqueta y agrupación por <strong>vivienda</strong>. Las personas de una misma vivienda permanecen en una sola partición. La búsqueda de parámetros se hizo dentro del entrenamiento mediante validación cruzada de tres particiones, igualmente agrupada por vivienda. Una partición de validación separada del entrenamiento permitió elegir modelo y umbral; la prueba se reservó para evaluar la elección.</p>
+<table>
+<caption><span id="tab:particiones">Table 2.3: </span>Separación estratificada y agrupada por vivienda.</caption>
+<colgroup>
+<col width="20%" />
+<col width="13%" />
+<col width="14%" />
+<col width="34%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Partición</th>
+<th align="left">Personas</th>
+<th align="left">Viviendas</th>
+<th align="left">Sin acceso según regla</th>
+<th align="left">Porcentaje</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Entrenamiento</td>
+<td align="left">97.167</td>
+<td align="left">63.927</td>
+<td align="left">20.465</td>
+<td align="left">21,1 %</td>
+</tr>
+<tr class="even">
+<td align="left">Validación</td>
+<td align="left">19.433</td>
+<td align="left">12.718</td>
+<td align="left">4.092</td>
+<td align="left">21,1 %</td>
+</tr>
+<tr class="odd">
+<td align="left">Prueba</td>
+<td align="left">19.434</td>
+<td align="left">12.695</td>
+<td align="left">4.093</td>
+<td align="left">21,1 %</td>
+</tr>
+</tbody>
+</table>
+<p>Los códigos de «no informa» y los recuentos centinela se convierten en faltantes de manera determinista. En variables numéricas se imputa la mediana aprendida solo en entrenamiento; en categóricas se usa una categoría explícita de ausencia y una codificación adecuada a cada familia de modelo. La codificación, la imputación y el escalado se ajustan dentro de cada pliegue del pipeline. No se utilizó sobremuestreo sintético.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="pregunta.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="calidad.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": false,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+# Datos y método {#datos-metodo}
+
+## Archivos y unidad de análisis
+
+Se utilizaron los microdatos anonimizados de personas (`5PER`), hogares (`2HOG`) y viviendas (`1VIV`) del CNPV 2018 para el Atlántico. La unidad del análisis es **la persona**. El archivo geográfico `MGN` se inspeccionó en la revisión del proyecto, pero no se necesita para el modelo ni para las tablas de este libro.
+
+El vínculo entre personas y hogares usa departamento, municipio, clase de área, encuesta, vivienda y número de hogar. El vínculo posterior con vivienda usa esas mismas claves, excepto el número de hogar. El programa exige unicidad de la clave de hogar y de vivienda, conserva la cardinalidad de personas y detiene la ejecución si alguna persona queda sin enlace. Los `r entero(resumen$cohorte)` registros analíticos se enlazaron a hogar y vivienda; no se encontraron claves de persona duplicadas.
+
+Una revisión adicional de los tres CSV encontró algunas claves de hogar vacías fuera de la población estudiada: 5.831 en el archivo completo de personas y 261 en el de hogares. **Ninguna** de las 136.114 personas que declaró el problema de salud tenía una clave de unión incompleta. También se comprobó que el identificador de vivienda usado para agrupar las particiones conserva el mismo número de viviendas distintas que la clave compuesta original. Estos controles evitan interpretar la ausencia de claves en todo el censo como un problema de la cohorte analítica.
+
+```{r flujo-cohorte}
+flujo <- data.frame(
+  Etapa = c("Personas en 5PER", "Problema de salud sin hospitalización, últimos 30 días",
+            "Sin etiqueta clasificable", "Cohorte analítica", "Enlace con hogar", "Enlace con vivienda"),
+  Personas = c(resumen$personas_censo, resumen$problema_salud, resumen$sin_etiqueta,
+               resumen$cohorte, resumen$union_hogar, resumen$union_vivienda)
+)
+flujo$Personas <- vapply(flujo$Personas, entero, character(1))
+knitr::kable(flujo, caption = "Flujo de registros y comprobación de las uniones.")
+```
+
+Se cuentan los registros observados en los archivos; no se aplican factores de expansión ni se presentan intervalos de muestreo para las tasas descriptivas. El libro no extrapola las cifras de esta cohorte a años posteriores.
+
+## Diccionario de predictores
+
+El modelo principal utiliza **26 variables**: diez de persona, cinco de hogar y once de vivienda. La tabla \@ref(tab:diccionario) nombra cada campo y su nivel. Para los códigos de cada respuesta se debe consultar el [catálogo del CNPV 2018](https://microdatos.dane.gov.co/catalog/643). El número que aparece en un CSV no transforma automáticamente una categoría en cantidad: municipio, sexo y materiales son ejemplos de códigos nominales.
+
+```{r diccionario}
+dic <- leer("diccionario_modelo.csv")
+knitr::kable(dic[, c("variable", "descripcion", "nivel", "escala")],
+             col.names = c("Código", "Contenido", "Nivel", "Tratamiento"),
+             caption = "Variables de entrada del modelo principal.")
+```
+
+La edad `P_EDADR` corresponde a intervalos quinquenales, de 0–4 hasta 100 años o más, según el [diccionario del DANE](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V576?name=P_EDADR). [`CONDICION_FISICA`](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V585?name=CONDICION_FISICA) pregunta si existe alguna dificultad para la vida diaria; en este análisis se interpreta como **dificultad funcional declarada**, no como diagnóstico médico ni registro administrativo de discapacidad. Sus categorías observadas son 1 «con dificultad» y 2 «sin dificultad».
+
+## Qué se excluyó para reducir fuga de información
+
+`P_QUEHIZO_PPAL` y `PA_LO_ATENDIERON` construyen la respuesta: incluirlas como predictores permitiría al modelo leer directamente la solución. `PA1_CALIDAD_SERV` se conoce después de la experiencia con el servicio. Se excluyeron también identificadores, copias de la etiqueta y `P_ENFERMO`, que ya define la cohorte.
+
+Se retiraron `P_TRABAJO` y `PA_ASISTENCIA` del modelo principal porque el censo las registra en una ventana temporal cercana al episodio de salud y podrían reflejar consecuencias de este. Al incluirlas en un contraste de sensibilidad, la AP de validación subió de 0,346 a 0,355. Se aceptó esa diferencia pequeña a cambio de una definición de entrada con menor ambigüedad temporal. Esto **no demuestra** que todas las demás covariables sean anteriores al problema de salud.
+
+## Separación y preprocesamiento
+
+La cohorte se dividió en entrenamiento, validación y prueba con estratificación de la etiqueta y agrupación por **vivienda**. Las personas de una misma vivienda permanecen en una sola partición. La búsqueda de parámetros se hizo dentro del entrenamiento mediante validación cruzada de tres particiones, igualmente agrupada por vivienda. Una partición de validación separada del entrenamiento permitió elegir modelo y umbral; la prueba se reservó para evaluar la elección.
+
+```{r particiones}
+part <- leer("particiones.csv")
+part$Personas <- vapply(part$n, entero, character(1))
+part$Viviendas <- vapply(part$viviendas, entero, character(1))
+part$`Clase operativa 1` <- vapply(part$n_sin_formal, entero, character(1))
+part$`Prevalencia` <- vapply(part$porcentaje_sin_formal, porcentaje, character(1))
+knitr::kable(part[, c("particion", "Personas", "Viviendas", "Clase operativa 1", "Prevalencia")],
+             col.names = c("Partición", "Personas", "Viviendas", "Sin acceso según regla", "Porcentaje"),
+             caption = "Separación estratificada y agrupada por vivienda.")
+```
+
+Los códigos de «no informa» y los recuentos centinela se convierten en faltantes de manera determinista. En variables numéricas se imputa la mediana aprendida solo en entrenamiento; en categóricas se usa una categoría explícita de ausencia y una codificación adecuada a cada familia de modelo. La codificación, la imputación y el escalado se ajustan dentro de cada pliegue del pipeline. No se utilizó sobremuestreo sintético.

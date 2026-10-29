@@ -1,0 +1,27 @@
+﻿variable,descripcion,nivel,escala
+U_MPIO,Municipio,Territorio,Categórica
+UA_CLASE,Clase de área censal,Territorio,Categórica
+P_SEXO,Sexo registrado,Persona,Categórica
+P_EDADR,Grupo quinquenal de edad,Persona,Ordinal
+P_PARENTESCOR,Parentesco con la jefatura del hogar,Persona,Categórica
+PA1_GRP_ETNIC,Autorreconocimiento étnico,Persona,Categórica
+CONDICION_FISICA,Alguna dificultad funcional diaria,Persona,Categórica
+P_ALFABETA,Sabe leer y escribir,Persona,Categórica
+P_NIVEL_ANOSR,Nivel educativo registrado,Persona,Ordinal
+P_EST_CIVIL,Estado civil,Persona,Categórica
+H_NRO_CUARTOS,Cuartos del hogar,Hogar,Recuento
+H_NRO_DORMIT,Cuartos para dormir,Hogar,Recuento
+H_DONDE_PREPALIM,Lugar de preparación de alimentos,Hogar,Categórica
+H_AGUA_COCIN,Fuente de agua para cocinar,Hogar,Categórica
+HA_TOT_PER,Personas en el hogar,Hogar,Recuento
+V_TIPO_VIV,Tipo de vivienda,Vivienda,Categórica
+V_MAT_PARED,Material de las paredes,Vivienda,Categórica
+V_MAT_PISO,Material del piso,Vivienda,Categórica
+VA_EE,Energía eléctrica,Vivienda,Categórica
+VA1_ESTRATO,Estrato del recibo de energía,Vivienda,Ordinal
+VB_ACU,Acueducto,Vivienda,Categórica
+VC_ALC,Alcantarillado,Vivienda,Categórica
+VD_GAS,Gas natural,Vivienda,Categórica
+VE_RECBAS,Recolección de basuras,Vivienda,Categórica
+VF_INTERNET,Internet,Vivienda,Categórica
+V_TIPO_SERSA,Tipo de servicio sanitario,Vivienda,Categórica

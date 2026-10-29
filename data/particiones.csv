@@ -1,0 +1,4 @@
+﻿particion,n,viviendas,n_sin_formal,porcentaje_sin_formal
+Entrenamiento,97167,63927,20465,21.061677
+Validación,19433,12718,4092,21.056965
+Prueba,19434,12695,4093,21.061027

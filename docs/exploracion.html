@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 4 Exploración descriptiva | Acceso formal a salud en el Atlántico</title>
+  <meta name="description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 4 Exploración descriptiva | Acceso formal a salud en el Atlántico" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 4 Exploración descriptiva | Acceso formal a salud en el Atlántico" />
+  
+  <meta name="twitter:description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
+  
+
+<meta name="author" content="Proyecto DATAVIZ" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="calidad.html"/>
+<link rel="next" href="modelo.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Acceso formal a salud · Atlántico</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Presentación</a></li>
+<li class="chapter" data-level="1" data-path="pregunta.html"><a href="pregunta.html"><i class="fa fa-check"></i><b>1</b> Pregunta, población y variable objetivo</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="pregunta.html"><a href="pregunta.html#qu%C3%A9-intenta-responder-el-proyecto"><i class="fa fa-check"></i><b>1.1</b> Qué intenta responder el proyecto</a></li>
+<li class="chapter" data-level="1.2" data-path="pregunta.html"><a href="pregunta.html#a-qui%C3%A9n-se-estudia"><i class="fa fa-check"></i><b>1.2</b> A quién se estudia</a></li>
+<li class="chapter" data-level="1.3" data-path="pregunta.html"><a href="pregunta.html#etiqueta"><i class="fa fa-check"></i><b>1.3</b> Regla operativa de acceso</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="datos-metodo.html"><a href="datos-metodo.html"><i class="fa fa-check"></i><b>2</b> Datos y método</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="datos-metodo.html"><a href="datos-metodo.html#archivos-y-unidad-de-an%C3%A1lisis"><i class="fa fa-check"></i><b>2.1</b> Archivos y unidad de análisis</a></li>
+<li class="chapter" data-level="2.2" data-path="datos-metodo.html"><a href="datos-metodo.html#diccionario-de-predictores"><i class="fa fa-check"></i><b>2.2</b> Diccionario de predictores</a></li>
+<li class="chapter" data-level="2.3" data-path="datos-metodo.html"><a href="datos-metodo.html#qu%C3%A9-se-excluy%C3%B3-para-reducir-fuga-de-informaci%C3%B3n"><i class="fa fa-check"></i><b>2.3</b> Qué se excluyó para reducir fuga de información</a></li>
+<li class="chapter" data-level="2.4" data-path="datos-metodo.html"><a href="datos-metodo.html#separaci%C3%B3n-y-preprocesamiento"><i class="fa fa-check"></i><b>2.4</b> Separación y preprocesamiento</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="calidad.html"><a href="calidad.html"><i class="fa fa-check"></i><b>3</b> Calidad de los datos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="calidad.html"><a href="calidad.html#comprobaciones-antes-de-analizar"><i class="fa fa-check"></i><b>3.1</b> Comprobaciones antes de analizar</a></li>
+<li class="chapter" data-level="3.2" data-path="calidad.html"><a href="calidad.html#faltantes-y-c%C3%B3digos-de-no-respuesta"><i class="fa fa-check"></i><b>3.2</b> Faltantes y códigos de no respuesta</a></li>
+<li class="chapter" data-level="3.3" data-path="calidad.html"><a href="calidad.html#controles-que-siguen-siendo-necesarios"><i class="fa fa-check"></i><b>3.3</b> Controles que siguen siendo necesarios</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exploracion.html"><a href="exploracion.html"><i class="fa fa-check"></i><b>4</b> Exploración descriptiva</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="exploracion.html"><a href="exploracion.html#de-qu%C3%A9-est%C3%A1-hecha-la-clasificaci%C3%B3n"><i class="fa fa-check"></i><b>4.1</b> De qué está hecha la clasificación</a></li>
+<li class="chapter" data-level="4.2" data-path="exploracion.html"><a href="exploracion.html#dificultad-funcional"><i class="fa fa-check"></i><b>4.2</b> Dificultad funcional</a></li>
+<li class="chapter" data-level="4.3" data-path="exploracion.html"><a href="exploracion.html#edad-y-sexo-mirar-dentro-de-los-grupos"><i class="fa fa-check"></i><b>4.3</b> Edad y sexo: mirar dentro de los grupos</a></li>
+<li class="chapter" data-level="4.4" data-path="exploracion.html"><a href="exploracion.html#territorio-y-condiciones-de-vivienda"><i class="fa fa-check"></i><b>4.4</b> Territorio y condiciones de vivienda</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="modelo.html"><a href="modelo.html"><i class="fa fa-check"></i><b>5</b> Modelo predictivo y evaluación</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="modelo.html"><a href="modelo.html#pregunta-predictiva-y-criterio-de-%C3%A9xito"><i class="fa fa-check"></i><b>5.1</b> Pregunta predictiva y criterio de éxito</a></li>
+<li class="chapter" data-level="5.2" data-path="modelo.html"><a href="modelo.html#candidatos-y-elecci%C3%B3n"><i class="fa fa-check"></i><b>5.2</b> Candidatos y elección</a></li>
+<li class="chapter" data-level="5.3" data-path="modelo.html"><a href="modelo.html#curvas-calibraci%C3%B3n-y-umbral"><i class="fa fa-check"></i><b>5.3</b> Curvas, calibración y umbral</a></li>
+<li class="chapter" data-level="5.4" data-path="modelo.html"><a href="modelo.html#variables-relevantes-y-diferencias-entre-grupos"><i class="fa fa-check"></i><b>5.4</b> Variables relevantes y diferencias entre grupos</a></li>
+<li class="chapter" data-level="5.5" data-path="modelo.html"><a href="modelo.html#revision-modelo-2026"><i class="fa fa-check"></i><b>5.5</b> Revisión adicional del modelo en 2026</a></li>
+<li class="chapter" data-level="5.6" data-path="modelo.html"><a href="modelo.html#alcance-de-la-prueba"><i class="fa fa-check"></i><b>5.6</b> Alcance de la prueba</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>6</b> Conclusiones y decisiones para el proyecto</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="conclusiones.html"><a href="conclusiones.html#lo-que-s%C3%AD-muestran-los-datos"><i class="fa fa-check"></i><b>6.1</b> Lo que sí muestran los datos</a></li>
+<li class="chapter" data-level="6.2" data-path="conclusiones.html"><a href="conclusiones.html#l%C3%ADmites-que-deben-acompa%C3%B1ar-cada-gr%C3%A1fico"><i class="fa fa-check"></i><b>6.2</b> Límites que deben acompañar cada gráfico</a></li>
+<li class="chapter" data-level="6.3" data-path="conclusiones.html"><a href="conclusiones.html#c%C3%B3mo-llevarlo-al-tablero-interactivo"><i class="fa fa-check"></i><b>6.3</b> Cómo llevarlo al tablero interactivo</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="reproducibilidad.html"><a href="reproducibilidad.html"><i class="fa fa-check"></i><b>7</b> Reproducibilidad y fuentes</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="reproducibilidad.html"><a href="reproducibilidad.html#origen-de-las-cifras"><i class="fa fa-check"></i><b>7.1</b> Origen de las cifras</a></li>
+<li class="chapter" data-level="7.2" data-path="reproducibilidad.html"><a href="reproducibilidad.html#volver-a-generar-el-libro"><i class="fa fa-check"></i><b>7.2</b> Volver a generar el libro</a></li>
+<li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias-de-interpretaci%C3%B3n"><i class="fa fa-check"></i><b>7.3</b> Referencias de interpretación</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Acceso formal a salud en el Atlántico</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="exploracion" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Capítulo 4</span> Exploración descriptiva<a href="exploracion.html#exploracion" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Todas las figuras de este capítulo utilizan el mismo denominador inicial: las 136.034 personas con problema de salud reciente sin hospitalización y etiqueta clasificable. Dentro de cada grupo, la tasa se calcula como personas en la clase operativa <code>SIN_ACCESO = 1</code> divididas entre las personas de ese grupo. Son porcentajes <strong>descriptivos y sin ajuste</strong>; una diferencia visible no prueba que el grupo cause el resultado.</p>
+<div id="de-qué-está-hecha-la-clasificación" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> De qué está hecha la clasificación<a href="exploracion.html#de-qu%C3%A9-est%C3%A1-hecha-la-clasificaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-composicion"></span>
+<img src="figures/composicion_etiqueta.png" alt="Distribución por tratamiento principal declarado. Azul: con acceso según la regla; rojo: sin acceso según la regla. La categoría de otras acciones o ninguna no implica que jamás se haya recibido atención formal." width="96%" />
+<p class="caption">
+Figure 4.1: Distribución por tratamiento principal declarado. Azul: con acceso según la regla; rojo: sin acceso según la regla. La categoría de otras acciones o ninguna no implica que jamás se haya recibido atención formal.
+</p>
+</div>
+<p>La gran mayoría de personas clasificadas con acceso proviene de la combinación «EPS o entidad, atendido» (97.522). En el grupo clasificado sin acceso predominan las otras acciones o ninguna (26.743), frente a los 1.907 que dijeron haber acudido a su entidad sin atención. Esta composición debe acompañar cualquier titular del resultado: la cifra de 21,1 % <strong>no es una tasa de rechazo de servicios</strong>.</p>
+</div>
+<div id="dificultad-funcional" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Dificultad funcional<a href="exploracion.html#dificultad-funcional" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-dificultad"></span>
+<img src="figures/dificultad.png" alt="Distribución de la clasificación dentro de cada categoría de dificultad funcional diaria declarada. Los recuentos se muestran junto a las barras." width="96%" />
+<p class="caption">
+Figure 4.2: Distribución de la clasificación dentro de cada categoría de dificultad funcional diaria declarada. Los recuentos se muestran junto a las barras.
+</p>
+</div>
+<p>En la cohorte, 15,1 % del grupo con dificultad funcional queda en la clase operativa sin acceso, frente a 22,4 % del grupo sin dificultad. El contraste va en dirección contraria a una lectura intuitiva de «mayor dificultad, menor acceso». La composición de edades, municipios, respuestas y otras condiciones puede contribuir a esa diferencia; estos porcentajes brutos no aíslan mecanismos ni permiten concluir que la dificultad proteja frente a barreras.</p>
+</div>
+<div id="edad-y-sexo-mirar-dentro-de-los-grupos" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Edad y sexo: mirar dentro de los grupos<a href="exploracion.html#edad-y-sexo-mirar-dentro-de-los-grupos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-edad"></span>
+<img src="figures/edad_dificultad.png" alt="Porcentaje en la clase operativa sin acceso por edad y dificultad funcional. Se omiten combinaciones con menos de 30 personas o menos de cinco observaciones en cualquiera de las dos clases." width="96%" />
+<p class="caption">
+Figure 4.3: Porcentaje en la clase operativa sin acceso por edad y dificultad funcional. Se omiten combinaciones con menos de 30 personas o menos de cinco observaciones en cualquiera de las dos clases.
+</p>
+</div>
+<p>Las curvas por edad muestran que la distancia entre los dos grupos funcionales no es constante. Además, los grupos de edad avanzada tienen tamaños distintos de los grupos jóvenes. En vez de traducir el promedio general en una explicación sobre dificultad funcional, conviene leer las tasas junto a sus denominadores en el cuadro agregado <code>data/edad_dificultad.csv</code> <strong>de las fuentes del proyecto</strong> y recordar que la cohorte está condicionada a haber declarado el problema de salud.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-sexo"></span>
+<img src="figures/sexo_dificultad.png" alt="Porcentaje en la clase operativa sin acceso por sexo registrado y dificultad funcional. Cada barra utiliza como denominador su combinación de sexo y dificultad." width="96%" />
+<p class="caption">
+Figure 4.4: Porcentaje en la clase operativa sin acceso por sexo registrado y dificultad funcional. Cada barra utiliza como denominador su combinación de sexo y dificultad.
+</p>
+</div>
+<p>La tabla <a href="exploracion.html#tab:sexo-dificultad">4.1</a> permite ver recuentos y tasas detrás de las barras. En cada combinación la base es suficientemente grande para una comparación descriptiva, pero no se estandarizó por edad ni por territorio.</p>
+<table>
+<caption><span id="tab:sexo-dificultad">Table 4.1: </span>Cruce descriptivo de sexo y dificultad funcional.</caption>
+<thead>
+<tr class="header">
+<th align="left">Sexo</th>
+<th align="left">Dificultad funcional</th>
+<th align="left">Personas</th>
+<th align="left">Casos</th>
+<th align="left">Porcentaje</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Hombre</td>
+<td align="left">Con dificultad</td>
+<td align="left">9.896</td>
+<td align="left">1.568</td>
+<td align="left">15,8 %</td>
+</tr>
+<tr class="even">
+<td align="left">Hombre</td>
+<td align="left">Sin dificultad</td>
+<td align="left">48.175</td>
+<td align="left">11.634</td>
+<td align="left">24,1 %</td>
+</tr>
+<tr class="odd">
+<td align="left">Mujer</td>
+<td align="left">Con dificultad</td>
+<td align="left">14.427</td>
+<td align="left">2.096</td>
+<td align="left">14,5 %</td>
+</tr>
+<tr class="even">
+<td align="left">Mujer</td>
+<td align="left">Sin dificultad</td>
+<td align="left">63.536</td>
+<td align="left">13.352</td>
+<td align="left">21,0 %</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="territorio-y-condiciones-de-vivienda" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Territorio y condiciones de vivienda<a href="exploracion.html#territorio-y-condiciones-de-vivienda" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-municipio"></span>
+<img src="figures/municipio.png" alt="Porcentaje en la clase operativa sin acceso por municipio. Se publican municipios con al menos 30 personas y al menos cinco observaciones en cada clase; la línea roja muestra la tasa de la cohorte completa." width="96%" />
+<p class="caption">
+Figure 4.5: Porcentaje en la clase operativa sin acceso por municipio. Se publican municipios con al menos 30 personas y al menos cinco observaciones en cada clase; la línea roja muestra la tasa de la cohorte completa.
+</p>
+</div>
+<p>El municipio agrupa contextos sociales y de oferta distintos; es un descriptor potente, pero no equivale a una explicación causal. Las diferencias de la figura no están ajustadas por estructura etaria o composición de la cohorte. Los municipios con pocos registros merecen cautela adicional; por eso se excluyen de los agregados publicables las celdas que no alcanzan los mínimos indicados en la leyenda. El archivo agregado <code>data/municipio.csv</code>, <strong>en las fuentes del Bookdown</strong>, incluye el denominador de cada tasa visible.</p>
+<table>
+<caption><span id="tab:area-tabla">Table 4.2: </span>Clasificación por tipo de área censal dentro de la cohorte.</caption>
+<thead>
+<tr class="header">
+<th align="left">Clase de área</th>
+<th align="left">Personas</th>
+<th align="left">Sin acceso según regla</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Cabecera</td>
+<td align="left">127.790</td>
+<td align="left">20,8 %</td>
+</tr>
+<tr class="even">
+<td align="left">Centro poblado</td>
+<td align="left">6.160</td>
+<td align="left">24,8 %</td>
+</tr>
+<tr class="odd">
+<td align="left">Rural disperso</td>
+<td align="left">2.084</td>
+<td align="left">28,3 %</td>
+</tr>
+</tbody>
+</table>
+<p>En esta cohorte, la proporción es mayor en el área rural dispersa que en cabeceras. Esa comparación también está sin ajuste y se refiere solo a la respuesta principal de quienes reportaron el problema de salud; no debe interpretarse como una medida completa de cobertura territorial. Las variables de hogar y vivienda aportan contexto al modelo, pero su importancia predictiva tampoco identifica por sí sola una intervención eficaz.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="calidad.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modelo.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": false,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

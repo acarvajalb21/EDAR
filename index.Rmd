@@ -1,21 +1,39 @@
 ---
-title: "Acceso a atención formal en salud en el Atlántico"
-subtitle: "Análisis exploratorio del CNPV 2018"
-author: "Alejandro Carvajal y Mateo Chang"
-date: "`r format(Sys.Date(), '%d/%m/%Y')`"
+title: "Acceso formal a salud en el Atlántico"
+subtitle: "Exploración y modelo predictivo con el CNPV 2018"
+author: "Proyecto DATAVIZ"
 site: bookdown::bookdown_site
-output: bookdown::gitbook
-description: "Análisis exploratorio del acceso a atención formal en salud en el Atlántico a partir del CNPV 2018."
+documentclass: book
+lang: es
+description: "Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico."
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+                      fig.align = "center", out.width = "96%")
+leer <- function(archivo) read.csv(file.path("data", archivo),
+                                   fileEncoding = "UTF-8-BOM", check.names = FALSE)
+resumen <- leer("resumen_general.csv")[1, ]
+entero <- function(x) format(round(x), big.mark = ".", decimal.mark = ",",
+                            scientific = FALSE, trim = TRUE)
+porcentaje <- function(x, decimales = 1) {
+  paste0(format(round(x, decimales), nsmall = decimales, decimal.mark = ",",
+                scientific = FALSE, trim = TRUE), " %")
+}
+fraccion <- function(x, decimales = 3) {
+  format(round(x, decimales), nsmall = decimales, decimal.mark = ",",
+         scientific = FALSE, trim = TRUE)
+}
+```
 
 # Presentación {-}
 
-Este libro describe el acceso observado a atención formal entre las personas censadas en el Atlántico que reportaron un problema de salud durante los 30 días previos y cuya respuesta puede clasificarse. La medida se construye con el tratamiento principal declarado y la atención recibida en la entidad de seguridad social. No equivale a afiliación ni a cobertura de toda la población.
+Este libro reúne la exploración de datos y la evaluación de un modelo de clasificación para personas del Atlántico que declararon un problema de salud en los 30 días anteriores al Censo Nacional de Población y Vivienda (CNPV) 2018 **sin hospitalización**. La pregunta es concreta: entre quienes están en ese grupo, ¿qué características se relacionan con el tratamiento principal declarado y qué tan bien permiten anticipar la clasificación definida en el proyecto?
 
-La pregunta de investigación es: ¿cómo varía el acceso a atención formal entre estas personas según sus características funcionales, sociodemográficas, habitacionales y territoriales?
+La cohorte analítica comprende **`r entero(resumen$cohorte)` personas**. Bajo la regla del análisis original, `r entero(resumen$sin_formal)` (`r porcentaje(resumen$porcentaje_sin_formal)`) quedan en la categoría operativa *sin acceso formal* y `r entero(resumen$con_formal)` (`r porcentaje(resumen$porcentaje_con_formal)`) en *con acceso formal*. Estas palabras resumen una **regla aplicada a respuestas censales**. No establecen por sí mismas que una persona haya sufrido una barrera, que nunca haya recibido otra atención o que haya tenido una necesidad clínica insatisfecha.
 
-Para explorar los municipios y comparar grupos de forma interactiva, abra el [Atlas de acceso a salud en el Atlántico](https://eda-salud-atlantico-409319239507.us-east1.run.app/).
+El libro presenta primero la definición y la población; después revisa calidad y patrones descriptivos; finalmente documenta el diseño, los resultados y los límites del modelo. Las cifras proceden de los CSV originales del DANE y del experimento auditado en `ml_salud/resultados`. Los gráficos se regeneran mediante el script incluido en este proyecto; el libro no contiene registros individuales.
 
-El capítulo de análisis presenta los objetivos, el diccionario de variables, la preparación de los microdatos, tablas con conteos y porcentajes, descriptivos cuantitativos, comparaciones por grupo, una estandarización descriptiva por edad y un mapa de los 23 municipios con sus nombres. Las comparaciones describen asociaciones observadas, sin atribuir causalidad.
+> **Lectura recomendada.** Use las tasas descriptivas para entender patrones observados en esta cohorte censal de 2018. Use las métricas del modelo como evaluación interna del poder de ordenación para la misma época y territorio. Ninguna de las dos piezas identifica efectos causales ni valida decisiones individuales actuales.
 
-El análisis se verificó con los archivos departamentales del DANE. Los CSV censales originales no se publican con el libro; las instrucciones para repetir la ejecución están en `README.md`.
+La [visualización interactiva del proyecto](https://dataviz-salud-atlantico-409319239507.us-east1.run.app/) se organiza por filtros. Sus celdas pequeñas se suprimen y los recuentos publicables se redondean; por eso una selección del tablero puede diferir de los totales exactos de este libro.

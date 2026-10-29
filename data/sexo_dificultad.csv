@@ -1,0 +1,5 @@
+﻿sexo,dificultad,n,sin_formal,con_formal,porcentaje_sin_formal,publicable
+Hombre,Con dificultad,9896,1568,8328,15.844786,True
+Hombre,Sin dificultad,48175,11634,36541,24.149455,True
+Mujer,Con dificultad,14427,2096,12331,14.528315,True
+Mujer,Sin dificultad,63536,13352,50184,21.014858,True

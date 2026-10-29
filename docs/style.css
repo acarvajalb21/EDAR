@@ -1,0 +1,18 @@
+:root { --ink: #183246; --teal: #147d91; --soft: #eef6f7; --line: #dce8eb; }
+body, .book.font-family-1 { color: var(--ink); font-family: "Segoe UI", "Source Sans Pro", sans-serif; }
+.book .book-body .page-wrapper .page-inner { max-width: 900px; }
+.book .book-body .page-wrapper .page-inner section.normal { line-height: 1.65; }
+.book .book-body .page-wrapper .page-inner section.normal h1,
+.book .book-body .page-wrapper .page-inner section.normal h2,
+.book .book-body .page-wrapper .page-inner section.normal h3 { color: var(--ink); }
+.book .book-body .page-wrapper .page-inner section.normal h1 { border-bottom: 2px solid var(--teal); padding-bottom: .3em; }
+.book .book-body .page-wrapper .page-inner section.normal a { color: #08758b; }
+.book .book-body .page-wrapper .page-inner section.normal blockquote { border-left: 4px solid var(--teal); background: var(--soft); padding: .8em 1.1em; color: var(--ink); }
+.book .book-body .page-wrapper .page-inner section.normal table { width: 100%; border-collapse: collapse; display: table; font-size: .91em; }
+.book .book-body .page-wrapper .page-inner section.normal table th { background: var(--soft); color: var(--ink); }
+.book .book-body .page-wrapper .page-inner section.normal table th,
+.book .book-body .page-wrapper .page-inner section.normal table td { border: 1px solid var(--line); padding: .47em .55em; vertical-align: top; }
+.book .book-body .page-wrapper .page-inner section.normal img { max-width: 100%; height: auto; }
+.book .book-summary { background: #f8fbfb; }
+.book .book-summary ul.summary li.active > a { color: var(--teal); font-weight: 700; }
+.small-note { color: #5a7180; font-size: .91em; }

@@ -1,0 +1,32 @@
+# Pregunta, población y variable objetivo {#pregunta}
+
+## Qué intenta responder el proyecto
+
+El análisis original partió de una pregunta sobre el acceso a atención formal entre personas del Atlántico que declararon un problema de salud reciente. Este libro conserva esa pregunta y la vuelve más precisa: **describe cómo se distribuye una clasificación construida con el tratamiento principal reportado** y evalúa si variables conocidas en el censo permiten ordenar a las personas según esa clasificación.
+
+El objetivo descriptivo es reconocer patrones por edad, sexo, dificultad funcional, lugar de residencia y condiciones del hogar. El objetivo predictivo es medir, con una prueba interna separada, cuánto mejora un modelo frente a predecir siempre la prevalencia del grupo. El propósito analítico es orientar nuevas preguntas y el diseño de visualizaciones; el rendimiento obtenido no basta para asignar servicios o negar derechos a una persona.
+
+## A quién se estudia
+
+El archivo de personas del CNPV 2018 del Atlántico contiene `r entero(resumen$personas_censo)` registros. De ellos, `r entero(resumen$problema_salud)` respondieron que habían tenido un problema de salud en los 30 días previos **sin hospitalización**. En `r entero(resumen$sin_etiqueta)` respuestas no fue posible aplicar la regla completa de clasificación. La cohorte final comprende `r entero(resumen$cohorte)` personas.
+
+Este denominador es fundamental: los porcentajes de los capítulos siguientes se calculan **entre las personas de la cohorte**, no entre toda la población del departamento, ni entre todas las personas con una necesidad clínica. La variable `P_ENFERMO` sirve para definir la cohorte; no entra al modelo como predictor.
+
+## Regla operativa de acceso {#etiqueta}
+
+El notebook original creó `ACCESO_FORMAL_SALUD`. Se asigna **1** a quien declaró como tratamiento principal acudir a su EPS o entidad de seguridad social y reportó haber sido atendido, o acudir a un médico particular. Se asigna **0** a quien declaró acudir a la EPS o entidad y no fue atendido, o reportó alguna de las demás alternativas codificadas en la pregunta (incluida ninguna acción). La tabla \@ref(tab:composicion-regla) muestra el desglose observado.
+
+```{r composicion-regla}
+comp <- leer("composicion_etiqueta.csv")
+comp$Personas <- vapply(comp$n, entero, character(1))
+comp$`% de la cohorte` <- vapply(comp$porcentaje, porcentaje, character(1))
+knitr::kable(comp[, c("tratamiento_principal", "clasificacion", "Personas", "% de la cohorte")],
+             col.names = c("Tratamiento principal declarado", "Clasificación", "Personas", "% de la cohorte"),
+             caption = "Construcción de la etiqueta a partir de las respuestas del CNPV 2018.")
+```
+
+Los `r entero(resumen$sin_formal)` casos de la categoría 0 **no son equivalentes a servicios denegados**. Solo `r entero(comp$n[comp$tratamiento_principal == "EPS/entidad, no atendido"])` declararon haber acudido a su EPS o entidad sin recibir atención. Los restantes `r entero(comp$n[comp$tratamiento_principal == "Otras acciones o ninguna"])` eligieron otra respuesta como tratamiento principal. La pregunta recoge una opción principal: no permite saber si además hubo otras acciones. Tampoco confirma, mediante una pregunta adicional, que la consulta con médico particular se haya concretado; el notebook la clasifica como acceso por la opción declarada.
+
+Para el modelo se invierte la codificación: **`SIN_ACCESO = 1` equivale a `ACCESO_FORMAL_SALUD = 0`**. Se hizo así para evaluar con claridad la categoría menos frecuente. A lo largo del libro, «sin acceso formal» significa únicamente *la clase operativa definida arriba*. No mide afiliación, oportunidad de la atención, calidad percibida, barreras causales ni ausencia de toda atención.
+
+La pregunta censal sobre tratamiento principal y sus opciones se puede consultar en el [diccionario oficial del DANE](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V582?name=P_QUEHIZO_PPAL); la respuesta de atención en la entidad aparece en su [campo correspondiente](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V583?name=PA_LO_ATENDIERON).

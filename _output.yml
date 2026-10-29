@@ -1,9 +1,14 @@
 bookdown::gitbook:
-  css: book.css
+  css: style.css
   split_by: chapter
   config:
     toc:
       collapse: section
-    download: false
-    sharing: null
-    info: false
+      before: |
+        <li><a href="./">Acceso formal a salud · Atlántico</a></li>
+    sharing: false
+    fontsettings:
+      theme: white
+      family: sans
+      size: 2
+  highlight: tango

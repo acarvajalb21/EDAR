@@ -1,0 +1,5 @@
+﻿modelo,codigo,ap_cv,ap_validacion,ap_prueba,roc_auc_prueba,brier_prueba,f1_prueba,precision_prueba,recall_prueba,umbral
+Prevalencia,baseline,,0.210570,0.210610,0.500000,0.166254,0.000000,0.000000,0.000000,0.500000
+Regresión logística,logistica,0.320613,0.329152,0.330389,0.656615,0.157597,0.397282,0.288918,0.635720,0.213180
+Random Forest,random_forest,0.328778,0.333683,0.327566,0.657773,0.157903,0.402911,0.282310,0.703396,0.199811
+Boosting de histogramas,hist_gradient_boosting,0.336373,0.346062,0.338761,0.672829,0.156034,0.412072,0.296783,0.673833,0.201219

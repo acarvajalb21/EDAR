@@ -1,9 +1,15 @@
-book_filename: "eda-acceso-salud-atlantico"
+book_filename: "acceso_formal_salud_atlantico"
 output_dir: "docs"
+delete_merged_file: true
 rmd_files:
   - index.Rmd
-  - EDA_acceso_salud_Atlantico_CNPV2018.Rmd
-delete_merged_file: true
+  - 01-pregunta-y-definicion.Rmd
+  - 02-datos-y-metodo.Rmd
+  - 03-calidad.Rmd
+  - 04-exploracion.Rmd
+  - 05-modelo.Rmd
+  - 06-conclusiones.Rmd
+  - 07-reproducibilidad.Rmd
 language:
   ui:
     chapter_name: "Capítulo "

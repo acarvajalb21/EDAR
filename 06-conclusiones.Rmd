@@ -1,0 +1,26 @@
+# Conclusiones y decisiones para el proyecto {#conclusiones}
+
+## Lo que sí muestran los datos
+
+En la cohorte censal definida para este trabajo, `r porcentaje(resumen$porcentaje_sin_formal)` queda en la clase operativa «sin acceso formal». La etiqueta se explica sobre todo por el tratamiento principal declarado, no por una observación completa de la trayectoria de atención. Las tasas descriptivas varían por dificultad funcional, edad, sexo y territorio. Estas diferencias son útiles para formular preguntas más específicas y para diseñar la navegación del tablero interactivo.
+
+El boosting de histogramas fue el mejor de los modelos probados. Alcanzó AP `r fraccion(modelos$ap_prueba[4])` en la prueba interna frente a `r fraccion(modelos$ap_prueba[1])` del baseline y ROC-AUC `r fraccion(modelos$roc_auc_prueba[4])`. Puede **ordenar perfiles mejor que el azar o la prevalencia constante**, pero deja errores importantes. El umbral que maximiza F1 marcó casi la mitad del conjunto de prueba y su precisión fue cercana al 30 %. El resultado es defendible para exploración y priorización de investigación; no demuestra aptitud para decisiones individuales.
+
+La revisión de 2026 contrastó nuevas variantes de preprocesamiento, variables, parámetros y una mezcla de modelos. Ninguna aportó una mejora de AP suficiente y estable en validación; por eso se mantuvo el boosting original. La revisión también mostró que ajustar por edad reduce, pero no borra, la diferencia de sensibilidad entre personas con y sin dificultad funcional declarada. La exploración territorial refuerza la necesidad de comprobar el modelo en otros lugares y años antes de darle un uso práctico.
+
+## Límites que deben acompañar cada gráfico
+
+1. **Cobertura de la población.** Solo se estudian personas del Atlántico que informaron un problema de salud en los 30 días previos sin hospitalización y recibieron etiqueta clasificable. El 21,06 % no es una tasa actual de todo el departamento.
+2. **Significado de la etiqueta.** `P_QUEHIZO_PPAL` registra el tratamiento principal, no todas las acciones realizadas. La categoría 0 agrupa situaciones muy distintas; solo una parte pequeña registra acudir a la EPS o entidad sin recibir atención. Acudir a médico particular se clasifica como acceso sin confirmación adicional de atención en esa opción.
+3. **Asociación y temporalidad.** El censo es transversal. Las diferencias por vivienda, educación o municipio no prueban mecanismos causales; algunas covariables pueden haberse registrado después del episodio de salud o compartir causas no observadas con la respuesta.
+4. **Generalización.** La prueba se hizo en viviendas distintas, pero dentro del mismo censo y los mismos municipios. No hay validación temporal, geográfica externa ni clínica. Además, el protocolo final surgió de una revisión previa, así que su prueba debe leerse como evidencia interna revisada.
+5. **Equidad.** La sensibilidad del umbral es menor en el grupo que declaró dificultad funcional. Cualquier uso prospectivo necesitaría evaluar subgrupos con muestras apropiadas y justificar el costo de los errores.
+6. **Calidad censal.** Son registros y respuestas observadas. No se corrigen posibles omisiones censales, errores de declaración o sesgos de no respuesta con los archivos disponibles.
+
+## Cómo llevarlo al tablero interactivo
+
+El tablero de Python presenta tres vistas: **Proyecto**, **EDA** y **Modelo y método**. La primera sitúa la pregunta, los objetivos, la fuente, la cohorte y la regla que define la respuesta. EDA filtra municipio, sexo, edad amplia, zona y dificultad funcional; muestra la cobertura de los datos publicados y oculta tasas cuando el grupo o su cobertura son insuficientes. La vista del modelo permite mover el umbral para explorar cómo cambian los avisos y los errores en la prueba de 2018; también muestra curvas, calibración e importancia de variables. Cada gráfico mantiene visible el denominador o la cobertura que permite interpretar su tasa.
+
+La [aplicación pública en Google Cloud Run](https://dataviz-salud-atlantico-409319239507.us-east1.run.app/) lee agregados y métricas del modelo auditado, sin incluir los microdatos crudos ni el archivo de inferencia individual. Sus celdas pequeñas se suprimen y los recuentos publicables se redondean: esto protege la lectura pública, pero puede producir totales filtrados distintos de las cifras exactas de este libro. La cobertura de filtros complejos varía por municipio y el tablero la muestra para que sus resultados aproximados no se confundan con la cohorte completa.
+
+Si se añade una función de predicción, deberá recibir exactamente las 26 variables y sus códigos válidos, aplicar la normalización guardada dentro del pipeline y mostrar la versión del modelo. La salida sería una **puntuación experimental basada en el censo de 2018**, no un dictamen clínico ni una condición para recibir atención. Antes de un uso prospectivo se necesita nueva información, una validación por año y territorio, calibración renovada y acuerdo explícito sobre el costo de falsos positivos y falsos negativos.

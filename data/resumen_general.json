@@ -1,0 +1,25 @@
+{
+  "people": 2342265,
+  "sick": 136114,
+  "unlabeled": 80,
+  "labeled": 136034,
+  "no_access": 28650,
+  "label_breakdown": {
+    "eps_atendido": 97522,
+    "medico_particular": 9862,
+    "eps_no_atendido": 1907,
+    "otras_acciones_o_ninguna": 26743,
+    "accion_no_clasificable": 61,
+    "eps_atencion_no_informa": 19
+  },
+  "house_match": 136034,
+  "dwell_match": 136034,
+  "source_sha256": {
+    "CNPV2018_5PER_A2_08.CSV": "e55981e90717fa238550f332b5a76334dd1854427cd8f161eff151f00b239bab",
+    "CNPV2018_2HOG_A2_08.CSV": "e4ab3a377decabcc3eaa935643770f262aa48d8ce85bc7559c485a33c68a9cc9",
+    "CNPV2018_1VIV_A2_08.CSV": "428ee27091e9c6ef8a052f130fd0f5cc0a766ad11e9f90b978ce89a0423c453d"
+  },
+  "con_formal": 107384,
+  "pct_sin_formal": 21.060911242777543,
+  "pct_con_formal": 78.93908875722246
+}
