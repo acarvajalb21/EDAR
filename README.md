@@ -1,4 +1,4 @@
-# DATAVIZ · Salud en el Atlántico — Bookdown
+# Salud en el Atlántico — Bookdown
 
 Este repositorio contiene el **informe Bookdown vigente** del proyecto de Alejandro Carvajal y Mateo Chang. El [libro publicado](https://acarvajalb21.github.io/EDAR/) se genera desde `index.Rmd` y los capítulos `01`–`07`; `docs/` conserva el HTML listo para GitHub Pages. El antiguo archivo `EDA_acceso_salud_Atlantico_CNPV2018.Rmd` permanece como antecedente, pero no forma parte del libro actual.
 

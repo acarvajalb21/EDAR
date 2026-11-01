@@ -1,10 +1,5 @@
 # Vistas de la aplicación. Los textos conservan las reglas de interpretación del proyecto.
 
-URL_BOOKDOWN <- "https://acarvajalb21.github.io/EDAR/"
-URL_DASH <- "https://dataviz-salud-atlantico-409319239507.us-east1.run.app/"
-URL_NOTEBOOK <- "https://github.com/acarvajalb21/EDAPYTHON/blob/main/Modelo_acceso_salud_Atlantico_CNPV2018.ipynb"
-URL_DANE <- "https://microdatos.dane.gov.co/catalog/643"
-
 enlace <- function(texto, url) tags$a(texto, href = url, target = "_blank", rel = "noopener noreferrer")
 
 panel_g <- function(titulo, meta, contenido, nota = NULL) {
@@ -62,14 +57,14 @@ ruta_svg <- function() {
   yo <- yp + hp + 26; yn <- yo + ho + 16
   etiqueta <- function(v) paste0(fmt_int(v), " · ", fmt_pct(v / total))
   partes <- c(
-    banda(xa + 9, a0, a0 + hd, xb, yd, yd + hd, TK$rio),
-    banda(xa + 9, a0 + hd, a0 + 250, xb, yf, yf + hf, TK$arcilla),
-    banda(xb + 9, yd, yd + he, xc, ye, ye + he, TK$rio),
-    banda(xb + 9, yd + he, yd + hd, xc, yp, yp + hp, TK$rio),
-    banda(xb + 9, yf, yf + ho, xc, yo, yo + ho, TK$arcilla),
-    banda(xb + 9, yf + ho, yf + hf, xc, yn, yn + hn, TK$arcilla),
-    nodo(xa, a0, 250, TK$tinta), nodo(xb, yd, hd, TK$rio), nodo(xb, yf, hf, TK$arcilla),
-    nodo(xc, ye, he, TK$rio), nodo(xc, yp, hp, TK$rio), nodo(xc, yo, ho, TK$arcilla), nodo(xc, yn, hn, TK$arcilla),
+    banda(xa + 9, a0, a0 + hd, xb, yd, yd + hd, TK$dentro),
+    banda(xa + 9, a0 + hd, a0 + 250, xb, yf, yf + hf, TK$fuera),
+    banda(xb + 9, yd, yd + he, xc, ye, ye + he, TK$dentro),
+    banda(xb + 9, yd + he, yd + hd, xc, yp, yp + hp, TK$dentro),
+    banda(xb + 9, yf, yf + ho, xc, yo, yo + ho, TK$fuera),
+    banda(xb + 9, yf + ho, yf + hf, xc, yn, yn + hn, TK$fuera),
+    nodo(xa, a0, 250, TK$tinta), nodo(xb, yd, hd, TK$dentro), nodo(xb, yf, hf, TK$fuera),
+    nodo(xc, ye, he, TK$dentro), nodo(xc, yp, hp, TK$dentro), nodo(xc, yo, ho, TK$fuera), nodo(xc, yn, hn, TK$fuera),
     sprintf('<text x="0" y="168" class="ruta-total">%s</text><text x="0" y="192" class="ruta-nombre">personas con respuesta</text><text x="0" y="210" class="ruta-nombre">clasificable</text>', fmt_int(total)),
     rotulo(xb - 200, yd + hd / 2 - 8, "Dentro de la ruta formal", etiqueta(dentro), "fuerte"),
     rotulo(xb - 200, yf + hf / 2 - 2, "Fuera de la ruta formal", etiqueta(fuera), "fuerte"),
@@ -88,9 +83,9 @@ ruta_lista <- function() {
   b <- EDA$metadata$label_breakdown_exact
   total <- EXACTO$n
   filas <- list(
-    list("EPS y recibió atención", b$eps_atendido, "rio"), list("Médico particular", b$medico_particular, "rio"),
-    list("Otra acción principal o ninguna", b$otras_acciones_o_ninguna, "arcilla"),
-    list("EPS sin atención", b$eps_no_atendido, "arcilla")
+    list("EPS y recibió atención", b$eps_atendido, "dentro"), list("Médico particular", b$medico_particular, "dentro"),
+    list("Otra acción principal o ninguna", b$otras_acciones_o_ninguna, "fuera"),
+    list("EPS sin atención", b$eps_no_atendido, "fuera")
   )
   div(class = "ruta-lista",
       lapply(filas, function(f) {
@@ -102,35 +97,7 @@ ruta_lista <- function() {
 }
 
 vista_panorama <- function() {
-  b <- EDA$metadata$label_breakdown_exact
-  flujo <- EDA$metadata$population_flow
-  tagList(
-    div(id = "relato"),
-    div(class = "vista",
-        tags$section(class = "bloque",
-          h2("La ruta completa"),
-          ruta_svg(), ruta_lista(),
-          p(class = "panel-nota", "Son acciones principales reportadas. «Otra acción o ninguna» incluye farmacia y otras formas de atención; no equivale a ausencia de toda atención.")),
-        div(class = "dos-columnas",
-          div(class = "lectura",
-              h2("Cómo leer esta cifra"),
-              div(class = "lectura-punto", h3("La mayoría no reportó una negativa de la EPS"),
-                  p(paste0("De ", fmt_int(EXACTO$sin_formal), " personas en esta clase, ", fmt_int(b$eps_no_atendido),
-                           " dijeron haber acudido a su EPS sin recibir atención. Las otras ", fmt_int(b$otras_acciones_o_ninguna),
-                           " registraron una acción principal distinta o ninguna."))),
-              div(class = "lectura-punto", h3("No es toda la población"),
-                  p(paste0("De ", fmt_int(flujo$people), " personas censadas, ", fmt_int(flujo$recent_health_problem),
-                           " declararon el problema de salud y ", fmt_int(flujo$analytic), " tienen respuesta clasificable."))),
-              div(class = "lectura-punto", h3("Describe 2018"),
-                  p("Las asociaciones no indican causas ni describen necesariamente la situación actual del departamento."))),
-          panel_g("Una vista por municipio", "Porcentaje fuera de la ruta formal",
-                  plotlyOutput("g_panorama", height = "auto"),
-                  paste0("Municipios con al menos 100 personas y 10 en cada clase; conteos redondeados a 10.",
-                         oracion_omitidos(EDA$municipal_overview$municipio, "en esta vista", "no alcanza ese mínimo"),
-                         " Las diferencias pueden reflejar composición demográfica y otras características."))),
-        p(class = "fuente", "Fuente: microdatos anonimizados del CNPV 2018, DANE. Los cuadros del relato representan grupos, no personas reales.")
-    )
-  )
+  tagList(div(id = "relato"), vista_contenido("panorama"))
 }
 
 pregunta <- function(titulo, respuesta) {
@@ -162,13 +129,27 @@ filtro <- function(id, etiqueta, opciones) {
   selectInput(id, etiqueta, choices = c("Todos", opciones), selected = "Todos", selectize = FALSE)
 }
 
+vista_comparar <- function() {
+  explorar <- CONTENIDO$explorar
+  opciones <- stats::setNames(vapply(explorar$variables, function(v) v$id, character(1)),
+                              vapply(explorar$variables, function(v) v$etiqueta, character(1)))
+  div(class = "c-pila",
+      p(class = "c-entrada", explorar$comparar_entrada),
+      radioButtons("comp_variable", NULL, inline = TRUE, choices = opciones, selected = opciones[[1]]),
+      uiOutput("comp_lectura"),
+      caja(plotlyOutput("g_comparada", height = "auto"), "Fuera de la ruta formal por categoría", "Porcentaje dentro de cada categoría"),
+      p(class = "c-pie", explorar$comparar_nota))
+}
+
 vista_explorar <- function() {
+  explorar <- CONTENIDO$explorar
   div(class = "vista",
       div(class = "encabezado",
           h1(HTML("Elige un grupo y mira qué <em>cambia</em>.")),
           p(class = "entrada", paste0("Compara la proporción cuya acción principal quedó fuera de EPS con atención o médico particular. Al filtrar cambian el grupo, su denominador y la cobertura publicable.",
                                       oracion_omitidos(MUNICIPIOS_CUBO, "en el selector", "ninguno de sus cruces cumple las reglas de publicación")))),
-      div(class = "explorar-marco",
+      div(class = "c-subnav", navset_underline(id = "sub_explorar",
+        nav_panel(explorar$pestanas[[1]], value = "grupos", div(class = "explorar-marco",
           tags$aside(class = "riel", `aria-label` = "Filtros",
               div(class = "filtros",
                   selectizeInput("f_municipio", "Municipio", choices = MUNICIPIOS_CUBO, multiple = TRUE,
@@ -198,7 +179,9 @@ vista_explorar <- function() {
                   downloadButton("descargar", "Descargar selección agregada", class = "boton-secundario", icon = NULL),
                   span(class = "descarga-nota", "El archivo contiene solo celdas publicables y recuentos redondeados.")),
               p(class = "fuente", paste0("Protección de grupos pequeños: ", EDA$metadata$rules, " El cubo publicado cubre ",
-                                         fmt_dec(EDA$metadata$coverage_pct, 2), " % del universo clasificable antes de aplicar filtros."))))
+                                         fmt_dec(EDA$metadata$coverage_pct, 2), " % del universo clasificable antes de aplicar filtros."))))),
+        nav_panel(explorar$pestanas[[2]], value = "comparar", vista_comparar()),
+        nav_panel(explorar$pestanas[[3]], value = "ajuste", div(class = "c-pila", lapply(explorar$ajuste, bloque)))))
   )
 }
 
@@ -270,48 +253,5 @@ vista_modelo <- function() {
               div(h3("Separación cuidadosa"), p("Entrenamiento, validación y prueba se separaron por vivienda. Preprocesamiento y ajustes se hicieron dentro de entrenamiento; el umbral se eligió en validación.")),
               div(h3("Una mejora acotada"), p(paste0("El AP fue ", fmt_dec(f$pr_auc), ", con intervalo interno del 95 % de ", fmt_dec(ic[1]), " a ", fmt_dec(ic[2]), ". La discriminación es moderada."))),
               div(h3("Uso responsable"), p("Los datos son transversales de 2018. Falta validación temporal y geográfica antes de aplicarlo a personas actuales o decisiones de atención."))))
-  )
-}
-
-vista_metodo <- function() {
-  flujo <- EDA$metadata$population_flow
-  div(class = "vista vista-texto",
-      div(class = "encabezado",
-          h1(HTML("Método y <em>fuentes</em>")),
-          p(class = "entrada", "Lo necesario para interpretar esta aplicación. El detalle completo está en el informe.")),
-      tags$section(class = "preguntas",
-        h2(HTML("Lo que conviene <em>preguntar</em>")),
-        pregunta("¿El 21,06 % significa que se negó la atención?",
-                 "No. Es una clasificación de la acción principal declarada. Solo 1.907 de esas 28.650 personas acudieron a su EPS y no recibieron atención; las demás declararon otra acción o ninguna."),
-        pregunta("¿Describe el Atlántico de hoy?",
-                 "No. Son respuestas del censo de 2018 de quienes declararon un problema de salud reciente. No se extrapolan a otros años ni a toda la población."),
-        pregunta("¿Por qué algunas tasas se ocultan?",
-                 "Para proteger grupos pequeños y evitar lecturas engañosas. Una tasa se oculta si su base aproximada es menor de 200 personas o si la cobertura del filtro es menor de 80 %."),
-        pregunta("¿Por qué las cifras filtradas no coinciden con el informe?",
-                 "Las celdas pequeñas se suprimen y los recuentos se redondean. Por eso las cifras de las aplicaciones son aproximadas; las exactas están en el informe."),
-        pregunta("¿El modelo dice qué hará una persona?",
-                 "No. Ordena perfiles dentro del mismo censo, con discriminación moderada, y no debe usarse para decidir sobre personas. Esta aplicación no calcula predicciones individuales.")),
-      tags$section(class = "bloque",
-        h2("Población y respuesta"),
-        p("La unidad es la persona. La cohorte incluye a quienes declararon un problema de salud en los 30 días previos, sin hospitalización, y tienen una respuesta clasificable."),
-        tabla_html(data.frame(Etapa = c("Personas en el archivo censal", "Declararon el problema de salud", "Sin etiqueta clasificable", "Cohorte analítica"),
-                              Personas = fmt_int(c(flujo$people, flujo$recent_health_problem, flujo$unclassifiable, flujo$analytic)))),
-        p("«Dentro de la ruta formal» significa que la acción principal fue acudir a la EPS con atención o a un médico particular. «Fuera» agrupa acudir a la EPS sin atención, otra acción principal o ninguna. El informe usa la expresión «sin acceso formal» para la misma regla.")),
-      tags$section(class = "bloque",
-        h2("Protección de grupos pequeños"),
-        tags$ul(
-          tags$li("La aplicación solo contiene agregados: ningún registro individual ni el modelo serializado."),
-          tags$li("Cruces publicados solo con al menos 30 personas y 5 en cada clase; recuentos redondeados a 5."),
-          tags$li("Panorama municipal con al menos 100 personas y 10 en cada clase; recuentos redondeados a 10."),
-          tags$li("Una tasa se oculta si la base aproximada es menor de 200 o la cobertura del filtro es menor de 80 %."),
-          tags$li("Por esas reglas, las cifras filtradas son aproximadas y pueden diferir de los totales exactos del informe."))),
-      tags$section(class = "bloque",
-        h2("Otros materiales del proyecto"),
-        tags$ul(
-          tags$li(enlace("Informe completo en Bookdown", URL_BOOKDOWN)),
-          tags$li(enlace("Tablero en Dash, con los mismos datos y reglas", URL_DASH)),
-          tags$li(enlace("Notebook del modelo", URL_NOTEBOOK)),
-          tags$li(enlace("Microdatos CNPV 2018 del DANE", URL_DANE)))),
-      p(class = "fuente", "Alejandro Carvajal y Mateo Chang · Proyecto DATAVIZ")
   )
 }

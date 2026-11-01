@@ -2,6 +2,8 @@
 
 EDA <- jsonlite::fromJSON("data/eda.json")
 MODELO <- jsonlite::fromJSON("data/modelo.json")
+CONTENIDO <- jsonlite::fromJSON("data/contenido.json", simplifyVector = FALSE)
+NOMBRE <- CONTENIDO$nombre
 
 EXACTO <- list(n = EDA$metadata$total_labeled_exact, sin_formal = EDA$metadata$no_access_exact)
 EDADES <- EDA$metadata$age_bands

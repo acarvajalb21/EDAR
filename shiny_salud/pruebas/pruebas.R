@@ -10,7 +10,7 @@ suppressPackageStartupMessages({
 for (archivo in list.files("R", full.names = TRUE)) source(archivo, encoding = "UTF-8")
 
 test_that("solo se distribuyen agregados publicables", {
-  expect_setequal(list.files("data"), c("eda.json", "modelo.json"))
+  expect_setequal(list.files("data"), c("contenido.json", "eda.json", "modelo.json"))
   expect_length(list.files(".", pattern = "\\.(joblib|pkl|rds|CSV|csv)$", recursive = TRUE, ignore.case = TRUE), 0)
   cubo <- EDA$cube
   expect_true(all(cubo$n >= 30 & cubo$sin_formal >= 5 & cubo$n - cubo$sin_formal >= 5))
@@ -24,7 +24,7 @@ test_that("solo se distribuyen agregados publicables", {
 test_that("los datos coinciden con los del Dash cuando está disponible", {
   dash <- file.path("..", "..", "EDAPYTHON-main", "dash_salud", "data")
   skip_if_not(dir.exists(dash))
-  for (nombre in c("eda.json", "modelo.json")) {
+  for (nombre in c("contenido.json", "eda.json", "modelo.json")) {
     expect_equal(unname(tools::md5sum(file.path("data", nombre))), unname(tools::md5sum(file.path(dash, nombre))))
   }
 })
@@ -41,9 +41,23 @@ test_that("el relato solo publica agregados y coincide con el del Dash", {
   expect_equal(con_dato$sin_formal, panorama$sin_formal)
   dash <- file.path("..", "..", "EDAPYTHON-main", "dash_salud", "assets")
   skip_if_not(dir.exists(dash))
-  for (nombre in c("relato.js", "relato.css", "relato_datos.json")) {
+  for (nombre in c("relato.js", "relato.css", "relato_datos.json", "contenido.css")) {
     expect_equal(unname(tools::md5sum(file.path("www", nombre))), unname(tools::md5sum(file.path(dash, nombre))))
   }
+})
+
+test_that("las secciones se construyen y solo publican grupos protegidos", {
+  expect_length(CONTENIDO$secciones, 9)
+  for (clave in names(CONTENIDO$paginas)) expect_s3_class(vista_contenido(clave), "shiny.tag")
+  expect_gt(length(barras_contenido()), 5)
+  for (v in CONTENIDO$explorar$variables) {
+    n <- vapply(v$categorias, function(c) c$n, numeric(1))
+    fuera <- vapply(v$categorias, function(c) c$sin_formal, numeric(1))
+    expect_true(all(n >= 100 & fuera >= 10 & n - fuera >= 10 & n %% 10 == 0 & fuera %% 10 == 0))
+  }
+  expect_equal(variable_comparada("edad")$v, "0,163")
+  expect_equal(variable_comparada("municipio")$v, "0,085")
+  expect_false(grepl("valor p ", tolower(as.character(vista_contenido("creacion"))), fixed = TRUE))
 })
 
 test_that("la frase no enuncia tasas ocultas", {
@@ -104,7 +118,8 @@ aplicacion <- source("app.R", encoding = "UTF-8")$value
 test_that("la aplicación reacciona a los filtros y respeta la protección", {
   testServer(aplicacion, {
     session$setInputs(f_municipio = NULL, f_sexo = "Todos", f_edad = "Todos", f_zona = "Todos", f_dificultad = "Todos",
-                      metrica = "tasa", umbral = 0.22, curva = "roc")
+                      metrica = "tasa", umbral = 0.22, curva = "roc", comp_variable = "municipio")
+    expect_match(as.character(output$comp_lectura$html), "0,085", fixed = TRUE)
     expect_match(as.character(output$frase$html), "21,5", fixed = TRUE)
     expect_null(resumen()$referencia)
 

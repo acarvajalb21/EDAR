@@ -1,12 +1,12 @@
 # Gráficas Plotly con los tokens comunes del proyecto (ver DISENO.md).
-# Arcilla significa siempre «fuera de la ruta formal» y río, «dentro». Añil y ocre comparan grupos.
+# El color «fuera» significa siempre «fuera de la ruta formal». Los grupos usan otra pareja.
 
 TK <- list(
-  papel = "#F4F1E9", hoja = "#FDFCF9", tinta = "#13232C", tinta2 = "#465660", tinta3 = "#5F6D75",
-  hilo = "#DDD8CB", base = "#C9C4B6", rio = "#00739A", arcilla = "#C4552D", anil = "#3F5AA6",
-  ocre = "#B57A08", referencia = "#9A978C"
+  fondo = "#F3F5FA", hoja = "#FFFFFF", tinta = "#141C33", tinta2 = "#434C66", tinta3 = "#5D6680",
+  hilo = "#DFE3EE", base = "#C3C9D8", dentro = "#2454D6", fuera = "#E8505B", grupo_a = "#008F88",
+  grupo_b = "#BC7A00", referencia = "#9097A8"
 )
-FUENTE <- "IBM Plex Sans, Segoe UI, Arial, sans-serif"
+FUENTE <- "Plus Jakarta Sans, Segoe UI, Arial, sans-serif"
 
 estilo <- function(p, alto, margen = list(l = 52, r = 18, t = 10, b = 46), leyenda = FALSE) {
   p$x$layout$height <- alto
@@ -37,16 +37,15 @@ fig_vacia <- function(mensaje, alto = 300) {
     plotly::layout(xaxis = list(visible = FALSE), yaxis = list(visible = FALSE))
 }
 
-g_panorama_municipal <- function() {
-  d <- EDA$municipal_overview
-  d$tasa <- 100 * d$sin_formal / d$n
-  d <- d[order(d$tasa), ]
-  plotly::plot_ly(d, x = ~tasa, y = ~factor(municipio, levels = municipio), type = "bar", orientation = "h",
-                  marker = list(color = TK$arcilla),
-                  customdata = ~fmt_int(n),
-                  hovertemplate = "%{y}<br>%{x:.1f} % fuera de la ruta formal<br>Base aproximada: %{customdata}<extra></extra>") |>
-    estilo(600, list(l = 8, r = 18, t = 6, b = 44)) |>
-    plotly::layout(bargap = 0.34, xaxis = list(title = list(text = "Fuera de la ruta formal (%)"), ticksuffix = " %"),
+g_barras <- function(categorias, valores, unidad, color, bases = NULL) {
+  textos <- if (unidad == "%") fmt_pct(valores / 100) else fmt_int(valores)
+  detalle <- if (is.null(bases)) textos else paste0(textos, " · base aproximada ", fmt_int(bases))
+  relleno <- switch(color, fuera = TK$fuera, dentro = TK$dentro, TK$tinta3)
+  plotly::plot_ly(x = rev(valores), y = factor(rev(categorias), levels = rev(categorias)), type = "bar", orientation = "h",
+                  marker = list(color = relleno), text = rev(textos), textposition = "outside", cliponaxis = FALSE,
+                  customdata = rev(detalle), hovertemplate = "%{y}<br>%{customdata}<extra></extra>") |>
+    estilo(max(170, 58 + 25 * length(valores)), list(l = 8, r = 18, t = 6, b = 6)) |>
+    plotly::layout(xaxis = list(visible = FALSE, range = c(0, max(valores) * 1.2)),
                    yaxis = list(title = list(text = ""), gridcolor = "rgba(0,0,0,0)", ticks = ""))
 }
 
@@ -66,7 +65,7 @@ g_ranking <- function(filas, metrica, sexo, edad, zona, dificultad) {
   }
   d <- d[order(d$valor), ]
   plotly::plot_ly(d, x = ~valor, y = ~factor(municipio, levels = municipio), type = "bar", orientation = "h",
-                  marker = list(color = TK$arcilla), customdata = ~fmt_int(n), hovertemplate = tip) |>
+                  marker = list(color = TK$fuera), customdata = ~fmt_int(n), hovertemplate = tip) |>
     estilo(max(170, 58 + 25 * nrow(d)), list(l = 8, r = 18, t = 6, b = 44)) |>
     plotly::layout(bargap = 0.34, xaxis = list(title = list(text = titulo), ticksuffix = sufijo),
                    yaxis = list(title = list(text = ""), gridcolor = "rgba(0,0,0,0)", ticks = ""))
@@ -80,7 +79,7 @@ g_edad <- function(filas, municipios, sexo, zona) {
     x <- d[d$dificultad == grupo, ]
     if (nrow(x) == 0) next
     x <- x[order(match(x$edad, EDADES)), ]
-    color <- if (grupo == "Sin dificultad funcional") TK$anil else TK$ocre
+    color <- if (grupo == "Sin dificultad funcional") TK$grupo_a else TK$grupo_b
     p <- p |>
       plotly::add_trace(x = factor(x$edad, levels = EDADES), y = 100 * x$sin_formal / x$n, type = "scatter",
                         mode = "lines+markers", name = grupo, line = list(color = color, width = 2.5),
@@ -108,7 +107,7 @@ g_composicion <- function(filas, municipios, sexo, edad, zona, dificultad) {
     valores <- 100 * x$sin_formal / x$n
     p <- p |>
       plotly::add_trace(x = factor(x$zona, levels = zonas), y = valores, type = "bar", name = grupo,
-                        marker = list(color = if (grupo == "Mujer") TK$ocre else TK$anil),
+                        marker = list(color = if (grupo == "Mujer") TK$grupo_b else TK$grupo_a),
                         text = fmt_pct(valores / 100), textposition = "outside", cliponaxis = FALSE,
                         textfont = list(color = TK$tinta, family = FUENTE), customdata = fmt_int(x$n),
                         hovertemplate = paste0("%{x}<br>%{y:.1f} % aprox.<br>Base: %{customdata} personas<extra>", grupo, "</extra>"))
@@ -125,7 +124,7 @@ g_comparacion <- function() {
   claves <- names(NOMBRES_MODELO)
   ap <- vapply(claves, function(k) MODELO$models[[k]]$test$pr_auc, numeric(1))
   plotly::plot_ly(x = factor(NOMBRES_MODELO, levels = NOMBRES_MODELO), y = ap, type = "bar",
-                  marker = list(color = c(TK$referencia, TK$base, TK$base, TK$rio)),
+                  marker = list(color = c(TK$referencia, TK$base, TK$base, TK$dentro)),
                   text = fmt_dec(ap), textposition = "outside", cliponaxis = FALSE,
                   textfont = list(color = TK$tinta, family = FUENTE),
                   hovertemplate = "%{x}<br>Average Precision: %{y:.3f}<extra></extra>") |>
@@ -149,7 +148,7 @@ g_curvas <- function(tipo) {
     plotly::add_trace(x = ref$x, y = ref$y, type = "scatter", mode = "lines", name = ref$nombre,
                       line = list(color = TK$referencia, width = 1.5), hoverinfo = "skip") |>
     plotly::add_trace(x = d$x, y = d$y, type = "scatter", mode = "lines", name = "Modelo",
-                      line = list(color = TK$rio, width = 2.5),
+                      line = list(color = TK$dentro, width = 2.5),
                       hovertemplate = paste0(ejes[1], ": %{x:.2f}<br>", ejes[2], ": %{y:.2f}<extra></extra>")) |>
     estilo(330, leyenda = TRUE) |>
     plotly::layout(xaxis = list(title = list(text = ejes[1]), range = c(0, 1)),
@@ -162,8 +161,8 @@ g_calibracion <- function() {
     plotly::add_trace(x = c(0, 55), y = c(0, 55), type = "scatter", mode = "lines", name = "Calibración perfecta",
                       line = list(color = TK$referencia, width = 1.5), hoverinfo = "skip") |>
     plotly::add_trace(x = 100 * d$mean_predicted, y = 100 * d$observed, type = "scatter", mode = "lines+markers", name = "Modelo",
-                      line = list(color = TK$rio, width = 2.5),
-                      marker = list(color = TK$rio, size = 9, line = list(color = TK$hoja, width = 2)),
+                      line = list(color = TK$dentro, width = 2.5),
+                      marker = list(color = TK$dentro, size = 9, line = list(color = TK$hoja, width = 2)),
                       customdata = fmt_int(d$n),
                       hovertemplate = "Predicho: %{x:.1f} %<br>Observado: %{y:.1f} %<br>Base: %{customdata}<extra></extra>") |>
     estilo(330, leyenda = TRUE) |>
@@ -177,7 +176,7 @@ g_importancia <- function() {
   etiquetas <- unname(NOMBRES_VARIABLE[d$feature])
   etiquetas[is.na(etiquetas)] <- d$feature[is.na(etiquetas)]
   plotly::plot_ly(x = d$mean_ap_drop, y = factor(etiquetas, levels = etiquetas), type = "bar", orientation = "h",
-                  marker = list(color = ifelse(d$feature %in% VARIABLES_NUEVAS, TK$rio, TK$base)),
+                  marker = list(color = ifelse(d$feature %in% VARIABLES_NUEVAS, TK$dentro, TK$base)),
                   text = fmt_dec(d$mean_ap_drop), textposition = "outside", cliponaxis = FALSE,
                   textfont = list(color = TK$tinta, family = FUENTE),
                   hovertemplate = "%{y}<br>Caída de AP al permutar: %{x:.3f}<extra></extra>") |>

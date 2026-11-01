@@ -1,6 +1,6 @@
 # Aplicación Shiny · Salud Atlántico
 
-Aplicación en R con cuatro vistas: **Panorama**, **Explorar**, **Modelo** y **Método**. Usa los mismos agregados y las mismas reglas de protección que el tablero Dash. La documentación completa está en el capítulo 8 del Bookdown (`08-aplicacion-shiny.Rmd`) y el sistema visual, en [`DISENO.md`](DISENO.md).
+Aplicación en R con nueve secciones: **Introducción**, **Objetivos**, **Problema**, **Marco teórico**, **EDA univariado**, **EDA multivariado**, **Modelado**, **Modelo** y **Conclusiones**. Usa los mismos agregados, textos y reglas de protección que el tablero Dash. La documentación completa está en el capítulo 8 del Bookdown (`08-aplicacion-shiny.Rmd`) y el sistema visual, en [`DISENO.md`](DISENO.md).
 
 ## Ejecutar
 
@@ -10,7 +10,7 @@ Necesita R 4.6 y los paquetes `shiny`, `bslib`, `plotly` y `jsonlite`. Desde la 
 shiny::runApp("shiny_salud")
 ```
 
-No hacen falta microdatos: `data/` solo contiene `eda.json` y `modelo.json`, copiados de `dash_salud/data/` en EDAPYTHON. Si esos archivos cambian, hay que copiarlos de nuevo y regenerar `pruebas/esperado_dash.json`. `www/relato.js`, `www/relato.css` y `www/relato_datos.json` son los mismos del Dash; `relato_datos.json` se genera con `dash_salud/generar_relato.py`.
+No hacen falta microdatos: `data/` solo contiene `eda.json`, `modelo.json` y `contenido.json`, copiados de `dash_salud/data/` en EDAPYTHON. Si `eda.json` cambia, hay que copiarlo de nuevo y regenerar `pruebas/esperado_dash.json`. `contenido.json` se genera con `dash_salud/generar_contenido.py`, y el nombre del proyecto se cambia ahí. `www/relato.js`, `www/relato.css`, `www/contenido.css` y `www/relato_datos.json` son los mismos del Dash; `relato_datos.json` se genera con `dash_salud/generar_relato.py`.
 
 ## Estructura
 
@@ -20,7 +20,8 @@ No hacen falta microdatos: `data/` solo contiene `eda.json` y `modelo.json`, cop
 | `R/datos.R` | Carga de agregados y constantes |
 | `R/reglas.R` | Filtros, cobertura, ocultación de tasas y referencias |
 | `R/graficos.R` | Gráficas Plotly |
-| `R/vistas.R` | Contenido de cada vista |
+| `R/vistas.R` | Explorar y Modelo, las secciones con controles |
+| `R/contenido.R` | Bloques de las demás secciones, leídos de `contenido.json` |
 | `R/formato.R` | Números en español |
 | `www/` | Estilos, fuentes y relato de apertura |
 | `pruebas/pruebas.R` | Comprobaciones automáticas |

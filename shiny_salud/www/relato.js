@@ -5,7 +5,7 @@
   "use strict";
 
   var origen = document.currentScript ? document.currentScript.src.replace(/[^/]*$/, "") : "";
-  var COLORES = [[244, 241, 233], [46, 159, 198], [217, 111, 63]]; // papel, río y arcilla sobre noche
+  var COLORES = [[243, 245, 250], [90, 134, 242], [236, 92, 120]]; // claro, dentro y fuera sobre noche
   var reducido = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function entero(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+$)/g, "."); }
@@ -46,6 +46,7 @@
     if (window.Shiny && window.Shiny.setInputValue) {
       window.Shiny.setInputValue("relato_municipio", nombre, { priority: "event" });
     } else if (window.dash_clientside && window.dash_clientside.set_props) {
+      window.dash_clientside.set_props("sub-explorar", { value: "0" });
       window.dash_clientside.set_props("f-municipio", { value: [nombre] });
       window.dash_clientside.set_props("nav", { value: "explorar" });
     }
@@ -150,7 +151,10 @@
       proporcion = Math.min(window.devicePixelRatio || 1, 2);
       lienzo.width = W * proporcion; lienzo.height = H * proporcion;
       var movil = W < 860;
-      var area = movil ? { x: 18, y: 92, w: W - 36, h: H * 0.42 - 16 } : { x: W * 0.47, y: 96, w: W * 0.49, h: H - 176 };
+      // El Dash parte su cabecera en dos filas en pantallas medianas.
+      var cabecera = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--cabecera")) || 64;
+      var alto = H - (cabecera - 64);
+      var area = movil ? { x: 18, y: cabecera + 28, w: W - 36, h: alto * 0.42 - 16 } : { x: W * 0.47, y: cabecera + 32, w: W * 0.49, h: alto - 176 };
 
       // 0. Textura del censo a pantalla completa.
       T[0] = rejilla(-10, -10, W + 20, H + 20, X[0], Y[0], total) * 0.34;
@@ -298,7 +302,7 @@
       var titulo = document.createElementNS(svgNS, "title");
       if (m.n) {
         var v = (m.sin_formal / m.n - minimo) / (maximo - minimo);
-        trazo.setAttribute("fill", "rgb(" + Math.round(46 + 182 * v) + "," + Math.round(66 + 56 * v) + "," + Math.round(77 - 8 * v) + ")");
+        trazo.setAttribute("fill", "rgb(" + Math.round(38 + 198 * v) + "," + Math.round(54 + 38 * v) + "," + Math.round(92 + 28 * v) + ")");
         var texto = m.municipio + ": " + pct(m.sin_formal / m.n) + " · base aproximada " + entero(m.n);
         titulo.textContent = texto;
         trazo.setAttribute("tabindex", "-1");

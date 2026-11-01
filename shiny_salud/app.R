@@ -1,4 +1,4 @@
-# DATAVIZ · Salud Atlántico: aplicación Shiny sobre agregados publicables del CNPV 2018.
+# Aplicación Shiny sobre agregados publicables del CNPV 2018.
 # Ejecutar con shiny::runApp("shiny_salud") desde la raíz del repositorio EDAR.
 
 library(shiny)
@@ -6,43 +6,52 @@ library(bslib)
 library(plotly)
 
 tema <- bs_theme(
-  version = 5, bg = TK$papel, fg = TK$tinta, primary = TK$rio, secondary = TK$tinta2,
+  version = 5, bg = TK$fondo, fg = TK$tinta, primary = TK$dentro, secondary = TK$tinta2,
   base_font = FUENTE, heading_font = FUENTE, font_scale = 1, "border-radius" = "6px"
 )
 
-ui <- page_navbar(
-  title = tags$span(class = "marca", tags$span(class = "marca-punto"), "DATAVIZ",
-                    tags$span(class = "marca-sub", "/ Salud Atlántico")),
-  id = "nav", lang = "es", theme = tema, fillable = FALSE, window_title = "Salud Atlántico · DataViz",
+vista <- function(clave) {
+  switch(clave, panorama = vista_panorama(), explorar = vista_explorar(), modelo = vista_modelo(), vista_contenido(clave))
+}
+
+ui <- do.call(page_navbar, c(list(
+  title = tags$span(class = "marca", tags$span(class = "marca-punto"), NOMBRE),
+  id = "nav", lang = "es", theme = tema, fillable = FALSE, window_title = NOMBRE,
   header = tags$head(
-    tags$link(rel = "preload", href = "fonts/ibm-plex-sans-latin-variable.woff2", as = "font", type = "font/woff2", crossorigin = NA),
+    tags$link(rel = "preload", href = "fonts/plus-jakarta-sans-latin-wght-normal.woff2", as = "font", type = "font/woff2", crossorigin = NA),
     tags$link(rel = "stylesheet", href = "relato.css"),
     tags$link(rel = "stylesheet", href = "estilos.css"),
+    tags$link(rel = "stylesheet", href = "contenido.css"),
     tags$script(src = "relato.js"),
     tags$meta(name = "description", content = "Exploración y modelo sobre la ruta de atención declarada en el Atlántico, CNPV 2018."),
-    # En móvil el menú se cierra al elegir una vista.
+    # En móvil el menú se cierra al elegir una sección; las pestañas internas no mueven la página.
     tags$script(HTML("document.addEventListener('click', function (e) {
       var menu = document.querySelector('.navbar-collapse.show');
       if (menu && e.target.closest('.navbar-collapse .nav-link')) bootstrap.Collapse.getOrCreateInstance(menu).hide();
     });
-    document.addEventListener('shown.bs.tab', function () { window.scrollTo({ top: 0, behavior: 'instant' }); });"))
-  ),
-  nav_panel("Panorama", value = "panorama", vista_panorama()),
-  nav_panel("Explorar", value = "explorar", vista_explorar()),
-  nav_panel("Modelo", value = "modelo", vista_modelo()),
-  nav_panel("Método", value = "metodo", vista_metodo()),
-  nav_spacer(),
-  nav_item(enlace("Informe completo", URL_BOOKDOWN))
-)
+    document.addEventListener('shown.bs.tab', function (e) {
+      if (e.target.closest('.navbar')) window.scrollTo({ top: 0, behavior: 'instant' });
+    });"))
+  )),
+  lapply(CONTENIDO$secciones, function(seccion) nav_panel(seccion$etiqueta, value = seccion$id, vista(seccion$id)))
+))
 
 server <- function(input, output, session) {
   observeEvent(input$relato_ir, nav_select("nav", input$relato_ir))
   observeEvent(input$relato_municipio, {
     limpiar_filtros(input$relato_municipio)
+    nav_select("sub_explorar", "grupos")
     nav_select("nav", "explorar")
   })
 
-  output$g_panorama <- renderPlotly(g_panorama_municipal())
+  for (b in barras_contenido()) local({
+    grafica <- b
+    output[[grafica$id]] <- renderPlotly(g_barras(unlist(grafica$categorias), unlist(grafica$valores), grafica$unidad, grafica$color))
+  })
+
+  comparada <- reactive(variable_comparada(input$comp_variable))
+  output$comp_lectura <- renderUI(lectura_comparada(comparada()))
+  output$g_comparada <- renderPlotly(g_comparada(comparada()))
 
   seleccion <- reactive(list(
     municipios = if (is.null(input$f_municipio)) character(0) else input$f_municipio,
@@ -129,7 +138,7 @@ server <- function(input, output, session) {
   })
 
   output$descargar <- downloadHandler(
-    filename = "dataviz_salud_agregados.csv",
+    filename = "salud_atlantico_agregados.csv",
     content = function(archivo) {
       filas <- resumen()$filas[, c("municipio", "sexo", "edad", "zona", "dificultad", "n", "sin_formal")]
       utils::write.csv(filas, archivo, row.names = FALSE, fileEncoding = "UTF-8")
