@@ -39,7 +39,7 @@ def main():
     xt, xv, yt, yv = x.iloc[train], x.iloc[val], y[train], y[val]
     folds = list(StratifiedGroupKFold(n_splits=3, shuffle=True, random_state=SEED + 1)
                  .split(xt, yt, groups[train]))
-    old_artifact = joblib.load(Path(__file__).parents[1] / "resultados" / "modelo_sin_acceso.joblib")
+    old_artifact = joblib.load(Path(__file__).parents[1] / "resultados_v1" / "modelo_sin_acceso.joblib")
     old_score = old_artifact["pipeline"]["clasificador"].predict_proba(xv)[:, 1]
     baseline_val = metrics_rank(yv, old_score)
     models = {

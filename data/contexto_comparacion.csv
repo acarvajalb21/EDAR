@@ -1,0 +1,7 @@
+﻿medida,modelo_26,modelo_28
+AP en validación,0.346062,0.383352
+"AP en CV, viviendas no vistas",0.336373,0.373303
+"AP en CV, secciones no vistas",0.327078,0.356830
+AP en prueba,0.338761,0.374790
+ROC-AUC en prueba,0.672829,0.696298
+Brier en prueba,0.156034,0.152371

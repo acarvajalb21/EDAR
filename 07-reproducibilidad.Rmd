@@ -2,7 +2,7 @@
 
 ## Origen de las cifras
 
-Este Bookdown parte de tres archivos originales del CNPV 2018 del Atlántico, almacenados fuera de esta carpeta. La función `load_data` de `ml_salud.entrenar` aplica la misma regla de etiqueta y las mismas uniones usadas en el experimento. `scripts/preparar_resumen.py` recalcula las tablas y figuras descriptivas, verifica las huellas SHA-256 de los CSV frente a `ml_salud/resultados/resultados.json` y detiene la ejecución si difieren. También vuelve a calcular ROC-AUC, AP y Brier de la prueba a partir del artefacto serializado antes de dibujar las curvas.
+Este Bookdown parte de cuatro archivos originales del CNPV 2018 del Atlántico (personas, hogares, viviendas y `MGN`), almacenados fuera de esta carpeta. La función `load_data` de `ml_salud.entrenar` aplica la misma regla de etiqueta y las mismas uniones usadas en el experimento. `scripts/preparar_resumen.py` recalcula las tablas y figuras descriptivas, verifica las huellas SHA-256 de los CSV frente a `ml_salud/resultados/resultados.json` y detiene la ejecución si difieren. También vuelve a calcular ROC-AUC, AP y Brier de la prueba a partir del artefacto serializado antes de dibujar las curvas.
 
 ```{r huellas}
 huellas <- leer("huellas_archivos.csv")
@@ -12,23 +12,28 @@ knitr::kable(huellas, col.names = c("Archivo fuente", "SHA-256"),
 
 Los CSV incluidos en las fuentes `data/` son **cuadros agregados y resúmenes técnicos**, nunca registros de persona. Para combinaciones de edad o sexo con dificultad y para municipios, el generador descarta celdas con menos de 30 personas o menos de cinco observaciones en cualquiera de las clases. El HTML final contiene los cuadros y gráficos necesarios para leer el informe y no requiere publicar los CSV. La visualización interactiva aplica supresiones y redondeos adicionales. Las imágenes de `figures/` se pueden regenerar con el mismo script.
 
-El detalle de entrenamiento, búsqueda de parámetros, validación y sensibilidad está en `ml_salud/entrenar.py`, `ml_salud/auditoria_sensibilidad.py` y `ml_salud/resultados/INFORME_MODELO.md`. El archivo `ml_salud/resultados/resultados.json` conserva todos los valores, versiones y parámetros que alimentan los cuadros de este libro. La carpeta Bookdown contiene las fuentes R Markdown, la configuración de salida y los productos agregados para leer el informe sin disponer de los microdatos.
+El desarrollo del modelo se puede seguir paso a paso en el [cuaderno Jupyter](https://github.com/acarvajalb21/EDAPYTHON/blob/main/Modelo_acceso_salud_Atlantico_CNPV2018.ipynb) del proyecto. El detalle de entrenamiento, búsqueda de parámetros, validación y sensibilidad está en `ml_salud/entrenar.py`, `ml_salud/auditoria_sensibilidad.py` y `ml_salud/resultados/INFORME_MODELO.md`. El archivo `ml_salud/resultados/resultados.json` conserva todos los valores, versiones y parámetros que alimentan los cuadros de este libro. La versión 1 queda sin cambios en `ml_salud/resultados_v1/`, y el protocolo y la decisión de la versión 2 en `ml_salud/experimento_contexto/`. La carpeta Bookdown contiene las fuentes R Markdown, la configuración de salida y los productos agregados para leer el informe sin disponer de los microdatos.
 
 ## Volver a generar el libro
 
-Desde la raíz de `DATAVIZ`, con el entorno Python del proyecto:
+Para **leer** el libro no hace falta ejecutar nada: basta con abrir `docs/index.html` o la versión publicada. Los pasos siguientes se ejecutan desde la raíz de este repositorio (EDAR).
+
+Para **regenerar** las tablas y figuras se necesitan los cuatro CSV departamentales del DANE y un entorno Python con las dependencias de `ml_salud/requirements.txt`:
 
 ```text
-python bookdown_salud/scripts/preparar_resumen.py --data-dir "RUTA/A/PROYECTO_DISCAPACIDAD/data"
+python scripts/preparar_resumen.py --data-dir "RUTA/A/LOS/CSV_DANE"
+python scripts/preparar_auditoria.py
 ```
 
-Después, desde `bookdown_salud`, con R y el paquete `bookdown` instalado:
+El segundo script no usa microdatos: lee los resultados guardados en `ml_salud/experimentos_2026_10/salidas/` y actualiza los cuadros de la revisión de 2026.
+
+Para **recompilar** el HTML se necesitan R, Pandoc y los paquetes `bookdown`, `rmarkdown` y `knitr`:
 
 ```text
-Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
+Rscript build_bookdown.R
 ```
 
-En este equipo R está instalado en `C:\Program Files\R\R-4.4.1\bin\Rscript.exe`. Los paquetes se instalaron en `.r-lib`, una carpeta local descartable que no forma parte del entregable. El comando exacto para este entorno está en `README.md`. La salida de lectura se encuentra en `_book/index.html` y sus capítulos.
+El script escribe el libro en `docs/`, la carpeta que publica GitHub Pages; en Windows usa el Pandoc incluido con RStudio si no encuentra otro. Si existe una carpeta local `.bookdown-library`, `.Rprofile` la antepone a las bibliotecas de R; es opcional y no forma parte del entregable. Después de recompilar, la copia integrada en el tablero (`dash_salud/informe/` en EDAPYTHON) debe reemplazarse por el contenido de `docs/`.
 
 ## Referencias de interpretación
 

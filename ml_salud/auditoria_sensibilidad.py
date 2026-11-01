@@ -57,7 +57,7 @@ def main():
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument(
         "--output", type=Path,
-        default=Path(__file__).parent / "resultados" / "sensibilidad_validacion.json",
+        default=Path(__file__).parent / "resultados_v1" / "sensibilidad_validacion.json",
     )
     args = parser.parse_args()
     df, _ = load_data(args.data_dir)

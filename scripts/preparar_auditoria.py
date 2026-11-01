@@ -12,7 +12,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 BOOK = ROOT
 AUDIT = ROOT / "ml_salud" / "experimentos_2026_10" / "salidas"
-ORIGINAL = ROOT / "ml_salud" / "resultados" / "resultados.json"
+ORIGINAL = ROOT / "ml_salud" / "resultados_v1" / "resultados.json"
 LABELS = {
     "referencia": "Boosting original reproducido",
     "faltantes_distintos": "Distinguir blancos y códigos sin respuesta",

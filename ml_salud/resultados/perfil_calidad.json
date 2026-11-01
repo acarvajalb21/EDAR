@@ -192,6 +192,20 @@
       "missing_or_sentinel": 424,
       "pct": 0.31168678418630635,
       "unique": 7
+    },
+    {
+      "feature": "HOGAR_OTROS_ENFERMOS",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 12
+    },
+    {
+      "feature": "SECCION_PCT_ENFERMOS",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 20588
     }
   ]
 }

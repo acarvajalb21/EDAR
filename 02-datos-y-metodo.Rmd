@@ -2,7 +2,7 @@
 
 ## Archivos y unidad de análisis
 
-Se utilizaron los microdatos anonimizados de personas (`5PER`), hogares (`2HOG`) y viviendas (`1VIV`) del CNPV 2018 para el Atlántico. La unidad del análisis es **la persona**. El archivo geográfico `MGN` se inspeccionó en la revisión del proyecto, pero no se necesita para el modelo ni para las tablas de este libro.
+Se utilizaron los microdatos anonimizados de personas (`5PER`), hogares (`2HOG`) y viviendas (`1VIV`) del CNPV 2018 para el Atlántico. La unidad del análisis es **la persona**. El archivo geográfico `MGN` asigna cada vivienda a su sección censal; se usa solo para calcular una variable de contexto del modelo (sección \@ref(modelo-contexto-2026)). El libro no publica cifras por sección.
 
 El vínculo entre personas y hogares usa departamento, municipio, clase de área, encuesta, vivienda y número de hogar. El vínculo posterior con vivienda usa esas mismas claves, excepto el número de hogar. El programa exige unicidad de la clave de hogar y de vivienda, conserva la cardinalidad de personas y detiene la ejecución si alguna persona queda sin enlace. Los `r entero(resumen$cohorte)` registros analíticos se enlazaron a hogar y vivienda; no se encontraron claves de persona duplicadas.
 
@@ -23,7 +23,7 @@ Se cuentan los registros observados en los archivos; no se aplican factores de e
 
 ## Diccionario de predictores
 
-El modelo principal utiliza **26 variables**: diez de persona, cinco de hogar y once de vivienda. La tabla \@ref(tab:diccionario) nombra cada campo y su nivel. Para los códigos de cada respuesta se debe consultar el [catálogo del CNPV 2018](https://microdatos.dane.gov.co/catalog/643). El número que aparece en un CSV no transforma automáticamente una categoría en cantidad: municipio, sexo y materiales son ejemplos de códigos nominales.
+El modelo vigente utiliza **28 variables**: diez de persona, cinco de hogar, once de vivienda y dos de contexto de salud, una del hogar y otra de la sección censal. La tabla \@ref(tab:diccionario) nombra cada campo y su nivel. Para los códigos de cada respuesta se debe consultar el [catálogo del CNPV 2018](https://microdatos.dane.gov.co/catalog/643). El número que aparece en un CSV no transforma automáticamente una categoría en cantidad: municipio, sexo y materiales son ejemplos de códigos nominales.
 
 ```{r diccionario}
 dic <- leer("diccionario_modelo.csv")
@@ -36,9 +36,9 @@ La edad `P_EDADR` corresponde a intervalos quinquenales, de 0–4 hasta 100 año
 
 ## Qué se excluyó para reducir fuga de información
 
-`P_QUEHIZO_PPAL` y `PA_LO_ATENDIERON` construyen la respuesta: incluirlas como predictores permitiría al modelo leer directamente la solución. `PA1_CALIDAD_SERV` se conoce después de la experiencia con el servicio. Se excluyeron también identificadores, copias de la etiqueta y `P_ENFERMO`, que ya define la cohorte.
+`P_QUEHIZO_PPAL` y `PA_LO_ATENDIERON` construyen la respuesta: incluirlas como predictores permitiría al modelo leer directamente la solución. `PA1_CALIDAD_SERV` se conoce después de la experiencia con el servicio. Se excluyeron también identificadores, copias de la etiqueta y el `P_ENFERMO` de la propia persona, que ya define la cohorte. Las dos variables de contexto usan esa pregunta en otras personas, no la acción que declararon.
 
-Se retiraron `P_TRABAJO` y `PA_ASISTENCIA` del modelo principal porque el censo las registra en una ventana temporal cercana al episodio de salud y podrían reflejar consecuencias de este. Al incluirlas en un contraste de sensibilidad, la AP de validación subió de 0,346 a 0,355. Se aceptó esa diferencia pequeña a cambio de una definición de entrada con menor ambigüedad temporal. Esto **no demuestra** que todas las demás covariables sean anteriores al problema de salud.
+Se retiraron `P_TRABAJO` y `PA_ASISTENCIA` del modelo principal porque el censo las registra en una ventana temporal cercana al episodio de salud y podrían reflejar consecuencias de este. Al incluirlas en un contraste de sensibilidad sobre el modelo de 26 variables, la AP de validación subió de 0,346 a 0,355. Se aceptó esa diferencia pequeña a cambio de una definición de entrada con menor ambigüedad temporal. Esto **no demuestra** que todas las demás covariables sean anteriores al problema de salud.
 
 ## Separación y preprocesamiento
 

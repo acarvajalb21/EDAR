@@ -1,0 +1,208 @@
+{
+  "complete": true,
+  "candidates": [
+    {
+      "name": "referencia",
+      "spec": {
+        "name": "referencia",
+        "distinct_missing": false,
+        "density": false,
+        "age_category": false,
+        "leaves": 31,
+        "iterations": 320
+      },
+      "fold_ap": [
+        0.3392721013662382,
+        0.33770862454492423,
+        0.33213699588568313
+      ],
+      "cv_mean_ap": 0.33637257393228187,
+      "cv_sd_ap": 0.003750494098691305,
+      "validation": {
+        "n": 19433,
+        "positives": 4092,
+        "ap": 0.3460616070316228,
+        "roc_auc": 0.672327764142919,
+        "brier": 0.1557329315213242
+      },
+      "elapsed_seconds": 17.507
+    },
+    {
+      "name": "faltantes_distintos",
+      "spec": {
+        "name": "faltantes_distintos",
+        "distinct_missing": true,
+        "density": false,
+        "age_category": false,
+        "leaves": 31,
+        "iterations": 320
+      },
+      "fold_ap": [
+        0.33892595155276595,
+        0.33831800815353896,
+        0.33280718069309534
+      ],
+      "cv_mean_ap": 0.3366837134664668,
+      "cv_sd_ap": 0.0033709091579917864,
+      "validation": {
+        "n": 19433,
+        "positives": 4092,
+        "ap": 0.3452384924347216,
+        "roc_auc": 0.6719054568087625,
+        "brier": 0.15578568064308884
+      },
+      "elapsed_seconds": 26.437
+    },
+    {
+      "name": "personas_por_dormitorio",
+      "spec": {
+        "name": "personas_por_dormitorio",
+        "distinct_missing": false,
+        "density": true,
+        "age_category": false,
+        "leaves": 31,
+        "iterations": 320
+      },
+      "fold_ap": [
+        0.3365680699576675,
+        0.33860971910637105,
+        0.33053070332754325
+      ],
+      "cv_mean_ap": 0.33523616413052726,
+      "cv_sd_ap": 0.004200964631833356,
+      "validation": {
+        "n": 19433,
+        "positives": 4092,
+        "ap": 0.34476818506429224,
+        "roc_auc": 0.6718662216768704,
+        "brier": 0.15581595523043945
+      },
+      "elapsed_seconds": 23.045
+    },
+    {
+      "name": "faltantes_y_densidad",
+      "spec": {
+        "name": "faltantes_y_densidad",
+        "distinct_missing": true,
+        "density": true,
+        "age_category": false,
+        "leaves": 31,
+        "iterations": 320
+      },
+      "fold_ap": [
+        0.3357082581383293,
+        0.33809265949413986,
+        0.3307288814651598
+      ],
+      "cv_mean_ap": 0.33484326636587625,
+      "cv_sd_ap": 0.003757321491412593,
+      "validation": {
+        "n": 19433,
+        "positives": 4092,
+        "ap": 0.34406725800169025,
+        "roc_auc": 0.671359350925073,
+        "brier": 0.15587979800681678
+      },
+      "elapsed_seconds": 24.873
+    },
+    {
+      "name": "edad_categorica_y_densidad",
+      "spec": {
+        "name": "edad_categorica_y_densidad",
+        "distinct_missing": false,
+        "density": true,
+        "age_category": true,
+        "leaves": 31,
+        "iterations": 320
+      },
+      "fold_ap": [
+        0.33455228800432835,
+        0.33486560301589424,
+        0.3314299084959192
+      ],
+      "cv_mean_ap": 0.33361593317204724,
+      "cv_sd_ap": 0.0018996235120672617,
+      "validation": {
+        "n": 19433,
+        "positives": 4092,
+        "ap": 0.34469091463314505,
+        "roc_auc": 0.6711425780161048,
+        "brier": 0.15587392684629883
+      },
+      "elapsed_seconds": 26.449
+    },
+    {
+      "name": "boost_mas_regularizado",
+      "spec": {
+        "name": "boost_mas_regularizado",
+        "distinct_missing": false,
+        "density": false,
+        "age_category": false,
+        "leaves": 15,
+        "iterations": 240
+      },
+      "fold_ap": [
+        0.3372036982811264,
+        0.3391951297268376,
+        0.32812949916476436
+      ],
+      "cv_mean_ap": 0.33484277572424276,
+      "cv_sd_ap": 0.00589851773107224,
+      "validation": {
+        "n": 19433,
+        "positives": 4092,
+        "ap": 0.34480177995722083,
+        "roc_auc": 0.6716273302211575,
+        "brier": 0.15590678413694029
+      },
+      "elapsed_seconds": 16.369
+    }
+  ],
+  "decision": {
+    "best_challenger_by_cv": "faltantes_distintos",
+    "paired_validation": {
+      "method": "paired dwelling bootstrap percentile",
+      "repetitions": 250,
+      "delta_ap": -0.0008231145969012088,
+      "delta_ap_interval_95": [
+        -0.003495198444062218,
+        0.0017407433809978822
+      ]
+    },
+    "promotion_rule_passed": false,
+    "selected": "referencia",
+    "calibration": {
+      "method": "Platt on grouped OOF training scores",
+      "raw_validation": {
+        "n": 19433,
+        "positives": 4092,
+        "ap": 0.3460616070316228,
+        "roc_auc": 0.672327764142919,
+        "brier": 0.1557329315213242
+      },
+      "calibrated_validation": {
+        "n": 19433,
+        "positives": 4092,
+        "ap": 0.3460616070316228,
+        "roc_auc": 0.672327764142919,
+        "brier": 0.15573806689399344
+      },
+      "adopted": false
+    },
+    "threshold_from_validation_f1": 0.20121940171757335,
+    "f1_validation": 0.4130547914653186
+  },
+  "versions": {
+    "python": "3.14.6",
+    "pandas": "3.0.5",
+    "numpy": "2.5.2",
+    "scikit_learn": "1.9.1"
+  },
+  "seed": 42,
+  "total_elapsed_seconds": 231.96,
+  "packages_unavailable": [
+    "catboost",
+    "lightgbm",
+    "xgboost"
+  ]
+}

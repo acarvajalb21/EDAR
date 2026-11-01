@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Capítulo 4 Exploración descriptiva | Acceso formal a salud en el Atlántico</title>
   <meta name="description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
-  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Capítulo 4 Exploración descriptiva | Acceso formal a salud en el Atlántico" />
   <meta property="og:type" content="book" />
@@ -20,7 +20,7 @@
   <meta name="twitter:description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
   
 
-<meta name="author" content="Proyecto DATAVIZ" />
+<meta name="author" content="Alejandro Carvajal y Mateo Chang · Proyecto DATAVIZ" />
 
 
 
@@ -53,6 +53,70 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
   
@@ -109,7 +173,12 @@
 <li class="chapter" data-level="5.3" data-path="modelo.html"><a href="modelo.html#curvas-calibraci%C3%B3n-y-umbral"><i class="fa fa-check"></i><b>5.3</b> Curvas, calibración y umbral</a></li>
 <li class="chapter" data-level="5.4" data-path="modelo.html"><a href="modelo.html#variables-relevantes-y-diferencias-entre-grupos"><i class="fa fa-check"></i><b>5.4</b> Variables relevantes y diferencias entre grupos</a></li>
 <li class="chapter" data-level="5.5" data-path="modelo.html"><a href="modelo.html#revision-modelo-2026"><i class="fa fa-check"></i><b>5.5</b> Revisión adicional del modelo en 2026</a></li>
-<li class="chapter" data-level="5.6" data-path="modelo.html"><a href="modelo.html#alcance-de-la-prueba"><i class="fa fa-check"></i><b>5.6</b> Alcance de la prueba</a></li>
+<li class="chapter" data-level="5.6" data-path="modelo.html"><a href="modelo.html#modelo-contexto-2026"><i class="fa fa-check"></i><b>5.6</b> Modelo con contexto de salud (versión 2)</a>
+<ul>
+<li class="chapter" data-level="" data-path="modelo.html"><a href="modelo.html#qu%C3%A9-significan-estas-variables"><i class="fa fa-check"></i>Qué significan estas variables</a></li>
+<li class="chapter" data-level="" data-path="modelo.html"><a href="modelo.html#errores-y-diferencias-entre-grupos"><i class="fa fa-check"></i>Errores y diferencias entre grupos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="modelo.html"><a href="modelo.html#alcance-de-la-prueba"><i class="fa fa-check"></i><b>5.7</b> Alcance de la prueba</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>6</b> Conclusiones y decisiones para el proyecto</a>
 <ul>
@@ -122,6 +191,15 @@
 <li class="chapter" data-level="7.1" data-path="reproducibilidad.html"><a href="reproducibilidad.html#origen-de-las-cifras"><i class="fa fa-check"></i><b>7.1</b> Origen de las cifras</a></li>
 <li class="chapter" data-level="7.2" data-path="reproducibilidad.html"><a href="reproducibilidad.html#volver-a-generar-el-libro"><i class="fa fa-check"></i><b>7.2</b> Volver a generar el libro</a></li>
 <li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias-de-interpretaci%C3%B3n"><i class="fa fa-check"></i><b>7.3</b> Referencias de interpretación</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>8</b> Aplicación Shiny</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="shiny.html"><a href="shiny.html#datos-que-usa"><i class="fa fa-check"></i><b>8.1</b> Datos que usa</a></li>
+<li class="chapter" data-level="8.2" data-path="shiny.html"><a href="shiny.html#reglas-de-protecci%C3%B3n"><i class="fa fa-check"></i><b>8.2</b> Reglas de protección</a></li>
+<li class="chapter" data-level="8.3" data-path="shiny.html"><a href="shiny.html#c%C3%B3mo-funciona-la-reactividad"><i class="fa fa-check"></i><b>8.3</b> Cómo funciona la reactividad</a></li>
+<li class="chapter" data-level="8.4" data-path="shiny.html"><a href="shiny.html#dise%C3%B1o"><i class="fa fa-check"></i><b>8.4</b> Diseño</a></li>
+<li class="chapter" data-level="8.5" data-path="shiny.html"><a href="shiny.html#comprobaciones"><i class="fa fa-check"></i><b>8.5</b> Comprobaciones</a></li>
+<li class="chapter" data-level="8.6" data-path="shiny.html"><a href="shiny.html#despliegue"><i class="fa fa-check"></i><b>8.6</b> Despliegue</a></li>
 </ul></li>
 </ul>
 
@@ -148,7 +226,7 @@
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-composicion"></span>
 <img src="figures/composicion_etiqueta.png" alt="Distribución por tratamiento principal declarado. Azul: con acceso según la regla; rojo: sin acceso según la regla. La categoría de otras acciones o ninguna no implica que jamás se haya recibido atención formal." width="96%" />
 <p class="caption">
-Figure 4.1: Distribución por tratamiento principal declarado. Azul: con acceso según la regla; rojo: sin acceso según la regla. La categoría de otras acciones o ninguna no implica que jamás se haya recibido atención formal.
+Figura 4.1: Distribución por tratamiento principal declarado. Azul: con acceso según la regla; rojo: sin acceso según la regla. La categoría de otras acciones o ninguna no implica que jamás se haya recibido atención formal.
 </p>
 </div>
 <p>La gran mayoría de personas clasificadas con acceso proviene de la combinación «EPS o entidad, atendido» (97.522). En el grupo clasificado sin acceso predominan las otras acciones o ninguna (26.743), frente a los 1.907 que dijeron haber acudido a su entidad sin atención. Esta composición debe acompañar cualquier titular del resultado: la cifra de 21,1 % <strong>no es una tasa de rechazo de servicios</strong>.</p>
@@ -158,7 +236,7 @@ Figure 4.1: Distribución por tratamiento principal declarado. Azul: con acceso 
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-dificultad"></span>
 <img src="figures/dificultad.png" alt="Distribución de la clasificación dentro de cada categoría de dificultad funcional diaria declarada. Los recuentos se muestran junto a las barras." width="96%" />
 <p class="caption">
-Figure 4.2: Distribución de la clasificación dentro de cada categoría de dificultad funcional diaria declarada. Los recuentos se muestran junto a las barras.
+Figura 4.2: Distribución de la clasificación dentro de cada categoría de dificultad funcional diaria declarada. Los recuentos se muestran junto a las barras.
 </p>
 </div>
 <p>En la cohorte, 15,1 % del grupo con dificultad funcional queda en la clase operativa sin acceso, frente a 22,4 % del grupo sin dificultad. El contraste va en dirección contraria a una lectura intuitiva de «mayor dificultad, menor acceso». La composición de edades, municipios, respuestas y otras condiciones puede contribuir a esa diferencia; estos porcentajes brutos no aíslan mecanismos ni permiten concluir que la dificultad proteja frente a barreras.</p>
@@ -168,19 +246,19 @@ Figure 4.2: Distribución de la clasificación dentro de cada categoría de difi
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-edad"></span>
 <img src="figures/edad_dificultad.png" alt="Porcentaje en la clase operativa sin acceso por edad y dificultad funcional. Se omiten combinaciones con menos de 30 personas o menos de cinco observaciones en cualquiera de las dos clases." width="96%" />
 <p class="caption">
-Figure 4.3: Porcentaje en la clase operativa sin acceso por edad y dificultad funcional. Se omiten combinaciones con menos de 30 personas o menos de cinco observaciones en cualquiera de las dos clases.
+Figura 4.3: Porcentaje en la clase operativa sin acceso por edad y dificultad funcional. Se omiten combinaciones con menos de 30 personas o menos de cinco observaciones en cualquiera de las dos clases.
 </p>
 </div>
 <p>Las curvas por edad muestran que la distancia entre los dos grupos funcionales no es constante. Además, los grupos de edad avanzada tienen tamaños distintos de los grupos jóvenes. En vez de traducir el promedio general en una explicación sobre dificultad funcional, conviene leer las tasas junto a sus denominadores en el cuadro agregado <code>data/edad_dificultad.csv</code> <strong>de las fuentes del proyecto</strong> y recordar que la cohorte está condicionada a haber declarado el problema de salud.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-sexo"></span>
 <img src="figures/sexo_dificultad.png" alt="Porcentaje en la clase operativa sin acceso por sexo registrado y dificultad funcional. Cada barra utiliza como denominador su combinación de sexo y dificultad." width="96%" />
 <p class="caption">
-Figure 4.4: Porcentaje en la clase operativa sin acceso por sexo registrado y dificultad funcional. Cada barra utiliza como denominador su combinación de sexo y dificultad.
+Figura 4.4: Porcentaje en la clase operativa sin acceso por sexo registrado y dificultad funcional. Cada barra utiliza como denominador su combinación de sexo y dificultad.
 </p>
 </div>
 <p>La tabla <a href="exploracion.html#tab:sexo-dificultad">4.1</a> permite ver recuentos y tasas detrás de las barras. En cada combinación la base es suficientemente grande para una comparación descriptiva, pero no se estandarizó por edad ni por territorio.</p>
 <table>
-<caption><span id="tab:sexo-dificultad">Table 4.1: </span>Cruce descriptivo de sexo y dificultad funcional.</caption>
+<caption><span id="tab:sexo-dificultad">Tabla 4.1: </span>Cruce descriptivo de sexo y dificultad funcional.</caption>
 <thead>
 <tr class="header">
 <th align="left">Sexo</th>
@@ -227,12 +305,12 @@ Figure 4.4: Porcentaje en la clase operativa sin acceso por sexo registrado y di
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-municipio"></span>
 <img src="figures/municipio.png" alt="Porcentaje en la clase operativa sin acceso por municipio. Se publican municipios con al menos 30 personas y al menos cinco observaciones en cada clase; la línea roja muestra la tasa de la cohorte completa." width="96%" />
 <p class="caption">
-Figure 4.5: Porcentaje en la clase operativa sin acceso por municipio. Se publican municipios con al menos 30 personas y al menos cinco observaciones en cada clase; la línea roja muestra la tasa de la cohorte completa.
+Figura 4.5: Porcentaje en la clase operativa sin acceso por municipio. Se publican municipios con al menos 30 personas y al menos cinco observaciones en cada clase; la línea roja muestra la tasa de la cohorte completa.
 </p>
 </div>
 <p>El municipio agrupa contextos sociales y de oferta distintos; es un descriptor potente, pero no equivale a una explicación causal. Las diferencias de la figura no están ajustadas por estructura etaria o composición de la cohorte. Los municipios con pocos registros merecen cautela adicional; por eso se excluyen de los agregados publicables las celdas que no alcanzan los mínimos indicados en la leyenda. El archivo agregado <code>data/municipio.csv</code>, <strong>en las fuentes del Bookdown</strong>, incluye el denominador de cada tasa visible.</p>
 <table>
-<caption><span id="tab:area-tabla">Table 4.2: </span>Clasificación por tipo de área censal dentro de la cohorte.</caption>
+<caption><span id="tab:area-tabla">Tabla 4.2: </span>Clasificación por tipo de área censal dentro de la cohorte.</caption>
 <thead>
 <tr class="header">
 <th align="left">Clase de área</th>

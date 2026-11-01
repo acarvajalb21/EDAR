@@ -23,7 +23,7 @@ def main():
     x = prepare_features(df)
     y = df.SIN_ACCESO.to_numpy()
     _, _, test = split_three(x, y, group_ids(df))
-    original = joblib.load(Path(__file__).parents[1] / "resultados" / "modelo_sin_acceso.joblib")
+    original = joblib.load(Path(__file__).parents[1] / "resultados_v1" / "modelo_sin_acceso.joblib")
     candidate = joblib.load(Path(__file__).parent / "salidas" / "candidato_separado.joblib")
     old_score = original["pipeline"]["clasificador"].predict_proba(x.iloc[test])[:, 1]
     new_score = candidate["predictor"].predict_proba(df.iloc[test][FEATURES])[:, 1]

@@ -46,7 +46,7 @@ from ml_salud.experimentos_2026_10.preprocesamiento import (
 )
 
 HERE = Path(__file__).resolve().parent
-ORIGINAL = HERE.parent / "resultados"
+ORIGINAL = HERE.parent / "resultados_v1"
 BOOTSTRAPS = 250
 
 

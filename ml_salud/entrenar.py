@@ -41,17 +41,18 @@ from sklearn.model_selection import GridSearchCV, StratifiedGroupKFold
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer, OneHotEncoder, OrdinalEncoder, StandardScaler
 
+from ml_salud.contexto import (
+    CONTEXT_FEATURES, DWELL_KEY, FEATURES_V2, HOUSE_KEY, MGN_FILE, NUMERIC_V2, PERSON_FILE,
+    add_context, prepare_features_v2,
+)
 from ml_salud.esquema import (
     CATEGORICAL, DWELL_FEATURES, EXCLUDED_TEMPORAL, FEATURES, HOUSE_FEATURES,
-    LEAKAGE_COLUMNS, NUMERIC, PERSON_SOURCE_FEATURES, prepare_features,
+    LEAKAGE_COLUMNS, NUMERIC, PERSON_SOURCE_FEATURES,
 )
 
 SEED = 42
-PERSON_FILE = "CNPV2018_5PER_A2_08.CSV"
 HOUSE_FILE = "CNPV2018_2HOG_A2_08.CSV"
 DWELL_FILE = "CNPV2018_1VIV_A2_08.CSV"
-DWELL_KEY = ["U_DPTO", "U_MPIO", "UA_CLASE", "COD_ENCUESTAS", "U_VIVIENDA"]
-HOUSE_KEY = DWELL_KEY + ["P_NROHOG"]
 PERSON_KEY = HOUSE_KEY + ["P_NRO_PER"]
 
 
@@ -63,7 +64,7 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def load_data(data_dir: Path):
+def load_data(data_dir: Path, with_context: bool = False):
     paths = [data_dir / name for name in (PERSON_FILE, HOUSE_FILE, DWELL_FILE)]
     for path in paths:
         if not path.is_file():
@@ -121,6 +122,9 @@ def load_data(data_dir: Path):
         "house_match": house_match, "dwell_match": dwell_match,
         "source_sha256": {p.name: sha256(p) for p in paths},
     }
+    if with_context:
+        sick = add_context(sick, data_dir)
+        source["source_sha256"][MGN_FILE] = sha256(data_dir / MGN_FILE)
     return sick, source
 
 
@@ -147,9 +151,9 @@ def split_three(x, y, groups):
     return train, val, test
 
 
-def encoded_preprocessor(age_as_category=False):
+def encoded_preprocessor(age_as_category=False, numeric=NUMERIC):
     cats = CATEGORICAL + (["P_EDADR"] if age_as_category else [])
-    nums = [column for column in NUMERIC if column not in cats]
+    nums = [column for column in numeric if column not in cats]
     return ColumnTransformer([
         ("cat", OneHotEncoder(handle_unknown="ignore", min_frequency=50), cats),
         ("num", Pipeline([
@@ -159,12 +163,12 @@ def encoded_preprocessor(age_as_category=False):
     ])
 
 
-def hist_preprocessor():
+def hist_preprocessor(numeric=NUMERIC):
     return ColumnTransformer([
         ("cat", OrdinalEncoder(
             handle_unknown="use_encoded_value", unknown_value=-1,
         ), CATEGORICAL),
-        ("num", SimpleImputer(strategy="median", add_indicator=True), NUMERIC),
+        ("num", SimpleImputer(strategy="median", add_indicator=True), numeric),
     ], sparse_threshold=0)
 
 
@@ -191,6 +195,19 @@ def optimize_threshold(y, score):
     )
     best = int(np.argmax(f1))
     return float(threshold[best]), float(f1[best])
+
+
+def priorizacion(y, score, fractions=(0.05, 0.10, 0.20)):
+    """Resultados al revisar solo la fracción de mayor puntuación."""
+    order = np.argsort(-score, kind="stable")
+    rows = []
+    for fraction in fractions:
+        k = int(np.ceil(len(y) * fraction))
+        found = int(y[order[:k]].sum())
+        rows.append({"fraction": fraction, "reviewed": k, "positives_found": found,
+                     "precision": found / k, "recall": found / int(y.sum()),
+                     "lift": (found / k) / float(y.mean())})
+    return rows
 
 
 def calibration_bins(y, score, bins=10):
@@ -299,8 +316,8 @@ def main():
     args = parser.parse_args()
     out = args.output_dir.resolve()
     out.mkdir(parents=True, exist_ok=True)
-    df, source = load_data(args.data_dir)
-    x = prepare_features(df)
+    df, source = load_data(args.data_dir, with_context=True)
+    x = prepare_features_v2(df)
     quality = {
         "n": len(df),
         "excluded_temporal_missing": {
@@ -326,7 +343,7 @@ def main():
                 ),
                 "unique": int(df[column].nunique(dropna=True)),
             }
-            for column in FEATURES
+            for column in FEATURES_V2
         ],
     }
     (out / "perfil_calidad.json").write_text(
@@ -350,12 +367,12 @@ def main():
     cv = StratifiedGroupKFold(n_splits=3, shuffle=True, random_state=SEED + 1)
     specs = {
         "logistica": (
-            Pipeline([("prep", encoded_preprocessor(age_as_category=True)),
+            Pipeline([("prep", encoded_preprocessor(age_as_category=True, numeric=NUMERIC_V2)),
                       ("model", LogisticRegression(max_iter=1000, solver="lbfgs"))]),
             {"model__C": [0.05, 0.5, 5.0], "model__class_weight": [None, "balanced"]},
         ),
         "random_forest": (
-            Pipeline([("prep", encoded_preprocessor()),
+            Pipeline([("prep", encoded_preprocessor(numeric=NUMERIC_V2)),
                       ("model", RandomForestClassifier(
                           n_estimators=120, n_jobs=4, random_state=SEED
                       ))]),
@@ -363,7 +380,7 @@ def main():
              "model__min_samples_leaf": [10, 40]},
         ),
         "hist_gradient_boosting": (
-            Pipeline([("prep", hist_preprocessor()),
+            Pipeline([("prep", hist_preprocessor(numeric=NUMERIC_V2)),
                       ("model", HistGradientBoostingClassifier(
                           categorical_features=list(range(len(CATEGORICAL))),
                           early_stopping=False, random_state=SEED,
@@ -449,7 +466,7 @@ def main():
                 "std_ap_drop": float(std),
             }
             for feature, mean, std in zip(
-                FEATURES, importance.importances_mean, importance.importances_std
+                FEATURES_V2, importance.importances_mean, importance.importances_std
             )
         ],
         key=lambda item: item["mean_ap_drop"], reverse=True,
@@ -465,8 +482,9 @@ def main():
             "pr_auc almacena average_precision_score de scikit-learn "
             "(Average Precision no interpolada), no el área trapezoidal PR"
         ),
-        "source": source, "split": split_info, "features": FEATURES,
-        "numeric_features": NUMERIC, "excluded_leakage": sorted(LEAKAGE_COLUMNS),
+        "model_version": 2, "context_features": CONTEXT_FEATURES,
+        "source": source, "split": split_info, "features": FEATURES_V2,
+        "numeric_features": NUMERIC_V2, "excluded_leakage": sorted(LEAKAGE_COLUMNS),
         "excluded_temporal": EXCLUDED_TEMPORAL,
         "models": model_results, "selected_model": selected,
         "thresholds_from_validation": thresholds,
@@ -474,6 +492,7 @@ def main():
         "validation_f1_at_selected_threshold": val_best_f1,
         "test_metrics": test_metrics,
         "selected_test_at_0_5": metricas(yh, selected_test, 0.5),
+        "prioritization_test": priorizacion(yh, selected_test),
         "test_uncertainty": uncertainty,
         "calibration_deciles_test": calibration_bins(yh, selected_test),
         "permutation_importance_validation": ranking,
@@ -484,15 +503,16 @@ def main():
         },
         "seed": SEED,
         "schema_sha256": sha256(Path(__file__).parent / "esquema.py"),
+        "context_sha256": sha256(Path(__file__).parent / "contexto.py"),
     }
     (out / "resultados.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8"
     )
     inference_pipeline = Pipeline([
-        ("normalizar_entrada", FunctionTransformer(prepare_features, validate=False)),
+        ("normalizar_entrada", FunctionTransformer(prepare_features_v2, validate=False)),
         ("clasificador", fitted[selected]),
     ])
-    raw_sample = df.iloc[test[:100]][FEATURES]
+    raw_sample = df.iloc[test[:100]][FEATURES_V2]
     if not np.allclose(
         inference_pipeline.predict_proba(raw_sample)[:, 1],
         selected_test[:100], rtol=0, atol=1e-12,
@@ -500,10 +520,11 @@ def main():
         raise AssertionError("La inferencia con entrada bruta difiere de la evaluación")
     joblib.dump(
         {
-            "pipeline": inference_pipeline, "features": FEATURES,
-            "threshold_no_access": threshold,
+            "pipeline": inference_pipeline, "features": FEATURES_V2,
+            "model_version": 2, "threshold_no_access": threshold,
             "target": result["target"], "source_sha256": source["source_sha256"],
             "schema_sha256": result["schema_sha256"],
+            "context_sha256": result["context_sha256"],
             "versions": result["versions"],
         },
         out / "modelo_sin_acceso.joblib", compress=3,

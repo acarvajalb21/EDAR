@@ -10,6 +10,10 @@ rmd_files:
   - 05-modelo.Rmd
   - 06-conclusiones.Rmd
   - 07-reproducibilidad.Rmd
+  - 08-aplicacion-shiny.Rmd
 language:
+  label:
+    fig: "Figura "
+    tab: "Tabla "
   ui:
     chapter_name: "Capítulo "

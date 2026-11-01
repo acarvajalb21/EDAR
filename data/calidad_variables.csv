@@ -9,19 +9,21 @@ VD_GAS,0,428,0.314627,3,Gas natural
 V_TIPO_SERSA,0,424,0.311687,7,Tipo de servicio sanitario
 PA1_GRP_ETNIC,0,267,0.196274,7,Autorreconocimiento étnico
 H_DONDE_PREPALIM,0,130,0.095564,7,Lugar de preparación de alimentos
-H_NRO_DORMIT,0,89,0.065425,13,Cuartos para dormir
 H_NRO_CUARTOS,0,89,0.065425,18,Cuartos del hogar
+H_NRO_DORMIT,0,89,0.065425,13,Cuartos para dormir
+P_PARENTESCOR,0,0,0.000000,5,Parentesco con la jefatura del hogar
 CONDICION_FISICA,0,0,0.000000,2,Alguna dificultad funcional diaria
 P_SEXO,0,0,0.000000,2,Sexo registrado
+P_EDADR,0,0,0.000000,21,Grupo quinquenal de edad
 U_MPIO,0,0,0.000000,23,Municipio
 UA_CLASE,0,0,0.000000,3,Clase de área censal
-P_EDADR,0,0,0.000000,21,Grupo quinquenal de edad
-P_PARENTESCOR,0,0,0.000000,5,Parentesco con la jefatura del hogar
-V_MAT_PISO,0,0,0.000000,6,Material del piso
-V_MAT_PARED,0,0,0.000000,9,Material de las paredes
 V_TIPO_VIV,0,0,0.000000,6,Tipo de vivienda
 HA_TOT_PER,0,0,0.000000,26,Personas en el hogar
-VC_ALC,0,0,0.000000,2,Alcantarillado
-VB_ACU,0,0,0.000000,2,Acueducto
 VA_EE,0,0,0.000000,2,Energía eléctrica
+V_MAT_PISO,0,0,0.000000,6,Material del piso
+V_MAT_PARED,0,0,0.000000,9,Material de las paredes
+VB_ACU,0,0,0.000000,2,Acueducto
 VE_RECBAS,0,0,0.000000,2,Recolección de basuras
+VC_ALC,0,0,0.000000,2,Alcantarillado
+HOGAR_OTROS_ENFERMOS,0,0,0.000000,12,Otras personas del hogar con problema de salud
+SECCION_PCT_ENFERMOS,0,0,0.000000,20588,"Proporción con problema de salud en la sección censal, sin el propio hogar"

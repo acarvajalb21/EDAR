@@ -25,3 +25,5 @@ VD_GAS,Gas natural,Vivienda,Categórica
 VE_RECBAS,Recolección de basuras,Vivienda,Categórica
 VF_INTERNET,Internet,Vivienda,Categórica
 V_TIPO_SERSA,Tipo de servicio sanitario,Vivienda,Categórica
+HOGAR_OTROS_ENFERMOS,Otras personas del hogar con problema de salud,Contexto del hogar,Recuento
+SECCION_PCT_ENFERMOS,"Proporción con problema de salud en la sección censal, sin el propio hogar",Contexto de la sección,Proporción

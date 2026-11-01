@@ -1,18 +1,31 @@
-:root { --ink: #183246; --teal: #147d91; --soft: #eef6f7; --line: #dce8eb; }
-body, .book.font-family-1 { color: var(--ink); font-family: "Segoe UI", "Source Sans Pro", sans-serif; }
+/* Sistema visual «Papel censal»: tokens comunes (shiny_salud/DISENO.md). */
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("fonts/ibm-plex-sans-latin-variable.woff2") format("woff2");
+}
+:root { --papel: #F4F1E9; --hoja: #FDFCF9; --tinta: #13232C; --tinta-media: #465660; --tinta-suave: #5F6D75; --hilo: #DDD8CB; --rio: #00739A; --rio-oscuro: #005C7B; --rio-tenue: #DCEBEF; }
+body, .book, .book.font-family-1 { color: var(--tinta); font-family: "IBM Plex Sans", "Segoe UI", Arial, sans-serif; font-synthesis: none; }
+.book .book-body, .book .book-body .page-wrapper { background: var(--hoja); }
 .book .book-body .page-wrapper .page-inner { max-width: 900px; }
-.book .book-body .page-wrapper .page-inner section.normal { line-height: 1.65; }
+.book .book-body .page-wrapper .page-inner section.normal { color: var(--tinta); line-height: 1.65; }
 .book .book-body .page-wrapper .page-inner section.normal h1,
 .book .book-body .page-wrapper .page-inner section.normal h2,
-.book .book-body .page-wrapper .page-inner section.normal h3 { color: var(--ink); }
-.book .book-body .page-wrapper .page-inner section.normal h1 { border-bottom: 2px solid var(--teal); padding-bottom: .3em; }
-.book .book-body .page-wrapper .page-inner section.normal a { color: #08758b; }
-.book .book-body .page-wrapper .page-inner section.normal blockquote { border-left: 4px solid var(--teal); background: var(--soft); padding: .8em 1.1em; color: var(--ink); }
-.book .book-body .page-wrapper .page-inner section.normal table { width: 100%; border-collapse: collapse; display: table; font-size: .91em; }
-.book .book-body .page-wrapper .page-inner section.normal table th { background: var(--soft); color: var(--ink); }
+.book .book-body .page-wrapper .page-inner section.normal h3 { color: var(--tinta); font-weight: 600; letter-spacing: -.012em; }
+.book .book-body .page-wrapper .page-inner section.normal h1 { border-bottom: 3px solid var(--rio); padding-bottom: .3em; }
+.book .book-body .page-wrapper .page-inner section.normal a { color: var(--rio-oscuro); text-underline-offset: 3px; }
+.book .book-body .page-wrapper .page-inner section.normal blockquote { border-left: 4px solid var(--rio); background: var(--rio-tenue); color: var(--tinta); padding: .75em 1em; }
+.book .book-body .page-wrapper .page-inner section.normal table { width: 100%; border-collapse: collapse; display: table; font-size: .91em; font-variant-numeric: tabular-nums; }
+.book .book-body .page-wrapper .page-inner section.normal table th { background: var(--papel); color: var(--tinta); font-weight: 600; }
 .book .book-body .page-wrapper .page-inner section.normal table th,
-.book .book-body .page-wrapper .page-inner section.normal table td { border: 1px solid var(--line); padding: .47em .55em; vertical-align: top; }
+.book .book-body .page-wrapper .page-inner section.normal table td { border: 1px solid var(--hilo); padding: .47em .55em; vertical-align: top; }
+.book .book-body .page-wrapper .page-inner section.normal table tr:nth-child(2n) { background: transparent; }
 .book .book-body .page-wrapper .page-inner section.normal img { max-width: 100%; height: auto; }
-.book .book-summary { background: #f8fbfb; }
-.book .book-summary ul.summary li.active > a { color: var(--teal); font-weight: 700; }
-.small-note { color: #5a7180; font-size: .91em; }
+.book .book-body .page-wrapper .page-inner section.normal pre { background: var(--papel); border: 1px solid var(--hilo); border-radius: 6px; }
+.book .book-summary { background: var(--papel); border-right: 1px solid var(--hilo); }
+.book .book-summary ul.summary li a { color: var(--tinta-media); }
+.book .book-summary ul.summary li.active > a { color: var(--rio-oscuro); font-weight: 600; }
+.book .book-header { background: var(--hoja); }
+.small-note { color: var(--tinta-suave); font-size: .91em; }

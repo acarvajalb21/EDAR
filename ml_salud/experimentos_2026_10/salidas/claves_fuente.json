@@ -1,0 +1,43 @@
+{
+  "CNPV2018_5PER_A2_08.CSV": {
+    "rows": 2342265,
+    "duplicate_keys": 0,
+    "missing_key_values": {
+      "U_DPTO": 0,
+      "U_MPIO": 0,
+      "UA_CLASE": 0,
+      "COD_ENCUESTAS": 0,
+      "U_VIVIENDA": 0,
+      "P_NROHOG": 5831,
+      "P_NRO_PER": 0
+    },
+    "sick_rows": 136114,
+    "sick_duplicate_keys": 0,
+    "sick_missing_key_rows": 0,
+    "sick_distinct_dwellings_tuple": 89394,
+    "sick_distinct_dwellings_group_id": 89394
+  },
+  "CNPV2018_2HOG_A2_08.CSV": {
+    "rows": 625384,
+    "duplicate_keys": 0,
+    "missing_key_values": {
+      "U_DPTO": 0,
+      "U_MPIO": 0,
+      "UA_CLASE": 0,
+      "COD_ENCUESTAS": 0,
+      "U_VIVIENDA": 0,
+      "H_NROHOG": 261
+    }
+  },
+  "CNPV2018_1VIV_A2_08.CSV": {
+    "rows": 681909,
+    "duplicate_keys": 0,
+    "missing_key_values": {
+      "U_DPTO": 0,
+      "U_MPIO": 0,
+      "UA_CLASE": 0,
+      "COD_ENCUESTAS": 0,
+      "U_VIVIENDA": 0
+    }
+  }
+}

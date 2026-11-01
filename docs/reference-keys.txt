@@ -23,6 +23,11 @@ tab:equidad-tabla
 tab:tabla-auditoria-2026
 fig:fig-brecha-2026
 tab:tabla-territorio-2026
+tab:tabla-contexto
+tab:tabla-contexto-hogar
+tab:tabla-contexto-seccion
+tab:tabla-mismo-marcado
+tab:tabla-priorizacion
 tab:huellas
 pregunta
 qué-intenta-responder-el-proyecto
@@ -48,6 +53,7 @@ candidatos-y-elección
 curvas-calibración-y-umbral
 variables-relevantes-y-diferencias-entre-grupos
 revision-modelo-2026
+modelo-contexto-2026
 alcance-de-la-prueba
 conclusiones
 lo-que-sí-muestran-los-datos
@@ -57,3 +63,10 @@ reproducibilidad
 origen-de-las-cifras
 volver-a-generar-el-libro
 referencias-de-interpretación
+shiny
+datos-que-usa
+reglas-de-protección
+cómo-funciona-la-reactividad
+diseño
+comprobaciones
+despliegue

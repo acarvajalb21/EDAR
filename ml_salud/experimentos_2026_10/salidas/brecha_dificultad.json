@@ -1,0 +1,102 @@
+{
+  "status": "descriptivo; prueba histórica ya expuesta",
+  "age_weights_among_positives": {
+    "0-14": 0.22135353041778646,
+    "15-59": 0.6435377473735646,
+    "60+": 0.13510872220864892
+  },
+  "rows": [
+    {
+      "age_band": "0-14",
+      "difficulty_code": 1,
+      "n": 228,
+      "positives": 51,
+      "true_positives": 25,
+      "recall": 0.49019607843137253,
+      "recall_wilson_95": [
+        0.35857485894370744,
+        0.623190761054303
+      ],
+      "flagged": 83,
+      "mean_score_positives": 0.2041849600890795
+    },
+    {
+      "age_band": "0-14",
+      "difficulty_code": 2,
+      "n": 3792,
+      "positives": 855,
+      "true_positives": 644,
+      "recall": 0.7532163742690059,
+      "recall_wilson_95": [
+        0.723227228217714,
+        0.780940328614682
+      ],
+      "flagged": 2187,
+      "mean_score_positives": 0.28212092887675944
+    },
+    {
+      "age_band": "15-59",
+      "difficulty_code": 1,
+      "n": 1617,
+      "positives": 332,
+      "true_positives": 195,
+      "recall": 0.5873493975903614,
+      "recall_wilson_95": [
+        0.5336881139621521,
+        0.6390124221886457
+      ],
+      "flagged": 659,
+      "mean_score_positives": 0.22089425329832485
+    },
+    {
+      "age_band": "15-59",
+      "difficulty_code": 2,
+      "n": 9286,
+      "positives": 2302,
+      "true_positives": 1837,
+      "recall": 0.7980017376194614,
+      "recall_wilson_95": [
+        0.7811103934904581,
+        0.8139001588402731
+      ],
+      "flagged": 6151,
+      "mean_score_positives": 0.2842225610443564
+    },
+    {
+      "age_band": "60+",
+      "difficulty_code": 1,
+      "n": 1603,
+      "positives": 161,
+      "true_positives": 14,
+      "recall": 0.08695652173913043,
+      "recall_wilson_95": [
+        0.05250405899834526,
+        0.14066008216185635
+      ],
+      "flagged": 61,
+      "mean_score_positives": 0.12075335653626641
+    },
+    {
+      "age_band": "60+",
+      "difficulty_code": 2,
+      "n": 2908,
+      "positives": 392,
+      "true_positives": 43,
+      "recall": 0.1096938775510204,
+      "recall_wilson_95": [
+        0.08246382971083785,
+        0.14449940725871355
+      ],
+      "flagged": 152,
+      "mean_score_positives": 0.14007948447428786
+    }
+  ],
+  "age_standardized_recall": {
+    "1": 0.4982367253441424,
+    "2": 0.6950919438707781
+  },
+  "raw_recall": {
+    "1": 0.43014705882352944,
+    "2": 0.7111862496477881
+  }
+}

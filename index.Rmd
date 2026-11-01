@@ -1,7 +1,7 @@
 ---
 title: "Acceso formal a salud en el Atlántico"
 subtitle: "Exploración y modelo predictivo con el CNPV 2018"
-author: "Proyecto DATAVIZ"
+author: "Alejandro Carvajal y Mateo Chang · Proyecto DATAVIZ"
 site: bookdown::bookdown_site
 documentclass: book
 lang: es
@@ -36,4 +36,4 @@ El libro presenta primero la definición y la población; después revisa calida
 
 > **Lectura recomendada.** Use las tasas descriptivas para entender patrones observados en esta cohorte censal de 2018. Use las métricas del modelo como evaluación interna del poder de ordenación para la misma época y territorio. Ninguna de las dos piezas identifica efectos causales ni valida decisiones individuales actuales.
 
-La [visualización interactiva del proyecto](https://dataviz-salud-atlantico-409319239507.us-east1.run.app/) se organiza por filtros. Sus celdas pequeñas se suprimen y los recuentos publicables se redondean; por eso una selección del tablero puede diferir de los totales exactos de este libro.
+La [visualización interactiva del proyecto](https://dataviz-salud-atlantico-409319239507.us-east1.run.app/) se organiza por filtros. También hay una [aplicación Shiny](https://shiny-salud-atlantico-409319239507.us-east1.run.app/) con los mismos datos y reglas (capítulo \@ref(shiny)). Sus celdas pequeñas se suprimen y los recuentos publicables se redondean; por eso una selección de esas aplicaciones puede diferir de los totales exactos de este libro.

@@ -1,0 +1,197 @@
+{
+  "n": 136034,
+  "excluded_temporal_missing": {
+    "PA_ASISTENCIA": {
+      "raw_missing": 12977,
+      "pct": 9.539526882985136
+    },
+    "P_TRABAJO": {
+      "raw_missing": 21377,
+      "pct": 15.7144537395063
+    }
+  },
+  "features": [
+    {
+      "feature": "U_MPIO",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 23
+    },
+    {
+      "feature": "UA_CLASE",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 3
+    },
+    {
+      "feature": "P_SEXO",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 2
+    },
+    {
+      "feature": "P_EDADR",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 21
+    },
+    {
+      "feature": "P_PARENTESCOR",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 5
+    },
+    {
+      "feature": "PA1_GRP_ETNIC",
+      "raw_missing": 0,
+      "missing_or_sentinel": 267,
+      "pct": 0.19627446079656555,
+      "unique": 7
+    },
+    {
+      "feature": "CONDICION_FISICA",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 2
+    },
+    {
+      "feature": "P_ALFABETA",
+      "raw_missing": 12977,
+      "missing_or_sentinel": 13267,
+      "pct": 9.752708881603128,
+      "unique": 3
+    },
+    {
+      "feature": "P_NIVEL_ANOSR",
+      "raw_missing": 12977,
+      "missing_or_sentinel": 13666,
+      "pct": 10.046017907287883,
+      "unique": 11
+    },
+    {
+      "feature": "P_EST_CIVIL",
+      "raw_missing": 21377,
+      "missing_or_sentinel": 21597,
+      "pct": 15.87617801431995,
+      "unique": 8
+    },
+    {
+      "feature": "H_NRO_CUARTOS",
+      "raw_missing": 0,
+      "missing_or_sentinel": 89,
+      "pct": 0.06542482026552185,
+      "unique": 18
+    },
+    {
+      "feature": "H_NRO_DORMIT",
+      "raw_missing": 0,
+      "missing_or_sentinel": 89,
+      "pct": 0.06542482026552185,
+      "unique": 13
+    },
+    {
+      "feature": "H_DONDE_PREPALIM",
+      "raw_missing": 0,
+      "missing_or_sentinel": 130,
+      "pct": 0.09556434420806563,
+      "unique": 7
+    },
+    {
+      "feature": "H_AGUA_COCIN",
+      "raw_missing": 1144,
+      "missing_or_sentinel": 1559,
+      "pct": 1.1460370201567256,
+      "unique": 12
+    },
+    {
+      "feature": "HA_TOT_PER",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 26
+    },
+    {
+      "feature": "V_TIPO_VIV",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 6
+    },
+    {
+      "feature": "V_MAT_PARED",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 9
+    },
+    {
+      "feature": "V_MAT_PISO",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 6
+    },
+    {
+      "feature": "VA_EE",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 2
+    },
+    {
+      "feature": "VA1_ESTRATO",
+      "raw_missing": 1398,
+      "missing_or_sentinel": 1554,
+      "pct": 1.1423614684564152,
+      "unique": 8
+    },
+    {
+      "feature": "VB_ACU",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 2
+    },
+    {
+      "feature": "VC_ALC",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 2
+    },
+    {
+      "feature": "VD_GAS",
+      "raw_missing": 0,
+      "missing_or_sentinel": 428,
+      "pct": 0.31462722554655453,
+      "unique": 3
+    },
+    {
+      "feature": "VE_RECBAS",
+      "raw_missing": 0,
+      "missing_or_sentinel": 0,
+      "pct": 0.0,
+      "unique": 2
+    },
+    {
+      "feature": "VF_INTERNET",
+      "raw_missing": 0,
+      "missing_or_sentinel": 447,
+      "pct": 0.32859432200773336,
+      "unique": 3
+    },
+    {
+      "feature": "V_TIPO_SERSA",
+      "raw_missing": 0,
+      "missing_or_sentinel": 424,
+      "pct": 0.31168678418630635,
+      "unique": 7
+    }
+  ]
+}

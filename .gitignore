@@ -8,8 +8,9 @@ datos/*.csv
 !ml_salud/experimentos_2026_10/salidas/*.csv
 *.zip
 
-# Salidas que se regeneran al knitear
-salidas/
+# Salidas que se regeneran al knitear (solo en la raíz: las salidas de
+# ml_salud/experimentos_2026_10/ sí se versionan para regenerar la auditoría)
+/salidas/
 
 # Jupyter Book / MyST
 _build/

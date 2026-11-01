@@ -1,191 +1,91 @@
-# Evaluación técnica del modelo de acceso formal a salud
+# Evaluación técnica del modelo vigente (versión 2)
 
-**Fuente:** microdatos anonimizados del CNPV 2018, departamento del Atlántico,
-leídos del proyecto local `PROYECTO_DISCAPACIDAD`. El proyecto visible
-`DATAVIZ/app_dash` contiene ejercicios de Dash sobre créditos, abejas y
-finanzas; no incluye la base ni el EDA de salud. No se modificó el proyecto
-original. Los tres archivos originales y sus SHA-256 constan en
-`resultados.json`.
+**Fuente:** microdatos anonimizados del CNPV 2018, departamento del Atlántico: personas, hogares, viviendas y `MGN`. Sus SHA-256 constan en `resultados.json`. La versión 1, de 26 variables, y su informe se conservan sin cambios en [`resultados_v1/`](../resultados_v1/INFORME_MODELO.md). La auditoría de datos, etiqueta y fugas de ese informe sigue vigente: la cohorte, la etiqueta y las particiones no cambiaron.
 
 ## Conclusión
 
-Entre los modelos probados, se seleccionó **HistGradientBoostingClassifier**
-con tasa de aprendizaje 0,04, 31 hojas como máximo, mínimo de 30 observaciones
-por hoja y 320 iteraciones, sin una partición interna para parada temprana.
-Ganó en validación por Average Precision, **AP = 0,346**, y Brier, **0,156**.
-En la prueba interna obtuvo **AP = 0,339**, **ROC-AUC = 0,673** y
-**Brier = 0,156**. El baseline de prevalencia tiene AP = 0,211. La mejora
-permite ordenar perfiles, pero la discriminación es **moderada**. Este
-modelo clasifica una conducta declarada en el censo de 2018; no está
-validado para decisiones individuales ni para datos actuales.
+Entre los modelos probados, se seleccionó **HistGradientBoostingClassifier** con tasa de aprendizaje 0,04, 15 hojas como máximo, mínimo de 30 observaciones por hoja y 500 iteraciones, sin parada temprana. Usa **28 variables**: las 26 de la versión 1 y dos de contexto de salud.
 
-## Auditoría de datos y etiqueta
+Ganó en validación con **AP = 0,386**. En la prueba interna obtuvo **AP = 0,375**, **ROC-AUC = 0,696** y **Brier = 0,152**, frente a AP 0,339, ROC-AUC 0,673 y Brier 0,156 de la versión 1. La prevalencia da AP = 0,211. La discriminación sigue siendo **moderada**. El modelo clasifica una conducta declarada en el censo de 2018; no está validado para decisiones individuales ni para datos actuales.
 
-- La base de personas tiene 2.342.265 registros. De ellos, 136.114
-  reportaron un problema de salud en los 30 días anteriores al censo; 80
-  quedaron sin etiqueta clasificable. El análisis utiliza 136.034 personas.
-- La etiqueta original `ACCESO_FORMAL_SALUD=1` se asigna a quien acudió a su
-  entidad de seguridad social y recibió atención, o a un médico particular.
-  `ACCESO_FORMAL_SALUD=0` incluye a quien acudió a la entidad sin recibir
-  atención y a quien recurrió a otras alternativas o no hizo nada. El modelo
-  invierte la etiqueta: `SIN_ACCESO=1` es la clase de interés.
-- Hay 28.650 casos etiquetados «sin acceso formal según la regla del EDA»
-  (21,06 %) y 107.384 con acceso (78,94 %). De los 28.650, **1.907
-  (6,7 %) acudieron a la EPS y no recibieron atención**, mientras **26.743
-  (93,3 %) reportaron otras acciones o ninguna**. Por ello, la etiqueta no
-  debe traducirse como «servicio denegado» o «sin ninguna atención».
-  Accuracy o un umbral de 0,5, aislados, serían engañosos.
-- No hay claves de persona duplicadas. Los 136.034 registros etiquetados
-  enlazaron con hogar y vivienda, sin duplicar filas.
-- Mayores proporciones de faltantes o códigos no informados entre las 26
-  variables usadas: estado civil 15,88 %, nivel educativo 10,05 % y
-  alfabetismo 9,75 %. Sus faltantes brutos, antes de contar los códigos de
-  «no informa», ocurren en edades en que las preguntas no aplican. En
-  hogar/vivienda, agua para cocinar
-  y estrato rondan 1,15 % y 1,14 %. El desglose completo está en
-  `perfil_calidad.json`.
-- Los códigos de no respuesta se mantienen como información de ausencia
-  dentro del preprocesamiento. `H_DONDE_PREPALIM=9` se convierte en
-  categoría de faltante, al igual que otros códigos de «no informa».
-  Los recuentos numéricos con valor 99 se convierten en
-  faltantes y se imputan con la mediana del entrenamiento.
+## Variables añadidas
 
-La etiqueta mide **conducta declarada de búsqueda y recepción de atención**,
-según esta definición del EDA. No mide afiliación al seguro, elegibilidad,
-necesidad clínica ni una barrera causal demostrada.
-En particular, acudir a un médico particular se clasifica como acceso sin
-una pregunta adicional que confirme la atención, según la regla del
-notebook original.
-La categoría 0 incluye farmacia y prácticas de atención tradicional según
-el [diccionario del DANE](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V582?name=P_QUEHIZO_PPAL);
-llamarla «sin ninguna atención» sería incorrecto.
+- `HOGAR_OTROS_ENFERMOS`: otras personas del mismo hogar con `P_ENFERMO=1`.
+- `SECCION_PCT_ENFERMOS`: proporción con `P_ENFERMO=1` entre las personas de la misma sección censal fuera del hogar, con respuesta válida (1 o 2). La sección procede de `CNPV2018_MGN_A2_08.CSV`.
 
-## Diseño de validación y control de fuga
+Se calculan en [`contexto.py`](../contexto.py) con todas las personas del archivo censal. No usan `P_QUEHIZO_PPAL`, `PA_LO_ATENDIERON` ni la etiqueta. El artefacto de la versión 1 guarda la huella de `esquema.py`, así que ese archivo no se modificó.
 
-Se excluyeron `P_QUEHIZO_PPAL` y `PA_LO_ATENDIERON`, porque construyen la
-etiqueta, y `PA1_CALIDAD_SERV`, porque solo se conoce tras usar el
-servicio. Los identificadores y las copias de la etiqueta tampoco entran
-al modelo. La auditoría retiró además `P_TRABAJO` y `PA_ASISTENCIA`:
-se miden en el mismo censo y pueden reflejar consecuencias del episodio
-de salud. La versión principal usa **26 variables**. En una sensibilidad
-con la misma validación, la versión de 28 obtuvo AP = 0,355 frente a
-AP = 0,346 sin las dos variables; se aceptó esa pérdida pequeña para
-reducir ambigüedad temporal. Esto no prueba que el resto de covariables
-sea anterior al episodio. Los cuatro contrastes exploratorios están en
-`sensibilidad_vivienda.json`.
+## Cómo se adoptó
 
-La normalización de códigos es determinista y está incluida en el
-artefacto de inferencia. La imputación, codificación categórica y escalado
-se ajustan solo con entrenamiento en cada fold.
+El [protocolo](../experimento_contexto/PROTOCOLO.md) se fijó antes de consultar la validación con estas variables. Los resultados están en [`decision.json`](../experimento_contexto/salidas/decision.json). Con los parámetros publicados de la versión 1, el candidato cumplió las cinco condiciones:
 
-La partición de 7 folds estratificados por clase y agrupados por **vivienda**
-deja 97.167 personas para entrenamiento, 19.433 para validación y 19.434
-para prueba. Las prevalencias respectivas son 21,062 %, 21,057 % y
-21,061 %. Ninguna vivienda aparece en más de una partición. La búsqueda
-de parámetros usa 3 folds dentro del entrenamiento, también agrupados
-por vivienda. La validación elige modelo y un umbral para cada candidato;
-la prueba se calcula después.
+| Condición | Regla | Resultado |
+|:--|:--|--:|
+| Ganancia de AP en validación | ≥ 0,010 | 0,0373 (0,3461 a 0,3834) |
+| Intervalo pareado del 95 % | Sobre cero | 0,0260 a 0,0492 |
+| Brier en validación | No empeora más de 0,002 | Cumple |
+| Ganancia en secciones no vistas (CV) | ≥ 0,010 | 0,0298 (0,3271 a 0,3568) |
+| Sensibilidad con dificultad funcional en validación | No cae más de 0,03 | 0,436 a 0,432 |
 
-La separación comprueba generalización a **otras viviendas de los mismos
-municipios y del mismo censo**. No demuestra transferencia a nuevos
-municipios, otro año o una muestra clínica. Como esta auditoría siguió
-a una primera evaluación de prueba con otro protocolo, las cifras finales
-son una evaluación interna revisada, no una prueba confirmatoria externa
-intocada. Antes de desplegar el modelo se necesita validación externa.
+Después se repitió con 28 variables el protocolo de `entrenar.py`: los mismos enfoques, la misma búsqueda de parámetros y selección en validación. La prueba se consultó una sola vez al final. Esa partición ya se había observado con la versión 1, por lo que es una evaluación interna y no confirmatoria.
 
 ## Comparación de modelos
 
-La métrica primaria es **Average Precision (AP)** de `SIN_ACCESO=1`,
-calculada con `average_precision_score` de scikit-learn. El campo
-`pr_auc` del JSON guarda este valor no interpolado, no el área trapezoidal
-de la curva precisión–recall. Con prevalencia de 21,06 %, se probaron
-pesos de clase en la logística; no se aplicó sobremuestreo sintético.
-La regresión logística regularizada,
-con edad codificada por categorías, obtuvo AP de 0,321 en validación
-cruzada, 0,329 en validación y 0,330 en prueba. Su ROC-AUC y Brier en
-prueba fueron 0,657 y 0,158.
+| Modelo | AP CV | AP validación | AP prueba | ROC-AUC prueba | Brier prueba |
+|:--|--:|--:|--:|--:|--:|
+| Prevalencia | — | 0,211 | 0,211 | 0,500 | 0,166 |
+| Regresión logística | 0,359 | 0,369 | 0,369 | 0,677 | 0,154 |
+| Random Forest | 0,363 | 0,370 | 0,363 | 0,680 | 0,155 |
+| Boosting de histogramas | 0,374 | 0,386 | 0,375 | 0,696 | 0,152 |
 
-El Random Forest obtuvo AP 0,329 en validación cruzada, 0,334 en
-validación y 0,328 en prueba; ROC-AUC 0,658 y Brier 0,158 en prueba.
-Los mejores parámetros fueron profundidad máxima 20 y mínimo de 10 muestras
-por hoja, con 120 árboles.
-
-El boosting de histogramas obtuvo AP 0,336 en validación cruzada,
-0,346 en validación y 0,339 en prueba; ROC-AUC 0,673 y Brier 0,156
-en prueba. Superó a los otros candidatos en ranking y error
-probabilístico en las dos particiones de evaluación. La diferencia
-de AP de prueba frente al bosque fue **0,0112**; un bootstrap de 250
-remuestreos por vivienda dio intervalo percentil 95 % de **0,0035 a
-0,0183** para esa diferencia. El AP del boosting tuvo intervalo
-**0,322 a 0,357**. Estos intervalos describen incertidumbre interna
-en 2018; no prueban superioridad universal ni transferencia temporal.
-XGBoost, LightGBM y CatBoost no estaban disponibles en el entorno.
+El intervalo interno del 95 % del AP del boosting fue **0,352 a 0,396**, por bootstrap de 250 remuestreos por vivienda. La diferencia frente al bosque fue 0,0119, con intervalo de 0,0048 a 0,0199. Estos intervalos no incluyen la incertidumbre de la selección. XGBoost, LightGBM y CatBoost no se evaluaron.
 
 ## Umbral y errores
 
-El umbral de 0,2012 se eligió en validación para maximizar F1 de la clase
-operativa «sin acceso formal». Cada modelo recibió su propio umbral,
-elegido con la misma regla en validación, antes de comparar sus métricas
-de clasificación en prueba.
-En prueba produjo:
+El umbral de **0,2235** se eligió en validación para maximizar F1. En prueba:
 
-- F1: **0,412**; precision: **0,297**; recall: **0,674**;
-  especificidad: **0,574**.
-- Matriz de confusión con filas reales y columnas predichas: **8.806**
-  verdaderos negativos, **6.535** falsos positivos, **1.335** falsos
-  negativos y **2.758** verdaderos positivos.
-- Se marcarían **9.293 de 19.434 personas (47,8 %)**; cerca de 3 de cada 10
-  marcadas corresponden a la clase «sin acceso».
+- F1 **0,428**; precisión **0,331**; sensibilidad **0,606**; especificidad **0,673**.
+- **10.324** verdaderos negativos, **5.017** falsos positivos, **1.613** falsos negativos y **2.480** verdaderos positivos.
+- Marca a **7.497 de 19.434 personas (38,6 %)**, frente a 47,8 % de la versión 1.
 
-Con 0,5, el mismo modelo casi nunca marca la clase minoritaria: recall
-0,016 y F1 0,030 en prueba. Un programa con capacidad limitada debería
-escoger su
-umbral según costo, cobertura y recursos, no adoptar automáticamente el
-umbral que maximiza F1. Por ejemplo, el decil de mayor riesgo contiene
-aproximadamente **41,2 %** de casos etiquetados sin acceso formal frente
-a **21,1 %** en la base completa, pero cubre solo cerca de una quinta
-parte de todos los casos.
+Con 0,5, la sensibilidad es de apenas 0,052. Un programa con capacidad limitada debería escoger su umbral según costos y recursos, que este proyecto no define. Como referencia exploratoria:
 
-## Calibración, variables y subgrupos
+| Se revisa | Personas | De la clase | Precisión | Sensibilidad | Lift |
+|--:|--:|--:|--:|--:|--:|
+| 5 % | 972 | 493 | 0,507 | 0,120 | 2,41 |
+| 10 % | 1.944 | 906 | 0,466 | 0,221 | 2,21 |
+| 20 % | 3.887 | 1.561 | 0,402 | 0,381 | 1,91 |
 
-El Brier de 0,156 mejora el 0,166 del baseline. Los deciles de probabilidad
-predicha siguen de cerca sus frecuencias observadas; en el decil de mayor
-riesgo el modelo predijo 40,7 % y se observó 41,2 %. La gráfica
-`curvas.png` contiene ROC, precisión-recall y calibración.
+## Calibración y variables
 
-La importancia por permutación medida en validación, expresada como caída de
-AP, sitúa primero municipio (0,055), edad agrupada (0,050), lugar de
-preparación de alimentos (0,020), nivel educativo (0,013), estrato (0,012)
-y tamaño del hogar (0,011). Es **importancia predictiva**, no efecto
-causal. La influencia del municipio indica que
-parte del rendimiento podría depender de patrones territoriales de 2018.
+El Brier de 0,152 mejora el 0,166 del baseline. En el decil de mayor riesgo se predijo 45,3 % y se observó 46,6 %.
 
-En prueba, el recall para personas con dificultad funcional fue **0,430**
-(n=3.448), frente a **0,711** para quienes no la reportaron (n=15.986). También
-varió por sexo y municipio. Algunos municipios tienen muy pocos casos
-positivos, por lo que sus tasas son inestables. Estas diferencias requieren
-revisión antes de usar un umbral común en intervenciones.
+La importancia por permutación en validación, medida como caída de AP, sitúa primero municipio (0,054), otras personas del hogar con problema de salud (0,052), edad (0,044) y proporción en la sección (0,030). Lugar de preparación de alimentos, educación y estrato quedan alrededor de 0,01. Es importancia predictiva, no efecto causal.
 
-## Recomendaciones para Bookdown y Dash
+## Qué significan las variables nuevas
 
-En Bookdown, documentar la definición exacta de la etiqueta, población
-elegible, faltantes, claves de unión, exclusiones por fuga, partición por
-vivienda, tuning, métricas de prueba y límites de interpretación. Citar el
-diccionario oficial del DANE y aclarar que «sin acceso formal» incluye
-conductas declaradas que no necesariamente prueban imposibilidad de acceso.
+La clase operativa pasa de 15,7 % sin otras personas enfermas en el hogar a 33,5 % con tres o más. Lo que más sube es la autorreceta, de 7,2 % a 18,0 %; «no hizo nada» casi no cambia (2,2 % a 2,6 %).
 
-En Dash, mostrar prevalencias y métricas **agregadas**, curvas ROC/PR y
-calibración, matriz de confusión y un control de umbral con los costos de
-falsos positivos y negativos. Si se ofrece predicción, usar la lista de
-variables, transformación y versión del modelo serializado, junto con
-validación de entradas y una explicación de que no es una decisión clínica.
-El artefacto `modelo_sin_acceso.joblib` acepta las 26 columnas en códigos
-censales brutos e incorpora la normalización. El paquete `ml_salud` debe
-estar instalado o disponible en `PYTHONPATH` donde se cargue.
-Antes de un uso prospectivo, conseguir datos más recientes, validar por
-periodo y geografía y revisar sesgos por grupo.
+La proporción de personas con problema de salud varía mucho entre secciones, más de lo que cabría esperar solo por morbilidad. **Hipótesis no comprobada:** estas variables pueden captar también problemas más leves o diferencias en quién respondió y cómo se recogió el dato. El censo no permite separar esas explicaciones. No deben leerse como barreras ni como causas. Se miden en el mismo censo que la respuesta: no revelan la acción de la persona, pero tampoco son previas al episodio.
 
-**Referencias:** [ficha CNPV 2018](https://microdatos.dane.gov.co/catalog/643),
-[pregunta sobre tratamiento](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V582?name=P_QUEHIZO_PPAL),
-[pregunta sobre atención](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V583?name=PA_LO_ATENDIERON),
-[pregunta sobre enfermedad](https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V581?name=P_ENFERMO).
+## Subgrupos
+
+Con su umbral, la sensibilidad fue **0,379** con dificultad funcional (n=3.448) y **0,641** sin ella (n=15.986). Ajustada por edad, 0,445 y 0,626. Entre personas de 60 años o más fue 0,116, frente a 0,682 entre menores de 60.
+
+Frente a la versión 1, estas sensibilidades bajan porque el umbral marca a menos personas. La comparación justa usa el mismo número de marcadas:
+
+| Escenario | Marcadas | Precisión | Sensibilidad | Con dificultad | Sin dificultad | 60 años o más |
+|:--|--:|--:|--:|--:|--:|--:|
+| Versión 1, su umbral | 9.293 | 0,297 | 0,674 | 0,430 | 0,711 | 0,103 |
+| Versión 2, mismas marcadas | 9.293 | 0,306 | 0,695 | 0,498 | 0,725 | 0,193 |
+| Versión 2, su umbral | 7.497 | 0,331 | 0,606 | 0,379 | 0,641 | 0,116 |
+
+La versión 2 mejora en todos los grupos al marcar a las mismas personas, pero la brecha por dificultad funcional persiste y la sensibilidad entre mayores de 60 sigue siendo baja. Estas comparaciones son descriptivas y usan la prueba ya expuesta.
+
+## Inferencia y límites
+
+El artefacto `modelo_sin_acceso.joblib` acepta las 28 columnas, normaliza y valida la entrada. Requiere `ml_salud` en `PYTHONPATH`. Un formulario tendría que obtener `SECCION_PCT_ENFERMOS` sin publicar cifras de secciones pequeñas. La salida sería una puntuación experimental de 2018, no una decisión clínica.
+
+La separación por vivienda mide generalización a otras viviendas de los mismos municipios y del mismo censo. No hay validación temporal, geográfica externa ni clínica. Antes de cualquier uso prospectivo se necesitarían datos más recientes y una revisión por grupos.
+
+Versiones: Python 3.12.10, pandas 3.0.5, numpy 2.5.2 y scikit-learn 1.9.1.

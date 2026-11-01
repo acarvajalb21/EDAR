@@ -1,0 +1,213 @@
+{
+  "protocolo": "ml_salud/experimento_contexto/PROTOCOLO.md",
+  "variables_nuevas": [
+    "HOGAR_OTROS_ENFERMOS",
+    "SECCION_PCT_ENFERMOS"
+  ],
+  "contexto": {
+    "secciones_en_cohorte": 1519,
+    "sin_otras_personas_en_seccion": 0,
+    "otros_enfermos_0": 61255
+  },
+  "fuentes": {
+    "CNPV2018_5PER_A2_08.CSV": "e55981e90717fa238550f332b5a76334dd1854427cd8f161eff151f00b239bab",
+    "CNPV2018_2HOG_A2_08.CSV": "e4ab3a377decabcc3eaa935643770f262aa48d8ce85bc7559c485a33c68a9cc9",
+    "CNPV2018_1VIV_A2_08.CSV": "428ee27091e9c6ef8a052f130fd0f5cc0a766ad11e9f90b978ce89a0423c453d"
+  },
+  "cv_viviendas_no_vistas": {
+    "ap_26": 0.33637257393228187,
+    "ap_28": 0.37330257117577254,
+    "roc_auc_26": 0.671373850025569,
+    "roc_auc_28": 0.6968405906804058,
+    "delta_ap": 0.036929997243490664,
+    "pliegues": [
+      {
+        "ap_26": 0.3392721013662382,
+        "ap_28": 0.3763625564983858,
+        "roc_auc_26": 0.673911601884154,
+        "roc_auc_28": 0.6972042203052525
+      },
+      {
+        "ap_26": 0.33770862454492423,
+        "ap_28": 0.3731233044875281,
+        "roc_auc_26": 0.6704288809302281,
+        "roc_auc_28": 0.6977100938418812
+      },
+      {
+        "ap_26": 0.33213699588568313,
+        "ap_28": 0.3704218525414037,
+        "roc_auc_26": 0.6697810672623248,
+        "roc_auc_28": 0.6956074578940841
+      }
+    ]
+  },
+  "cv_secciones_no_vistas": {
+    "ap_26": 0.32707772742464675,
+    "ap_28": 0.3568301844720187,
+    "roc_auc_26": 0.6629467895806859,
+    "roc_auc_28": 0.6827496216470567,
+    "delta_ap": 0.02975245704737195,
+    "pliegues": [
+      {
+        "ap_26": 0.3334955072389413,
+        "ap_28": 0.3635069037095431,
+        "roc_auc_26": 0.6683256079716656,
+        "roc_auc_28": 0.6884210498915064
+      },
+      {
+        "ap_26": 0.3111191220492946,
+        "ap_28": 0.3391286770163092,
+        "roc_auc_26": 0.6482542059303522,
+        "roc_auc_28": 0.6691458286104633
+      },
+      {
+        "ap_26": 0.3366185529857044,
+        "ap_28": 0.3678549726902036,
+        "roc_auc_26": 0.6722605548400398,
+        "roc_auc_28": 0.6906819864392003
+      }
+    ]
+  },
+  "validacion": {
+    "modelo_26": {
+      "threshold": 0.20121940171757335,
+      "roc_auc": 0.672327764142919,
+      "pr_auc": 0.3460616070316228,
+      "brier": 0.1557329315213242,
+      "f1": 0.41305479146531854,
+      "precision": 0.29682658403675605,
+      "recall": 0.6788856304985337,
+      "specificity": 0.5710188384068835,
+      "confusion": {
+        "tn": 8760,
+        "fp": 6581,
+        "fn": 1314,
+        "tp": 2778
+      }
+    },
+    "modelo_28": {
+      "threshold": 0.21094089898962723,
+      "roc_auc": 0.7013900769875167,
+      "pr_auc": 0.38335209479831084,
+      "brier": 0.15149579487654538,
+      "f1": 0.4353296837976959,
+      "precision": 0.3269915306247699,
+      "recall": 0.6510263929618768,
+      "specificity": 0.6425917476044586,
+      "confusion": {
+        "tn": 9858,
+        "fp": 5483,
+        "fn": 1428,
+        "tp": 2664
+      }
+    }
+  },
+  "comparacion_pareada": {
+    "method": "paired dwelling bootstrap percentile",
+    "repetitions": 250,
+    "delta_ap": 0.03729048776668803,
+    "delta_ap_interval_95": [
+      0.026018617194544773,
+      0.04918044176282134
+    ]
+  },
+  "topk_validacion": {
+    "modelo_26": {
+      "5pct": {
+        "reviewed": 972,
+        "positives_found": 456,
+        "precision": 0.4691358024691358,
+        "recall": 0.11143695014662756,
+        "lift": 2.2279364734561864
+      },
+      "10pct": {
+        "reviewed": 1944,
+        "positives_found": 814,
+        "precision": 0.41872427983539096,
+        "recall": 0.1989247311827957,
+        "lift": 1.9885310190716403
+      },
+      "20pct": {
+        "reviewed": 3887,
+        "positives_found": 1421,
+        "precision": 0.3655775662464626,
+        "recall": 0.3472629521016618,
+        "lift": 1.7361360813459206
+      }
+    },
+    "modelo_28": {
+      "5pct": {
+        "reviewed": 972,
+        "positives_found": 515,
+        "precision": 0.529835390946502,
+        "recall": 0.1258553274682307,
+        "lift": 2.516200183837579
+      },
+      "10pct": {
+        "reviewed": 1944,
+        "positives_found": 921,
+        "precision": 0.4737654320987654,
+        "recall": 0.2250733137829912,
+        "lift": 2.249922688654767
+      },
+      "20pct": {
+        "reviewed": 3887,
+        "positives_found": 1566,
+        "precision": 0.40288139953691793,
+        "recall": 0.38269794721407624,
+        "lift": 1.9132928243404022
+      }
+    }
+  },
+  "sensibilidad_validacion": {
+    "con_dificultad": {
+      "modelo_26": {
+        "positivos": 539,
+        "sensibilidad": 0.4359925788497217
+      },
+      "modelo_28": {
+        "positivos": 539,
+        "sensibilidad": 0.4322820037105751
+      }
+    },
+    "sin_dificultad": {
+      "modelo_26": {
+        "positivos": 3553,
+        "sensibilidad": 0.7157331832254433
+      },
+      "modelo_28": {
+        "positivos": 3553,
+        "sensibilidad": 0.6842105263157895
+      }
+    },
+    "60_o_mas": {
+      "modelo_26": {
+        "positivos": 502,
+        "sensibilidad": 0.11155378486055777
+      },
+      "modelo_28": {
+        "positivos": 502,
+        "sensibilidad": 0.1593625498007968
+      }
+    },
+    "menos_de_60": {
+      "modelo_26": {
+        "positivos": 3590,
+        "sensibilidad": 0.7582172701949861
+      },
+      "modelo_28": {
+        "positivos": 3590,
+        "sensibilidad": 0.7197771587743732
+      }
+    }
+  },
+  "criterios": {
+    "ganancia_ap_validacion": true,
+    "intervalo_sobre_cero": true,
+    "brier_no_empeora": true,
+    "ganancia_secciones_no_vistas": true,
+    "sensibilidad_dificultad": true
+  },
+  "decision": "adoptar",
+  "prueba_consultada": false
+}

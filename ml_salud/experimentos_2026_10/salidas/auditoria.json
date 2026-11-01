@@ -1,0 +1,121 @@
+{
+  "source_matches_archive": true,
+  "group_overlap": 0,
+  "person_duplicates": 0,
+  "split": {
+    "train": {
+      "n": 97167,
+      "dwellings": 63927,
+      "no_access": 20465
+    },
+    "validation": {
+      "n": 19433,
+      "dwellings": 12718,
+      "no_access": 4092
+    },
+    "test": {
+      "n": 19434,
+      "dwellings": 12695,
+      "no_access": 4093
+    }
+  },
+  "predictors": [
+    "U_MPIO",
+    "UA_CLASE",
+    "P_SEXO",
+    "P_EDADR",
+    "P_PARENTESCOR",
+    "PA1_GRP_ETNIC",
+    "CONDICION_FISICA",
+    "P_ALFABETA",
+    "P_NIVEL_ANOSR",
+    "P_EST_CIVIL",
+    "H_NRO_CUARTOS",
+    "H_NRO_DORMIT",
+    "H_DONDE_PREPALIM",
+    "H_AGUA_COCIN",
+    "HA_TOT_PER",
+    "V_TIPO_VIV",
+    "V_MAT_PARED",
+    "V_MAT_PISO",
+    "VA_EE",
+    "VA1_ESTRATO",
+    "VB_ACU",
+    "VC_ALC",
+    "VD_GAS",
+    "VE_RECBAS",
+    "VF_INTERNET",
+    "V_TIPO_SERSA"
+  ],
+  "source_sha256": {
+    "CNPV2018_5PER_A2_08.CSV": "e55981e90717fa238550f332b5a76334dd1854427cd8f161eff151f00b239bab",
+    "CNPV2018_2HOG_A2_08.CSV": "e4ab3a377decabcc3eaa935643770f262aa48d8ce85bc7559c485a33c68a9cc9",
+    "CNPV2018_1VIV_A2_08.CSV": "428ee27091e9c6ef8a052f130fd0f5cc0a766ad11e9f90b978ce89a0423c453d"
+  },
+  "schema_sha256_matches_artifact": true,
+  "numeric_train_medians_match_artifact": true,
+  "missing_code_counts": {
+    "PA1_GRP_ETNIC": {
+      "blank": 0,
+      "explicit_sentinel": 267
+    },
+    "P_ALFABETA": {
+      "blank": 12977,
+      "explicit_sentinel": 290
+    },
+    "P_NIVEL_ANOSR": {
+      "blank": 12977,
+      "explicit_sentinel": 689
+    },
+    "P_EST_CIVIL": {
+      "blank": 21377,
+      "explicit_sentinel": 220
+    },
+    "H_NRO_CUARTOS": {
+      "blank": 0,
+      "explicit_sentinel": 89
+    },
+    "H_NRO_DORMIT": {
+      "blank": 0,
+      "explicit_sentinel": 89
+    },
+    "H_DONDE_PREPALIM": {
+      "blank": 0,
+      "explicit_sentinel": 130
+    },
+    "H_AGUA_COCIN": {
+      "blank": 1144,
+      "explicit_sentinel": 415
+    },
+    "VA1_ESTRATO": {
+      "blank": 1398,
+      "explicit_sentinel": 156
+    },
+    "VD_GAS": {
+      "blank": 0,
+      "explicit_sentinel": 428
+    },
+    "VF_INTERNET": {
+      "blank": 0,
+      "explicit_sentinel": 447
+    },
+    "V_TIPO_SERSA": {
+      "blank": 0,
+      "explicit_sentinel": 424
+    }
+  },
+  "archived_versions": {
+    "python": "3.14.6",
+    "pandas": "3.0.5",
+    "numpy": "2.5.2",
+    "scikit_learn": "1.9.1"
+  },
+  "original_artifact_validation": {
+    "n": 19433,
+    "positives": 4092,
+    "ap": 0.3460616070316228,
+    "roc_auc": 0.672327764142919,
+    "brier": 0.1557329315213242
+  },
+  "reference_refit_max_abs_score_delta_validation": 0.0
+}

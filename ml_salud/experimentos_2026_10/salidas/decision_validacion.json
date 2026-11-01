@@ -1,0 +1,34 @@
+{
+  "best_challenger_by_cv": "faltantes_distintos",
+  "paired_validation": {
+    "method": "paired dwelling bootstrap percentile",
+    "repetitions": 250,
+    "delta_ap": -0.0008231145969012088,
+    "delta_ap_interval_95": [
+      -0.003495198444062218,
+      0.0017407433809978822
+    ]
+  },
+  "promotion_rule_passed": false,
+  "selected": "referencia",
+  "calibration": {
+    "method": "Platt on grouped OOF training scores",
+    "raw_validation": {
+      "n": 19433,
+      "positives": 4092,
+      "ap": 0.3460616070316228,
+      "roc_auc": 0.672327764142919,
+      "brier": 0.1557329315213242
+    },
+    "calibrated_validation": {
+      "n": 19433,
+      "positives": 4092,
+      "ap": 0.3460616070316228,
+      "roc_auc": 0.672327764142919,
+      "brier": 0.15573806689399344
+    },
+    "adopted": false
+  },
+  "threshold_from_validation_f1": 0.20121940171757335,
+  "f1_validation": 0.4130547914653186
+}

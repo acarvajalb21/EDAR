@@ -1,0 +1,6 @@
+pruebas/
+*.md
+*.ps1
+*.sh
+.git/
+.Rhistory

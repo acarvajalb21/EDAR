@@ -29,15 +29,22 @@ demuestra desempeño prospectivo para personas actuales.
 
 ## Variables y fugas
 
-Se usan 26 variables de persona (edad agrupada, sexo, dificultad funcional,
+El modelo vigente (versión 2) usa 28 variables. Veintiséis son de persona (edad agrupada, sexo, dificultad funcional,
 educación, parentesco, etnia, municipio y clase), hogar (cuartos,
 dormitorios, tamaño y condiciones de cocina) y vivienda (materiales, estrato,
 servicios e internet). Los cruces se validan como muchos a uno.
 
+Las otras dos, definidas en `contexto.py`, describen el contexto de salud:
+`HOGAR_OTROS_ENFERMOS` cuenta a las demás personas del hogar con
+`P_ENFERMO=1` y `SECCION_PCT_ENFERMOS` es la proporción con `P_ENFERMO=1`
+en la sección censal, sin el propio hogar. La sección procede del archivo
+`MGN`. Ninguna usa la acción declarada ni la etiqueta, pero se miden en el
+mismo censo: pueden reflejar problemas más leves o la forma de responder.
+
 Se excluyen `P_QUEHIZO_PPAL`, `PA_LO_ATENDIERON` y
 `PA1_CALIDAD_SERV`, porque revelan directamente la respuesta o se conocen
-después de la atención. Los identificadores, `P_ENFERMO` y cualquier copia de
-la respuesta tampoco entran al modelo. `P_TRABAJO` y `PA_ASISTENCIA` se
+después de la atención. Los identificadores, el `P_ENFERMO` de la propia persona y cualquier copia
+de la respuesta tampoco entran al modelo. `P_TRABAJO` y `PA_ASISTENCIA` se
 excluyen del modelo principal: se miden en el mismo censo que la respuesta y
 pueden reflejar consecuencias del episodio. El análisis de sensibilidad
 compara su inclusión. La temporalidad de otras variables censales tampoco
@@ -48,6 +55,9 @@ conservan como señal de ausencia, mediante un marcador o una categoría
 explícita; los recuentos numéricos se imputan con la mediana calculada solo
 en entrenamiento. Las categorías se codifican dentro de
 cada pipeline, evitando aprender transformaciones con validación o prueba.
+
+El desarrollo completo se puede seguir en el cuaderno
+`Modelo_acceso_salud_Atlantico_CNPV2018.ipynb`, en la raíz de EDAPYTHON.
 
 ## Evaluación
 
@@ -69,35 +79,39 @@ alterar una variable; no debe interpretarse causalmente.
 
 ## Ejecución
 
-`requirements.txt` registra las versiones usadas con Python 3.14.6.
-Instálalas en un entorno virtual antes de repetir el experimento.
+`requirements.txt` registra las versiones usadas. La versión 2 se entrenó con
+Python 3.12.10 y la versión 1 con Python 3.14.6. Instálalas en un entorno
+virtual antes de repetir el experimento.
 
 ```powershell
-.\.venv\Scripts\python.exe -m ml_salud.entrenar --data-dir 'C:\Users\Alejandro Carvajal\OneDrive\Documents\PROYECTO_DISCAPACIDAD\data' --output-dir ml_salud\resultados
+.\.venv\Scripts\python.exe -m ml_salud.entrenar --data-dir RUTA_CSV_DANE
 ```
 
-Los tres CSV originales se mantienen fuera de este directorio. Para repetir
+Los cuatro CSV originales se mantienen fuera de este directorio. Para repetir
 el experimento en otro equipo, descargue los microdatos oficiales del DANE y
 pase la carpeta con los archivos `CNPV2018_5PER_A2_08.CSV`,
-`CNPV2018_2HOG_A2_08.CSV` y `CNPV2018_1VIV_A2_08.CSV` mediante
-`--data-dir`. No distribuya los microdatos mediante un repositorio o Dash.
+`CNPV2018_2HOG_A2_08.CSV`, `CNPV2018_1VIV_A2_08.CSV` y
+`CNPV2018_MGN_A2_08.CSV` mediante `--data-dir`. No distribuya los microdatos mediante un repositorio o Dash.
 
 Los resultados quedan en `resultados/resultados.json`, las curvas en
 `resultados/curvas.png` y el modelo serializado en
 `resultados/modelo_sin_acceso.joblib`. El análisis detallado está en
 `resultados/INFORME_MODELO.md` y el perfil de faltantes en
-`resultados/perfil_calidad.json`. El archivo serializado solo se debe
-cargar desde una fuente confiable y con versiones compatibles de Python y
+`resultados/perfil_calidad.json`. La versión 1 se conserva sin cambios en
+`resultados_v1/`, y `experimentos_2026_10/` documenta su revisión. El protocolo
+y la decisión de la versión 2 están en `experimento_contexto/`. El archivo
+serializado solo se debe cargar desde una fuente confiable y con versiones compatibles de Python y
 scikit-learn.
 
 El objeto `pipeline` dentro del modelo guardado acepta un `pandas.DataFrame`
-con los **códigos censales brutos** de las variables indicadas en el campo
-`features` del artefacto. Convierte centinelas, codifica e imputa
+con los **códigos censales brutos** y las dos variables de contexto, tal como
+indica el campo `features` del artefacto. Convierte centinelas, codifica e imputa
 internamente. `pipeline.predict_proba(entrada)[:, 1]` devuelve la
 probabilidad estimada para `SIN_ACCESO=1`. Para cargarlo desde otro
 directorio, `ml_salud` debe estar instalado o en `PYTHONPATH`, porque el
-artefacto referencia `ml_salud.esquema`. El artefacto guarda la firma
-SHA-256 de ese archivo; mantén ambas piezas en la misma versión. Los
+artefacto referencia `ml_salud.contexto` y `ml_salud.esquema`. El artefacto
+guarda la firma SHA-256 de ambos archivos; mantén todas las piezas en la misma
+versión. Los
 códigos imposibles y las columnas ausentes generan errores explícitos.
 Ejecuta
 `python -m ml_salud.pruebas` desde la raíz para comprobar el contrato.
@@ -108,7 +122,7 @@ En Bookdown conviene explicar primero la población, el código de la etiqueta,
 las exclusiones por fuga, la partición por vivienda y los resultados en prueba.
 En Dash se pueden mostrar prevalencias y resultados agregados por subgrupo,
 las curvas ROC/PR y el umbral; cualquier formulario de predicción debe usar
-exactamente las variables y transformaciones de `esquema.py`. No debe
+exactamente las variables y transformaciones de `contexto.py`. No debe
 exponerse una predicción individual como diagnóstico o decisión de acceso.
 
 Fuente metodológica y diccionario:

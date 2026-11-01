@@ -1,0 +1,54 @@
+{
+  "status": "sensibilidad territorial exploratoria dentro de entrenamiento histórico",
+  "selection": "tres municipios con mayor n en entrenamiento; no se usó validación ni prueba histórica",
+  "model": "boosting original, sin U_MPIO, sin retuning",
+  "seed": 42,
+  "versions": {
+    "python": "3.14.6",
+    "pandas": "3.0.5",
+    "numpy": "2.5.2",
+    "scikit_learn": "1.9.1"
+  },
+  "elapsed_seconds": 84.782,
+  "results": [
+    {
+      "municipio_codigo": 1,
+      "train_n": 52333,
+      "excluded_feature": "U_MPIO",
+      "held_out": {
+        "n": 44834,
+        "positives": 9561,
+        "ap": 0.2970599718573781,
+        "roc_auc": 0.622118838873275,
+        "brier": 0.1635108647603154
+      },
+      "prevalence_baseline_ap": 0.21325333452290673
+    },
+    {
+      "municipio_codigo": 758,
+      "train_n": 78102,
+      "excluded_feature": "U_MPIO",
+      "held_out": {
+        "n": 19065,
+        "positives": 4170,
+        "ap": 0.30648910273924057,
+        "roc_auc": 0.6297471026200189,
+        "brier": 0.16496067983421547
+      },
+      "prevalence_baseline_ap": 0.2187254130605822
+    },
+    {
+      "municipio_codigo": 433,
+      "train_n": 91125,
+      "excluded_feature": "U_MPIO",
+      "held_out": {
+        "n": 6042,
+        "positives": 1709,
+        "ap": 0.3490657662439153,
+        "roc_auc": 0.6059544527235767,
+        "brier": 0.2030251179296797
+      },
+      "prevalence_baseline_ap": 0.2828533598146309
+    }
+  ]
+}

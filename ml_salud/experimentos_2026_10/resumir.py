@@ -16,7 +16,7 @@ def read(path):
 
 
 def main():
-    archived = read(HERE.parent / "resultados" / "resultados.json")
+    archived = read(HERE.parent / "resultados_v1" / "resultados.json")
     experiments = read(OUT / "experimentos.json")
     historical = read(OUT / "comparacion_historica.json")
     rows = []

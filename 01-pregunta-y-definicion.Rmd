@@ -10,7 +10,7 @@ El objetivo descriptivo es reconocer patrones por edad, sexo, dificultad funcion
 
 El archivo de personas del CNPV 2018 del Atlántico contiene `r entero(resumen$personas_censo)` registros. De ellos, `r entero(resumen$problema_salud)` respondieron que habían tenido un problema de salud en los 30 días previos **sin hospitalización**. En `r entero(resumen$sin_etiqueta)` respuestas no fue posible aplicar la regla completa de clasificación. La cohorte final comprende `r entero(resumen$cohorte)` personas.
 
-Este denominador es fundamental: los porcentajes de los capítulos siguientes se calculan **entre las personas de la cohorte**, no entre toda la población del departamento, ni entre todas las personas con una necesidad clínica. La variable `P_ENFERMO` sirve para definir la cohorte; no entra al modelo como predictor.
+Este denominador es fundamental: los porcentajes de los capítulos siguientes se calculan **entre las personas de la cohorte**, no entre toda la población del departamento, ni entre todas las personas con una necesidad clínica. La variable `P_ENFERMO` de cada persona sirve para definir la cohorte y no entra al modelo como predictor. El modelo vigente sí usa esa misma pregunta respondida por **otras** personas del hogar y de la sección censal (sección \@ref(modelo-contexto-2026)).
 
 ## Regla operativa de acceso {#etiqueta}
 

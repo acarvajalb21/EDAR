@@ -1,0 +1,69 @@
+# Aplicación Shiny {#shiny}
+
+La [aplicación Shiny](https://shiny-salud-atlantico-409319239507.us-east1.run.app/) presenta el proyecto de forma interactiva en R. Tiene cuatro vistas: **Panorama**, con la cifra principal y el reparto de las rutas declaradas; **Explorar**, con filtros y comparaciones; **Modelo**, con la evaluación y un control de umbral; y **Método**, con las definiciones y las reglas de protección.
+
+El código está en la carpeta `shiny_salud/` de este repositorio. Se ejecuta desde R con:
+
+```{r shiny-ejecutar, eval=FALSE, echo=TRUE}
+shiny::runApp("shiny_salud")
+```
+
+## Datos que usa
+
+La aplicación lee únicamente `data/eda.json` y `data/modelo.json`, los mismos agregados del tablero Dash. **No contiene microdatos ni el modelo serializado**, así que no calcula predicciones sobre personas: muestra resultados ya evaluados.
+
+```{r shiny-datos, eval=FALSE, echo=TRUE}
+EDA <- jsonlite::fromJSON("data/eda.json")
+MODELO <- jsonlite::fromJSON("data/modelo.json")
+```
+
+## Reglas de protección
+
+Las reglas se aplican antes de publicar y otra vez al mostrar cada selección:
+
+- Un cruce se publica con al menos 30 personas y 5 en cada clase, y sus recuentos se redondean a 5.
+- El panorama municipal exige 100 personas y 10 en cada clase, y redondea a 10.
+- La tasa de una selección se oculta si su base aproximada es menor de 200 o su cobertura es menor de 80 %.
+
+La regla de ocultación es una función pequeña y explícita:
+
+```{r shiny-tasa, eval=FALSE, echo=TRUE}
+tasa_segura <- function(n, cobertura) {
+  n >= BASE_TASA_MINIMA && !is.na(cobertura) && cobertura >= COBERTURA_MINIMA
+}
+```
+
+Cuando se filtran varios municipios, la cobertura es la del municipio con menor valor. Cuando la tasa se oculta y existe un agregado publicado aparte para esa selección, la aplicación lo muestra como referencia, con su propio denominador. No sustituye a la cifra filtrada ni iguala totales. Por estas reglas, las cifras filtradas son aproximadas y pueden diferir de las tablas exactas de este libro.
+
+## Cómo funciona la reactividad
+
+Los filtros forman una selección. Un valor reactivo calcula su resumen una sola vez y lo comparten todas las salidas, de modo que tarjetas, gráficas, notas y descarga siempre describen el mismo grupo.
+
+```{r shiny-reactivo, eval=FALSE, echo=TRUE}
+seleccion <- reactive(list(
+  municipios = if (is.null(input$f_municipio)) character(0) else input$f_municipio,
+  sexo = input$f_sexo, edad = input$f_edad, zona = input$f_zona, dificultad = input$f_dificultad
+))
+resumen <- reactive(do.call(resumen_seleccion, seleccion()))
+```
+
+La descarga contiene solo celdas publicables. En la vista del modelo, el control de umbral recalcula sensibilidad, precisión, personas marcadas y matriz de confusión a partir de agregados de la prueba; la posición validada reproduce el umbral elegido en validación.
+
+## Diseño
+
+El sistema visual «Papel censal» se documenta en `shiny_salud/DISENO.md` y es común a la aplicación, al tablero Dash, a este libro y al notebook. El color tiene un significado fijo: azul para quienes quedan dentro de la ruta formal y arcilla para quienes quedan fuera. Hay dos elementos propios:
+
+- El **diagrama de ruta** muestra cómo se reparte la cohorte. El ancho de cada banda es proporcional a las personas.
+- La **cinta de cobertura** indica si la tasa de la selección está visible u oculta, por qué, y qué tan lejos está la cobertura del umbral de 80 %.
+
+Las gráficas principales ofrecen etiquetas directas o una tabla alternativa. En móvil, el diagrama se convierte en una lista.
+
+## Comprobaciones
+
+`shiny_salud/pruebas/pruebas.R` comprueba que solo se distribuyan agregados, que las celdas cumplan las reglas de publicación y que las tasas se oculten cuando corresponde. También simula el uso de la aplicación con `shiny::testServer`: cambia filtros, revisa las salidas y lee la descarga.
+
+La prueba principal compara Shiny con Dash en las **3.375 combinaciones de filtros** evaluadas: personas, positivos, celdas, cobertura, visibilidad de la tasa, referencia y grupos mostrados en cada gráfica. Así, las dos aplicaciones no pueden dar resultados distintos sin que la prueba lo detecte.
+
+## Despliegue
+
+La aplicación se publica como un contenedor en Google Cloud Run, en un servicio separado del Dash. La imagen parte de `rocker/r-ver:4.6.1` y escucha en el puerto que indica Cloud Run. Como Shiny mantiene una conexión WebSocket por sesión, el servicio usa afinidad de sesión y un tiempo de espera largo. Los comandos están en `shiny_salud/README.md`.

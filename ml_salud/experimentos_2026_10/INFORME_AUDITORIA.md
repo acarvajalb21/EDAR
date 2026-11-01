@@ -1,5 +1,7 @@
 # Auditoría y mejora del modelo censal de salud
 
+> **Nota del 30 de octubre de 2026.** Este informe describe la revisión de la versión 1 y sus cifras no cambian. El modelo vigente es la versión 2, adoptada después con el [protocolo de contexto](../experimento_contexto/PROTOCOLO.md). Los resultados de la versión 1 están ahora en `ml_salud/resultados_v1/`, y los comandos de este informe leen esa carpeta.
+
 **Fecha:** 27 de octubre de 2026. **Decisión:** conservar el boosting de histogramas original. Ninguno de los cambios evaluados demostró una mejora de Average Precision (AP) consistente y suficiente para sustituirlo. Este trabajo no cambió los resultados originales, Bookdown, Dash ni Cloud Run.
 
 ## Alcance y referencia reproducida
@@ -70,7 +72,7 @@ Como alternativas exploratorias de priorización, ordenar por probabilidad y res
 | 10 % | 1.944 | 801 | 0,412 | 0,196 | 1,956 |
 | 20 % | 3.887 | 1.418 | 0,365 | 0,346 | 1,732 |
 
-La [figura original de ROC, precisión-recall y calibración](../resultados/curvas.png) y los deciles están en [`salidas/comparacion_historica.json`](salidas/comparacion_historica.json). En el decil superior se predijo **0,407** y se observó **0,412**; esto no demuestra calibración prospectiva. El Brier en prueba fue **0,1560**, frente al **0,1663** de prevalencia.
+La [figura original de ROC, precisión-recall y calibración](../resultados_v1/curvas.png) y los deciles están en [`salidas/comparacion_historica.json`](salidas/comparacion_historica.json). En el decil superior se predijo **0,407** y se observó **0,412**; esto no demuestra calibración prospectiva. El Brier en prueba fue **0,1560**, frente al **0,1663** de prevalencia.
 
 El [CSV de subgrupos](salidas/subgrupos_prueba_historica.csv) informa denominador, positivos, AP, precisión, sensibilidad e intervalo Wilson de 95 % por dificultad, sexo, grupo de edad quinquenal y municipio cuando hay al menos 50 personas y 10 positivos. Los intervalos Wilson describen variación binomial de cada grupo y no ajustan dependencia dentro de vivienda ni selección previa del modelo. Ejemplos importantes:
 

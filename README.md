@@ -12,8 +12,9 @@ La pregunta del informe es qué patrones se observaron entre las personas del At
 - `scripts/`: preparación de agregados y auditoría.
 - `ml_salud/`: copia del pipeline y resultados que permiten regenerar el libro de forma independiente; la misma versión se entrega en EDAPYTHON.
 - `docs/`: HTML compilado que publica GitHub Pages.
+- [`shiny_salud/`](shiny_salud/README.md): aplicación Shiny en R, con sus pruebas y despliegue. Se publica en [Cloud Run](https://shiny-salud-atlantico-409319239507.us-east1.run.app/) y se documenta en el capítulo 8 del libro.
 
-El [Dash actual](https://dataviz-salud-atlantico-409319239507.us-east1.run.app/) y el código del modelo están en [EDAPYTHON](https://github.com/acarvajalb21/EDAPYTHON), carpetas `dash_salud/` y `ml_salud/`. El informe técnico de la [auditoría de octubre de 2026](https://github.com/acarvajalb21/EDAPYTHON/blob/main/ml_salud/experimentos_2026_10/INFORME_AUDITORIA.md) explica por qué se conserva el modelo original. El antiguo `dashboard/` de este repositorio es un entregable anterior.
+El [Dash actual](https://dataviz-salud-atlantico-409319239507.us-east1.run.app/) y el código del modelo están en [EDAPYTHON](https://github.com/acarvajalb21/EDAPYTHON), carpetas `dash_salud/` y `ml_salud/`. El informe técnico de la [auditoría de octubre de 2026](https://github.com/acarvajalb21/EDAPYTHON/blob/main/ml_salud/experimentos_2026_10/INFORME_AUDITORIA.md) documenta la revisión de la versión 1; el modelo vigente (versión 2) y su protocolo están en `ml_salud/experimento_contexto/`. El antiguo `dashboard/` de este repositorio es un entregable anterior.
 
 ## Reproducir el libro
 
@@ -23,7 +24,7 @@ Para leer el informe no hacen falta los microdatos: abra `docs/index.html` o el 
 Rscript build_bookdown.R
 ```
 
-`build_bookdown.R` escribe en `docs/`. Para **regenerar** las tablas y figuras desde cero se necesitan además Python, las dependencias de `ml_salud` y los tres CSV departamentales del CNPV 2018 del DANE (`5PER`, `2HOG`, `1VIV`, departamento 08). Ejecute desde la raíz `python scripts/preparar_resumen.py --data-dir RUTA_CSV_DANE` y luego `python scripts/preparar_auditoria.py`. Los scripts verifican las huellas de los archivos. Los microdatos originales no se suben a GitHub.
+`build_bookdown.R` escribe en `docs/` y copia la fuente desde `shiny_salud/www/fonts/`. Para **regenerar** las tablas y figuras desde cero se necesitan además Python, las dependencias de `ml_salud` y los cuatro CSV departamentales del CNPV 2018 del DANE (`5PER`, `2HOG`, `1VIV`, `MGN`, departamento 08). Ejecute desde la raíz `python scripts/preparar_resumen.py --data-dir RUTA_CSV_DANE` y luego `python scripts/preparar_auditoria.py`. Los scripts verifican las huellas de los archivos. Los microdatos originales no se suben a GitHub.
 
 **Estado metodológico:** el modelo es retrospectivo y su validación se limita al censo 2018. No se ha demostrado que sus patrones sirvan para decisiones sobre personas actuales. Antes de redefinir la pregunta o la etiqueta del proyecto hace falta comprobar la viabilidad de una fuente que observe barreras reales de atención.
 

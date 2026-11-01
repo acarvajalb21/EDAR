@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Capítulo 2 Datos y método | Acceso formal a salud en el Atlántico</title>
   <meta name="description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
-  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Capítulo 2 Datos y método | Acceso formal a salud en el Atlántico" />
   <meta property="og:type" content="book" />
@@ -20,7 +20,7 @@
   <meta name="twitter:description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
   
 
-<meta name="author" content="Proyecto DATAVIZ" />
+<meta name="author" content="Alejandro Carvajal y Mateo Chang · Proyecto DATAVIZ" />
 
 
 
@@ -53,6 +53,70 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
   
@@ -109,7 +173,12 @@
 <li class="chapter" data-level="5.3" data-path="modelo.html"><a href="modelo.html#curvas-calibraci%C3%B3n-y-umbral"><i class="fa fa-check"></i><b>5.3</b> Curvas, calibración y umbral</a></li>
 <li class="chapter" data-level="5.4" data-path="modelo.html"><a href="modelo.html#variables-relevantes-y-diferencias-entre-grupos"><i class="fa fa-check"></i><b>5.4</b> Variables relevantes y diferencias entre grupos</a></li>
 <li class="chapter" data-level="5.5" data-path="modelo.html"><a href="modelo.html#revision-modelo-2026"><i class="fa fa-check"></i><b>5.5</b> Revisión adicional del modelo en 2026</a></li>
-<li class="chapter" data-level="5.6" data-path="modelo.html"><a href="modelo.html#alcance-de-la-prueba"><i class="fa fa-check"></i><b>5.6</b> Alcance de la prueba</a></li>
+<li class="chapter" data-level="5.6" data-path="modelo.html"><a href="modelo.html#modelo-contexto-2026"><i class="fa fa-check"></i><b>5.6</b> Modelo con contexto de salud (versión 2)</a>
+<ul>
+<li class="chapter" data-level="" data-path="modelo.html"><a href="modelo.html#qu%C3%A9-significan-estas-variables"><i class="fa fa-check"></i>Qué significan estas variables</a></li>
+<li class="chapter" data-level="" data-path="modelo.html"><a href="modelo.html#errores-y-diferencias-entre-grupos"><i class="fa fa-check"></i>Errores y diferencias entre grupos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="modelo.html"><a href="modelo.html#alcance-de-la-prueba"><i class="fa fa-check"></i><b>5.7</b> Alcance de la prueba</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>6</b> Conclusiones y decisiones para el proyecto</a>
 <ul>
@@ -122,6 +191,15 @@
 <li class="chapter" data-level="7.1" data-path="reproducibilidad.html"><a href="reproducibilidad.html#origen-de-las-cifras"><i class="fa fa-check"></i><b>7.1</b> Origen de las cifras</a></li>
 <li class="chapter" data-level="7.2" data-path="reproducibilidad.html"><a href="reproducibilidad.html#volver-a-generar-el-libro"><i class="fa fa-check"></i><b>7.2</b> Volver a generar el libro</a></li>
 <li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias-de-interpretaci%C3%B3n"><i class="fa fa-check"></i><b>7.3</b> Referencias de interpretación</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>8</b> Aplicación Shiny</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="shiny.html"><a href="shiny.html#datos-que-usa"><i class="fa fa-check"></i><b>8.1</b> Datos que usa</a></li>
+<li class="chapter" data-level="8.2" data-path="shiny.html"><a href="shiny.html#reglas-de-protecci%C3%B3n"><i class="fa fa-check"></i><b>8.2</b> Reglas de protección</a></li>
+<li class="chapter" data-level="8.3" data-path="shiny.html"><a href="shiny.html#c%C3%B3mo-funciona-la-reactividad"><i class="fa fa-check"></i><b>8.3</b> Cómo funciona la reactividad</a></li>
+<li class="chapter" data-level="8.4" data-path="shiny.html"><a href="shiny.html#dise%C3%B1o"><i class="fa fa-check"></i><b>8.4</b> Diseño</a></li>
+<li class="chapter" data-level="8.5" data-path="shiny.html"><a href="shiny.html#comprobaciones"><i class="fa fa-check"></i><b>8.5</b> Comprobaciones</a></li>
+<li class="chapter" data-level="8.6" data-path="shiny.html"><a href="shiny.html#despliegue"><i class="fa fa-check"></i><b>8.6</b> Despliegue</a></li>
 </ul></li>
 </ul>
 
@@ -144,11 +222,11 @@
 <h1><span class="header-section-number">Capítulo 2</span> Datos y método<a href="datos-metodo.html#datos-metodo" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="archivos-y-unidad-de-análisis" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Archivos y unidad de análisis<a href="datos-metodo.html#archivos-y-unidad-de-an%C3%A1lisis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Se utilizaron los microdatos anonimizados de personas (<code>5PER</code>), hogares (<code>2HOG</code>) y viviendas (<code>1VIV</code>) del CNPV 2018 para el Atlántico. La unidad del análisis es <strong>la persona</strong>. El archivo geográfico <code>MGN</code> se inspeccionó en la revisión del proyecto, pero no se necesita para el modelo ni para las tablas de este libro.</p>
+<p>Se utilizaron los microdatos anonimizados de personas (<code>5PER</code>), hogares (<code>2HOG</code>) y viviendas (<code>1VIV</code>) del CNPV 2018 para el Atlántico. La unidad del análisis es <strong>la persona</strong>. El archivo geográfico <code>MGN</code> asigna cada vivienda a su sección censal; se usa solo para calcular una variable de contexto del modelo (sección <a href="modelo.html#modelo-contexto-2026">5.6</a>). El libro no publica cifras por sección.</p>
 <p>El vínculo entre personas y hogares usa departamento, municipio, clase de área, encuesta, vivienda y número de hogar. El vínculo posterior con vivienda usa esas mismas claves, excepto el número de hogar. El programa exige unicidad de la clave de hogar y de vivienda, conserva la cardinalidad de personas y detiene la ejecución si alguna persona queda sin enlace. Los 136.034 registros analíticos se enlazaron a hogar y vivienda; no se encontraron claves de persona duplicadas.</p>
 <p>Una revisión adicional de los tres CSV encontró algunas claves de hogar vacías fuera de la población estudiada: 5.831 en el archivo completo de personas y 261 en el de hogares. <strong>Ninguna</strong> de las 136.114 personas que declaró el problema de salud tenía una clave de unión incompleta. También se comprobó que el identificador de vivienda usado para agrupar las particiones conserva el mismo número de viviendas distintas que la clave compuesta original. Estos controles evitan interpretar la ausencia de claves en todo el censo como un problema de la cohorte analítica.</p>
 <table>
-<caption><span id="tab:flujo-cohorte">Table 2.1: </span>Flujo de registros y comprobación de las uniones.</caption>
+<caption><span id="tab:flujo-cohorte">Tabla 2.1: </span>Flujo de registros y comprobación de las uniones.</caption>
 <thead>
 <tr class="header">
 <th align="left">Etapa</th>
@@ -186,14 +264,14 @@
 </div>
 <div id="diccionario-de-predictores" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Diccionario de predictores<a href="datos-metodo.html#diccionario-de-predictores" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>El modelo principal utiliza <strong>26 variables</strong>: diez de persona, cinco de hogar y once de vivienda. La tabla <a href="datos-metodo.html#tab:diccionario">2.2</a> nombra cada campo y su nivel. Para los códigos de cada respuesta se debe consultar el <a href="https://microdatos.dane.gov.co/catalog/643">catálogo del CNPV 2018</a>. El número que aparece en un CSV no transforma automáticamente una categoría en cantidad: municipio, sexo y materiales son ejemplos de códigos nominales.</p>
-<table>
-<caption><span id="tab:diccionario">Table 2.2: </span>Variables de entrada del modelo principal.</caption>
+<p>El modelo vigente utiliza <strong>28 variables</strong>: diez de persona, cinco de hogar, once de vivienda y dos de contexto de salud, una del hogar y otra de la sección censal. La tabla <a href="datos-metodo.html#tab:diccionario">2.2</a> nombra cada campo y su nivel. Para los códigos de cada respuesta se debe consultar el <a href="https://microdatos.dane.gov.co/catalog/643">catálogo del CNPV 2018</a>. El número que aparece en un CSV no transforma automáticamente una categoría en cantidad: municipio, sexo y materiales son ejemplos de códigos nominales.</p>
+<table style="width:100%;">
+<caption><span id="tab:diccionario">Tabla 2.2: </span>Variables de entrada del modelo principal.</caption>
 <colgroup>
-<col width="22%" />
-<col width="48%" />
-<col width="14%" />
-<col width="15%" />
+<col width="16%" />
+<col width="57%" />
+<col width="17%" />
+<col width="9%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -360,20 +438,32 @@
 <td align="left">Vivienda</td>
 <td align="left">Categórica</td>
 </tr>
+<tr class="odd">
+<td align="left">HOGAR_OTROS_ENFERMOS</td>
+<td align="left">Otras personas del hogar con problema de salud</td>
+<td align="left">Contexto del hogar</td>
+<td align="left">Recuento</td>
+</tr>
+<tr class="even">
+<td align="left">SECCION_PCT_ENFERMOS</td>
+<td align="left">Proporción con problema de salud en la sección censal, sin el propio hogar</td>
+<td align="left">Contexto de la sección</td>
+<td align="left">Proporción</td>
+</tr>
 </tbody>
 </table>
 <p>La edad <code>P_EDADR</code> corresponde a intervalos quinquenales, de 0–4 hasta 100 años o más, según el <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V576?name=P_EDADR">diccionario del DANE</a>. <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V585?name=CONDICION_FISICA"><code>CONDICION_FISICA</code></a> pregunta si existe alguna dificultad para la vida diaria; en este análisis se interpreta como <strong>dificultad funcional declarada</strong>, no como diagnóstico médico ni registro administrativo de discapacidad. Sus categorías observadas son 1 «con dificultad» y 2 «sin dificultad».</p>
 </div>
 <div id="qué-se-excluyó-para-reducir-fuga-de-información" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Qué se excluyó para reducir fuga de información<a href="datos-metodo.html#qu%C3%A9-se-excluy%C3%B3-para-reducir-fuga-de-informaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><code>P_QUEHIZO_PPAL</code> y <code>PA_LO_ATENDIERON</code> construyen la respuesta: incluirlas como predictores permitiría al modelo leer directamente la solución. <code>PA1_CALIDAD_SERV</code> se conoce después de la experiencia con el servicio. Se excluyeron también identificadores, copias de la etiqueta y <code>P_ENFERMO</code>, que ya define la cohorte.</p>
-<p>Se retiraron <code>P_TRABAJO</code> y <code>PA_ASISTENCIA</code> del modelo principal porque el censo las registra en una ventana temporal cercana al episodio de salud y podrían reflejar consecuencias de este. Al incluirlas en un contraste de sensibilidad, la AP de validación subió de 0,346 a 0,355. Se aceptó esa diferencia pequeña a cambio de una definición de entrada con menor ambigüedad temporal. Esto <strong>no demuestra</strong> que todas las demás covariables sean anteriores al problema de salud.</p>
+<p><code>P_QUEHIZO_PPAL</code> y <code>PA_LO_ATENDIERON</code> construyen la respuesta: incluirlas como predictores permitiría al modelo leer directamente la solución. <code>PA1_CALIDAD_SERV</code> se conoce después de la experiencia con el servicio. Se excluyeron también identificadores, copias de la etiqueta y el <code>P_ENFERMO</code> de la propia persona, que ya define la cohorte. Las dos variables de contexto usan esa pregunta en otras personas, no la acción que declararon.</p>
+<p>Se retiraron <code>P_TRABAJO</code> y <code>PA_ASISTENCIA</code> del modelo principal porque el censo las registra en una ventana temporal cercana al episodio de salud y podrían reflejar consecuencias de este. Al incluirlas en un contraste de sensibilidad sobre el modelo de 26 variables, la AP de validación subió de 0,346 a 0,355. Se aceptó esa diferencia pequeña a cambio de una definición de entrada con menor ambigüedad temporal. Esto <strong>no demuestra</strong> que todas las demás covariables sean anteriores al problema de salud.</p>
 </div>
 <div id="separación-y-preprocesamiento" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Separación y preprocesamiento<a href="datos-metodo.html#separaci%C3%B3n-y-preprocesamiento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La cohorte se dividió en entrenamiento, validación y prueba con estratificación de la etiqueta y agrupación por <strong>vivienda</strong>. Las personas de una misma vivienda permanecen en una sola partición. La búsqueda de parámetros se hizo dentro del entrenamiento mediante validación cruzada de tres particiones, igualmente agrupada por vivienda. Una partición de validación separada del entrenamiento permitió elegir modelo y umbral; la prueba se reservó para evaluar la elección.</p>
 <table>
-<caption><span id="tab:particiones">Table 2.3: </span>Separación estratificada y agrupada por vivienda.</caption>
+<caption><span id="tab:particiones">Tabla 2.3: </span>Separación estratificada y agrupada por vivienda.</caption>
 <colgroup>
 <col width="20%" />
 <col width="13%" />

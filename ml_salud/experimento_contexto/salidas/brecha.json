@@ -1,0 +1,118 @@
+{
+  "status": "descriptivo; prueba interna ya expuesta",
+  "age_weights_among_positives": {
+    "0-14": 0.22135353041778646,
+    "15-59": 0.6435377473735646,
+    "60+": 0.13510872220864892
+  },
+  "same_flagged_comparison": {
+    "v1_umbral_validado": {
+      "flagged": 9293,
+      "recall": 0.6738333740532617,
+      "precision": 0.296782524480792,
+      "recall_difficulty": 0.43014705882352944,
+      "recall_no_difficulty": 0.7111862496477881,
+      "recall_60_plus": 0.10307414104882459
+    },
+    "v2_mismas_personas_marcadas": {
+      "flagged": 9293,
+      "recall": 0.6948448570730515,
+      "precision": 0.30603680189389865,
+      "recall_difficulty": 0.49816176470588236,
+      "recall_no_difficulty": 0.7249929557621866,
+      "recall_60_plus": 0.19349005424954793
+    },
+    "v2_umbral_validado": {
+      "flagged": 7497,
+      "recall": 0.6059125335939409,
+      "precision": 0.33079898626117116,
+      "recall_difficulty": 0.3786764705882353,
+      "recall_no_difficulty": 0.6407438715131023,
+      "recall_60_plus": 0.11573236889692586
+    }
+  },
+  "rows": [
+    {
+      "age_band": "0-14",
+      "difficulty_code": 1,
+      "n": 228,
+      "positives": 51,
+      "true_positives": 27,
+      "recall": 0.5294117647058824,
+      "recall_wilson_95": [
+        0.39523304210096466,
+        0.6594700979050041
+      ]
+    },
+    {
+      "age_band": "0-14",
+      "difficulty_code": 2,
+      "n": 3792,
+      "positives": 855,
+      "true_positives": 599,
+      "recall": 0.7005847953216374,
+      "recall_wilson_95": [
+        0.6690436380969959,
+        0.7303315859064955
+      ]
+    },
+    {
+      "age_band": "15-59",
+      "difficulty_code": 1,
+      "n": 1617,
+      "positives": 332,
+      "true_positives": 162,
+      "recall": 0.4879518072289157,
+      "recall_wilson_95": [
+        0.43462994932298227,
+        0.5415492870700112
+      ]
+    },
+    {
+      "age_band": "15-59",
+      "difficulty_code": 2,
+      "n": 9286,
+      "positives": 2302,
+      "true_positives": 1628,
+      "recall": 0.7072111207645526,
+      "recall_wilson_95": [
+        0.68828957152817,
+        0.72544225567556
+      ]
+    },
+    {
+      "age_band": "60+",
+      "difficulty_code": 1,
+      "n": 1603,
+      "positives": 161,
+      "true_positives": 17,
+      "recall": 0.10559006211180125,
+      "recall_wilson_95": [
+        0.0669763035036376,
+        0.16258644782978804
+      ]
+    },
+    {
+      "age_band": "60+",
+      "difficulty_code": 2,
+      "n": 2908,
+      "positives": 392,
+      "true_positives": 47,
+      "recall": 0.11989795918367346,
+      "recall_wilson_95": [
+        0.09137404897551568,
+        0.15579929944581217
+      ]
+    }
+  ],
+  "age_standardized_recall": {
+    "1": 0.44546870838317115,
+    "2": 0.6263932294365518
+  },
+  "raw_recall": {
+    "1": 0.3786764705882353,
+    "2": 0.6407438715131023
+  },
+  "recall_60_plus": 0.11573236889692586,
+  "recall_under_60": 0.6824858757062147
+}

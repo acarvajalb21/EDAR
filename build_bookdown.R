@@ -12,3 +12,7 @@ if (!requireNamespace("bookdown", quietly = TRUE)) {
 }
 
 bookdown::render_book("index.Rmd", output_format = "bookdown::gitbook")
+
+# style.css usa la misma fuente que la aplicación Shiny.
+dir.create("docs/fonts", showWarnings = FALSE)
+file.copy(list.files("shiny_salud/www/fonts", full.names = TRUE), "docs/fonts", overwrite = TRUE)

@@ -24,7 +24,7 @@ def main():
     x = prepare_features(df)
     y = df.SIN_ACCESO.to_numpy()
     _, _, test = split_three(x, y, group_ids(df))
-    artifact = joblib.load(Path(__file__).parents[1] / "resultados" / "modelo_sin_acceso.joblib")
+    artifact = joblib.load(Path(__file__).parents[1] / "resultados_v1" / "modelo_sin_acceso.joblib")
     score = artifact["pipeline"]["clasificador"].predict_proba(x.iloc[test])[:, 1]
     raw = df.iloc[test].reset_index(drop=True)
     age = raw.P_EDADR.to_numpy()

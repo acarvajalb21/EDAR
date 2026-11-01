@@ -1,0 +1,5 @@
+.git/
+.gcloudignore
+pruebas/
+*.ps1
+.Rhistory
