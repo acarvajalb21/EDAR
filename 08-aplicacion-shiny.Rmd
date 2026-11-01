@@ -1,6 +1,6 @@
 # Aplicación Shiny {#shiny}
 
-La [aplicación Shiny](https://shiny-salud-atlantico-409319239507.us-east1.run.app/) presenta el proyecto de forma interactiva en R. Tiene cuatro vistas: **Panorama**, con la cifra principal y el reparto de las rutas declaradas; **Explorar**, con filtros y comparaciones; **Modelo**, con la evaluación y un control de umbral; y **Método**, con las definiciones y las reglas de protección.
+La [aplicación Shiny](https://shiny-salud-atlantico-409319239507.us-east1.run.app/) presenta el proyecto de forma interactiva en R. Tiene cuatro vistas: **Panorama**, un relato guiado por el scroll que lleva del censo a las rutas declaradas; **Explorar**, con filtros y comparaciones; **Modelo**, con la evaluación y un control de umbral; y **Método**, con preguntas frecuentes, definiciones y reglas de protección.
 
 El código está en la carpeta `shiny_salud/` de este repositorio. Se ejecuta desde R con:
 
@@ -55,8 +55,10 @@ El sistema visual «Papel censal» se documenta en `shiny_salud/DISENO.md` y es 
 
 - El **diagrama de ruta** muestra cómo se reparte la cohorte. El ancho de cada banda es proporcional a las personas.
 - La **cinta de cobertura** indica si la tasa de la selección está visible u oculta, por qué, y qué tan lejos está la cobertura del umbral de 80 %.
+- El **relato de apertura** muestra la cohorte con cuadros que representan grupos de personas, nunca a una persona real, y termina en un mapa con las tasas publicadas. Al elegir un municipio, la aplicación abre Explorar con ese filtro.
+- La **frase viva** resume cada selección en una oración y solo enuncia una tasa cuando las reglas lo permiten.
 
-Las gráficas principales ofrecen etiquetas directas o una tabla alternativa. En móvil, el diagrama se convierte en una lista.
+Las gráficas principales ofrecen etiquetas directas o una tabla alternativa. En móvil, el diagrama se convierte en una lista. El relato usa datos agregados y geometría pública del DANE: no se generaron imágenes ni video.
 
 ## Comprobaciones
 

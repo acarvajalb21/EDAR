@@ -104,41 +104,58 @@ ruta_lista <- function() {
 vista_panorama <- function() {
   b <- EDA$metadata$label_breakdown_exact
   flujo <- EDA$metadata$population_flow
-  div(class = "vista",
-      tags$section(class = "portada",
-        div(class = "portada-texto",
-            p(class = "antetitulo", "CNPV 2018 · Atlántico · DANE"),
-            h1("¿Qué ruta de atención se declaró ante un problema de salud?"),
-            p(class = "entrada", "Respuestas de quienes declararon un problema de salud en los 30 días previos al censo, sin hospitalización."),
-            actionButton("ir_explorar", "Explorar los datos", class = "boton-principal")),
-        div(class = "portada-cifra",
-            div(class = "cifra", fmt_pct(EXACTO$sin_formal / EXACTO$n, 2)),
-            p(class = "cifra-etiqueta", "quedó fuera de la ruta formal definida"),
-            p(class = "cifra-base", paste(fmt_int(EXACTO$sin_formal), "de", fmt_int(EXACTO$n), "personas de la cohorte")),
-            p(class = "cifra-aviso", "Es una clasificación del tratamiento principal reportado. No equivale a atención denegada ni a ausencia de toda atención."))),
-      tags$section(class = "bloque",
-        h2("Cómo se reparten las respuestas"),
-        ruta_svg(), ruta_lista(),
-        p(class = "panel-nota", "Son acciones principales reportadas. «Otra acción o ninguna» incluye farmacia y otras formas de atención; no equivale a ausencia de toda atención.")),
-      div(class = "dos-columnas",
-        div(class = "lectura",
-            h2("Cómo leer esta cifra"),
-            div(class = "lectura-punto", h3("La mayoría no reportó una negativa de la EPS"),
-                p(paste0("De ", fmt_int(EXACTO$sin_formal), " personas en esta clase, ", fmt_int(b$eps_no_atendido),
-                         " dijeron haber acudido a su EPS sin recibir atención. Las otras ", fmt_int(b$otras_acciones_o_ninguna),
-                         " registraron una acción principal distinta o ninguna."))),
-            div(class = "lectura-punto", h3("No es toda la población"),
-                p(paste0("De ", fmt_int(flujo$people), " personas censadas, ", fmt_int(flujo$recent_health_problem),
-                         " declararon el problema de salud y ", fmt_int(flujo$analytic), " tienen respuesta clasificable."))),
-            div(class = "lectura-punto", h3("Describe 2018"),
-                p("Las asociaciones no indican causas ni describen necesariamente la situación actual del departamento."))),
-        panel_g("Una vista por municipio", "Porcentaje fuera de la ruta formal",
-                plotlyOutput("g_panorama", height = "auto"),
-                paste0("Municipios con al menos 100 personas y 10 en cada clase; conteos redondeados a 10.",
-                       oracion_omitidos(EDA$municipal_overview$municipio, "en esta vista", "no alcanza ese mínimo"),
-                       " Las diferencias pueden reflejar composición demográfica y otras características."))),
-      p(class = "fuente", "Fuente: microdatos anonimizados del CNPV 2018, DANE. Cifras históricas.")
+  tagList(
+    div(id = "relato"),
+    div(class = "vista",
+        tags$section(class = "bloque",
+          h2("La ruta completa"),
+          ruta_svg(), ruta_lista(),
+          p(class = "panel-nota", "Son acciones principales reportadas. «Otra acción o ninguna» incluye farmacia y otras formas de atención; no equivale a ausencia de toda atención.")),
+        div(class = "dos-columnas",
+          div(class = "lectura",
+              h2("Cómo leer esta cifra"),
+              div(class = "lectura-punto", h3("La mayoría no reportó una negativa de la EPS"),
+                  p(paste0("De ", fmt_int(EXACTO$sin_formal), " personas en esta clase, ", fmt_int(b$eps_no_atendido),
+                           " dijeron haber acudido a su EPS sin recibir atención. Las otras ", fmt_int(b$otras_acciones_o_ninguna),
+                           " registraron una acción principal distinta o ninguna."))),
+              div(class = "lectura-punto", h3("No es toda la población"),
+                  p(paste0("De ", fmt_int(flujo$people), " personas censadas, ", fmt_int(flujo$recent_health_problem),
+                           " declararon el problema de salud y ", fmt_int(flujo$analytic), " tienen respuesta clasificable."))),
+              div(class = "lectura-punto", h3("Describe 2018"),
+                  p("Las asociaciones no indican causas ni describen necesariamente la situación actual del departamento."))),
+          panel_g("Una vista por municipio", "Porcentaje fuera de la ruta formal",
+                  plotlyOutput("g_panorama", height = "auto"),
+                  paste0("Municipios con al menos 100 personas y 10 en cada clase; conteos redondeados a 10.",
+                         oracion_omitidos(EDA$municipal_overview$municipio, "en esta vista", "no alcanza ese mínimo"),
+                         " Las diferencias pueden reflejar composición demográfica y otras características."))),
+        p(class = "fuente", "Fuente: microdatos anonimizados del CNPV 2018, DANE. Los cuadros del relato representan grupos, no personas reales.")
+    )
   )
+}
+
+pregunta <- function(titulo, respuesta) {
+  tags$details(class = "pregunta", tags$summary(titulo), tags$p(respuesta))
+}
+
+# Resume la selección en una frase; solo enuncia una tasa cuando las reglas lo permiten.
+frase_seleccion <- function(s, r) {
+  lugar <- if (length(s$municipios) == 0) "En el Atlántico" else if (length(s$municipios) == 1) {
+    paste("En", s$municipios)
+  } else paste("En", length(s$municipios), "municipios")
+  edad <- if (s$edad == "Todos") NULL else if (s$edad == "65+") "de 65 años o más" else paste("de", s$edad, "años")
+  zona <- c(Cabecera = "de cabecera", `Centros poblados y rural disperso` = "de centros poblados y rural disperso")[s$zona]
+  dificultad <- if (s$dificultad == "Todos") NULL else tolower(s$dificultad)
+  detalle <- c(edad, if (!is.na(zona)) unname(zona), dificultad)
+  quien <- c(Mujer = "entre mujeres", Hombre = "entre hombres", Todos = if (length(detalle) > 0) "entre personas" else NA)[[s$sexo]]
+  grupo <- if (is.na(quien)) "" else paste0(", ", paste(c(quien, detalle), collapse = " "))
+  if (r$tasa_segura) {
+    div(class = "frase", tags$p(paste0(lugar, grupo, ", "), tags$strong(paste("\u2248", fmt_pct(r$positivos / r$n))), " quedó fuera de la ruta formal."),
+        span(class = "frase-base", paste0("Base aproximada: ", fmt_int(r$n), " personas en ", r$celdas, if (r$celdas == 1) " cruce publicable" else " cruces publicables",
+                                          if (length(s$municipios) == 1 && is.na(quien)) ". Se suman solo los cruces publicables, por eso puede diferir de la cifra del mapa.")))
+  } else {
+    div(class = "frase", tags$p(paste0(lugar, grupo, ", esta selección "), tags$em("no permite mostrar una tasa"), "."),
+        span(class = "frase-base", if (r$celdas == 0) "Ningún cruce cumple las reglas de publicación. Prueba a quitar un filtro." else paste0("≈ ", fmt_int(r$n), " personas en cruces publicables. La protección de grupos pequeños oculta la tasa.")))
+  }
 }
 
 filtro <- function(id, etiqueta, opciones) {
@@ -148,38 +165,40 @@ filtro <- function(id, etiqueta, opciones) {
 vista_explorar <- function() {
   div(class = "vista",
       div(class = "encabezado",
-          h1("Explora los datos"),
+          h1(HTML("Elige un grupo y mira qué <em>cambia</em>.")),
           p(class = "entrada", paste0("Compara la proporción cuya acción principal quedó fuera de EPS con atención o médico particular. Al filtrar cambian el grupo, su denominador y la cobertura publicable.",
                                       oracion_omitidos(MUNICIPIOS_CUBO, "en el selector", "ninguno de sus cruces cumple las reglas de publicación")))),
-      div(class = "filtros",
-          selectizeInput("f_municipio", "Municipio", choices = MUNICIPIOS_CUBO, multiple = TRUE,
-                         options = list(placeholder = "Todos los municipios", plugins = list("remove_button"))),
-          filtro("f_sexo", "Sexo reportado", SEXOS),
-          filtro("f_edad", "Edad", EDADES),
-          filtro("f_zona", "Zona", ZONAS),
-          filtro("f_dificultad", "Dificultad funcional diaria", DIFICULTADES),
-          actionLink("limpiar", "Limpiar filtros", class = "limpiar")),
-      div(class = "cinta-zona", uiOutput("cinta")),
-      div(class = "fichas dos", uiOutput("ficha_personas", container = div), uiOutput("ficha_tasa", container = div)),
-      uiOutput("nota_referencia"),
-      div(class = "dos-columnas",
-          panel_g("Municipios en la selección", "Comparar territorios",
-                  tagList(
-                    radioButtons("metrica", NULL, inline = TRUE, choices = c("Porcentaje" = "tasa", "Personas" = "conteo"), selected = "tasa"),
-                    plotlyOutput("g_ranking", height = "auto"),
-                    tags$details(class = "ver-datos", tags$summary("Ver estos datos en una tabla"), uiOutput("tabla_municipios"))),
-                  "Se omiten municipios sin cobertura o tamaño suficientes para mostrar una tasa."),
-          div(class = "pila",
-              panel_g("Cómo cambia por edad", "Porcentaje fuera de la ruta formal",
-                      plotlyOutput("g_edad", height = "auto"),
-                      "Porcentajes dentro de cada grupo publicado; los cruces omitidos no entran en la línea."),
-              panel_g("Sexo y zona de residencia", "Porcentaje fuera de la ruta formal",
-                      plotlyOutput("g_composicion", height = "auto"), textOutput("nota_composicion", inline = TRUE)))),
-      div(class = "descarga",
-          downloadButton("descargar", "Descargar selección agregada", class = "boton-secundario", icon = NULL),
-          span(class = "descarga-nota", "El archivo contiene solo celdas publicables y recuentos redondeados.")),
-      p(class = "fuente", paste0("Protección de grupos pequeños: ", EDA$metadata$rules, " El cubo publicado cubre ",
-                                 fmt_dec(EDA$metadata$coverage_pct, 2), " % del universo clasificable antes de aplicar filtros."))
+      div(class = "explorar-marco",
+          tags$aside(class = "riel", `aria-label` = "Filtros",
+              div(class = "filtros",
+                  selectizeInput("f_municipio", "Municipio", choices = MUNICIPIOS_CUBO, multiple = TRUE,
+                                 options = list(placeholder = "Todos los municipios", plugins = list("remove_button"))),
+                  filtro("f_sexo", "Sexo reportado", SEXOS),
+                  filtro("f_edad", "Edad", EDADES),
+                  filtro("f_zona", "Zona", ZONAS),
+                  filtro("f_dificultad", "Dificultad funcional diaria", DIFICULTADES),
+                  actionLink("limpiar", "Limpiar filtros", class = "limpiar")),
+              uiOutput("cinta")),
+          div(class = "explorar-contenido",
+              uiOutput("frase"),
+              uiOutput("nota_referencia"),
+              panel_g("Municipios en la selección", "Comparar territorios",
+                      tagList(
+                        radioButtons("metrica", NULL, inline = TRUE, choices = c("Porcentaje" = "tasa", "Personas" = "conteo"), selected = "tasa"),
+                        plotlyOutput("g_ranking", height = "auto"),
+                        tags$details(class = "ver-datos", tags$summary("Ver estos datos en una tabla"), uiOutput("tabla_municipios"))),
+                      "Se omiten municipios sin cobertura o tamaño suficientes para mostrar una tasa."),
+              div(class = "dos-columnas",
+                  panel_g("Cómo cambia por edad", "Porcentaje fuera de la ruta formal",
+                          plotlyOutput("g_edad", height = "auto"),
+                          "Porcentajes dentro de cada grupo publicado; los cruces omitidos no entran en la línea."),
+                  panel_g("Sexo y zona de residencia", "Porcentaje fuera de la ruta formal",
+                          plotlyOutput("g_composicion", height = "auto"), textOutput("nota_composicion", inline = TRUE))),
+              div(class = "descarga",
+                  downloadButton("descargar", "Descargar selección agregada", class = "boton-secundario", icon = NULL),
+                  span(class = "descarga-nota", "El archivo contiene solo celdas publicables y recuentos redondeados.")),
+              p(class = "fuente", paste0("Protección de grupos pequeños: ", EDA$metadata$rules, " El cubo publicado cubre ",
+                                         fmt_dec(EDA$metadata$coverage_pct, 2), " % del universo clasificable antes de aplicar filtros."))))
   )
 }
 
@@ -204,14 +223,14 @@ vista_modelo <- function() {
                             Precisión = fmt_pct(p_tabla$precision), Sensibilidad = fmt_pct(p_tabla$recall), check.names = FALSE)
   div(class = "vista",
       div(class = "encabezado",
-          h1("Un modelo para ordenar perfiles, con límites claros"),
+          h1(HTML("Un modelo para ordenar perfiles, <em>con límites claros</em>.")),
           p(class = "entrada", "Comparamos cuatro enfoques. El mejor fue boosting de histogramas, evaluado en viviendas reservadas del mismo censo de 2018. Las cifras son agregadas; esta aplicación no calcula predicciones sobre personas.")),
       div(class = "fichas tres",
           ficha("Average Precision", fmt_dec(f$pr_auc), paste0("Prevalencia: ", fmt_dec(m$models$baseline$test$pr_auc), " · versión anterior: ", fmt_dec(cambio$previous_test_ap)), "destacada"),
           ficha("ROC-AUC", fmt_dec(f$roc_auc), "Capacidad de ordenar casos · prueba interna"),
           ficha("Brier", fmt_dec(f$brier), "Menor es mejor · prueba interna")),
       div(class = "cambio",
-          div(h2("Qué cambió en esta versión"),
+          div(h2(HTML("Qué <em>cambió</em> en esta versión")),
               p(paste0("Las ", m$audit_2026$alternatives, " alternativas de preparación de datos y ajuste probadas antes no mejoraron el modelo de 26 variables. La mejora llegó con dos variables de contexto: cuántas personas más del hogar declararon un problema de salud y qué proporción lo declaró en la sección censal.")),
               p(paste0("El AP de validación pasó de ", fmt_dec(cambio$previous_validation_ap), " a ", fmt_dec(cambio$new_validation_ap),
                        ", y en secciones no vistas al ajustar, de ", fmt_dec(cambio$previous_unseen_sections_ap), " a ", fmt_dec(cambio$new_unseen_sections_ap), "."))),
@@ -258,8 +277,20 @@ vista_metodo <- function() {
   flujo <- EDA$metadata$population_flow
   div(class = "vista vista-texto",
       div(class = "encabezado",
-          h1("Método y fuentes"),
+          h1(HTML("Método y <em>fuentes</em>")),
           p(class = "entrada", "Lo necesario para interpretar esta aplicación. El detalle completo está en el informe.")),
+      tags$section(class = "preguntas",
+        h2(HTML("Lo que conviene <em>preguntar</em>")),
+        pregunta("¿El 21,06 % significa que se negó la atención?",
+                 "No. Es una clasificación de la acción principal declarada. Solo 1.907 de esas 28.650 personas acudieron a su EPS y no recibieron atención; las demás declararon otra acción o ninguna."),
+        pregunta("¿Describe el Atlántico de hoy?",
+                 "No. Son respuestas del censo de 2018 de quienes declararon un problema de salud reciente. No se extrapolan a otros años ni a toda la población."),
+        pregunta("¿Por qué algunas tasas se ocultan?",
+                 "Para proteger grupos pequeños y evitar lecturas engañosas. Una tasa se oculta si su base aproximada es menor de 200 personas o si la cobertura del filtro es menor de 80 %."),
+        pregunta("¿Por qué las cifras filtradas no coinciden con el informe?",
+                 "Las celdas pequeñas se suprimen y los recuentos se redondean. Por eso las cifras de las aplicaciones son aproximadas; las exactas están en el informe."),
+        pregunta("¿El modelo dice qué hará una persona?",
+                 "No. Ordena perfiles dentro del mismo censo, con discriminación moderada, y no debe usarse para decidir sobre personas. Esta aplicación no calcula predicciones individuales.")),
       tags$section(class = "bloque",
         h2("Población y respuesta"),
         p("La unidad es la persona. La cohorte incluye a quienes declararon un problema de salud en los 30 días previos, sin hospitalización, y tienen una respuesta clasificable."),

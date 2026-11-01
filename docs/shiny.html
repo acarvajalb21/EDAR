@@ -220,7 +220,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="shiny" class="section level1 hasAnchor" number="8">
 <h1><span class="header-section-number">Capítulo 8</span> Aplicación Shiny<a href="shiny.html#shiny" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>La <a href="https://shiny-salud-atlantico-409319239507.us-east1.run.app/">aplicación Shiny</a> presenta el proyecto de forma interactiva en R. Tiene cuatro vistas: <strong>Panorama</strong>, con la cifra principal y el reparto de las rutas declaradas; <strong>Explorar</strong>, con filtros y comparaciones; <strong>Modelo</strong>, con la evaluación y un control de umbral; y <strong>Método</strong>, con las definiciones y las reglas de protección.</p>
+<p>La <a href="https://shiny-salud-atlantico-409319239507.us-east1.run.app/">aplicación Shiny</a> presenta el proyecto de forma interactiva en R. Tiene cuatro vistas: <strong>Panorama</strong>, un relato guiado por el scroll que lleva del censo a las rutas declaradas; <strong>Explorar</strong>, con filtros y comparaciones; <strong>Modelo</strong>, con la evaluación y un control de umbral; y <strong>Método</strong>, con preguntas frecuentes, definiciones y reglas de protección.</p>
 <p>El código está en la carpeta <code>shiny_salud/</code> de este repositorio. Se ejecuta desde R con:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="shiny.html#cb3-1" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="st">&quot;shiny_salud&quot;</span>)</span></code></pre></div>
 <div id="datos-que-usa" class="section level2 hasAnchor" number="8.1">
@@ -259,8 +259,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>El <strong>diagrama de ruta</strong> muestra cómo se reparte la cohorte. El ancho de cada banda es proporcional a las personas.</li>
 <li>La <strong>cinta de cobertura</strong> indica si la tasa de la selección está visible u oculta, por qué, y qué tan lejos está la cobertura del umbral de 80 %.</li>
+<li>El <strong>relato de apertura</strong> muestra la cohorte con cuadros que representan grupos de personas, nunca a una persona real, y termina en un mapa con las tasas publicadas. Al elegir un municipio, la aplicación abre Explorar con ese filtro.</li>
+<li>La <strong>frase viva</strong> resume cada selección en una oración y solo enuncia una tasa cuando las reglas lo permiten.</li>
 </ul>
-<p>Las gráficas principales ofrecen etiquetas directas o una tabla alternativa. En móvil, el diagrama se convierte en una lista.</p>
+<p>Las gráficas principales ofrecen etiquetas directas o una tabla alternativa. En móvil, el diagrama se convierte en una lista. El relato usa datos agregados y geometría pública del DANE: no se generaron imágenes ni video.</p>
 </div>
 <div id="comprobaciones" class="section level2 hasAnchor" number="8.5">
 <h2><span class="header-section-number">8.5</span> Comprobaciones<a href="shiny.html#comprobaciones" class="anchor-section" aria-label="Anchor link to header"></a></h2>

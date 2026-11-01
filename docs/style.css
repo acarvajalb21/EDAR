@@ -6,6 +6,13 @@
   font-display: swap;
   src: url("fonts/ibm-plex-sans-latin-variable.woff2") format("woff2");
 }
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/fraunces-latin-wght-normal.woff2") format("woff2");
+}
 :root { --papel: #F4F1E9; --hoja: #FDFCF9; --tinta: #13232C; --tinta-media: #465660; --tinta-suave: #5F6D75; --hilo: #DDD8CB; --rio: #00739A; --rio-oscuro: #005C7B; --rio-tenue: #DCEBEF; }
 body, .book, .book.font-family-1 { color: var(--tinta); font-family: "IBM Plex Sans", "Segoe UI", Arial, sans-serif; font-synthesis: none; }
 .book .book-body, .book .book-body .page-wrapper { background: var(--hoja); }
@@ -13,7 +20,7 @@ body, .book, .book.font-family-1 { color: var(--tinta); font-family: "IBM Plex S
 .book .book-body .page-wrapper .page-inner section.normal { color: var(--tinta); line-height: 1.65; }
 .book .book-body .page-wrapper .page-inner section.normal h1,
 .book .book-body .page-wrapper .page-inner section.normal h2,
-.book .book-body .page-wrapper .page-inner section.normal h3 { color: var(--tinta); font-weight: 600; letter-spacing: -.012em; }
+.book .book-body .page-wrapper .page-inner section.normal h3 { color: var(--tinta); font-family: "Fraunces", Georgia, serif; font-weight: 400; letter-spacing: -.014em; }
 .book .book-body .page-wrapper .page-inner section.normal h1 { border-bottom: 3px solid var(--rio); padding-bottom: .3em; }
 .book .book-body .page-wrapper .page-inner section.normal a { color: var(--rio-oscuro); text-underline-offset: 3px; }
 .book .book-body .page-wrapper .page-inner section.normal blockquote { border-left: 4px solid var(--rio); background: var(--rio-tenue); color: var(--tinta); padding: .75em 1em; }

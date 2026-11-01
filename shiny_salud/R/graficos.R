@@ -67,7 +67,7 @@ g_ranking <- function(filas, metrica, sexo, edad, zona, dificultad) {
   d <- d[order(d$valor), ]
   plotly::plot_ly(d, x = ~valor, y = ~factor(municipio, levels = municipio), type = "bar", orientation = "h",
                   marker = list(color = TK$arcilla), customdata = ~fmt_int(n), hovertemplate = tip) |>
-    estilo(max(300, 58 + 25 * nrow(d)), list(l = 8, r = 18, t = 6, b = 44)) |>
+    estilo(max(170, 58 + 25 * nrow(d)), list(l = 8, r = 18, t = 6, b = 44)) |>
     plotly::layout(bargap = 0.34, xaxis = list(title = list(text = titulo), ticksuffix = sufijo),
                    yaxis = list(title = list(text = ""), gridcolor = "rgba(0,0,0,0)", ticks = ""))
 }

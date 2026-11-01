@@ -10,7 +10,7 @@ Necesita R 4.6 y los paquetes `shiny`, `bslib`, `plotly` y `jsonlite`. Desde la 
 shiny::runApp("shiny_salud")
 ```
 
-No hacen falta microdatos: `data/` solo contiene `eda.json` y `modelo.json`, copiados de `dash_salud/data/` en EDAPYTHON. Si esos archivos cambian, hay que copiarlos de nuevo y regenerar `pruebas/esperado_dash.json`.
+No hacen falta microdatos: `data/` solo contiene `eda.json` y `modelo.json`, copiados de `dash_salud/data/` en EDAPYTHON. Si esos archivos cambian, hay que copiarlos de nuevo y regenerar `pruebas/esperado_dash.json`. `www/relato.js`, `www/relato.css` y `www/relato_datos.json` son los mismos del Dash; `relato_datos.json` se genera con `dash_salud/generar_relato.py`.
 
 ## Estructura
 
@@ -22,7 +22,7 @@ No hacen falta microdatos: `data/` solo contiene `eda.json` y `modelo.json`, cop
 | `R/graficos.R` | Gráficas Plotly |
 | `R/vistas.R` | Contenido de cada vista |
 | `R/formato.R` | Números en español |
-| `www/` | Estilos y fuente |
+| `www/` | Estilos, fuentes y relato de apertura |
 | `pruebas/pruebas.R` | Comprobaciones automáticas |
 
 ## Probar

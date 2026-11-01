@@ -16,13 +16,16 @@ ui <- page_navbar(
   id = "nav", lang = "es", theme = tema, fillable = FALSE, window_title = "Salud Atlántico · DataViz",
   header = tags$head(
     tags$link(rel = "preload", href = "fonts/ibm-plex-sans-latin-variable.woff2", as = "font", type = "font/woff2", crossorigin = NA),
+    tags$link(rel = "stylesheet", href = "relato.css"),
     tags$link(rel = "stylesheet", href = "estilos.css"),
+    tags$script(src = "relato.js"),
     tags$meta(name = "description", content = "Exploración y modelo sobre la ruta de atención declarada en el Atlántico, CNPV 2018."),
     # En móvil el menú se cierra al elegir una vista.
     tags$script(HTML("document.addEventListener('click', function (e) {
       var menu = document.querySelector('.navbar-collapse.show');
       if (menu && e.target.closest('.navbar-collapse .nav-link')) bootstrap.Collapse.getOrCreateInstance(menu).hide();
-    });"))
+    });
+    document.addEventListener('shown.bs.tab', function () { window.scrollTo({ top: 0, behavior: 'instant' }); });"))
   ),
   nav_panel("Panorama", value = "panorama", vista_panorama()),
   nav_panel("Explorar", value = "explorar", vista_explorar()),
@@ -33,7 +36,11 @@ ui <- page_navbar(
 )
 
 server <- function(input, output, session) {
-  observeEvent(input$ir_explorar, nav_select("nav", "explorar"))
+  observeEvent(input$relato_ir, nav_select("nav", input$relato_ir))
+  observeEvent(input$relato_municipio, {
+    limpiar_filtros(input$relato_municipio)
+    nav_select("nav", "explorar")
+  })
 
   output$g_panorama <- renderPlotly(g_panorama_municipal())
 
@@ -43,10 +50,13 @@ server <- function(input, output, session) {
   ))
   resumen <- reactive(do.call(resumen_seleccion, seleccion()))
 
-  observeEvent(input$limpiar, {
-    updateSelectizeInput(session, "f_municipio", selected = character(0))
+  limpiar_filtros <- function(municipio = character(0)) {
+    updateSelectizeInput(session, "f_municipio", selected = municipio)
     for (id in c("f_sexo", "f_edad", "f_zona", "f_dificultad")) updateSelectInput(session, id, selected = "Todos")
-  })
+  }
+  observeEvent(input$limpiar, limpiar_filtros())
+
+  output$frase <- renderUI(frase_seleccion(seleccion(), resumen()))
 
   output$cinta <- renderUI({
     r <- resumen()
@@ -56,7 +66,7 @@ server <- function(input, output, session) {
     motivo <- if (r$celdas == 0) {
       "Ninguna celda cumple las reglas de publicación. Prueba a quitar un filtro."
     } else if (r$tasa_segura) {
-      paste0("Base aproximada de ", fmt_int(r$n), " personas en ", r$celdas, " cruces publicables.")
+      paste0("Base aproximada de ", fmt_int(r$n), " personas en ", r$celdas, if (r$celdas == 1) " cruce publicable." else " cruces publicables.")
     } else if (is.na(r$cobertura) || r$cobertura < COBERTURA_MINIMA) {
       paste0("La cobertura es menor del ", COBERTURA_MINIMA, " % necesario para interpretar la tasa.")
     } else {
@@ -71,25 +81,6 @@ server <- function(input, output, session) {
             div(class = "cinta-pista", role = "img", `aria-label` = paste(texto_cobertura, "; umbral de publicación 80 %"),
                 div(class = "cinta-relleno", style = sprintf("width:%d%%", cobertura)),
                 div(class = "cinta-umbral", title = "Umbral de 80 %"))))
-  })
-
-  output$ficha_personas <- renderUI({
-    r <- resumen()
-    if (r$celdas > 0) {
-      ficha("Personas representadas", paste("≈", fmt_int(r$n)), "Suma de celdas publicables redondeadas")
-    } else {
-      ficha("Personas representadas", "Sin cruces publicables", "Ninguna celda de esta selección cumple las reglas de publicación")
-    }
-  })
-
-  output$ficha_tasa <- renderUI({
-    r <- resumen()
-    if (r$tasa_segura) {
-      ficha("Acción principal fuera de la ruta formal", fmt_pct(r$positivos / r$n), "Proporción aproximada en celdas publicables", "arcilla")
-    } else {
-      ficha("Acción principal fuera de la ruta formal", "Cobertura insuficiente",
-            if (is.null(r$referencia)) "Se oculta para evitar una lectura engañosa" else "Se oculta en los cruces filtrables; ver la referencia de abajo", "arcilla")
-    }
   })
 
   output$nota_referencia <- renderUI({
