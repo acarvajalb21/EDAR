@@ -46,15 +46,15 @@ CONTEXT = ROOT / "ml_salud" / "experimento_contexto" / "salidas"
 
 # Tokens del sistema «Papel censal» (shiny_salud/DISENO.md).
 # Río y arcilla son las dos clases; añil y ocre comparan grupos.
-RIO = "#00739A"
-ARCILLA = "#C4552D"
-ANIL = "#3F5AA6"
-OCRE = "#B57A08"
-BASE_GRIS = "#C9C4B6"
-INK = "#13232C"
-MUTED = "#5F6D75"
-GRID = "#DDD8CB"
-HOJA = "#FDFCF9"
+RIO = "#2454D6"
+ARCILLA = "#D93F4C"
+ANIL = "#00908A"
+OCRE = "#A86C00"
+BASE_GRIS = "#A9B4C2"
+INK = "#14233A"
+MUTED = "#556378"
+GRID = "#DFE4EB"
+HOJA = "#F5F7FA"
 
 AGE_LABELS = {
     1: "0–4", 2: "5–9", 3: "10–14", 4: "15–19", 5: "20–24",
@@ -108,7 +108,7 @@ FEATURE_LABELS = {
 
 def configure_plot() -> None:
     plt.rcParams.update({
-        "font.family": "sans-serif", "font.sans-serif": ["IBM Plex Sans", "DejaVu Sans"], "font.size": 10,
+        "font.family": "sans-serif", "font.sans-serif": ["Atkinson Hyperlegible Next", "DejaVu Sans"], "font.size": 10,
         "axes.labelcolor": MUTED, "text.color": INK, "xtick.color": MUTED, "ytick.color": MUTED,
         "axes.edgecolor": GRID, "axes.spines.top": False,
         "axes.spines.right": False, "axes.titleweight": "bold",
@@ -184,10 +184,10 @@ def make_eda(frame: pd.DataFrame, source: dict, quality: dict) -> dict:
     ]))
 
     label = pd.DataFrame([
-        ("EPS/entidad, atendido", source["label_breakdown"]["eps_atendido"], "Con acceso según regla"),
-        ("Médico particular", source["label_breakdown"]["medico_particular"], "Con acceso según regla"),
-        ("EPS/entidad, no atendido", source["label_breakdown"]["eps_no_atendido"], "Sin acceso según regla"),
-        ("Otras acciones o ninguna", source["label_breakdown"]["otras_acciones_o_ninguna"], "Sin acceso según regla"),
+        ("EPS/entidad, atendido", source["label_breakdown"]["eps_atendido"], "Dentro de la ruta formal"),
+        ("Médico particular", source["label_breakdown"]["medico_particular"], "Dentro de la ruta formal"),
+        ("EPS/entidad, no atendido", source["label_breakdown"]["eps_no_atendido"], "Fuera de la ruta formal"),
+        ("Otras acciones o ninguna", source["label_breakdown"]["otras_acciones_o_ninguna"], "Fuera de la ruta formal"),
     ], columns=["tratamiento_principal", "n", "clasificacion"])
     label["porcentaje"] = label["n"] / total * 100
     write_csv("composicion_etiqueta.csv", label)
@@ -235,7 +235,7 @@ def plot_eda(summary: dict) -> None:
     fig, ax = plt.subplots(figsize=(8.3, 3.7))
     labels = lab["tratamiento_principal"].tolist()[::-1]
     vals = lab["n"].tolist()[::-1]
-    colors = [RIO if item == "Con acceso según regla" else ARCILLA
+    colors = [RIO if item == "Dentro de la ruta formal" else ARCILLA
               for item in lab["clasificacion"].tolist()[::-1]]
     ax.barh(labels, vals, color=colors, height=0.58)
     for y, value in enumerate(vals):
@@ -250,8 +250,8 @@ def plot_eda(summary: dict) -> None:
     dif = pd.read_csv(DATA / "dificultad.csv")
     fig, ax = plt.subplots(figsize=(7.8, 3.8))
     dif = dif.set_index("dificultad").reindex(["Con dificultad", "Sin dificultad"])
-    ax.barh(dif.index, 100 - dif["porcentaje_sin_formal"], color=RIO, label="Con acceso según regla")
-    ax.barh(dif.index, dif["porcentaje_sin_formal"], left=100 - dif["porcentaje_sin_formal"], color=ARCILLA, label="Sin acceso según regla")
+    ax.barh(dif.index, 100 - dif["porcentaje_sin_formal"], color=RIO, label="Dentro de la ruta formal")
+    ax.barh(dif.index, dif["porcentaje_sin_formal"], left=100 - dif["porcentaje_sin_formal"], color=ARCILLA, label="Fuera de la ruta formal")
     for y, row in enumerate(dif.itertuples()):
         ax.text(102, y, f"n = {row.n:,.0f}".replace(",", "."), va="center", fontsize=9)
     ax.set_xlim(0, 121)
@@ -269,7 +269,7 @@ def plot_eda(summary: dict) -> None:
         ax.plot(part["P_EDADR"], part["porcentaje_sin_formal"], marker="o", markersize=4,
                 linewidth=2.3, label=name, color=color)
     ax.set_xticks(list(AGE_LABELS), list(AGE_LABELS.values()), rotation=60, ha="right")
-    ax.set_ylabel("Sin acceso formal según regla (%)")
+    ax.set_ylabel("Fuera de la ruta formal (%)")
     ax.set_xlabel("Edad al censo (grupos quinquenales)")
     ax.set_title("La relación cambia con la edad", loc="left")
     ax.grid(axis="y", alpha=.8)
@@ -286,7 +286,7 @@ def plot_eda(summary: dict) -> None:
         values = [part.loc[(s, name), "porcentaje_sin_formal"] for s in ("Hombre", "Mujer")]
         ax.bar(positions + offset, values, width, label=name, color=color)
     ax.set_xticks(positions, ["Hombres", "Mujeres"])
-    ax.set_ylabel("Sin acceso formal según regla (%)")
+    ax.set_ylabel("Fuera de la ruta formal (%)")
     ax.set_title("Sexo y dificultad funcional", loc="left")
     ax.grid(axis="y", alpha=.7)
     ax.set_axisbelow(True)
@@ -298,7 +298,7 @@ def plot_eda(summary: dict) -> None:
     ax.barh(mun["municipio"], mun["porcentaje_sin_formal"], color=ARCILLA, height=.7)
     ax.axvline(summary["pct_sin_formal"], color=INK, linestyle="--", linewidth=1.5,
                label=f"Atlántico: {coma(summary['pct_sin_formal'], 1)} %")
-    ax.set_xlabel("Sin acceso formal según regla (%)")
+    ax.set_xlabel("Fuera de la ruta formal (%)")
     ax.set_title("Municipios con recuentos publicables", loc="left")
     ax.grid(axis="x", alpha=.6)
     ax.set_axisbelow(True)
@@ -388,7 +388,7 @@ def make_model(results: dict, frame: pd.DataFrame) -> None:
     ax.barh(p - .16, models["ap_prueba"], height=.31, color=OCRE, label="Prueba")
     ax.set_yticks(p, models["modelo"])
     ax.set_xlim(0, .42)
-    ax.set_xlabel("Average Precision de la clase operativa sin acceso")
+    ax.set_xlabel("Precisión promedio (AP)")
     ax.set_title("Comparación bajo el mismo protocolo", loc="left")
     ax.legend(frameon=False)
     ax.grid(axis="x", alpha=.6)
@@ -408,9 +408,9 @@ def make_model(results: dict, frame: pd.DataFrame) -> None:
     conf = results["test_metrics"][results["selected_model"]]["confusion"]
     matrix = np.array([[conf["tn"], conf["fp"]], [conf["fn"], conf["tp"]]])
     fig, ax = plt.subplots(figsize=(5.2, 4.7))
-    ax.imshow(matrix, cmap=LinearSegmentedColormap.from_list("rio", ["#EFF4F4", RIO]))
-    ax.set_xticks([0, 1], ["Con acceso", "Sin acceso"])
-    ax.set_yticks([0, 1], ["Con acceso", "Sin acceso"])
+    ax.imshow(matrix, cmap=LinearSegmentedColormap.from_list("rio", ["#EDF1F6", RIO]))
+    ax.set_xticks([0, 1], ["Dentro de la ruta", "Fuera de la ruta"])
+    ax.set_yticks([0, 1], ["Dentro de la ruta", "Fuera de la ruta"])
     ax.set_xlabel("Predicción")
     ax.set_ylabel("Observado")
     ax.set_title("Matriz de confusión en prueba", loc="left")

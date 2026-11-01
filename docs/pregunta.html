@@ -222,24 +222,24 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Capítulo 1</span> Pregunta, población y variable objetivo<a href="pregunta.html#pregunta" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="qué-intenta-responder-el-proyecto" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Qué intenta responder el proyecto<a href="pregunta.html#qu%C3%A9-intenta-responder-el-proyecto" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>El análisis original partió de una pregunta sobre el acceso a atención formal entre personas del Atlántico que declararon un problema de salud reciente. Este libro conserva esa pregunta y la vuelve más precisa: <strong>describe cómo se distribuye una clasificación construida con el tratamiento principal reportado</strong> y evalúa si variables conocidas en el censo permiten ordenar a las personas según esa clasificación.</p>
+<p>El análisis original partió de una pregunta sobre el acceso a atención formal entre personas del Atlántico que declararon un problema de salud reciente. Este libro conserva esa pregunta y la vuelve más precisa: describe cómo se distribuye una clasificación construida con el tratamiento principal reportado y evalúa si variables conocidas en el censo permiten ordenar a las personas según esa clasificación.</p>
 <p>El objetivo descriptivo es reconocer patrones por edad, sexo, dificultad funcional, lugar de residencia y condiciones del hogar. El objetivo predictivo es medir, con una prueba interna separada, cuánto mejora un modelo frente a predecir siempre la prevalencia del grupo. El propósito analítico es orientar nuevas preguntas y el diseño de visualizaciones; el rendimiento obtenido no basta para asignar servicios o negar derechos a una persona.</p>
 </div>
 <div id="a-quién-se-estudia" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> A quién se estudia<a href="pregunta.html#a-qui%C3%A9n-se-estudia" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>El archivo de personas del CNPV 2018 del Atlántico contiene 2.342.265 registros. De ellos, 136.114 respondieron que habían tenido un problema de salud en los 30 días previos <strong>sin hospitalización</strong>. En 80 respuestas no fue posible aplicar la regla completa de clasificación. La cohorte final comprende 136.034 personas.</p>
-<p>Este denominador es fundamental: los porcentajes de los capítulos siguientes se calculan <strong>entre las personas de la cohorte</strong>, no entre toda la población del departamento, ni entre todas las personas con una necesidad clínica. La variable <code>P_ENFERMO</code> de cada persona sirve para definir la cohorte y no entra al modelo como predictor. El modelo vigente sí usa esa misma pregunta respondida por <strong>otras</strong> personas del hogar y de la sección censal (sección <a href="modelo.html#modelo-contexto-2026">5.6</a>).</p>
+<p>El archivo de personas del CNPV 2018 del Atlántico contiene 2.342.265 registros. De ellos, 136.114 respondieron que habían tenido un problema de salud en los 30 días previos sin hospitalización. En 80 respuestas no fue posible aplicar la regla completa de clasificación. La cohorte final comprende 136.034 personas.</p>
+<p>Este denominador es fundamental: los porcentajes de los capítulos siguientes se calculan entre las personas de la cohorte, no entre toda la población del departamento, ni entre todas las personas con una necesidad clínica. La variable <code>P_ENFERMO</code> de cada persona sirve para definir la cohorte y no entra al modelo como predictor. El modelo vigente sí usa esa misma pregunta respondida por otras personas del hogar y de la sección censal (sección <a href="modelo.html#modelo-contexto-2026">5.6</a>).</p>
 </div>
 <div id="etiqueta" class="section level2 hasAnchor" number="1.3">
 <h2><span class="header-section-number">1.3</span> Regla operativa de acceso<a href="pregunta.html#etiqueta" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>El notebook original creó <code>ACCESO_FORMAL_SALUD</code>. Se asigna <strong>1</strong> a quien declaró como tratamiento principal acudir a su EPS o entidad de seguridad social y reportó haber sido atendido, o acudir a un médico particular. Se asigna <strong>0</strong> a quien declaró acudir a la EPS o entidad y no fue atendido, o reportó alguna de las demás alternativas codificadas en la pregunta (incluida ninguna acción). La tabla <a href="pregunta.html#tab:composicion-regla">1.1</a> muestra el desglose observado.</p>
+<p>El notebook original creó <code>ACCESO_FORMAL_SALUD</code>. Se asigna 1 a quien declaró como tratamiento principal acudir a su EPS o entidad de seguridad social y reportó haber sido atendido, o acudir a un médico particular. Se asigna 0 a quien declaró acudir a la EPS o entidad y no fue atendido, o reportó alguna de las demás alternativas codificadas en la pregunta (incluida ninguna acción). La tabla <a href="pregunta.html#tab:composicion-regla">1.1</a> muestra el desglose observado.</p>
 <table>
 <caption><span id="tab:composicion-regla">Tabla 1.1: </span>Construcción de la etiqueta a partir de las respuestas del CNPV 2018.</caption>
 <colgroup>
-<col width="40%" />
-<col width="28%" />
-<col width="11%" />
-<col width="20%" />
+<col width="39%" />
+<col width="30%" />
+<col width="10%" />
+<col width="19%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -252,32 +252,32 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">EPS/entidad, atendido</td>
-<td align="left">Con acceso según regla</td>
+<td align="left">Dentro de la ruta formal</td>
 <td align="left">97.522</td>
 <td align="left">71,7 %</td>
 </tr>
 <tr class="even">
 <td align="left">Médico particular</td>
-<td align="left">Con acceso según regla</td>
+<td align="left">Dentro de la ruta formal</td>
 <td align="left">9.862</td>
 <td align="left">7,2 %</td>
 </tr>
 <tr class="odd">
 <td align="left">EPS/entidad, no atendido</td>
-<td align="left">Sin acceso según regla</td>
+<td align="left">Fuera de la ruta formal</td>
 <td align="left">1.907</td>
 <td align="left">1,4 %</td>
 </tr>
 <tr class="even">
 <td align="left">Otras acciones o ninguna</td>
-<td align="left">Sin acceso según regla</td>
+<td align="left">Fuera de la ruta formal</td>
 <td align="left">26.743</td>
 <td align="left">19,7 %</td>
 </tr>
 </tbody>
 </table>
-<p>Los 28.650 casos de la categoría 0 <strong>no son equivalentes a servicios denegados</strong>. Solo 1.907 declararon haber acudido a su EPS o entidad sin recibir atención. Los restantes 26.743 eligieron otra respuesta como tratamiento principal. La pregunta recoge una opción principal: no permite saber si además hubo otras acciones. Tampoco confirma, mediante una pregunta adicional, que la consulta con médico particular se haya concretado; el notebook la clasifica como acceso por la opción declarada.</p>
-<p>Para el modelo se invierte la codificación: <strong><code>SIN_ACCESO = 1</code> equivale a <code>ACCESO_FORMAL_SALUD = 0</code></strong>. Se hizo así para evaluar con claridad la categoría menos frecuente. A lo largo del libro, «sin acceso formal» significa únicamente <em>la clase operativa definida arriba</em>. No mide afiliación, oportunidad de la atención, calidad percibida, barreras causales ni ausencia de toda atención.</p>
+<p>Los 28.650 casos de la categoría 0 no son equivalentes a servicios denegados. Solo 1.907 declararon haber acudido a su EPS o entidad sin recibir atención. Los restantes 26.743 eligieron otra respuesta como tratamiento principal. La pregunta recoge una opción principal: no permite saber si además hubo otras acciones. Tampoco confirma, mediante una pregunta adicional, que la consulta con médico particular se haya concretado; el notebook la clasifica como acceso por la opción declarada.</p>
+<p>Para el modelo se invierte la codificación: <code>SIN_ACCESO = 1</code> equivale a <code>ACCESO_FORMAL_SALUD = 0</code>. Se hizo así para evaluar con claridad la categoría menos frecuente. A lo largo del libro, «fuera de la ruta formal» significa únicamente <em>la clase operativa definida arriba</em>, y «dentro de la ruta formal» su complemento. Los nombres <code>ACCESO_FORMAL_SALUD</code> y <code>SIN_ACCESO</code> se conservan solo en el código. No mide afiliación, oportunidad de la atención, calidad percibida, barreras causales ni ausencia de toda atención.</p>
 <p>La pregunta censal sobre tratamiento principal y sus opciones se puede consultar en el <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V582?name=P_QUEHIZO_PPAL">diccionario oficial del DANE</a>; la respuesta de atención en la entidad aparece en su <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V583?name=PA_LO_ATENDIERON">campo correspondiente</a>.</p>
 
 </div>

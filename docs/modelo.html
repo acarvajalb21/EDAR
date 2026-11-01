@@ -220,19 +220,19 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="modelo" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Capítulo 5</span> Modelo predictivo y evaluación<a href="modelo.html#modelo" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Este capítulo presenta el <strong>modelo vigente (versión 2)</strong>, con 28 variables. La versión 1, de 26 variables, se conserva como referencia: la sección <a href="modelo.html#revision-modelo-2026">5.5</a> documenta su revisión y la sección <a href="modelo.html#modelo-contexto-2026">5.6</a> explica por qué se reemplazó.</p>
+<p>Este capítulo presenta el modelo vigente (versión 2), con 28 variables. La versión 1, de 26 variables, se conserva como referencia: la sección <a href="modelo.html#revision-modelo-2026">5.5</a> documenta su revisión y la sección <a href="modelo.html#modelo-contexto-2026">5.6</a> explica por qué se reemplazó.</p>
 <div id="pregunta-predictiva-y-criterio-de-éxito" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Pregunta predictiva y criterio de éxito<a href="modelo.html#pregunta-predictiva-y-criterio-de-%C3%A9xito" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>La clase positiva para evaluar el modelo es <code>SIN_ACCESO = 1</code>, que corresponde a la clase 0 de <code>ACCESO_FORMAL_SALUD</code> en el notebook. Su prevalencia en la cohorte es 21,1 %. Por eso la exactitud global (<em>accuracy</em>) no sería suficiente: un clasificador que siempre dijera «con acceso» acertaría en cerca de ocho de cada diez registros y nunca encontraría un caso de interés.</p>
-<p>La métrica principal de selección fue <strong>Average Precision (AP)</strong> de la clase positiva, calculada con <code>average_precision_score</code> de scikit-learn. AP resume la relación entre precisión y sensibilidad al ordenar personas por probabilidad; el campo <code>pr_auc</code> del experimento guarda este valor no interpolado, no el área trapezoidal de la curva. Se añadieron ROC-AUC, Brier, F1, precisión, sensibilidad, especificidad, matriz de confusión y calibración. El baseline asigna a todos la prevalencia aprendida en entrenamiento y ofrece un punto de comparación honesto.</p>
+<p>La clase positiva para evaluar el modelo es <code>SIN_ACCESO = 1</code>, que corresponde a la clase 0 de <code>ACCESO_FORMAL_SALUD</code> en el notebook. Su prevalencia en la cohorte es 21,1 %. Por eso la exactitud global (<em>accuracy</em>) no sería suficiente: un clasificador que siempre dijera «dentro de la ruta formal» acertaría en cerca de ocho de cada diez registros y nunca encontraría un caso de interés.</p>
+<p>La métrica principal de selección fue la precisión promedio (Average Precision, AP) de la clase positiva, calculada con <code>average_precision_score</code> de scikit-learn. AP resume la relación entre precisión y sensibilidad al ordenar personas por probabilidad; el campo <code>pr_auc</code> del experimento guarda este valor no interpolado, no el área trapezoidal de la curva. Se añadieron ROC-AUC, Brier, F1, precisión, sensibilidad, especificidad, matriz de confusión y calibración. El baseline asigna a todos la prevalencia aprendida en entrenamiento y ofrece un punto de comparación honesto.</p>
 </div>
 <div id="candidatos-y-elección" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Candidatos y elección<a href="modelo.html#candidatos-y-elecci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Se compararon una regresión logística regularizada, Random Forest y boosting de histogramas. Para la logística se ensayaron distintos valores de regularización y pesos de clase. Para el bosque y el boosting se buscaron combinaciones acotadas de complejidad y tamaño mínimo de hoja. La selección se hizo con AP en validación cruzada del entrenamiento y luego se contrastó en validación. No se usó el conjunto de prueba para elegir la arquitectura.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-modelos"></span>
-<img src="figures/comparacion_modelos.png" alt="Average Precision en validación y prueba para cada candidato. La línea base es la prevalencia de la clase positiva en cada partición." width="96%" />
+<img src="figures/comparacion_modelos.png" alt="Precisión promedio (AP) en validación y prueba para cada candidato. La línea base es la prevalencia de la clase positiva en cada partición." width="96%" />
 <p class="caption">
-Figura 5.1: Average Precision en validación y prueba para cada candidato. La línea base es la prevalencia de la clase positiva en cada partición.
+Figura 5.1: Precisión promedio (AP) en validación y prueba para cada candidato. La línea base es la prevalencia de la clase positiva en cada partición.
 </p>
 </div>
 <table>
@@ -290,7 +290,7 @@ Figura 5.1: Average Precision en validación y prueba para cada candidato. La l�
 </tr>
 </tbody>
 </table>
-<p>El mejor candidato en validación fue <strong>boosting de histogramas</strong>, con AP 0,386. En prueba obtuvo AP 0,375, ROC-AUC 0,696 y Brier 0,152. La mejora observada frente al baseline de AP 0,211 aparece en esta evaluación interna, pero la discriminación sigue siendo <strong>moderada</strong>.</p>
+<p>El mejor candidato en validación fue boosting de histogramas, con AP 0,386. En prueba obtuvo AP 0,375, ROC-AUC 0,696 y Brier 0,152. La mejora observada frente al baseline de AP 0,211 aparece en esta evaluación interna, pero la discriminación sigue siendo moderada.</p>
 <p>La elección no se apoya en una sola cifra: el boosting mostró la mayor AP en validación y prueba, el mayor ROC-AUC y el menor Brier de los candidatos probados. Su diferencia de AP de prueba frente al bosque fue aproximadamente 0,012. Un bootstrap agrupado por vivienda de 250 repeticiones situó esa diferencia entre 0,0048 y 0,0199 en un intervalo percentil del 95 %. Es evidencia interna de ventaja en estos datos, no una garantía universal.</p>
 <table>
 <caption><span id="tab:hiperparametros">Tabla 5.2: </span>Configuración seleccionada del boosting de histogramas. La parada temprana interna se desactivó para no crear otra partición de datos.</caption>
@@ -319,14 +319,14 @@ Figura 5.1: Average Precision en validación y prueba para cada candidato. La l�
 </tr>
 </tbody>
 </table>
-<p>No se compararon XGBoost, LightGBM ni CatBoost porque no estaban disponibles en el entorno de ejecución del experimento. «Mejor modelo» significa <strong>mejor entre los candidatos efectivamente evaluados</strong> bajo el protocolo descrito.</p>
+<p>No se compararon XGBoost, LightGBM ni CatBoost porque no estaban disponibles en el entorno de ejecución del experimento. «Mejor modelo» significa mejor entre los candidatos efectivamente evaluados bajo el protocolo descrito.</p>
 </div>
 <div id="curvas-calibración-y-umbral" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Curvas, calibración y umbral<a href="modelo.html#curvas-calibraci%C3%B3n-y-umbral" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-curvas"></span>
-<img src="figures/curvas_modelo.png" alt="Curvas ROC y precisión–recall recalculadas en la prueba desde el artefacto serializado. La línea discontinua de precisión–recall es la prevalencia de la clase positiva." width="96%" />
+<img src="figures/curvas_modelo.png" alt="Curvas ROC y de precisión y sensibilidad recalculadas en la prueba desde el artefacto serializado. La línea discontinua de la segunda curva es la prevalencia de la clase positiva." width="96%" />
 <p class="caption">
-Figura 5.2: Curvas ROC y precisión–recall recalculadas en la prueba desde el artefacto serializado. La línea discontinua de precisión–recall es la prevalencia de la clase positiva.
+Figura 5.2: Curvas ROC y de precisión y sensibilidad recalculadas en la prueba desde el artefacto serializado. La línea discontinua de la segunda curva es la prevalencia de la clase positiva.
 </p>
 </div>
 <p>El umbral de clasificación se escogió en validación para maximizar F1 y se fijó antes de la evaluación de prueba. Es 0,2235. Su utilidad depende del costo de los errores y de la capacidad real de seguimiento; no hay una razón para adoptarlo automáticamente en una intervención.</p>
@@ -371,9 +371,9 @@ Figura 5.2: Curvas ROC y precisión–recall recalculadas en la prueba desde el 
 </table>
 <p>Con el umbral elegido, se marcaron 7.497 de 19.434 personas en prueba. La precisión fue 0,331 y la sensibilidad 0,606: aproximadamente una de cada tres marcadas pertenecía a la clase positiva definida por el EDA. A 0,5 la sensibilidad cae de forma pronunciada. El umbral ilustra la tensión entre cobertura y carga de revisión.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-confusion"></span>
-<img src="figures/matriz_confusion.png" alt="Matriz de confusión para la clase operativa sin acceso en la prueba, con el umbral elegido en validación. Filas: etiqueta observada; columnas: predicción." width="96%" />
+<img src="figures/matriz_confusion.png" alt="Matriz de confusión para la clase fuera de la ruta formal en la prueba, con el umbral elegido en validación. Filas: etiqueta observada; columnas: predicción." width="96%" />
 <p class="caption">
-Figura 5.3: Matriz de confusión para la clase operativa sin acceso en la prueba, con el umbral elegido en validación. Filas: etiqueta observada; columnas: predicción.
+Figura 5.3: Matriz de confusión para la clase fuera de la ruta formal en la prueba, con el umbral elegido en validación. Filas: etiqueta observada; columnas: predicción.
 </p>
 </div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-calibracion"></span>
@@ -422,7 +422,7 @@ Figura 5.5: Diez variables con mayor caída media de AP al permutar cada predict
 </div>
 <div id="revision-modelo-2026" class="section level2 hasAnchor" number="5.5">
 <h2><span class="header-section-number">5.5</span> Revisión adicional del modelo en 2026<a href="modelo.html#revision-modelo-2026" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Esta sección describe la revisión de la <strong>versión 1</strong>, con 26 variables; sus cifras no cambian. Después de la evaluación inicial, repetimos el pipeline con los CSV originales y comprobamos que las particiones, las huellas de los archivos y las predicciones del artefacto coincidieran con lo archivado. Esta revisión conservó la misma cohorte y la misma definición de la respuesta. Se probaron cambios acotados en el tratamiento de faltantes, una medida de personas por dormitorio, ajustes del boosting y una mezcla fija con regresión logística. La selección siguió basándose en Average Precision de la clase operativa <code>SIN_ACCESO = 1</code> y en validación agrupada por vivienda.</p>
+<p>Esta sección describe la revisión de la versión 1, con 26 variables; sus cifras no cambian. Después de la evaluación inicial, repetimos el pipeline con los CSV originales y comprobamos que las particiones, las huellas de los archivos y las predicciones del artefacto coincidieran con lo archivado. Esta revisión conservó la misma cohorte y la misma definición de la respuesta. Se probaron cambios acotados en el tratamiento de faltantes, una medida de personas por dormitorio, ajustes del boosting y una mezcla fija con regresión logística. La selección siguió basándose en la precisión promedio (AP) de la clase operativa <code>SIN_ACCESO = 1</code> y en validación agrupada por vivienda.</p>
 <table>
 <caption><span id="tab:tabla-auditoria-2026">Tabla 5.5: </span>Variantes nuevas frente al boosting original. La prueba histórica no se utilizó para elegirlas.</caption>
 <colgroup>
@@ -514,7 +514,7 @@ Figura 5.5: Diez variables con mayor caída media de AP al permutar cada predict
 </tr>
 </tbody>
 </table>
-<p>La mayor AP numérica de la ampliación en validación fue 0,3469, frente a 0,3461 del modelo original: una diferencia menor de una milésima. La mezcla fija obtuvo la mejor media de validación cruzada entre las variantes de la segunda ronda, pero su diferencia de AP en validación fue apenas 0,0004. El intervalo percentil del 95 % de 250 remuestreos pareados por vivienda fue [-0,0017, 0,0022]; incluye cero. La calibración Platt ajustada solo con predicciones fuera de pliegue del entrenamiento tampoco redujo Brier en validación. <strong>En esta revisión se conservó el modelo original.</strong> La prueba histórica ya había sido observada en el proyecto y no se utilizó para orientar estos ensayos.</p>
+<p>La mayor AP numérica de la ampliación en validación fue 0,3469, frente a 0,3461 del modelo original: una diferencia menor de una milésima. La mezcla fija obtuvo la mejor media de validación cruzada entre las variantes de la segunda ronda, pero su diferencia de AP en validación fue apenas 0,0004. El intervalo percentil del 95 % de 250 remuestreos pareados por vivienda fue [-0,0017, 0,0022]; incluye cero. La calibración Platt ajustada solo con predicciones fuera de pliegue del entrenamiento tampoco redujo Brier en validación. En esta revisión se conservó el modelo original. La prueba histórica ya había sido observada en el proyecto y no se utilizó para orientar estos ensayos.</p>
 <p>La revisión examinó también la sensibilidad del umbral por edad y dificultad funcional. En la prueba histórica, la sensibilidad de la versión 1 fue 43,0 % entre quienes declararon dificultad y 71,1 % entre quienes no la declararon. Tras estandarizar descriptivamente por la edad de los casos positivos en tres bandas, las cifras fueron 49,8 % y 69,5 %. La edad explica parte de la diferencia, pero no la elimina. Esto no identifica una causa ni demuestra discriminación por sí solo.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-brecha-2026"></span>
 <img src="figures/brecha_dificultad_2026.png" alt="Sensibilidad del umbral por edad y dificultad funcional declarada. Las etiquetas junto a los puntos muestran verdaderos positivos sobre positivos observados; las barras son intervalos Wilson del 95 %." width="96%" />
@@ -579,7 +579,7 @@ Figura 5.6: Sensibilidad del umbral por edad y dificultad funcional declarada. L
 <li><code>HOGAR_OTROS_ENFERMOS</code>: otras personas del mismo hogar que declararon un problema de salud.</li>
 <li><code>SECCION_PCT_ENFERMOS</code>: proporción que lo declaró entre las personas de la misma sección censal fuera del hogar, con respuesta válida.</li>
 </ul>
-<p>Ninguna de las dos usa la acción declarada ni la etiqueta. Antes de consultar la validación se fijó un <a href="https://github.com/acarvajalb21/EDAPYTHON/blob/main/ml_salud/experimento_contexto/PROTOCOLO.md">protocolo</a> con cinco condiciones: ganancia de AP de al menos 0,010 en validación, intervalo pareado por encima de cero, Brier sin empeorar más de 0,002, ganancia de al menos 0,010 en <strong>secciones no vistas</strong> y sensibilidad del grupo con dificultad funcional sin caer más de 0,03 en validación. El candidato cumplió las cinco. Después se repitió con 28 variables el protocolo completo, incluida la búsqueda de parámetros de los tres enfoques, y la prueba se consultó una sola vez al final.</p>
+<p>Ninguna de las dos usa la acción declarada ni la etiqueta. Antes de consultar la validación se fijó un <a href="https://github.com/acarvajalb21/EDAPYTHON/blob/main/ml_salud/experimento_contexto/PROTOCOLO.md">protocolo</a> con cinco condiciones: ganancia de AP de al menos 0,010 en validación, intervalo pareado por encima de cero, Brier sin empeorar más de 0,002, ganancia de al menos 0,010 en secciones no vistas y sensibilidad del grupo con dificultad funcional sin caer más de 0,03 en validación. El candidato cumplió las cinco. Después se repitió con 28 variables el protocolo completo, incluida la búsqueda de parámetros de los tres enfoques, y la prueba se consultó una sola vez al final.</p>
 <table>
 <caption><span id="tab:tabla-contexto">Tabla 5.7: </span>Comparación de las dos versiones. Las filas de validación y validación cruzada usan el boosting con los parámetros de la versión 1; las de prueba, cada modelo final.</caption>
 <colgroup>
@@ -627,25 +627,25 @@ Figura 5.6: Sensibilidad del umbral por edad y dificultad funcional declarada. L
 </tr>
 </tbody>
 </table>
-<p>La ganancia de AP en validación fue 0,037, con intervalo pareado del 95 % entre 0,026 y 0,049. En secciones que el modelo no vio al ajustarse fue 0,030, de modo que la mejora no depende solo de memorizar barrios. La discriminación sigue siendo <strong>moderada</strong>.</p>
+<p>La ganancia de AP en validación fue 0,037, con intervalo pareado del 95 % entre 0,026 y 0,049. En secciones que el modelo no vio al ajustarse fue 0,030, de modo que la mejora no depende solo de memorizar barrios. La discriminación sigue siendo moderada.</p>
 <div id="qué-significan-estas-variables" class="section level3 unnumbered hasAnchor">
 <h3>Qué significan estas variables<a href="modelo.html#qu%C3%A9-significan-estas-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <table style="width:100%;">
 <caption><span id="tab:tabla-contexto-hogar">Tabla 5.8: </span>Acción principal según las otras personas del hogar que declararon un problema de salud. Toda la cohorte.</caption>
 <colgroup>
-<col width="32%" />
+<col width="31%" />
 <col width="6%" />
-<col width="15%" />
+<col width="16%" />
 <col width="10%" />
 <col width="11%" />
-<col width="15%" />
+<col width="14%" />
 <col width="8%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left">Otras personas del hogar con problema de salud</th>
 <th align="left">Personas</th>
-<th align="left">Sin acceso según regla</th>
+<th align="left">Fuera de la ruta formal</th>
 <th align="left">Se autorrecetó</th>
 <th align="left">Remedios caseros</th>
 <th align="left">Boticario o droguista</th>
@@ -696,16 +696,16 @@ Figura 5.6: Sensibilidad del umbral por edad y dificultad funcional declarada. L
 <caption><span id="tab:tabla-contexto-seccion">Tabla 5.9: </span>Clase operativa según la proporción de personas de la sección censal, fuera del hogar, que declararon un problema de salud.</caption>
 <colgroup>
 <col width="24%" />
-<col width="10%" />
-<col width="40%" />
-<col width="25%" />
+<col width="9%" />
+<col width="39%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="right">Quintil de la sección</th>
 <th align="left">Personas</th>
 <th align="left">Con problema de salud en la sección</th>
-<th align="left">Sin acceso según regla</th>
+<th align="left">Fuera de la ruta formal</th>
 </tr>
 </thead>
 <tbody>
@@ -741,7 +741,7 @@ Figura 5.6: Sensibilidad del umbral por edad y dificultad funcional declarada. L
 </tr>
 </tbody>
 </table>
-<p>La proporción de personas que declaró un problema de salud varía mucho entre secciones, más de lo que cabría esperar solo por diferencias de morbilidad en una misma ciudad. <strong>Una hipótesis, no comprobada,</strong> es que estas variables capten también problemas más leves o diferencias en quién respondió y cómo se recogió el dato. Los problemas leves se resolverían con más frecuencia sin consulta, lo que encajaría con el aumento de la autorreceta. El censo no permite separar esas explicaciones. Por eso estas variables no deben leerse como barreras ni como causas.</p>
+<p>La proporción de personas que declaró un problema de salud varía mucho entre secciones, más de lo que cabría esperar solo por diferencias de morbilidad en una misma ciudad. Una hipótesis, no comprobada, es que estas variables capten también problemas más leves o diferencias en quién respondió y cómo se recogió el dato. Los problemas leves se resolverían con más frecuencia sin consulta, lo que encajaría con el aumento de la autorreceta. El censo no permite separar esas explicaciones. Por eso estas variables no deben leerse como barreras ni como causas.</p>
 </div>
 <div id="errores-y-diferencias-entre-grupos" class="section level3 unnumbered hasAnchor">
 <h3>Errores y diferencias entre grupos<a href="modelo.html#errores-y-diferencias-entre-grupos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -804,7 +804,7 @@ Figura 5.6: Sensibilidad del umbral por edad y dificultad funcional declarada. L
 <tr class="header">
 <th align="left">Se revisa</th>
 <th align="left">Personas</th>
-<th align="left">De la clase</th>
+<th align="left">Fuera de la ruta</th>
 <th align="left">Precisión</th>
 <th align="left">Sensibilidad</th>
 </tr>
@@ -838,7 +838,7 @@ Figura 5.6: Sensibilidad del umbral por edad y dificultad funcional declarada. L
 </div>
 <div id="alcance-de-la-prueba" class="section level2 hasAnchor" number="5.7">
 <h2><span class="header-section-number">5.7</span> Alcance de la prueba<a href="modelo.html#alcance-de-la-prueba" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>La separación por vivienda evalúa generalización a otras viviendas <strong>de los mismos municipios y del mismo censo</strong>. No evalúa transferencia temporal, un nuevo departamento ni un registro clínico. Esta auditoría revisó un protocolo previo de evaluación; por ello, la prueba final es una evaluación interna revisada, no una prueba externa confirmatoria que haya permanecido intacta desde el inicio del proyecto. La versión 2 se eligió sin consultarla, pero esa misma prueba ya se había observado con la versión 1.</p>
+<p>La separación por vivienda evalúa generalización a otras viviendas de los mismos municipios y del mismo censo. No evalúa transferencia temporal, un nuevo departamento ni un registro clínico. Esta auditoría revisó un protocolo previo de evaluación; por ello, la prueba final es una evaluación interna revisada, no una prueba externa confirmatoria que haya permanecido intacta desde el inicio del proyecto. La versión 2 se eligió sin consultarla, pero esa misma prueba ya se había observado con la versión 1.</p>
 
 </div>
 </div>

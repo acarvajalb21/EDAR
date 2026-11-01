@@ -6,8 +6,8 @@ library(bslib)
 library(plotly)
 
 tema <- bs_theme(
-  version = 5, bg = TK$fondo, fg = TK$tinta, primary = TK$dentro, secondary = TK$tinta2,
-  base_font = FUENTE, heading_font = FUENTE, font_scale = 1, "border-radius" = "6px"
+  version = 5, bg = TK$suelo, fg = TK$tinta, primary = TK$dentro, secondary = TK$tinta2,
+  base_font = FUENTE, heading_font = FUENTE, font_scale = 1, "border-radius" = "4px"
 )
 
 vista <- function(clave) {
@@ -18,11 +18,12 @@ ui <- do.call(page_navbar, c(list(
   title = tags$span(class = "marca", tags$span(class = "marca-punto"), NOMBRE),
   id = "nav", lang = "es", theme = tema, fillable = FALSE, window_title = NOMBRE,
   header = tags$head(
-    tags$link(rel = "preload", href = "fonts/plus-jakarta-sans-latin-wght-normal.woff2", as = "font", type = "font/woff2", crossorigin = NA),
+    tags$link(rel = "preload", href = "fonts/atkinson-next-latin-wght-normal.woff2", as = "font", type = "font/woff2", crossorigin = NA),
+    tags$link(rel = "stylesheet", href = "tema.css"),
     tags$link(rel = "stylesheet", href = "relato.css"),
-    tags$link(rel = "stylesheet", href = "estilos.css"),
-    tags$link(rel = "stylesheet", href = "contenido.css"),
+    tags$link(rel = "stylesheet", href = "tema_shiny.css"),
     tags$script(src = "relato.js"),
+    tags$script(src = "asistente.js"),
     tags$meta(name = "description", content = "Exploración y modelo sobre la ruta de atención declarada en el Atlántico, CNPV 2018."),
     # En móvil el menú se cierra al elegir una sección; las pestañas internas no mueven la página.
     tags$script(HTML("document.addEventListener('click', function (e) {
@@ -71,34 +72,33 @@ server <- function(input, output, session) {
     r <- resumen()
     cobertura <- if (is.na(r$cobertura)) 0 else r$cobertura
     estado <- if (r$celdas == 0) "sin-datos" else if (r$tasa_segura) "visible" else "oculta"
-    rotulo_estado <- c(visible = "✓ Tasa visible", oculta = "⊘ Tasa oculta", `sin-datos` = "⊘ Sin cruces publicables")[[estado]]
+    rotulo_estado <- c(visible = "Porcentaje visible", oculta = "Porcentaje oculto", `sin-datos` = "Sin grupos publicados")[[estado]]
     motivo <- if (r$celdas == 0) {
-      "Ninguna celda cumple las reglas de publicación. Prueba a quitar un filtro."
+      "Ninguno de sus grupos cumple las reglas de publicación."
     } else if (r$tasa_segura) {
-      paste0("Base aproximada de ", fmt_int(r$n), " personas en ", r$celdas, if (r$celdas == 1) " cruce publicable." else " cruces publicables.")
+      "Tiene personas suficientes y buena cobertura."
     } else if (is.na(r$cobertura) || r$cobertura < COBERTURA_MINIMA) {
-      paste0("La cobertura es menor del ", COBERTURA_MINIMA, " % necesario para interpretar la tasa.")
+      paste0("Los grupos publicados cubren menos del ", COBERTURA_MINIMA, " % de esta selección.")
     } else {
       paste0("La base aproximada es menor de ", BASE_TASA_MINIMA, " personas.")
     }
     texto_cobertura <- if (is.na(r$cobertura)) "Cobertura sin estimación publicable" else paste0("Cobertura: al menos ", r$cobertura, " %")
-    if (length(seleccion()$municipios) > 1) texto_cobertura <- paste(texto_cobertura, "(límite conservador por municipio)")
+    if (length(seleccion()$municipios) > 1) texto_cobertura <- paste(texto_cobertura, "(se usa el municipio con menor valor)")
     div(class = paste("cinta", estado),
         div(class = "cinta-texto", strong(rotulo_estado), span(motivo)),
-        div(class = "cinta-medida",
-            div(class = "cinta-rotulo", texto_cobertura),
-            div(class = "cinta-pista", role = "img", `aria-label` = paste(texto_cobertura, "; umbral de publicación 80 %"),
+        div(div(class = "cinta-rotulo", texto_cobertura),
+            div(class = "cinta-pista", role = "img", `aria-label` = paste0(texto_cobertura, "; mínimo para publicar 80 %"),
                 div(class = "cinta-relleno", style = sprintf("width:%d%%", cobertura)),
-                div(class = "cinta-umbral", title = "Umbral de 80 %"))))
+                div(class = "cinta-umbral", title = "Mínimo de 80 %"))))
   })
 
   output$nota_referencia <- renderUI({
     ref <- resumen()$referencia
     if (is.null(ref)) return(NULL)
     p(class = "referencia", paste0(
-      "Referencia sin cruces adicionales: «", ref$etiqueta, "» registra ≈ ", fmt_pct(ref$sin_formal / ref$n),
+      "Como referencia, «", ref$etiqueta, "» registra ≈ ", fmt_pct(ref$sin_formal / ref$n),
       " sobre una base aproximada de ", fmt_int(ref$n), " personas en ", ref$fuente,
-      ". Ese agregado se publica aparte, con conteos redondeados a 10, y no procede de las celdas filtrables."))
+      ". Esa cifra se publica aparte, con recuentos redondeados a 10, y no sale de los grupos filtrables."))
   })
 
   output$g_ranking <- renderPlotly({
@@ -129,11 +129,11 @@ server <- function(input, output, session) {
     s <- seleccion()
     r <- composicion_visible(resumen()$filas, s$municipios, s$sexo, s$edad, s$zona, s$dificultad)
     if (r$amplia) {
-      "Cada barra muestra, de cada 100 personas de ese sexo y zona, cuántas quedaron fuera de la ruta formal. Se usa toda la cohorte; los recuentos se redondean a 10."
+      "Cada barra muestra, de cada 100 personas de ese sexo y zona, cuántas quedaron fuera de la ruta formal. Se usan todas las personas estudiadas y los recuentos se redondean a 10."
     } else {
       paste0("Cada barra usa como base a las personas de ese sexo y zona dentro del filtro. ",
              if (r$omitidos > 0) paste0("Se omiten ", r$omitidos, " grupos por tamaño o cobertura insuficiente. ") else "",
-             "Los porcentajes son aproximados y pueden no representar a toda la subpoblación filtrada.")
+             "Los porcentajes son aproximados y pueden no representar a todo el grupo filtrado.")
     }
   })
 
@@ -152,25 +152,25 @@ server <- function(input, output, session) {
     f <- fila()
     validado <- abs(f$threshold - MODELO$metadata$chosen_threshold) < 1e-8
     div(class = paste("umbral-titulo", if (validado) "validado"),
-        paste0(if (validado) "Umbral validado: " else "Escenario exploratorio: ", fmt_dec(f$threshold)))
+        paste0(if (validado) "Umbral validado: " else "Escenario de exploración: ", fmt_dec(f$threshold)))
   })
 
   output$umbral_fichas <- renderUI({
     f <- fila()
     m <- metricas_umbral(f)
-    div(class = "fichas tres compactas",
-        ficha("Sensibilidad", fmt_pct(m[["sensibilidad"]]), "De los casos de la clase, cuántos marca"),
-        ficha("Precisión", fmt_pct(m[["precision"]]), "De los marcados, cuántos son de la clase"),
-        ficha("Personas marcadas", fmt_int(m[["marcadas"]]), paste("De", fmt_int(MODELO$metadata$test_n), "en prueba")))
+    div(class = "c-fichas",
+        ficha("Sensibilidad", fmt_pct(m[["sensibilidad"]]), "De quienes están fuera de la ruta, cuántos marca"),
+        ficha("Precisión", fmt_pct(m[["precision"]]), "De los marcados, cuántos están fuera de la ruta"),
+        ficha("Personas marcadas", fmt_int(m[["marcadas"]]), paste("De", fmt_int(MODELO$metadata$test_n), "en la prueba")))
   })
 
   output$matriz <- renderUI({
     f <- fila()
     celda <- function(valor, etiqueta, clase) div(class = paste("matriz-celda", clase), strong(fmt_int(valor)), span(etiqueta))
-    div(class = "matriz", role = "group", `aria-label` = "Matriz de confusión en prueba",
-        div(), div(class = "matriz-eje", "Predicción: dentro"), div(class = "matriz-eje", "Predicción: fuera"),
-        div(class = "matriz-eje lado", "Dato: dentro"), celda(f$tn, "Aciertos", "acierto"), celda(f$fp, "Falsas alarmas", "error"),
-        div(class = "matriz-eje lado", "Dato: fuera"), celda(f$fn, "No detectados", "error"), celda(f$tp, "Aciertos", "acierto"))
+    div(class = "matriz", role = "group", `aria-label` = "Matriz de confusión en la prueba",
+        div(), div(class = "matriz-eje", "El modelo dice: dentro"), div(class = "matriz-eje", "El modelo dice: fuera"),
+        div(class = "matriz-eje lado", "En el censo: dentro"), celda(f$tn, "Aciertos", "acierto"), celda(f$fp, "Falsas alarmas", "error"),
+        div(class = "matriz-eje lado", "En el censo: fuera"), celda(f$fn, "No detectados", "error"), celda(f$tp, "Aciertos", "acierto"))
   })
 
   output$g_comparacion <- renderPlotly(g_comparacion())

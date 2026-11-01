@@ -220,12 +220,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="shiny" class="section level1 hasAnchor" number="8">
 <h1><span class="header-section-number">Capítulo 8</span> Aplicación Shiny<a href="shiny.html#shiny" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>La <a href="https://shiny-salud-atlantico-409319239507.us-east1.run.app/">aplicación Shiny</a> presenta el proyecto de forma interactiva en R. Tiene nueve secciones: <strong>Introducción</strong>, con un relato guiado por el scroll que lleva del censo a las rutas declaradas; <strong>Objetivos</strong>; <strong>Problema</strong>; <strong>Marco teórico</strong>; <strong>EDA univariado</strong>, con preparación de variables, faltantes y distribuciones; <strong>EDA multivariado</strong>, con filtros y comparaciones; <strong>Modelado</strong>, con la construcción del modelo; <strong>Modelo</strong>, con la evaluación y un control de umbral; y <strong>Conclusiones</strong>, con hallazgos, límites, preguntas frecuentes, reglas de protección y referencias.</p>
+<p>La <a href="https://shiny-salud-atlantico-409319239507.us-east1.run.app/">aplicación Shiny</a> presenta el proyecto de forma interactiva en R. Tiene nueve secciones: Introducción, con un relato guiado por el scroll que lleva del censo a las rutas declaradas; Objetivos; Problema; Marco teórico; EDA univariado, con preparación de variables, faltantes y distribuciones; EDA multivariado, con filtros y comparaciones; Modelado, con la construcción del modelo; Modelo, con la evaluación y un control de umbral; y Conclusiones, con hallazgos, límites, preguntas frecuentes, reglas de protección y referencias.</p>
 <p>El código está en la carpeta <code>shiny_salud/</code> de este repositorio. Se ejecuta desde R con:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="shiny.html#cb3-1" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="st">&quot;shiny_salud&quot;</span>)</span></code></pre></div>
 <div id="datos-que-usa" class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> Datos que usa<a href="shiny.html#datos-que-usa" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>La aplicación lee únicamente <code>data/eda.json</code>, <code>data/modelo.json</code> y <code>data/contenido.json</code>, los mismos agregados y textos del tablero Dash. <strong>No contiene microdatos ni el modelo serializado</strong>, así que no calcula predicciones sobre personas: muestra resultados ya evaluados.</p>
+<p>La aplicación lee únicamente <code>data/eda.json</code>, <code>data/modelo.json</code> y <code>data/contenido.json</code>, los mismos agregados y textos del tablero Dash. No contiene microdatos ni el modelo serializado, así que no calcula predicciones sobre personas: muestra resultados ya evaluados.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="shiny.html#cb4-1" tabindex="-1"></a>EDA <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(<span class="st">&quot;data/eda.json&quot;</span>)</span>
 <span id="cb4-2"><a href="shiny.html#cb4-2" tabindex="-1"></a>MODELO <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(<span class="st">&quot;data/modelo.json&quot;</span>)</span></code></pre></div>
 </div>
@@ -257,17 +257,17 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">8.4</span> Diseño<a href="shiny.html#dise%C3%B1o" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>El sistema visual se documenta en <code>shiny_salud/DISENO.md</code> y es común a la aplicación y al tablero Dash. El color tiene un significado fijo: azul para quienes quedan dentro de la ruta formal y coral para quienes quedan fuera. Hay cuatro elementos propios:</p>
 <ul>
-<li>El <strong>diagrama de ruta</strong> muestra cómo se reparte la cohorte. El ancho de cada banda es proporcional a las personas.</li>
-<li>La <strong>cinta de cobertura</strong> indica si la tasa de la selección está visible u oculta, por qué, y qué tan lejos está la cobertura del umbral de 80 %.</li>
-<li>El <strong>relato de apertura</strong> muestra la cohorte con cuadros que representan grupos de personas, nunca a una persona real, y termina en un mapa con las tasas publicadas. Al elegir un municipio, la aplicación abre EDA multivariado con ese filtro.</li>
-<li>La <strong>frase viva</strong> resume cada selección en una oración y solo enuncia una tasa cuando las reglas lo permiten.</li>
+<li>El diagrama de ruta muestra cómo se reparte la cohorte. El ancho de cada banda es proporcional a las personas.</li>
+<li>La cinta de cobertura indica si la tasa de la selección está visible u oculta, por qué, y qué tan lejos está la cobertura del umbral de 80 %.</li>
+<li>El relato de apertura muestra la cohorte con cuadros que representan grupos de personas, nunca a una persona real, y termina en un mapa con las tasas publicadas. Al elegir un municipio, la aplicación abre EDA multivariado con ese filtro.</li>
+<li>La frase viva resume cada selección en una oración y solo enuncia una tasa cuando las reglas lo permiten.</li>
 </ul>
-<p>Las gráficas principales ofrecen etiquetas directas o una tabla alternativa. En móvil, el diagrama se convierte en una lista. El relato usa datos agregados y geometría pública del DANE: no se generaron imágenes ni video.</p>
+<p>Las gráficas principales ofrecen etiquetas directas o una tabla alternativa. El asistente de la aplicación responde con los documentos y los datos agregados del proyecto, y aplica las mismas reglas de protección. En móvil, el diagrama se convierte en una lista. El relato usa datos agregados y geometría pública del DANE: no se generaron imágenes ni video.</p>
 </div>
 <div id="comprobaciones" class="section level2 hasAnchor" number="8.5">
 <h2><span class="header-section-number">8.5</span> Comprobaciones<a href="shiny.html#comprobaciones" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><code>shiny_salud/pruebas/pruebas.R</code> comprueba que solo se distribuyan agregados, que las celdas cumplan las reglas de publicación y que las tasas se oculten cuando corresponde. También simula el uso de la aplicación con <code>shiny::testServer</code>: cambia filtros, revisa las salidas y lee la descarga.</p>
-<p>La prueba principal compara Shiny con Dash en las <strong>3.375 combinaciones de filtros</strong> evaluadas: personas, positivos, celdas, cobertura, visibilidad de la tasa, referencia y grupos mostrados en cada gráfica. Así, las dos aplicaciones no pueden dar resultados distintos sin que la prueba lo detecte.</p>
+<p>La prueba principal compara Shiny con Dash en las 3.375 combinaciones de filtros evaluadas: personas, positivos, celdas, cobertura, visibilidad de la tasa, referencia y grupos mostrados en cada gráfica. Así, las dos aplicaciones no pueden dar resultados distintos sin que la prueba lo detecte.</p>
 </div>
 <div id="despliegue" class="section level2 hasAnchor" number="8.6">
 <h2><span class="header-section-number">8.6</span> Despliegue<a href="shiny.html#despliegue" class="anchor-section" aria-label="Anchor link to header"></a></h2>

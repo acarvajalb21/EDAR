@@ -1,9 +1,6 @@
 # Bloques de las secciones. Los textos y tablas vienen de data/contenido.json, común con el Dash.
 
-acento <- function(texto) {
-  partes <- strsplit(texto, "*", fixed = TRUE)[[1]]
-  tagList(lapply(seq_along(partes), function(i) if (i %% 2 == 0) tags$em(partes[i]) else partes[i]))
-}
+URL_INFORME <- "https://acarvajalb21.github.io/EDAR/"
 
 caja <- function(contenido, titulo = NULL, meta = NULL, nota = NULL) {
   div(class = "c-bloque",
@@ -15,11 +12,22 @@ caja <- function(contenido, titulo = NULL, meta = NULL, nota = NULL) {
 
 tabla_bloque <- function(b) {
   clase <- function(j) if (j <= b$texto_cols) "izq"
+  destacar <- if (is.null(b$destacar)) -1 else b$destacar + 1
   div(class = "c-tabla-marco", tags$table(class = "c-tabla",
     tags$thead(tags$tr(lapply(seq_along(b$columnas), function(j) tags$th(scope = "col", class = clase(j), b$columnas[[j]])))),
-    tags$tbody(lapply(b$filas, function(fila) {
-      tags$tr(lapply(seq_along(fila), function(j) tags$td(class = clase(j), fila[[j]])))
+    tags$tbody(lapply(seq_along(b$filas), function(i) {
+      fila <- b$filas[[i]]
+      tags$tr(class = if (i == destacar) "destacada", lapply(seq_along(fila), function(j) tags$td(class = clase(j), fila[[j]])))
     }))))
+}
+
+ruta_bloque <- function(b) {
+  lista <- div(class = "ruta-lista", lapply(b$lista, function(i) {
+    div(class = "ruta-fila",
+        div(class = "ruta-linea", span(i$nombre), strong(i$valor)),
+        div(class = "ruta-pista", div(class = paste("ruta-relleno", i$clase), style = sprintf("width:%.2f%%", i$ancho))))
+  }))
+  caja(tagList(HTML(b$svg), lista), b$titulo, b$meta, b$nota)
 }
 
 pestanas_bloque <- function(b) {
@@ -35,20 +43,24 @@ bloque <- function(b) {
                             if (!is.null(b$enlace)) tags$a(class = "c-enlace", b$enlace$texto, href = b$enlace$url, target = "_blank", rel = "noopener noreferrer")),
                     b$titulo),
     destacado = div(class = paste("c-destacado", b$tono), span(class = "c-rotulo", b$rotulo), tags$p(b$texto)),
-    fichas = div(class = "c-fichas", lapply(b$items, function(i) {
-      div(class = paste("c-ficha", i$tono), div(class = "c-ficha-etiqueta", i$etiqueta),
-          div(class = "c-ficha-valor", i$valor), div(class = "c-ficha-nota", i$nota))
-    })),
+    fichas = div(class = "c-fichas", lapply(b$items, function(i) ficha(i$etiqueta, i$valor, i$nota, i$tono))),
     lista = caja(div(class = if (identical(b$columnas, 2L)) "c-lista dos" else "c-lista",
                      lapply(b$items, function(i) div(class = "c-item", tags$strong(i$rotulo), tags$p(i$texto)))), b$titulo),
-    etapas = caja(tags$ol(class = "c-etapas", lapply(b$items, function(i) tags$li(tags$strong(i$titulo), tags$p(i$texto)))), b$titulo),
+    etapas = {
+      lista <- caja(tags$ol(class = "c-etapas", lapply(b$items, function(i) tags$li(tags$strong(i$titulo), tags$p(i$texto)))), b$titulo)
+      if (isTRUE(b$horizontal)) div(class = "c-horizontal", lista) else lista
+    },
     tabla = caja(tabla_bloque(b), b$titulo, b$meta, b$nota),
     barras = caja(plotlyOutput(b$id, height = "auto"), b$titulo, b$meta, b$nota),
-    ruta = caja(tagList(ruta_svg(), ruta_lista()), b$titulo, NULL, b$nota),
+    ruta = ruta_bloque(b),
+    permite = div(class = "c-permite",
+                  div(h3(b$si_titulo), tags$ul(lapply(b$si, tags$li))),
+                  div(h3(b$no_titulo), tags$ul(lapply(b$no, tags$li)))),
+    glosario = caja(tags$dl(class = "c-glosario", lapply(b$items, function(i) div(tags$dt(i$termino), tags$dd(i$definicion)))), b$titulo),
     columnas = div(class = "c-columnas", lapply(b$bloques, bloque)),
     pila = div(class = "c-pila", lapply(b$bloques, bloque)),
     pestanas = pestanas_bloque(b),
-    preguntas = tags$section(class = "preguntas", h2(acento(b$titulo)),
+    preguntas = tags$section(class = "preguntas", h3(b$titulo),
                              lapply(b$items, function(i) pregunta(i$pregunta, i$respuesta))),
     referencias = caja(tags$ol(class = "c-referencias", lapply(b$items, function(i) {
       tags$li(i$texto, " ", if (!is.null(i$url)) enlace("Ver fuente", i$url))
@@ -62,7 +74,7 @@ bloque <- function(b) {
 vista_contenido <- function(clave) {
   pagina <- CONTENIDO$paginas[[clave]]
   div(class = "c-pagina",
-      if (!is.null(pagina$titulo)) div(class = "c-cabecera", h1(acento(pagina$titulo)), p(class = "c-entrada", pagina$entrada)),
+      if (!is.null(pagina$titulo)) div(class = "c-cabecera", h1(pagina$titulo), p(class = "c-entrada", pagina$entrada)),
       lapply(pagina$bloques, bloque))
 }
 

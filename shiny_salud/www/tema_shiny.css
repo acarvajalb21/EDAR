@@ -1,0 +1,78 @@
+/* Ajustes propios de Shiny sobre tema.css. */
+
+/* Cabecera con la ruta de paradas */
+.navbar { background: var(--noche) !important; border: 0; box-shadow: none; min-height: var(--cabecera); padding: 0 max(24px, calc((100vw - var(--ancho)) / 2 + 24px)); position: sticky; top: 0; z-index: 30; }
+.navbar .container-fluid { gap: 0 32px; padding: 0; }
+.navbar-brand { margin: 0; padding: 0; }
+.navbar .navbar-collapse { min-width: 0; }
+.navbar .navbar-nav { flex-wrap: nowrap; gap: 0; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+.navbar .navbar-nav::-webkit-scrollbar { display: none; }
+.navbar .nav-item { flex: 0 0 auto; position: relative; }
+.navbar .nav-link { color: var(--claro-suave) !important; font-size: .9rem; font-weight: 500; line-height: 1.2; margin: 0 !important; padding: 34px 18px 10px 11px !important; position: relative; white-space: nowrap; }
+.navbar .nav-link::after { background: var(--hilo-claro); content: ""; height: 3px; left: 0; position: absolute; right: 0; top: 19px; }
+.navbar .nav-item:first-child .nav-link::after { left: 11px; }
+.navbar .nav-item:last-child .nav-link::after { right: auto; width: 11px; }
+.navbar .nav-link::before { background: var(--noche); border: 3px solid var(--claro-suave); border-radius: 50%; content: ""; height: 13px; left: 11px; position: absolute; top: 14px; width: 13px; z-index: 1; }
+.navbar .nav-link:hover { color: var(--claro) !important; }
+.navbar .nav-item:has(~ .nav-item .nav-link.active) .nav-link::after, .navbar .nav-link.active::after { background: var(--acento); }
+.navbar .nav-link.active::after { right: auto; width: 24px; }
+.navbar .nav-item:has(~ .nav-item .nav-link.active) .nav-link::before { background: var(--acento); border-color: var(--acento); }
+.navbar .nav-link.active { color: var(--claro) !important; font-weight: 700; }
+.navbar .nav-link.active::before { background: var(--acento); border-color: var(--acento); box-shadow: 0 0 0 3px var(--noche), 0 0 0 5px var(--acento); }
+.navbar-toggle { border: 2px solid var(--claro-suave); border-radius: var(--radio); min-height: 44px; }
+.navbar-toggle .icon-bar { filter: invert(1); }
+
+/* Estructura */
+.bslib-page-navbar > .container-fluid, .bslib-page-navbar > .tab-content, .tab-content { padding: 0 !important; }
+
+/* Pestañas internas */
+.c-subnav .nav-underline { --bs-nav-underline-gap: 26px; --bs-nav-underline-border-width: 4px; border: 0; flex-wrap: nowrap; margin-bottom: 26px; overflow-x: auto; scrollbar-width: none; }
+.c-subnav .nav-underline .nav-link { color: var(--tinta-media); font-size: 1rem; font-weight: 600; padding: 6px 0; white-space: nowrap; }
+.c-subnav .nav-underline .nav-link:hover { border-bottom-color: transparent; color: var(--tinta); }
+.c-subnav .nav-underline .nav-link.active { border-bottom-color: var(--tinta); color: var(--tinta); font-weight: 700; }
+
+/* Filtros */
+.seleccion .shiny-input-container { margin-bottom: 0; width: auto !important; }
+.seleccion select, .seleccion .form-select, .seleccion .form-control { height: 44px; min-height: 44px; }
+.seleccion .selectize-control { min-height: 44px; }
+.seleccion .form-select, .seleccion .selectize-input { background-color: var(--pliego) !important; border: 0 !important; border-radius: var(--radio) !important; box-shadow: none !important; color: var(--tinta); font-size: 1rem; min-height: 44px; }
+.seleccion .selectize-input { padding: 10px 12px; }
+.seleccion .selectize-input input { color: var(--tinta); }
+.selectize-control.multi .selectize-input > div { background: var(--dentro-tenue); border-radius: 2px; color: var(--tinta); }
+
+/* Selectores de una opción */
+.opciones .shiny-input-container { margin: 0; width: auto !important; }
+.opciones .control-label { display: none; }
+.opciones .shiny-options-group { display: flex; flex-wrap: wrap; gap: 6px; }
+.opciones .form-check, .opciones .radio-inline { margin: 0; padding: 8px 13px; }
+.opciones label { align-items: center; display: inline-flex; }
+.opciones label input { margin: 0 !important; }
+.opciones label span { line-height: 1.2; }
+.laboratorio .form-group { margin-bottom: 4px; }
+
+/* Deslizador del umbral */
+.laboratorio label { color: var(--tinta-suave); font-size: .94rem; font-weight: 600; }
+.irs--shiny .irs-bar { background: var(--dentro); border-color: var(--dentro); }
+.irs--shiny .irs-line { background: rgba(20, 35, 58, .13); border: 0; }
+.irs--shiny .irs-handle { background: var(--pliego); border: 3px solid var(--dentro); }
+/* El valor se muestra con coma decimal en el título del umbral. */
+.irs--shiny .irs-single, .irs--shiny .irs-min, .irs--shiny .irs-max { display: none; }
+
+@media (max-width: 1320px) and (min-width: 992px) {
+  :root { --cabecera: 104px; }
+  .navbar .container-fluid { flex-wrap: wrap; padding-top: 6px; }
+  .navbar .navbar-collapse { flex: 1 0 100%; }
+  .navbar .navbar-nav { margin-left: 0; }
+  .navbar .nav-link { padding-bottom: 4px !important; padding-top: 28px !important; }
+  .navbar .nav-link::after { top: 13px; }
+  .navbar .nav-link::before { top: 8px; }
+}
+@media (max-width: 991px) {
+  :root { --cabecera: 60px; }
+  .navbar .navbar-nav { flex-direction: column; margin: 8px 0 12px; overflow: visible; }
+  .navbar .navbar-nav .nav-item .nav-link { font-size: 1rem; padding: 9px 0 9px 28px !important; }
+  .navbar .nav-link::after, .navbar .nav-item:first-child .nav-link::after, .navbar .nav-item:last-child .nav-link::after, .navbar .nav-link.active::after { bottom: -11px; height: auto; left: 5px; right: auto; top: 14px; width: 3px; }
+  .navbar .nav-item:last-child .nav-link::after { display: none; }
+  .navbar .nav-link.active::after { background: var(--hilo-claro); }
+  .navbar .nav-link::before { left: 0; top: 13px; }
+}

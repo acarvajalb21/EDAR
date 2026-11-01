@@ -41,7 +41,7 @@ test_that("el relato solo publica agregados y coincide con el del Dash", {
   expect_equal(con_dato$sin_formal, panorama$sin_formal)
   dash <- file.path("..", "..", "EDAPYTHON-main", "dash_salud", "assets")
   skip_if_not(dir.exists(dash))
-  for (nombre in c("relato.js", "relato.css", "relato_datos.json", "contenido.css")) {
+  for (nombre in c("relato.js", "relato.css", "relato_datos.json", "tema.css", "asistente.js")) {
     expect_equal(unname(tools::md5sum(file.path("www", nombre))), unname(tools::md5sum(file.path(dash, nombre))))
   }
 })
@@ -60,10 +60,10 @@ test_that("las secciones se construyen y solo publican grupos protegidos", {
   expect_false(grepl("valor p ", tolower(as.character(vista_contenido("creacion"))), fixed = TRUE))
 })
 
-test_that("la frase no enuncia tasas ocultas", {
+test_that("la frase no enuncia porcentajes ocultos", {
   oculta <- list(municipios = "Usiacurí", sexo = "Todos", edad = "Todos", zona = "Todos", dificultad = "Todos")
   texto <- as.character(frase_seleccion(oculta, do.call(resumen_seleccion, oculta)))
-  expect_match(texto, "no permite mostrar una tasa", fixed = TRUE)
+  expect_match(texto, "no permite mostrar un porcentaje", fixed = TRUE)
   expect_false(grepl("%", texto, fixed = TRUE))
   visible <- list(municipios = "Soledad", sexo = "Mujer", edad = "65+", zona = "Todos", dificultad = "Todos")
   texto <- as.character(frase_seleccion(visible, do.call(resumen_seleccion, visible)))
@@ -124,14 +124,14 @@ test_that("la aplicación reacciona a los filtros y respeta la protección", {
     expect_null(resumen()$referencia)
 
     session$setInputs(f_municipio = "Usiacurí")
-    expect_match(as.character(output$frase$html), "no permite mostrar una tasa", fixed = TRUE)
+    expect_match(as.character(output$frase$html), "no permite mostrar un porcentaje", fixed = TRUE)
     expect_false(grepl("%", as.character(output$frase$html), fixed = TRUE))
     expect_match(as.character(output$nota_referencia$html), "340", fixed = TRUE)
-    expect_match(as.character(output$cinta$html), "Tasa oculta", fixed = TRUE)
+    expect_match(as.character(output$cinta$html), "Porcentaje oculto", fixed = TRUE)
 
     session$setInputs(f_municipio = NULL, f_sexo = "Mujer", f_edad = "0–19",
                       f_zona = "Centros poblados y rural disperso", f_dificultad = "Con dificultad funcional")
-    expect_match(as.character(output$cinta$html), "Sin cruces publicables", fixed = TRUE)
+    expect_match(as.character(output$cinta$html), "Sin grupos publicados", fixed = TRUE)
     expect_equal(nrow(utils::read.csv(output$descargar, encoding = "UTF-8")), 0)
 
     session$setInputs(f_sexo = "Todos", f_edad = "Todos", f_zona = "Todos", f_dificultad = "Todos")
@@ -141,7 +141,7 @@ test_that("la aplicación reacciona a los filtros y respeta la protección", {
 
     expect_match(as.character(output$umbral_titulo$html), "Umbral validado", fixed = TRUE)
     session$setInputs(umbral = 0.5)
-    expect_match(as.character(output$umbral_titulo$html), "Escenario exploratorio", fixed = TRUE)
+    expect_match(as.character(output$umbral_titulo$html), "Escenario de exploración", fixed = TRUE)
   })
 })
 

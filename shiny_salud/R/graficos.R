@@ -2,27 +2,27 @@
 # El color «fuera» significa siempre «fuera de la ruta formal». Los grupos usan otra pareja.
 
 TK <- list(
-  fondo = "#F3F5FA", hoja = "#FFFFFF", tinta = "#141C33", tinta2 = "#434C66", tinta3 = "#5D6680",
-  hilo = "#DFE3EE", base = "#C3C9D8", dentro = "#2454D6", fuera = "#E8505B", grupo_a = "#008F88",
-  grupo_b = "#BC7A00", referencia = "#9097A8"
+  suelo = "#E9EDF2", tinta = "#14233A", tinta2 = "#3B4A60", tinta3 = "#556378",
+  hilo = "rgba(20, 35, 58, .13)", base = "#A9B4C2", dentro = "#2454D6", fuera = "#D93F4C", grupo_a = "#00908A",
+  grupo_b = "#A86C00", referencia = "#7C8799"
 )
-FUENTE <- "Plus Jakarta Sans, Segoe UI, Arial, sans-serif"
+FUENTE <- "Atkinson Hyperlegible Next, Segoe UI, Arial, sans-serif"
 
 estilo <- function(p, alto, margen = list(l = 52, r = 18, t = 10, b = 46), leyenda = FALSE) {
   p$x$layout$height <- alto
   p |>
     plotly::layout(
       margin = margen, separators = ",.", showlegend = leyenda,
-      font = list(family = FUENTE, color = TK$tinta2, size = 13),
+      font = list(family = FUENTE, color = TK$tinta2, size = 14),
       paper_bgcolor = "rgba(0,0,0,0)", plot_bgcolor = "rgba(0,0,0,0)",
       hoverlabel = list(bgcolor = TK$tinta, bordercolor = TK$tinta, align = "left",
-                        font = list(family = FUENTE, color = "#FFFFFF", size = 13)),
+                        font = list(family = FUENTE, color = "#FFFFFF", size = 14)),
       legend = list(orientation = "h", x = 0, y = 1.1, xanchor = "left", yanchor = "bottom",
                     font = list(color = TK$tinta2)),
       xaxis = list(gridcolor = TK$hilo, zeroline = FALSE, linecolor = TK$base, tickcolor = TK$base,
-                   title = list(font = list(color = TK$tinta3, size = 12)), fixedrange = TRUE, automargin = TRUE),
+                   title = list(font = list(color = TK$tinta3, size = 13)), fixedrange = TRUE, automargin = TRUE),
       yaxis = list(gridcolor = TK$hilo, zeroline = FALSE, linecolor = TK$base, tickcolor = TK$base,
-                   title = list(font = list(color = TK$tinta3, size = 12)), fixedrange = TRUE, automargin = TRUE)
+                   title = list(font = list(color = TK$tinta3, size = 13)), fixedrange = TRUE, automargin = TRUE)
     ) |>
     plotly::config(displayModeBar = FALSE, responsive = TRUE, locale = "es")
 }
@@ -45,7 +45,7 @@ g_barras <- function(categorias, valores, unidad, color, bases = NULL) {
                   marker = list(color = relleno), text = rev(textos), textposition = "outside", cliponaxis = FALSE,
                   customdata = rev(detalle), hovertemplate = "%{y}<br>%{customdata}<extra></extra>") |>
     estilo(max(170, 58 + 25 * length(valores)), list(l = 8, r = 18, t = 6, b = 6)) |>
-    plotly::layout(xaxis = list(visible = FALSE, range = c(0, max(valores) * 1.2)),
+    plotly::layout(bargap = 0.34, xaxis = list(visible = FALSE, range = c(0, max(valores) * 1.2)),
                    yaxis = list(title = list(text = ""), gridcolor = "rgba(0,0,0,0)", ticks = ""))
 }
 
@@ -83,14 +83,14 @@ g_edad <- function(filas, municipios, sexo, zona) {
     p <- p |>
       plotly::add_trace(x = factor(x$edad, levels = EDADES), y = 100 * x$sin_formal / x$n, type = "scatter",
                         mode = "lines+markers", name = grupo, line = list(color = color, width = 2.5),
-                        marker = list(color = color, size = 10, line = list(color = TK$hoja, width = 2)),
+                        marker = list(color = color, size = 10, line = list(color = TK$suelo, width = 2)),
                         customdata = fmt_int(x$n),
                         hovertemplate = paste0("%{x}<br>%{y:.1f} % aprox.<br>Base: %{customdata}<extra>", grupo, "</extra>"))
   }
   p |>
-    estilo(330, leyenda = TRUE) |>
+    estilo(320, list(l = 52, r = 18, t = 34, b = 46), leyenda = TRUE) |>
     plotly::layout(xaxis = list(title = list(text = "Edad"), categoryorder = "array", categoryarray = EDADES),
-                   yaxis = list(title = list(text = ""), ticksuffix = " %", rangemode = "tozero"))
+                   yaxis = list(title = list(text = "Fuera de la ruta formal (%)"), rangemode = "tozero"))
 }
 
 g_composicion <- function(filas, municipios, sexo, edad, zona, dificultad) {
@@ -114,10 +114,10 @@ g_composicion <- function(filas, municipios, sexo, edad, zona, dificultad) {
   }
   tope <- max(100 * d$sin_formal / d$n) * 1.2
   p |>
-    estilo(330, list(l = 52, r = 18, t = 10, b = 62), leyenda = TRUE) |>
-    plotly::layout(barmode = "group", bargap = 0.4,
+    estilo(320, list(l = 52, r = 18, t = 34, b = 50), leyenda = TRUE) |>
+    plotly::layout(barmode = "group", bargap = 0.34,
                    xaxis = list(title = list(text = ""), tickmode = "array", tickvals = zonas, ticktext = rotulos),
-                   yaxis = list(title = list(text = ""), ticksuffix = " %", range = c(0, tope)))
+                   yaxis = list(title = list(text = "Fuera de la ruta formal (%)"), range = c(0, tope)))
 }
 
 g_comparacion <- function() {
@@ -127,10 +127,10 @@ g_comparacion <- function() {
                   marker = list(color = c(TK$referencia, TK$base, TK$base, TK$dentro)),
                   text = fmt_dec(ap), textposition = "outside", cliponaxis = FALSE,
                   textfont = list(color = TK$tinta, family = FUENTE),
-                  hovertemplate = "%{x}<br>Average Precision: %{y:.3f}<extra></extra>") |>
-    estilo(330, list(l = 44, r = 14, t = 12, b = 70)) |>
-    plotly::layout(bargap = 0.5, xaxis = list(title = list(text = "")),
-                   yaxis = list(title = list(text = "AP en prueba"), range = c(0, max(ap) * 1.2)))
+                  hovertemplate = "%{x}<br>Precisión promedio: %{y:.3f}<extra></extra>") |>
+    estilo(340) |>
+    plotly::layout(bargap = 0.34, xaxis = list(title = list(text = ""), gridcolor = "rgba(0,0,0,0)", ticks = ""),
+                   yaxis = list(title = list(text = "Precisión promedio (AP)"), range = c(0, max(ap) * 1.2)))
 }
 
 g_curvas <- function(tipo) {
@@ -146,11 +146,11 @@ g_curvas <- function(tipo) {
   }
   plotly::plot_ly() |>
     plotly::add_trace(x = ref$x, y = ref$y, type = "scatter", mode = "lines", name = ref$nombre,
-                      line = list(color = TK$referencia, width = 1.5), hoverinfo = "skip") |>
+                      line = list(color = TK$referencia, width = 1.5, dash = "dash"), hoverinfo = "skip") |>
     plotly::add_trace(x = d$x, y = d$y, type = "scatter", mode = "lines", name = "Modelo",
                       line = list(color = TK$dentro, width = 2.5),
                       hovertemplate = paste0(ejes[1], ": %{x:.2f}<br>", ejes[2], ": %{y:.2f}<extra></extra>")) |>
-    estilo(330, leyenda = TRUE) |>
+    estilo(340, list(l = 52, r = 18, t = 34, b = 46), leyenda = TRUE) |>
     plotly::layout(xaxis = list(title = list(text = ejes[1]), range = c(0, 1)),
                    yaxis = list(title = list(text = ejes[2]), range = c(0, 1.02)))
 }
@@ -159,14 +159,14 @@ g_calibracion <- function() {
   d <- MODELO$calibration
   plotly::plot_ly() |>
     plotly::add_trace(x = c(0, 55), y = c(0, 55), type = "scatter", mode = "lines", name = "Calibración perfecta",
-                      line = list(color = TK$referencia, width = 1.5), hoverinfo = "skip") |>
+                      line = list(color = TK$referencia, width = 1.5, dash = "dash"), hoverinfo = "skip") |>
     plotly::add_trace(x = 100 * d$mean_predicted, y = 100 * d$observed, type = "scatter", mode = "lines+markers", name = "Modelo",
                       line = list(color = TK$dentro, width = 2.5),
-                      marker = list(color = TK$dentro, size = 9, line = list(color = TK$hoja, width = 2)),
+                      marker = list(color = TK$dentro, size = 9, line = list(color = TK$suelo, width = 2)),
                       customdata = fmt_int(d$n),
-                      hovertemplate = "Predicho: %{x:.1f} %<br>Observado: %{y:.1f} %<br>Base: %{customdata}<extra></extra>") |>
-    estilo(330, leyenda = TRUE) |>
-    plotly::layout(xaxis = list(title = list(text = "Probabilidad predicha media"), ticksuffix = " %", range = c(0, 55)),
+                      hovertemplate = "Estimado: %{x:.1f} %<br>Observado: %{y:.1f} %<br>Base: %{customdata}<extra></extra>") |>
+    estilo(340, list(l = 52, r = 18, t = 34, b = 46), leyenda = TRUE) |>
+    plotly::layout(xaxis = list(title = list(text = "Probabilidad estimada"), ticksuffix = " %", range = c(0, 55)),
                    yaxis = list(title = list(text = "Proporción observada"), ticksuffix = " %", range = c(0, 55)))
 }
 
@@ -179,8 +179,8 @@ g_importancia <- function() {
                   marker = list(color = ifelse(d$feature %in% VARIABLES_NUEVAS, TK$dentro, TK$base)),
                   text = fmt_dec(d$mean_ap_drop), textposition = "outside", cliponaxis = FALSE,
                   textfont = list(color = TK$tinta, family = FUENTE),
-                  hovertemplate = "%{y}<br>Caída de AP al permutar: %{x:.3f}<extra></extra>") |>
-    estilo(330, list(l = 8, r = 44, t = 6, b = 44)) |>
-    plotly::layout(bargap = 0.36, xaxis = list(title = list(text = "Caída media de AP en validación")),
+                  hovertemplate = "%{y}<br>Caída de la precisión promedio: %{x:.3f}<extra></extra>") |>
+    estilo(340, list(l = 8, r = 44, t = 6, b = 44)) |>
+    plotly::layout(bargap = 0.34, xaxis = list(title = list(text = "Caída de la precisión promedio")),
                    yaxis = list(title = list(text = ""), gridcolor = "rgba(0,0,0,0)", ticks = ""))
 }

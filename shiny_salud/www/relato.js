@@ -5,7 +5,7 @@
   "use strict";
 
   var origen = document.currentScript ? document.currentScript.src.replace(/[^/]*$/, "") : "";
-  var COLORES = [[243, 245, 250], [90, 134, 242], [236, 92, 120]]; // claro, dentro y fuera sobre noche
+  var COLORES = [[245, 247, 250], [90, 134, 242], [236, 92, 120]]; // claro, dentro y fuera sobre noche
   var reducido = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function entero(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+$)/g, "."); }
@@ -16,22 +16,30 @@
   function pasos(d) {
     var dentro = d.cohorte - d.fuera;
     return [
-      { clase: "paso-portada", html: '<p class="antetitulo">CNPV 2018 · Atlántico · DANE</p>' +
-        '<h1>Ante un problema de salud, ¿qué <em>ruta</em> se declaró?</h1>' +
-        '<p class="entrada">Lo que respondieron las personas del Atlántico en el censo de 2018, y lo que esas respuestas no permiten afirmar.</p>' +
-        '<div class="relato-acciones"><button type="button" class="relato-boton" data-ir="explorar">Explorar los datos</button>' +
+      { clase: "paso-portada", html: '<p class="antetitulo">Censo de 2018 en el departamento del Atlántico</p>' +
+        '<h1>Ante un problema de salud, ¿qué ruta se declaró?</h1>' +
+        '<p class="entrada">Lo que respondieron las personas en el censo, y lo que esas respuestas no permiten afirmar.</p>' +
+        '<div class="relato-acciones"><button type="button" class="relato-boton" data-ir="explorar">Comparar grupos</button>' +
         '<span class="relato-pista">Desliza para ver el relato</span></div>' },
       { html: "<h2>" + entero(d.flujo.people) + " personas en el censo.</h2><p>Cada cuadro representa a mil personas del Atlántico. Son grupos, no individuos.</p>" },
-      { html: "<h2><em>" + entero(d.cohorte) + "</em> declararon un problema de salud.</h2><p>Fue en los 30 días previos, sin hospitalización, y con una respuesta clasificable. Este es el grupo estudiado: no es toda la población.</p>" },
+      { html: "<h2>" + entero(d.cohorte) + " declararon un problema de salud.</h2><p>Fue en los 30 días previos, sin hospitalización, y su respuesta se pudo clasificar. Son las personas estudiadas, no toda la población.</p>" },
       { html: "<h2>Acerquémonos.</h2><p>Ahora cada cuadro son cien personas. Todas respondieron qué hicieron principalmente ante ese problema.</p>" },
-      { html: "<h2>Casi ocho de cada diez siguieron la <em>ruta formal</em>.</h2><p>" + entero(dentro) + " acudieron a su EPS y fueron atendidas, o a un médico particular. Otras " + entero(d.fuera) + " quedaron fuera de esa ruta: el " + pct(d.fuera / d.cohorte, 2) + ".</p>" },
-      { html: "<h2>Fuera de la ruta no significa <em>atención negada</em>.</h2><p>Solo " + entero(d.rutas.eps_no_atendido) + " personas acudieron a su EPS y no recibieron atención. La mayoría declaró otra acción: " + entero(d.acciones.autorreceta) + " se autorrecetaron.</p>" },
-      { html: "<h2>El patrón cambia con el <em>territorio</em>.</h2><p>Las diferencias pueden reflejar composición demográfica y otras características; no indican causas. Elige un municipio para explorarlo.</p>" },
-      { clase: "paso-cierre", html: "<h2>Ahora pregunta <em>tú</em>.</h2><p>Filtra por municipio, edad, sexo, zona y dificultad funcional. Las cifras describen 2018 y conservan sus denominadores.</p>" +
-        '<div class="relato-acciones"><button type="button" class="relato-boton" data-ir="explorar">Explorar los datos</button>' +
+      { html: "<h2>Casi ocho de cada diez siguieron la ruta formal.</h2><p>" + entero(dentro) + " acudieron a su EPS y fueron atendidas, o a un médico particular. Otras " + entero(d.fuera) + " quedaron fuera de esa ruta: el " + pct(d.fuera / d.cohorte, 2) + ".</p>" },
+      { html: "<h2>Fuera de la ruta no significa atención negada.</h2><p>Solo " + entero(d.rutas.eps_no_atendido) + " personas acudieron a su EPS y no recibieron atención. La mayoría declaró otra acción: " + entero(d.acciones.autorreceta) + " se autorrecetaron.</p>" },
+      { html: "<h2>El patrón cambia con el territorio.</h2><p>Las diferencias pueden reflejar composición demográfica y otras características; no indican causas. Elige un municipio para explorarlo.</p>" },
+      { clase: "paso-cierre", html: "<h2>Ahora explora tú.</h2><p>Compara grupos por municipio, edad, sexo, zona y dificultad funcional. Las cifras describen 2018 y siempre muestran cuántas personas hay detrás.</p>" +
+        '<div class="relato-acciones"><button type="button" class="relato-boton" data-ir="explorar">Comparar grupos</button>' +
         '<button type="button" class="relato-boton secundario" data-ir="modelo">Ver el modelo</button></div>' }
     ];
   }
+
+  // Dash no admite SVG en su diseño: el diagrama de ruta llega como atributo y se dibuja aquí.
+  function pintarRuta(intentos) {
+    var nodo = document.querySelector(".ruta-diagrama[data-svg]");
+    if (nodo) nodo.innerHTML = nodo.getAttribute("data-svg");
+    else if (!window.Shiny && intentos > 0) setTimeout(function () { pintarRuta(intentos - 1); }, 250);
+  }
+  pintarRuta(80);
 
   function irA(vista) {
     if (window.Shiny && window.Shiny.setInputValue) {

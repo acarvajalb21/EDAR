@@ -1,22 +1,4 @@
-/* Relato de apertura y tipografía editorial, compartidos por Shiny y Dash. */
-@font-face {
-  font-family: "Bricolage Grotesque";
-  font-style: normal;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url("fonts/bricolage-grotesque-latin-wght-normal.woff2") format("woff2");
-}
-
-:root {
-  --noche: #0F1830;
-  --noche-2: #1A2442;
-  --dentro-luz: #5A86F2;
-  --fuera-luz: #EC5C78;
-  --claro: #F3F5FA;
-  --display: "Bricolage Grotesque", "Plus Jakarta Sans", "Segoe UI", sans-serif;
-  --salida: cubic-bezier(.22, 1, .36, 1);
-}
-
+/* Relato de apertura, compartido por Shiny y Dash. Tokens en tema.css. */
 .relato { position: relative; background: var(--noche); color: var(--claro); margin-top: calc(-1 * var(--cabecera, 64px)); overflow: clip; }
 .relato-escena { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 .relato-escena canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
@@ -27,51 +9,49 @@
 .paso-texto { max-width: min(37vw, 460px); pointer-events: auto; opacity: .16; transform: translateY(14px); transition: opacity .55s var(--salida), transform .55s var(--salida); }
 .paso.activo .paso-texto { opacity: 1; transform: none; }
 .paso-portada .paso-texto { max-width: min(82vw, 860px); }
-.relato h1, .relato h2 { font-family: var(--display); font-weight: 600; color: var(--claro); letter-spacing: -.022em; }
+.relato h1, .relato h2 { font-family: var(--display); font-weight: 700; color: var(--claro); letter-spacing: -.022em; }
 .relato h1 { font-size: clamp(2.7rem, 1.2rem + 6.2vw, 6.4rem); line-height: 1.01; margin: 0 0 22px; max-width: 13.5ch; }
 .relato h2 { font-size: clamp(2rem, 1.3rem + 2.5vw, 3.4rem); line-height: 1.06; margin: 0 0 16px; }
-.relato em { color: var(--fuera-luz); font-style: normal; font-weight: inherit; }
-.relato p { color: #C5CCDD; font-size: clamp(1rem, .95rem + .25vw, 1.14rem); line-height: 1.6; margin: 0; }
-.relato .antetitulo { color: #A9B3CC; font-size: .84rem; font-weight: 500; letter-spacing: .03em; margin: 0 0 18px; }
+.relato p { color: var(--claro-suave); font-size: clamp(1rem, .95rem + .25vw, 1.14rem); line-height: 1.6; margin: 0; }
+.relato .antetitulo { color: var(--claro-suave); font-size: 1rem; font-weight: 500; margin: 0 0 16px; }
 .relato .entrada { max-width: 48ch; }
 .relato-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 28px; }
-.relato-boton { min-height: 46px; padding: 11px 22px; border-radius: 999px; border: 1px solid var(--claro); background: var(--claro); color: var(--noche); font: 600 .95rem "Plus Jakarta Sans", sans-serif; cursor: pointer; transition: background-color .18s ease, color .18s ease, transform .18s var(--salida); }
-.relato-boton:hover { background: #fff; transform: translateY(-1px); }
-.relato-boton:active { transform: scale(.98); }
-.relato-boton.secundario { background: transparent; color: var(--claro); border-color: #6C7694; }
-.relato-boton.secundario:hover { background: var(--noche-2); }
-.relato-boton:focus-visible { outline: 2px solid var(--dentro-luz); outline-offset: 3px; }
-.relato-pista { color: #A9B3CC; font-size: .88rem; }
-.relato-pista::after { content: ""; display: inline-block; width: 1px; height: 14px; margin-left: 9px; background: #A9B3CC; vertical-align: -2px; animation: pista 1.8s var(--salida) infinite; transform-origin: top; }
+.relato .relato-boton { background: var(--acento); border-color: var(--acento); color: var(--noche); }
+.relato .relato-boton:hover { background: var(--claro); border-color: var(--claro); }
+.relato .relato-boton.secundario { background: transparent; border-color: var(--claro-suave); color: var(--claro); }
+.relato .relato-boton.secundario:hover { background: var(--noche-2); border-color: var(--claro); }
+.relato-boton:focus-visible { outline: 3px solid var(--acento); outline-offset: 3px; }
+.relato-pista { color: var(--claro-suave); font-size: 1rem; }
+.relato-pista::after { content: ""; display: inline-block; width: 1px; height: 14px; margin-left: 9px; background: var(--claro-suave); vertical-align: -2px; animation: pista 1.8s var(--salida) infinite; transform-origin: top; }
 @keyframes pista { 0% { transform: scaleY(0); } 55% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
 
 .relato-etiquetas { position: absolute; inset: 0; pointer-events: none; }
 .relato-etiqueta { position: absolute; left: 0; top: 0; width: 148px; text-align: center; opacity: 0; }
-.relato-etiqueta strong { display: block; font: 600 1.5rem/1.1 var(--display); color: var(--claro); }
-.relato-etiqueta span { display: block; font-size: .78rem; line-height: 1.3; color: #C5CCDD; margin-top: 2px; }
+.relato-etiqueta strong { display: block; font: 700 1.55rem/1.1 var(--display); color: var(--claro); }
+.relato-etiqueta span { display: block; font-size: .9rem; line-height: 1.3; color: var(--claro-suave); margin-top: 2px; }
 .relato-etiqueta.destaca strong { font-weight: 600; }
 .relato-etiqueta.destaca span { color: var(--claro); font-weight: 600; }
-.relato-escala { position: absolute; right: clamp(20px, 5vw, 76px); bottom: 26px; margin: 0; color: #A9B3CC !important; font-size: .82rem !important; transition: opacity .3s ease; }
+.relato-escala { position: absolute; right: clamp(20px, 5vw, 76px); bottom: 26px; margin: 0; color: var(--claro-suave) !important; font-size: .94rem !important; transition: opacity .3s ease; }
 
 .relato-mapa { position: absolute; opacity: 0; pointer-events: none; }
 .relato-mapa.interactivo { pointer-events: auto; }
 .relato-mapa svg { display: block; width: 100%; height: auto; overflow: visible; }
 .relato-mapa path { stroke: var(--noche); stroke-width: 1.1; cursor: pointer; transition: opacity .15s ease; outline: none; }
-.relato-mapa path:hover, .relato-mapa path:focus-visible { stroke: var(--claro); stroke-width: 2; paint-order: stroke; }
-.relato-mapa path.sin-dato { fill: transparent; stroke: #4A5578; stroke-dasharray: 3 3; cursor: default; }
-.relato-leyenda { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 9px; margin-top: 12px; color: #C5CCDD; font-size: .8rem; }
+.relato-mapa path:hover, .relato-mapa path:focus-visible { stroke: var(--acento); stroke-width: 2; paint-order: stroke; }
+.relato-mapa path.sin-dato { fill: transparent; stroke: #4B5C74; stroke-dasharray: 3 3; cursor: default; }
+.relato-leyenda { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 9px; margin-top: 12px; color: var(--claro-suave); font-size: .9rem; }
 .relato-leyenda b { flex: 1 0 100%; font-weight: 500; color: var(--claro); }
 .relato-leyenda i { flex: 1 1 60px; max-width: 150px; height: 7px; border-radius: 4px; background: linear-gradient(90deg, rgb(38, 54, 92), rgb(236, 92, 120)); }
-.relato-aviso { min-height: 1.4em; margin-top: 6px; color: var(--claro); font-size: .88rem; }
+.relato-aviso { min-height: 1.4em; margin-top: 6px; color: var(--claro); font-size: .94rem; }
 
 @media (max-width: 859px) {
   .paso { align-items: flex-end; padding: 0 16px 26px; min-height: 112vh; }
   .paso-portada { align-items: center; padding-bottom: 0; }
-  .paso-texto { max-width: none; background: rgba(15, 24, 48, .84); padding: 16px 18px; border-radius: 10px; }
+  .paso-texto { max-width: none; background: rgba(20, 35, 58, .84); padding: 16px 18px; border-radius: 10px; }
   .paso-portada .paso-texto { background: none; padding: 0; }
   .relato-etiqueta { width: 104px; }
   .relato-etiqueta strong { font-size: 1.08rem; }
-  .relato-etiqueta span { font-size: .68rem; }
+  .relato-etiqueta span { font-size: .8rem; }
   .relato-escala { top: calc(var(--cabecera, 64px) + 2px); bottom: auto; right: 18px; }
   .relato-mapa.lateral .relato-leyenda, .relato-mapa.lateral .relato-aviso { position: absolute; left: calc(100% + 16px); width: 150px; margin: 0; }
   .relato-mapa.lateral .relato-leyenda { top: 0; }

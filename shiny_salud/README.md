@@ -10,7 +10,7 @@ Necesita R 4.6 y los paquetes `shiny`, `bslib`, `plotly` y `jsonlite`. Desde la 
 shiny::runApp("shiny_salud")
 ```
 
-No hacen falta microdatos: `data/` solo contiene `eda.json`, `modelo.json` y `contenido.json`, copiados de `dash_salud/data/` en EDAPYTHON. Si `eda.json` cambia, hay que copiarlo de nuevo y regenerar `pruebas/esperado_dash.json`. `contenido.json` se genera con `dash_salud/generar_contenido.py`, y el nombre del proyecto se cambia ahí. `www/relato.js`, `www/relato.css`, `www/contenido.css` y `www/relato_datos.json` son los mismos del Dash; `relato_datos.json` se genera con `dash_salud/generar_relato.py`.
+No hacen falta microdatos: `data/` solo contiene `eda.json`, `modelo.json` y `contenido.json`, copiados de `dash_salud/data/` en EDAPYTHON. Si `eda.json` cambia, hay que copiarlo de nuevo y regenerar `pruebas/esperado_dash.json`. `contenido.json` se genera con `dash_salud/generar_contenido.py`, y el nombre del proyecto se cambia ahí. `www/relato.js`, `www/relato.css`, `www/tema.css`, `www/asistente.js` y `www/relato_datos.json` son los mismos del Dash; `relato_datos.json` se genera con `dash_salud/generar_relato.py`.
 
 ## Estructura
 
@@ -23,7 +23,7 @@ No hacen falta microdatos: `data/` solo contiene `eda.json`, `modelo.json` y `co
 | `R/vistas.R` | Explorar y Modelo, las secciones con controles |
 | `R/contenido.R` | Bloques de las demás secciones, leídos de `contenido.json` |
 | `R/formato.R` | Números en español |
-| `www/` | Estilos, fuentes y relato de apertura |
+| `www/` | Estilos, fuentes, relato de apertura y asistente |
 | `pruebas/pruebas.R` | Comprobaciones automáticas |
 
 ## Probar

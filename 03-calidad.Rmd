@@ -24,9 +24,9 @@ knitr::kable(principal, col.names = c("Variable", "Contenido", "Vacíos literale
              caption = "Variables con mayor ausencia en la cohorte analítica.")
 ```
 
-El estado civil tiene `r porcentaje(falt$pct[falt$feature == "P_EST_CIVIL"])` de ausencia; educación, `r porcentaje(falt$pct[falt$feature == "P_NIVEL_ANOSR"])`; y alfabetismo, `r porcentaje(falt$pct[falt$feature == "P_ALFABETA"])`. Parte de los vacíos literales en estas preguntas coincide con edades para las que el cuestionario no aplica. Por eso sería incorrecto tratarlos automáticamente como pérdida aleatoria o rellenarlos con una categoría sustantiva inventada. El modelo conserva la ausencia como señal categórica o la imputa, según el tipo de variable, **dentro** de cada partición de entrenamiento.
+El estado civil tiene `r porcentaje(falt$pct[falt$feature == "P_EST_CIVIL"])` de ausencia; educación, `r porcentaje(falt$pct[falt$feature == "P_NIVEL_ANOSR"])`; y alfabetismo, `r porcentaje(falt$pct[falt$feature == "P_ALFABETA"])`. Parte de los vacíos literales en estas preguntas coincide con edades para las que el cuestionario no aplica. Por eso sería incorrecto tratarlos automáticamente como pérdida aleatoria o rellenarlos con una categoría sustantiva inventada. El modelo conserva la ausencia como señal categórica o la imputa, según el tipo de variable, dentro de cada partición de entrenamiento.
 
-En vivienda y hogar, la fuente de agua para cocinar y el estrato del recibo de energía se sitúan alrededor de 1,1 % de ausencia combinada. Una ausencia pequeña tampoco garantiza ausencia de sesgo: puede concentrarse en situaciones específicas. El perfil completo de 26 campos se conserva en `data/calidad_variables.csv` **dentro de las fuentes del Bookdown** y se deriva del mismo universo que el experimento.
+En vivienda y hogar, la fuente de agua para cocinar y el estrato del recibo de energía se sitúan alrededor de 1,1 % de ausencia combinada. Una ausencia pequeña tampoco garantiza ausencia de sesgo: puede concentrarse en situaciones específicas. El perfil completo de 26 campos se conserva en `data/calidad_variables.csv` dentro de las fuentes del Bookdown y se deriva del mismo universo que el experimento.
 
 ## Controles que siguen siendo necesarios
 

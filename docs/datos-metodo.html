@@ -222,9 +222,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Capítulo 2</span> Datos y método<a href="datos-metodo.html#datos-metodo" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="archivos-y-unidad-de-análisis" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Archivos y unidad de análisis<a href="datos-metodo.html#archivos-y-unidad-de-an%C3%A1lisis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Se utilizaron los microdatos anonimizados de personas (<code>5PER</code>), hogares (<code>2HOG</code>) y viviendas (<code>1VIV</code>) del CNPV 2018 para el Atlántico. La unidad del análisis es <strong>la persona</strong>. El archivo geográfico <code>MGN</code> asigna cada vivienda a su sección censal; se usa solo para calcular una variable de contexto del modelo (sección <a href="modelo.html#modelo-contexto-2026">5.6</a>). El libro no publica cifras por sección.</p>
+<p>Se utilizaron los microdatos anonimizados de personas (<code>5PER</code>), hogares (<code>2HOG</code>) y viviendas (<code>1VIV</code>) del CNPV 2018 para el Atlántico. La unidad del análisis es la persona. El archivo geográfico <code>MGN</code> asigna cada vivienda a su sección censal; se usa solo para calcular una variable de contexto del modelo (sección <a href="modelo.html#modelo-contexto-2026">5.6</a>). El libro no publica cifras por sección.</p>
 <p>El vínculo entre personas y hogares usa departamento, municipio, clase de área, encuesta, vivienda y número de hogar. El vínculo posterior con vivienda usa esas mismas claves, excepto el número de hogar. El programa exige unicidad de la clave de hogar y de vivienda, conserva la cardinalidad de personas y detiene la ejecución si alguna persona queda sin enlace. Los 136.034 registros analíticos se enlazaron a hogar y vivienda; no se encontraron claves de persona duplicadas.</p>
-<p>Una revisión adicional de los tres CSV encontró algunas claves de hogar vacías fuera de la población estudiada: 5.831 en el archivo completo de personas y 261 en el de hogares. <strong>Ninguna</strong> de las 136.114 personas que declaró el problema de salud tenía una clave de unión incompleta. También se comprobó que el identificador de vivienda usado para agrupar las particiones conserva el mismo número de viviendas distintas que la clave compuesta original. Estos controles evitan interpretar la ausencia de claves en todo el censo como un problema de la cohorte analítica.</p>
+<p>Una revisión adicional de los tres CSV encontró algunas claves de hogar vacías fuera de la población estudiada: 5.831 en el archivo completo de personas y 261 en el de hogares. Ninguna de las 136.114 personas que declaró el problema de salud tenía una clave de unión incompleta. También se comprobó que el identificador de vivienda usado para agrupar las particiones conserva el mismo número de viviendas distintas que la clave compuesta original. Estos controles evitan interpretar la ausencia de claves en todo el censo como un problema de la cohorte analítica.</p>
 <table>
 <caption><span id="tab:flujo-cohorte">Tabla 2.1: </span>Flujo de registros y comprobación de las uniones.</caption>
 <thead>
@@ -264,7 +264,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="diccionario-de-predictores" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Diccionario de predictores<a href="datos-metodo.html#diccionario-de-predictores" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>El modelo vigente utiliza <strong>28 variables</strong>: diez de persona, cinco de hogar, once de vivienda y dos de contexto de salud, una del hogar y otra de la sección censal. La tabla <a href="datos-metodo.html#tab:diccionario">2.2</a> nombra cada campo y su nivel. Para los códigos de cada respuesta se debe consultar el <a href="https://microdatos.dane.gov.co/catalog/643">catálogo del CNPV 2018</a>. El número que aparece en un CSV no transforma automáticamente una categoría en cantidad: municipio, sexo y materiales son ejemplos de códigos nominales.</p>
+<p>El modelo vigente utiliza 28 variables: diez de persona, cinco de hogar, once de vivienda y dos de contexto de salud, una del hogar y otra de la sección censal. La tabla <a href="datos-metodo.html#tab:diccionario">2.2</a> nombra cada campo y su nivel. Para los códigos de cada respuesta se debe consultar el <a href="https://microdatos.dane.gov.co/catalog/643">catálogo del CNPV 2018</a>. El número que aparece en un CSV no transforma automáticamente una categoría en cantidad: municipio, sexo y materiales son ejemplos de códigos nominales.</p>
 <table style="width:100%;">
 <caption><span id="tab:diccionario">Tabla 2.2: </span>Variables de entrada del modelo principal.</caption>
 <colgroup>
@@ -452,23 +452,23 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>La edad <code>P_EDADR</code> corresponde a intervalos quinquenales, de 0–4 hasta 100 años o más, según el <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V576?name=P_EDADR">diccionario del DANE</a>. <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V585?name=CONDICION_FISICA"><code>CONDICION_FISICA</code></a> pregunta si existe alguna dificultad para la vida diaria; en este análisis se interpreta como <strong>dificultad funcional declarada</strong>, no como diagnóstico médico ni registro administrativo de discapacidad. Sus categorías observadas son 1 «con dificultad» y 2 «sin dificultad».</p>
+<p>La edad <code>P_EDADR</code> corresponde a intervalos quinquenales, de 0–4 hasta 100 años o más, según el <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V576?name=P_EDADR">diccionario del DANE</a>. <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V585?name=CONDICION_FISICA"><code>CONDICION_FISICA</code></a> pregunta si existe alguna dificultad para la vida diaria; en este análisis se interpreta como dificultad funcional declarada, no como diagnóstico médico ni registro administrativo de discapacidad. Sus categorías observadas son 1 «con dificultad» y 2 «sin dificultad».</p>
 </div>
 <div id="qué-se-excluyó-para-reducir-fuga-de-información" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Qué se excluyó para reducir fuga de información<a href="datos-metodo.html#qu%C3%A9-se-excluy%C3%B3-para-reducir-fuga-de-informaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><code>P_QUEHIZO_PPAL</code> y <code>PA_LO_ATENDIERON</code> construyen la respuesta: incluirlas como predictores permitiría al modelo leer directamente la solución. <code>PA1_CALIDAD_SERV</code> se conoce después de la experiencia con el servicio. Se excluyeron también identificadores, copias de la etiqueta y el <code>P_ENFERMO</code> de la propia persona, que ya define la cohorte. Las dos variables de contexto usan esa pregunta en otras personas, no la acción que declararon.</p>
-<p>Se retiraron <code>P_TRABAJO</code> y <code>PA_ASISTENCIA</code> del modelo principal porque el censo las registra en una ventana temporal cercana al episodio de salud y podrían reflejar consecuencias de este. Al incluirlas en un contraste de sensibilidad sobre el modelo de 26 variables, la AP de validación subió de 0,346 a 0,355. Se aceptó esa diferencia pequeña a cambio de una definición de entrada con menor ambigüedad temporal. Esto <strong>no demuestra</strong> que todas las demás covariables sean anteriores al problema de salud.</p>
+<p>Se retiraron <code>P_TRABAJO</code> y <code>PA_ASISTENCIA</code> del modelo principal porque el censo las registra en una ventana temporal cercana al episodio de salud y podrían reflejar consecuencias de este. Al incluirlas en un contraste de sensibilidad sobre el modelo de 26 variables, la AP de validación subió de 0,346 a 0,355. Se aceptó esa diferencia pequeña a cambio de una definición de entrada con menor ambigüedad temporal. Esto no demuestra que todas las demás covariables sean anteriores al problema de salud.</p>
 </div>
 <div id="separación-y-preprocesamiento" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Separación y preprocesamiento<a href="datos-metodo.html#separaci%C3%B3n-y-preprocesamiento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>La cohorte se dividió en entrenamiento, validación y prueba con estratificación de la etiqueta y agrupación por <strong>vivienda</strong>. Las personas de una misma vivienda permanecen en una sola partición. La búsqueda de parámetros se hizo dentro del entrenamiento mediante validación cruzada de tres particiones, igualmente agrupada por vivienda. Una partición de validación separada del entrenamiento permitió elegir modelo y umbral; la prueba se reservó para evaluar la elección.</p>
-<table>
+<p>La cohorte se dividió en entrenamiento, validación y prueba con estratificación de la etiqueta y agrupación por vivienda. Las personas de una misma vivienda permanecen en una sola partición. La búsqueda de parámetros se hizo dentro del entrenamiento mediante validación cruzada de tres particiones, igualmente agrupada por vivienda. Una partición de validación separada del entrenamiento permitió elegir modelo y umbral; la prueba se reservó para evaluar la elección.</p>
+<table style="width:100%;">
 <caption><span id="tab:particiones">Tabla 2.3: </span>Separación estratificada y agrupada por vivienda.</caption>
 <colgroup>
 <col width="20%" />
 <col width="13%" />
 <col width="14%" />
-<col width="34%" />
+<col width="35%" />
 <col width="16%" />
 </colgroup>
 <thead>
@@ -476,7 +476,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <th align="left">Partición</th>
 <th align="left">Personas</th>
 <th align="left">Viviendas</th>
-<th align="left">Sin acceso según regla</th>
+<th align="left">Fuera de la ruta formal</th>
 <th align="left">Porcentaje</th>
 </tr>
 </thead>

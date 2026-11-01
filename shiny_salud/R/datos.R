@@ -26,7 +26,7 @@ COBERTURA <- local({
 })
 
 NOMBRES_MODELO <- c(
-  baseline = "Referencia por prevalencia", logistica = "Regresión logística",
+  baseline = "Referencia (prevalencia)", logistica = "Regresión logística",
   random_forest = "Bosque aleatorio", hist_gradient_boosting = "Boosting de histogramas"
 )
 NOMBRES_VARIABLE <- c(

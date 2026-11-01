@@ -1,6 +1,6 @@
 # Aplicación Shiny {#shiny}
 
-La [aplicación Shiny](https://shiny-salud-atlantico-409319239507.us-east1.run.app/) presenta el proyecto de forma interactiva en R. Tiene nueve secciones: **Introducción**, con un relato guiado por el scroll que lleva del censo a las rutas declaradas; **Objetivos**; **Problema**; **Marco teórico**; **EDA univariado**, con preparación de variables, faltantes y distribuciones; **EDA multivariado**, con filtros y comparaciones; **Modelado**, con la construcción del modelo; **Modelo**, con la evaluación y un control de umbral; y **Conclusiones**, con hallazgos, límites, preguntas frecuentes, reglas de protección y referencias.
+La [aplicación Shiny](https://shiny-salud-atlantico-409319239507.us-east1.run.app/) presenta el proyecto de forma interactiva en R. Tiene nueve secciones: Introducción, con un relato guiado por el scroll que lleva del censo a las rutas declaradas; Objetivos; Problema; Marco teórico; EDA univariado, con preparación de variables, faltantes y distribuciones; EDA multivariado, con filtros y comparaciones; Modelado, con la construcción del modelo; Modelo, con la evaluación y un control de umbral; y Conclusiones, con hallazgos, límites, preguntas frecuentes, reglas de protección y referencias.
 
 El código está en la carpeta `shiny_salud/` de este repositorio. Se ejecuta desde R con:
 
@@ -10,7 +10,7 @@ shiny::runApp("shiny_salud")
 
 ## Datos que usa
 
-La aplicación lee únicamente `data/eda.json`, `data/modelo.json` y `data/contenido.json`, los mismos agregados y textos del tablero Dash. **No contiene microdatos ni el modelo serializado**, así que no calcula predicciones sobre personas: muestra resultados ya evaluados.
+La aplicación lee únicamente `data/eda.json`, `data/modelo.json` y `data/contenido.json`, los mismos agregados y textos del tablero Dash. No contiene microdatos ni el modelo serializado, así que no calcula predicciones sobre personas: muestra resultados ya evaluados.
 
 ```{r shiny-datos, eval=FALSE, echo=TRUE}
 EDA <- jsonlite::fromJSON("data/eda.json")
@@ -53,18 +53,18 @@ La descarga contiene solo celdas publicables. En la sección Modelo, el control 
 
 El sistema visual se documenta en `shiny_salud/DISENO.md` y es común a la aplicación y al tablero Dash. El color tiene un significado fijo: azul para quienes quedan dentro de la ruta formal y coral para quienes quedan fuera. Hay cuatro elementos propios:
 
-- El **diagrama de ruta** muestra cómo se reparte la cohorte. El ancho de cada banda es proporcional a las personas.
-- La **cinta de cobertura** indica si la tasa de la selección está visible u oculta, por qué, y qué tan lejos está la cobertura del umbral de 80 %.
-- El **relato de apertura** muestra la cohorte con cuadros que representan grupos de personas, nunca a una persona real, y termina en un mapa con las tasas publicadas. Al elegir un municipio, la aplicación abre EDA multivariado con ese filtro.
-- La **frase viva** resume cada selección en una oración y solo enuncia una tasa cuando las reglas lo permiten.
+- El diagrama de ruta muestra cómo se reparte la cohorte. El ancho de cada banda es proporcional a las personas.
+- La cinta de cobertura indica si la tasa de la selección está visible u oculta, por qué, y qué tan lejos está la cobertura del umbral de 80 %.
+- El relato de apertura muestra la cohorte con cuadros que representan grupos de personas, nunca a una persona real, y termina en un mapa con las tasas publicadas. Al elegir un municipio, la aplicación abre EDA multivariado con ese filtro.
+- La frase viva resume cada selección en una oración y solo enuncia una tasa cuando las reglas lo permiten.
 
-Las gráficas principales ofrecen etiquetas directas o una tabla alternativa. En móvil, el diagrama se convierte en una lista. El relato usa datos agregados y geometría pública del DANE: no se generaron imágenes ni video.
+Las gráficas principales ofrecen etiquetas directas o una tabla alternativa. El asistente de la aplicación responde con los documentos y los datos agregados del proyecto, y aplica las mismas reglas de protección. En móvil, el diagrama se convierte en una lista. El relato usa datos agregados y geometría pública del DANE: no se generaron imágenes ni video.
 
 ## Comprobaciones
 
 `shiny_salud/pruebas/pruebas.R` comprueba que solo se distribuyan agregados, que las celdas cumplan las reglas de publicación y que las tasas se oculten cuando corresponde. También simula el uso de la aplicación con `shiny::testServer`: cambia filtros, revisa las salidas y lee la descarga.
 
-La prueba principal compara Shiny con Dash en las **3.375 combinaciones de filtros** evaluadas: personas, positivos, celdas, cobertura, visibilidad de la tasa, referencia y grupos mostrados en cada gráfica. Así, las dos aplicaciones no pueden dar resultados distintos sin que la prueba lo detecte.
+La prueba principal compara Shiny con Dash en las 3.375 combinaciones de filtros evaluadas: personas, positivos, celdas, cobertura, visibilidad de la tasa, referencia y grupos mostrados en cada gráfica. Así, las dos aplicaciones no pueden dar resultados distintos sin que la prueba lo detecte.
 
 ## Despliegue
 

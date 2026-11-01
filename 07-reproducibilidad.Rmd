@@ -10,15 +10,15 @@ knitr::kable(huellas, col.names = c("Archivo fuente", "SHA-256"),
              caption = "Huellas de los CSV usados para generar este informe y el modelo auditado.")
 ```
 
-Los CSV incluidos en las fuentes `data/` son **cuadros agregados y resúmenes técnicos**, nunca registros de persona. Para combinaciones de edad o sexo con dificultad y para municipios, el generador descarta celdas con menos de 30 personas o menos de cinco observaciones en cualquiera de las clases. El HTML final contiene los cuadros y gráficos necesarios para leer el informe y no requiere publicar los CSV. La visualización interactiva aplica supresiones y redondeos adicionales. Las imágenes de `figures/` se pueden regenerar con el mismo script.
+Los CSV incluidos en las fuentes `data/` son cuadros agregados y resúmenes técnicos, nunca registros de persona. Para combinaciones de edad o sexo con dificultad y para municipios, el generador descarta celdas con menos de 30 personas o menos de cinco observaciones en cualquiera de las clases. El HTML final contiene los cuadros y gráficos necesarios para leer el informe y no requiere publicar los CSV. La visualización interactiva aplica supresiones y redondeos adicionales. Las imágenes de `figures/` se pueden regenerar con el mismo script.
 
 El desarrollo del modelo se puede seguir paso a paso en el [cuaderno Jupyter](https://github.com/acarvajalb21/EDAPYTHON/blob/main/Modelo_acceso_salud_Atlantico_CNPV2018.ipynb) del proyecto. El detalle de entrenamiento, búsqueda de parámetros, validación y sensibilidad está en `ml_salud/entrenar.py`, `ml_salud/auditoria_sensibilidad.py` y `ml_salud/resultados/INFORME_MODELO.md`. El archivo `ml_salud/resultados/resultados.json` conserva todos los valores, versiones y parámetros que alimentan los cuadros de este libro. La versión 1 queda sin cambios en `ml_salud/resultados_v1/`, y el protocolo y la decisión de la versión 2 en `ml_salud/experimento_contexto/`. La carpeta Bookdown contiene las fuentes R Markdown, la configuración de salida y los productos agregados para leer el informe sin disponer de los microdatos.
 
 ## Volver a generar el libro
 
-Para **leer** el libro no hace falta ejecutar nada: basta con abrir `docs/index.html` o la versión publicada. Los pasos siguientes se ejecutan desde la raíz de este repositorio (EDAR).
+Para leer el libro no hace falta ejecutar nada: basta con abrir `docs/index.html` o la versión publicada. Los pasos siguientes se ejecutan desde la raíz de este repositorio (EDAR).
 
-Para **regenerar** las tablas y figuras se necesitan los cuatro CSV departamentales del DANE y un entorno Python con las dependencias de `ml_salud/requirements.txt`:
+Para regenerar las tablas y figuras se necesitan los cuatro CSV departamentales del DANE y un entorno Python con las dependencias de `ml_salud/requirements.txt`:
 
 ```text
 python scripts/preparar_resumen.py --data-dir "RUTA/A/LOS/CSV_DANE"
@@ -27,7 +27,7 @@ python scripts/preparar_auditoria.py
 
 El segundo script no usa microdatos: lee los resultados guardados en `ml_salud/experimentos_2026_10/salidas/` y actualiza los cuadros de la revisión de 2026.
 
-Para **recompilar** el HTML se necesitan R, Pandoc y los paquetes `bookdown`, `rmarkdown` y `knitr`:
+Para recompilar el HTML se necesitan R, Pandoc y los paquetes `bookdown`, `rmarkdown` y `knitr`:
 
 ```text
 Rscript build_bookdown.R
