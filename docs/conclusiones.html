@@ -51,6 +51,14 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.12.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+<script src="libs/plotly-locale-es-2.25.2/es.js"></script>
 
 
 <style type="text/css">
@@ -190,7 +198,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.1" data-path="reproducibilidad.html"><a href="reproducibilidad.html#origen-de-las-cifras"><i class="fa fa-check"></i><b>7.1</b> Origen de las cifras</a></li>
 <li class="chapter" data-level="7.2" data-path="reproducibilidad.html"><a href="reproducibilidad.html#volver-a-generar-el-libro"><i class="fa fa-check"></i><b>7.2</b> Volver a generar el libro</a></li>
-<li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias-de-interpretaci%C3%B3n"><i class="fa fa-check"></i><b>7.3</b> Referencias de interpretación</a></li>
+<li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias"><i class="fa fa-check"></i><b>7.3</b> Referencias</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>8</b> Aplicación Shiny</a>
 <ul>
@@ -222,7 +230,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Capítulo 6</span> Conclusiones y decisiones para el proyecto<a href="conclusiones.html#conclusiones" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="lo-que-sí-muestran-los-datos" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Lo que sí muestran los datos<a href="conclusiones.html#lo-que-s%C3%AD-muestran-los-datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En la cohorte censal definida para este trabajo, 21,1 % queda fuera de la ruta formal. La etiqueta se explica sobre todo por el tratamiento principal declarado, no por una observación completa de la trayectoria de atención. Las tasas descriptivas varían por dificultad funcional, edad, sexo y territorio. Estas diferencias son útiles para formular preguntas más específicas y para diseñar la navegación del tablero interactivo.</p>
+<p>En la cohorte censal definida para este trabajo, 21,1 % queda fuera de la ruta formal. La etiqueta se explica sobre todo por el tratamiento principal declarado, no por una observación completa de la trayectoria de atención. Las tasas descriptivas varían por dificultad funcional, edad, sexo y territorio. Por ejemplo, el grupo con dificultad funcional queda fuera de la ruta formal con menor frecuencia que el grupo sin ella (15,1 % frente a 22,4 %), y la proporción es mayor en el área rural dispersa que en las cabeceras. Estas diferencias sirven para formular preguntas más específicas y para diseñar la navegación del tablero interactivo.</p>
 <p>El boosting de histogramas fue el mejor de los modelos probados. Alcanzó AP 0,375 en la prueba interna frente a 0,211 del baseline y ROC-AUC 0,696. Puede ordenar perfiles mejor que el azar o la prevalencia constante, pero deja errores importantes. El umbral que maximiza F1 marcó a 38,6 % del conjunto de prueba y su precisión fue 33,1 %. El resultado es defendible para exploración y priorización de investigación; no demuestra aptitud para decisiones individuales.</p>
 <p>La revisión de 2026 contrastó primero variantes de preprocesamiento, variables, parámetros y una mezcla de modelos, sin una mejora suficiente. La mejora llegó al añadir dos variables de contexto: otras personas del hogar con problema de salud y la proporción que lo declaró en la sección censal. La autorreceta sube junto con ellas, lo que sugiere que parte de la clase operativa podría reflejar problemas más leves o diferencias de declaración, aunque el censo no permite comprobarlo. Ajustar por edad reduce, pero no borra, la diferencia de sensibilidad entre personas con y sin dificultad funcional declarada. La exploración territorial refuerza la necesidad de comprobar el modelo en otros lugares y años antes de darle un uso práctico.</p>
 </div>

@@ -55,7 +55,7 @@ El sistema visual se documenta en `shiny_salud/DISENO.md` y es común a la aplic
 
 - El diagrama de ruta muestra cómo se reparte la cohorte. El ancho de cada banda es proporcional a las personas.
 - La cinta de cobertura indica si la tasa de la selección está visible u oculta, por qué, y qué tan lejos está la cobertura del umbral de 80 %.
-- El relato de apertura muestra la cohorte con cuadros que representan grupos de personas, nunca a una persona real, y termina en un mapa con las tasas publicadas. Al elegir un municipio, la aplicación abre EDA multivariado con ese filtro.
+- El relato de apertura muestra la cohorte con cuadros que representan grupos de personas, nunca a una persona real. Empieza con esos cuadros formando la silueta del Atlántico y termina en un mapa con las tasas publicadas. Al elegir un municipio, la aplicación abre EDA multivariado con ese filtro.
 - La frase viva resume cada selección en una oración y solo enuncia una tasa cuando las reglas lo permiten.
 
 Las gráficas principales ofrecen etiquetas directas o una tabla alternativa. BQSI, el asistente de la aplicación, responde con los documentos y los datos agregados del proyecto, y aplica las mismas reglas de protección. En móvil, el diagrama se convierte en una lista. El relato usa datos agregados y geometría pública del DANE: no se generaron imágenes ni video.

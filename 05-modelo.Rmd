@@ -6,14 +6,14 @@ Este capítulo presenta el modelo vigente (versión 2), con 28 variables. La ver
 
 La clase positiva para evaluar el modelo es `SIN_ACCESO = 1`, que corresponde a la clase 0 de `ACCESO_FORMAL_SALUD` en el notebook. Su prevalencia en la cohorte es `r porcentaje(resumen$porcentaje_sin_formal)`. Por eso la exactitud global (*accuracy*) no sería suficiente: un clasificador que siempre dijera «dentro de la ruta formal» acertaría en cerca de ocho de cada diez registros y nunca encontraría un caso de interés.
 
-La métrica principal de selección fue la precisión promedio (Average Precision, AP) de la clase positiva, calculada con `average_precision_score` de scikit-learn. AP resume la relación entre precisión y sensibilidad al ordenar personas por probabilidad; el campo `pr_auc` del experimento guarda este valor no interpolado, no el área trapezoidal de la curva. Se añadieron ROC-AUC, Brier, F1, precisión, sensibilidad, especificidad, matriz de confusión y calibración. El baseline asigna a todos la prevalencia aprendida en entrenamiento y ofrece un punto de comparación honesto.
+La métrica principal de selección fue la precisión promedio (Average Precision, AP) de la clase positiva, calculada con `average_precision_score` de scikit-learn. Con clases desbalanceadas, la curva de precisión y sensibilidad describe el rendimiento mejor que la curva ROC ([Saito y Rehmsmeier, 2015](https://doi.org/10.1371/journal.pone.0118432)). AP resume esa curva como el promedio de las precisiones en cada umbral, ponderado por el aumento de la sensibilidad; el campo `pr_auc` del experimento guarda este valor no interpolado, que no coincide con el área trapezoidal de la curva ([scikit-learn, `average_precision_score`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.average_precision_score.html)). Se añadieron ROC-AUC, Brier, F1, precisión, sensibilidad, especificidad, matriz de confusión y calibración. El baseline asigna a todos la prevalencia aprendida en entrenamiento y sirve como referencia mínima.
 
 ## Candidatos y elección
 
-Se compararon una regresión logística regularizada, Random Forest y boosting de histogramas. Para la logística se ensayaron distintos valores de regularización y pesos de clase. Para el bosque y el boosting se buscaron combinaciones acotadas de complejidad y tamaño mínimo de hoja. La selección se hizo con AP en validación cruzada del entrenamiento y luego se contrastó en validación. No se usó el conjunto de prueba para elegir la arquitectura.
+Se compararon una regresión logística regularizada, Random Forest y boosting de histogramas. Para la logística se ensayaron distintos valores de regularización y pesos de clase. Para el bosque y el boosting se buscaron combinaciones acotadas de complejidad y tamaño mínimo de hoja. Los parámetros de cada familia se eligieron con AP en validación cruzada dentro del entrenamiento; entre las tres familias se eligió la de mayor AP en validación. No se usó el conjunto de prueba para elegir la arquitectura.
 
-```{r fig-modelos, fig.cap="Precisión promedio (AP) en validación y prueba para cada candidato. La línea base es la prevalencia de la clase positiva en cada partición."}
-knitr::include_graphics("figures/comparacion_modelos.png")
+```{r fig-modelos, fig.cap="Precisión promedio (AP) en validación y prueba para cada candidato. La fila Prevalencia es el modelo de referencia, que asigna a todos la prevalencia de la clase positiva."}
+figura(g_modelos(), "figures/comparacion_modelos.png")
 ```
 
 ```{r tabla-modelos}
@@ -43,7 +43,7 @@ No se compararon XGBoost, LightGBM ni CatBoost porque no estaban disponibles en 
 ## Curvas, calibración y umbral
 
 ```{r fig-curvas, fig.cap="Curvas ROC y de precisión y sensibilidad recalculadas en la prueba desde el artefacto serializado. La línea discontinua de la segunda curva es la prevalencia de la clase positiva."}
-knitr::include_graphics("figures/curvas_modelo.png")
+figura(g_curvas(), "figures/curvas_modelo.png")
 ```
 
 El umbral de clasificación se escogió en validación para maximizar F1 y se fijó antes de la evaluación de prueba. Es `r fraccion(leer("umbrales_prueba.csv")$threshold[1], 4)`. Su utilidad depende del costo de los errores y de la capacidad real de seguimiento; no hay una razón para adoptarlo automáticamente en una intervención.
@@ -60,22 +60,22 @@ knitr::kable(u, col.names = c("Criterio", "Umbral", "F1", "Precisión", "Sensibi
 Con el umbral elegido, se marcaron `r entero(leer("matriz_confusion.csv")$marcados)` de `r entero(leer("particiones.csv")$n[3])` personas en prueba. La precisión fue `r fraccion(leer("comparacion_modelos.csv")$precision_prueba[4])` y la sensibilidad `r fraccion(leer("comparacion_modelos.csv")$recall_prueba[4])`: aproximadamente una de cada tres marcadas pertenecía a la clase positiva definida por el EDA. A 0,5 la sensibilidad cae de forma pronunciada. El umbral ilustra la tensión entre cobertura y carga de revisión.
 
 ```{r fig-confusion, fig.cap="Matriz de confusión para la clase fuera de la ruta formal en la prueba, con el umbral elegido en validación. Filas: etiqueta observada; columnas: predicción."}
-knitr::include_graphics("figures/matriz_confusion.png")
+figura(g_confusion(), "figures/matriz_confusion.png")
 ```
 
 ```{r fig-calibracion, fig.cap="Probabilidad media predicha y frecuencia observada en diez grupos de puntuación de la prueba. La diagonal indica igualdad perfecta."}
-knitr::include_graphics("figures/calibracion_modelo.png")
+figura(g_calibracion(), "figures/calibracion_modelo.png")
 ```
 
-El error de Brier del modelo (`r fraccion(modelos$brier_prueba[4])`) es menor que el del baseline (`r fraccion(modelos$brier_prueba[1])`). En el decil con puntuaciones más altas se predijo en promedio `r porcentaje(100 * tail(leer("calibracion.csv")$mean_predicted, 1))` y se observó `r porcentaje(100 * tail(leer("calibracion.csv")$observed, 1))`. Esta calibración interna es alentadora, pero no reemplaza una revisión con datos de otro año o territorio.
+El error de Brier del modelo (`r fraccion(modelos$brier_prueba[4])`) es menor que el del baseline (`r fraccion(modelos$brier_prueba[1])`). En el decil con puntuaciones más altas se predijo en promedio `r porcentaje(100 * tail(leer("calibracion.csv")$mean_predicted, 1))` y se observó `r porcentaje(100 * tail(leer("calibracion.csv")$observed, 1))`. En estos datos la calibración es cercana, pero no reemplaza una revisión con datos de otro año o territorio.
 
 ## Variables relevantes y diferencias entre grupos
 
 ```{r fig-importancia, fig.cap="Diez variables con mayor caída media de AP al permutar cada predictor en validación. Mide aporte predictivo dentro del modelo, no efecto causal."}
-knitr::include_graphics("figures/importancia_modelo.png")
+figura(g_importancia(), "figures/importancia_modelo.png")
 ```
 
-Municipio y otras personas del hogar con problema de salud fueron las variables con mayor importancia por permutación, seguidas por la edad y la proporción con problema de salud en la sección censal. Lugar de preparación de alimentos, nivel educativo y estrato aportan bastante menos. La dependencia del municipio sugiere que el rendimiento puede apoyarse en patrones territoriales específicos de 2018. Se eligió importancia por permutación para resumir el comportamiento predictivo; no se calculó SHAP en esta auditoría. Ninguna de las dos técnicas, por sí sola, respondería qué ocurriría si se modificara una condición social.
+Municipio y otras personas del hogar con problema de salud fueron las variables con mayor importancia por permutación, seguidas por la edad y la proporción con problema de salud en la sección censal. Lugar de preparación de alimentos, nivel educativo y estrato aportan bastante menos. La dependencia del municipio sugiere que el rendimiento puede apoyarse en patrones territoriales específicos de 2018. Se eligió importancia por permutación para resumir el comportamiento predictivo. Esta técnica mide cuánto depende el modelo ajustado de cada variable, no el valor predictivo de la variable por sí misma ([scikit-learn, importancia por permutación](https://scikit-learn.org/stable/modules/permutation_importance.html)). No se calculó SHAP en esta auditoría. Ninguna de las dos técnicas, por sí sola, respondería qué ocurriría si se modificara una condición social.
 
 ```{r equidad-tabla}
 eq <- leer("equidad_dificultad.csv")
@@ -91,7 +91,7 @@ El mismo umbral recuperó una menor fracción de positivos entre las personas co
 
 ## Revisión adicional del modelo en 2026 {#revision-modelo-2026}
 
-Esta sección describe la revisión de la versión 1, con 26 variables; sus cifras no cambian. Después de la evaluación inicial, repetimos el pipeline con los CSV originales y comprobamos que las particiones, las huellas de los archivos y las predicciones del artefacto coincidieran con lo archivado. Esta revisión conservó la misma cohorte y la misma definición de la respuesta. Se probaron cambios acotados en el tratamiento de faltantes, una medida de personas por dormitorio, ajustes del boosting y una mezcla fija con regresión logística. La selección siguió basándose en la precisión promedio (AP) de la clase operativa `SIN_ACCESO = 1` y en validación agrupada por vivienda.
+Esta sección describe la revisión de la versión 1, con 26 variables; sus cifras no cambian. Después de la evaluación inicial, se repitió el pipeline con los CSV originales y se comprobó que las particiones, las huellas de los archivos y las predicciones del artefacto coincidieran con lo archivado. Esta revisión conservó la misma cohorte y la misma definición de la respuesta. Se probaron cambios acotados en el tratamiento de faltantes, una medida de personas por dormitorio, ajustes del boosting y una mezcla fija con regresión logística. La selección siguió basándose en la precisión promedio (AP) de la clase operativa `SIN_ACCESO = 1` y en validación agrupada por vivienda.
 
 ```{r tabla-auditoria-2026}
 auditoria <- leer("auditoria_modelo_2026.csv")
@@ -112,7 +112,7 @@ La mayor AP numérica de la ampliación en validación fue `r fraccion(revision$
 La revisión examinó también la sensibilidad del umbral por edad y dificultad funcional. En la prueba histórica, la sensibilidad de la versión 1 fue `r porcentaje(100 * revision$recall_dificultad)` entre quienes declararon dificultad y `r porcentaje(100 * revision$recall_sin_dificultad)` entre quienes no la declararon. Tras estandarizar descriptivamente por la edad de los casos positivos en tres bandas, las cifras fueron `r porcentaje(100 * revision$recall_ajustada_dificultad)` y `r porcentaje(100 * revision$recall_ajustada_sin_dificultad)`. La edad explica parte de la diferencia, pero no la elimina. Esto no identifica una causa ni demuestra discriminación por sí solo.
 
 ```{r fig-brecha-2026, fig.cap="Sensibilidad del umbral por edad y dificultad funcional declarada. Las etiquetas junto a los puntos muestran verdaderos positivos sobre positivos observados; las barras son intervalos Wilson del 95 %."}
-knitr::include_graphics("figures/brecha_dificultad_2026.png")
+figura(g_brecha(), "figures/brecha_dificultad_2026.png")
 ```
 
 Para plantear otra pregunta de generalización, se dejaron fuera del ajuste, uno por uno, los tres municipios con más personas en entrenamiento. En cada ensayo se retiró `U_MPIO` como predictor para no usar un código territorial desconocido. Los resultados se muestran por separado porque el tamaño y la prevalencia cambian; no equivalen a la prueba habitual de nuevas viviendas dentro de municipios representados.
@@ -129,7 +129,7 @@ knitr::kable(territorio[, c("municipio", "Personas", "Positivos", "Prevalencia",
              caption = "Sensibilidad territorial exploratoria realizada dentro del entrenamiento histórico.")
 ```
 
-Los intervalos de AP de esta auditoría condicionan en predicciones de modelos fijos: no incorporan toda la incertidumbre del entrenamiento y de la selección. Tampoco hay validación temporal o geográfica externa. CatBoost, LightGBM y XGBoost no pudieron ejecutarse en el entorno local porque no estaban instalados y el acceso a PyPI estaba bloqueado; no se les atribuye rendimiento.
+Los intervalos de AP de esta auditoría se calculan sobre las predicciones de modelos ya ajustados: no incorporan toda la incertidumbre del entrenamiento y de la selección. Tampoco hay validación temporal o geográfica externa. Como en el experimento original, CatBoost, LightGBM y XGBoost quedaron fuera: no estaban instalados y el acceso a PyPI estaba bloqueado, así que no se les atribuye rendimiento.
 
 ## Modelo con contexto de salud (versión 2) {#modelo-contexto-2026}
 
@@ -150,7 +150,7 @@ knitr::kable(ctx[, c("medida", "Versión 1", "Versión 2")],
 decision <- leer("contexto_decision.csv")[1, ]
 ```
 
-La ganancia de AP en validación fue `r fraccion(decision$delta_ap)`, con intervalo pareado del 95 % entre `r fraccion(decision$inferior)` y `r fraccion(decision$superior)`. En secciones que el modelo no vio al ajustarse fue `r fraccion(decision$delta_ap_secciones)`, de modo que la mejora no depende solo de memorizar barrios. La discriminación sigue siendo moderada.
+La ganancia de AP en validación fue `r fraccion(decision$delta_ap)`, con intervalo pareado del 95 % entre `r fraccion(decision$inferior)` y `r fraccion(decision$superior)`. En secciones que el modelo no vio al ajustarse fue `r fraccion(decision$delta_ap_secciones)`, de modo que la mejora no depende solo de reconocer secciones ya vistas. La discriminación sigue siendo moderada.
 
 ### Qué significan estas variables {-}
 
@@ -178,7 +178,7 @@ knitr::kable(cs[, c("quintil", "Personas", "Media", "Tasa")],
              caption = "Clase operativa según la proporción de personas de la sección censal, fuera del hogar, que declararon un problema de salud.")
 ```
 
-La proporción de personas que declaró un problema de salud varía mucho entre secciones, más de lo que cabría esperar solo por diferencias de morbilidad en una misma ciudad. Una hipótesis, no comprobada, es que estas variables capten también problemas más leves o diferencias en quién respondió y cómo se recogió el dato. Los problemas leves se resolverían con más frecuencia sin consulta, lo que encajaría con el aumento de la autorreceta. El censo no permite separar esas explicaciones. Por eso estas variables no deben leerse como barreras ni como causas.
+La proporción media de personas que declaró un problema de salud va de `r porcentaje(cs$media_seccion[1])` en el quintil más bajo a `r porcentaje(cs$media_seccion[5])` en el más alto. Una hipótesis, no comprobada, es que estas variables capten también problemas más leves o diferencias en quién respondió y cómo se recogió el dato. Los problemas leves se resolverían con más frecuencia sin consulta, lo que encajaría con el aumento de la autorreceta. El censo no permite separar esas explicaciones. Por eso estas variables no deben leerse como barreras ni como causas.
 
 ### Errores y diferencias entre grupos {-}
 

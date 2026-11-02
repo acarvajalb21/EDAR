@@ -51,6 +51,14 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.12.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+<script src="libs/plotly-locale-es-2.25.2/es.js"></script>
 
 
 <style type="text/css">
@@ -190,7 +198,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.1" data-path="reproducibilidad.html"><a href="reproducibilidad.html#origen-de-las-cifras"><i class="fa fa-check"></i><b>7.1</b> Origen de las cifras</a></li>
 <li class="chapter" data-level="7.2" data-path="reproducibilidad.html"><a href="reproducibilidad.html#volver-a-generar-el-libro"><i class="fa fa-check"></i><b>7.2</b> Volver a generar el libro</a></li>
-<li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias-de-interpretaci%C3%B3n"><i class="fa fa-check"></i><b>7.3</b> Referencias de interpretación</a></li>
+<li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias"><i class="fa fa-check"></i><b>7.3</b> Referencias</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>8</b> Aplicación Shiny</a>
 <ul>
@@ -452,12 +460,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>La edad <code>P_EDADR</code> corresponde a intervalos quinquenales, de 0–4 hasta 100 años o más, según el <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V576?name=P_EDADR">diccionario del DANE</a>. <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V585?name=CONDICION_FISICA"><code>CONDICION_FISICA</code></a> pregunta si existe alguna dificultad para la vida diaria; en este análisis se interpreta como dificultad funcional declarada, no como diagnóstico médico ni registro administrativo de discapacidad. Sus categorías observadas son 1 «con dificultad» y 2 «sin dificultad».</p>
+<p>La edad <code>P_EDADR</code> corresponde a intervalos quinquenales, de 0–4 hasta 100 años o más, según el <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V576?name=P_EDADR">diccionario del DANE</a>. <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V585?name=CONDICION_FISICA"><code>CONDICION_FISICA</code></a> pregunta si existe alguna dificultad para la vida diaria; en este análisis se interpreta como dificultad funcional declarada, no como diagnóstico médico ni registro administrativo de discapacidad. Sus categorías son 1 (sí) y 2 (no); en este libro se nombran «con dificultad» y «sin dificultad».</p>
 </div>
 <div id="qué-se-excluyó-para-reducir-fuga-de-información" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Qué se excluyó para reducir fuga de información<a href="datos-metodo.html#qu%C3%A9-se-excluy%C3%B3-para-reducir-fuga-de-informaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><code>P_QUEHIZO_PPAL</code> y <code>PA_LO_ATENDIERON</code> construyen la respuesta: incluirlas como predictores permitiría al modelo leer directamente la solución. <code>PA1_CALIDAD_SERV</code> se conoce después de la experiencia con el servicio. Se excluyeron también identificadores, copias de la etiqueta y el <code>P_ENFERMO</code> de la propia persona, que ya define la cohorte. Las dos variables de contexto usan esa pregunta en otras personas, no la acción que declararon.</p>
-<p>Se retiraron <code>P_TRABAJO</code> y <code>PA_ASISTENCIA</code> del modelo principal porque el censo las registra en una ventana temporal cercana al episodio de salud y podrían reflejar consecuencias de este. Al incluirlas en un contraste de sensibilidad sobre el modelo de 26 variables, la AP de validación subió de 0,346 a 0,355. Se aceptó esa diferencia pequeña a cambio de una definición de entrada con menor ambigüedad temporal. Esto no demuestra que todas las demás covariables sean anteriores al problema de salud.</p>
+<p>Se retiraron <code>P_TRABAJO</code> y <code>PA_ASISTENCIA</code> del modelo principal porque el censo las registra en una ventana temporal cercana al episodio de salud y podrían reflejar consecuencias de este. Al incluirlas en un contraste de sensibilidad sobre el modelo de 26 variables, la AP de validación subió de 0,346 a 0,355. Se renunció a esa mejora pequeña a cambio de una definición de entrada con menor ambigüedad temporal. Esto no demuestra que todas las demás covariables sean anteriores al problema de salud.</p>
 </div>
 <div id="separación-y-preprocesamiento" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Separación y preprocesamiento<a href="datos-metodo.html#separaci%C3%B3n-y-preprocesamiento" class="anchor-section" aria-label="Anchor link to header"></a></h2>

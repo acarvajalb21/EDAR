@@ -20,12 +20,12 @@ body, .book, .book.font-family-1 { color: var(--tinta); font-family: "Atkinson H
 .book .book-body .page-wrapper .page-inner section.normal { color: var(--tinta); line-height: 1.65; }
 .book .book-body .page-wrapper .page-inner section.normal h1,
 .book .book-body .page-wrapper .page-inner section.normal h2,
-.book .book-body .page-wrapper .page-inner section.normal h3 { color: var(--tinta); font-family: "Bricolage Grotesque", "Atkinson Hyperlegible Next", sans-serif; font-weight: 600; letter-spacing: -.014em; }
+.book .book-body .page-wrapper .page-inner section.normal h3 { color: var(--tinta); font-family: "Bricolage Grotesque", "Atkinson Hyperlegible Next", sans-serif; font-weight: 400; letter-spacing: -.014em; }
 .book .book-body .page-wrapper .page-inner section.normal h1 { border-bottom: 3px solid var(--rio); padding-bottom: .3em; }
 .book .book-body .page-wrapper .page-inner section.normal a { color: var(--rio-oscuro); text-underline-offset: 3px; }
 .book .book-body .page-wrapper .page-inner section.normal blockquote { border-left: 4px solid var(--rio); background: var(--rio-tenue); color: var(--tinta); padding: .75em 1em; }
 .book .book-body .page-wrapper .page-inner section.normal table { width: 100%; border-collapse: collapse; display: table; font-size: .91em; font-variant-numeric: tabular-nums; }
-.book .book-body .page-wrapper .page-inner section.normal table th { background: var(--papel); color: var(--tinta); font-weight: 600; }
+.book .book-body .page-wrapper .page-inner section.normal table th { background: var(--papel); color: var(--tinta); font-weight: 400; }
 .book .book-body .page-wrapper .page-inner section.normal table th,
 .book .book-body .page-wrapper .page-inner section.normal table td { border: 1px solid var(--hilo); padding: .47em .55em; vertical-align: top; }
 .book .book-body .page-wrapper .page-inner section.normal table tr:nth-child(2n) { background: transparent; }
@@ -33,14 +33,16 @@ body, .book, .book.font-family-1 { color: var(--tinta); font-family: "Atkinson H
 .book .book-body .page-wrapper .page-inner section.normal pre { background: var(--papel); border: 1px solid var(--hilo); border-radius: 6px; }
 .book .book-summary { background: var(--papel); border-right: 1px solid var(--hilo); }
 .book .book-summary ul.summary li a { color: var(--tinta-media); }
-.book .book-summary ul.summary li.active > a { color: var(--rio-oscuro); font-weight: 600; }
+.book .book-summary ul.summary li.active > a { color: var(--rio-oscuro); font-weight: 400; }
 .book .book-header { background: var(--hoja); }
 .small-note { color: var(--tinta-suave); font-size: .91em; }
 
 /* Sin negrillas en el texto: la jerarquía la dan títulos, tamaños y espacio. */
 .book .book-body .page-wrapper .page-inner section.normal { font-size: 1.06rem; line-height: 1.68; }
-.book .book-body .page-wrapper .page-inner section.normal h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 2.4rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; margin: 0 0 1.1em; }
-.book .book-body .page-wrapper .page-inner section.normal h2 { font-family: "Bricolage Grotesque", sans-serif; font-size: 1.6rem; font-weight: 700; letter-spacing: -.012em; line-height: 1.2; margin: 2.2em 0 .6em; }
-.book .book-body .page-wrapper .page-inner section.normal h3 { font-size: 1.25rem; font-weight: 650; line-height: 1.25; margin: 1.8em 0 .5em; }
+.book .book-body .page-wrapper .page-inner section.normal h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 2.4rem; font-weight: 400; letter-spacing: -.02em; line-height: 1.1; margin: 0 0 1.1em; }
+.book .book-body .page-wrapper .page-inner section.normal h2 { font-family: "Bricolage Grotesque", sans-serif; font-size: 1.6rem; font-weight: 400; letter-spacing: -.012em; line-height: 1.2; margin: 2.2em 0 .6em; }
+.book .book-body .page-wrapper .page-inner section.normal h3 { font-size: 1.25rem; font-weight: 400; line-height: 1.25; margin: 1.8em 0 .5em; }
 .book .book-body .page-wrapper .page-inner section.normal p { margin: 0 0 1em; }
 .book .book-body .page-wrapper .page-inner section.normal strong { font-weight: inherit; }
+/* Sin negrillas en ninguna parte: también los números del índice, encabezados de tabla y leyendas. */
+.book b, .book strong, .book th, .book caption, .book .caption, .book .book-summary a, .book pre code span { font-weight: 400; }

@@ -111,7 +111,7 @@ def configure_plot() -> None:
         "font.family": "sans-serif", "font.sans-serif": ["Atkinson Hyperlegible Next", "DejaVu Sans"], "font.size": 10,
         "axes.labelcolor": MUTED, "text.color": INK, "xtick.color": MUTED, "ytick.color": MUTED,
         "axes.edgecolor": GRID, "axes.spines.top": False,
-        "axes.spines.right": False, "axes.titleweight": "bold",
+        "axes.spines.right": False, "axes.titleweight": "normal",
         "figure.facecolor": HOJA, "axes.facecolor": HOJA,
         "savefig.facecolor": HOJA, "grid.color": GRID,
     })
@@ -425,7 +425,7 @@ def make_model(results: dict, frame: pd.DataFrame) -> None:
         for j in range(2):
             ax.text(j, i, f"{matrix[i, j]:,.0f}".replace(",", "."),
                     ha="center", va="center", color="white" if matrix[i, j] > .7 * matrix.max() else INK,
-                    fontsize=13, fontweight="bold")
+                    fontsize=13)
     finish(fig, "matriz_confusion.png")
 
     artifact = joblib.load(RESULTS / "modelo_sin_acceso.joblib")
@@ -458,8 +458,18 @@ def make_model(results: dict, frame: pd.DataFrame) -> None:
         ax.set_xlim(0, 1)
         ax.set_ylim(0, 1)
         ax.grid(alpha=.55)
-    fig.suptitle("Modelo seleccionado · conjunto de prueba", fontweight="bold", x=.06, ha="left")
+    fig.suptitle("Modelo seleccionado · conjunto de prueba", x=.06, ha="left")
     finish(fig, "curvas_modelo.png")
+    # Puntos de las curvas para la versión interactiva del libro; cada uno agrega a muchas personas.
+    def muestra(total: int, puntos: int = 400) -> np.ndarray:
+        return np.unique(np.linspace(0, total - 1, min(puntos, total)).round().astype(int))
+    i_roc, i_pr = muestra(len(fpr)), muestra(len(recall))
+    write_csv("curvas_modelo.csv", pd.concat([
+        pd.DataFrame({"curva": "roc", "x": fpr[i_roc], "y": tpr[i_roc]}),
+        pd.DataFrame({"curva": "pr", "x": recall[i_pr], "y": precision[i_pr]}),
+    ]))
+    write_csv("curvas_resumen.csv", pd.DataFrame([{
+        "roc_auc": audits["roc_auc"], "ap": audits["pr_auc"], "prevalencia": observed.mean()}]))
 
     cal = pd.read_csv(DATA / "calibracion.csv")
     fig, ax = plt.subplots(figsize=(5.6, 4.6))

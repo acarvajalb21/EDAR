@@ -11,6 +11,7 @@ fig:fig-sexo
 tab:sexo-dificultad
 fig:fig-municipio
 tab:area-tabla
+tab:estrato-tabla
 fig:fig-modelos
 tab:tabla-modelos
 tab:hiperparametros
@@ -62,7 +63,7 @@ cómo-llevarlo-al-tablero-interactivo
 reproducibilidad
 origen-de-las-cifras
 volver-a-generar-el-libro
-referencias-de-interpretación
+referencias
 shiny
 datos-que-usa
 reglas-de-protección

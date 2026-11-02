@@ -24,15 +24,16 @@ fraccion <- function(x, decimales = 3) {
   format(round(x, decimales), nsmall = decimales, decimal.mark = ",",
          scientific = FALSE, trim = TRUE)
 }
+source("R/graficos_libro.R", encoding = "UTF-8")
 ```
 
 # Presentación {-}
 
-Este libro reúne la exploración de datos y la evaluación de un modelo de clasificación para personas del Atlántico que declararon un problema de salud en los 30 días anteriores al Censo Nacional de Población y Vivienda (CNPV) 2018 sin hospitalización. La pregunta es concreta: entre quienes están en ese grupo, ¿qué características se relacionan con el tratamiento principal declarado y qué tan bien permiten anticipar la clasificación definida en el proyecto?
+Este libro reúne la exploración de datos y la evaluación de un modelo de clasificación para personas del Atlántico que, en el Censo Nacional de Población y Vivienda (CNPV) 2018, declararon un problema de salud sin hospitalización en los 30 días anteriores. La pregunta del proyecto es esta: entre quienes están en ese grupo, ¿qué características se relacionan con el tratamiento principal declarado y qué tan bien permiten anticipar la clasificación definida en el proyecto?
 
-La cohorte analítica comprende `r entero(resumen$cohorte)` personas. Bajo la regla del análisis original, `r entero(resumen$sin_formal)` (`r porcentaje(resumen$porcentaje_sin_formal)`) quedan *fuera de la ruta formal* y `r entero(resumen$con_formal)` (`r porcentaje(resumen$porcentaje_con_formal)`) *dentro de la ruta formal*. Estas palabras resumen una regla aplicada a respuestas censales. No establecen por sí mismas que una persona haya sufrido una barrera, que nunca haya recibido otra atención o que haya tenido una necesidad clínica insatisfecha.
+La cohorte analítica comprende `r entero(resumen$cohorte)` personas. Bajo la regla del análisis original, `r entero(resumen$sin_formal)` (`r porcentaje(resumen$porcentaje_sin_formal)`) quedan *fuera de la ruta formal* y `r entero(resumen$con_formal)` (`r porcentaje(resumen$porcentaje_con_formal)`) *dentro de la ruta formal*. Estas expresiones nombran una regla aplicada a respuestas censales. No establecen por sí mismas que una persona haya sufrido una barrera, que nunca haya recibido otra atención o que haya tenido una necesidad clínica insatisfecha.
 
-El libro presenta primero la definición y la población; después revisa calidad y patrones descriptivos; finalmente documenta el diseño, los resultados y los límites del modelo. Las cifras proceden de los CSV originales del DANE y del experimento auditado en `ml_salud/resultados`. Los gráficos se regeneran mediante el script incluido en este proyecto; el libro no contiene registros individuales.
+El libro presenta primero la definición y la población; después revisa la calidad de los datos y los patrones descriptivos, y al final documenta el diseño, los resultados y los límites del modelo. Las cifras proceden de los CSV originales del DANE y del experimento auditado en `ml_salud/resultados`. Las figuras son interactivas: al pasar el cursor muestran el detalle de cada valor. Se dibujan con los cuadros agregados que genera el script del proyecto, y el libro no contiene registros individuales.
 
 > Lectura recomendada. Use los porcentajes descriptivos para entender patrones observados en esta cohorte censal de 2018. Use las métricas del modelo como evaluación interna del poder de ordenación para la misma época y territorio. Ninguna de las dos piezas identifica efectos causales ni valida decisiones individuales actuales.
 

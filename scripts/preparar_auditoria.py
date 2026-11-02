@@ -53,7 +53,7 @@ def figura_brecha(breach: dict, destino: Path) -> None:
     plt.rcParams.update({
         "font.family": "sans-serif", "font.sans-serif": ["Atkinson Hyperlegible Next", "DejaVu Sans"], "font.size": 10,
         "axes.labelcolor": MUTED, "text.color": INK, "xtick.color": MUTED, "ytick.color": MUTED,
-        "axes.edgecolor": GRID, "axes.spines.top": False, "axes.spines.right": False, "axes.titleweight": "bold",
+        "axes.edgecolor": GRID, "axes.spines.top": False, "axes.spines.right": False, "axes.titleweight": "normal",
         "figure.facecolor": HOJA, "axes.facecolor": HOJA, "savefig.facecolor": HOJA, "grid.color": GRID,
     })
     bandas = ["0-14", "15-59", "60+"]
@@ -143,6 +143,11 @@ def main():
     } for item in territory["results"]]).to_csv(
         data_dir / "auditoria_territorio_2026.csv", index=False, encoding="utf-8-sig")
     figura_brecha(breach, figures_dir / "brecha_dificultad_2026.png")
+    pd.DataFrame([{
+        "edad": row["age_band"], "dificultad": "Con dificultad" if row["difficulty_code"] == 1 else "Sin dificultad",
+        "positivos": row["positives"], "detectados": row["true_positives"], "sensibilidad": row["recall"],
+        "inferior": row["recall_wilson_95"][0], "superior": row["recall_wilson_95"][1],
+    } for row in breach["rows"]]).to_csv(data_dir / "auditoria_brecha_2026.csv", index=False, encoding="utf-8-sig")
     print("Auditoría 2026 incorporada al Bookdown, sin cambiar el modelo seleccionado")
 
 

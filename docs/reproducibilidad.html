@@ -51,6 +51,14 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.12.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+<script src="libs/plotly-locale-es-2.25.2/es.js"></script>
 
 
 <style type="text/css">
@@ -190,7 +198,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.1" data-path="reproducibilidad.html"><a href="reproducibilidad.html#origen-de-las-cifras"><i class="fa fa-check"></i><b>7.1</b> Origen de las cifras</a></li>
 <li class="chapter" data-level="7.2" data-path="reproducibilidad.html"><a href="reproducibilidad.html#volver-a-generar-el-libro"><i class="fa fa-check"></i><b>7.2</b> Volver a generar el libro</a></li>
-<li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias-de-interpretaci%C3%B3n"><i class="fa fa-check"></i><b>7.3</b> Referencias de interpretación</a></li>
+<li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias"><i class="fa fa-check"></i><b>7.3</b> Referencias</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>8</b> Aplicación Shiny</a>
 <ul>
@@ -254,7 +262,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>Los CSV incluidos en las fuentes <code>data/</code> son cuadros agregados y resúmenes técnicos, nunca registros de persona. Para combinaciones de edad o sexo con dificultad y para municipios, el generador descarta celdas con menos de 30 personas o menos de cinco observaciones en cualquiera de las clases. El HTML final contiene los cuadros y gráficos necesarios para leer el informe y no requiere publicar los CSV. La visualización interactiva aplica supresiones y redondeos adicionales. Las imágenes de <code>figures/</code> se pueden regenerar con el mismo script.</p>
+<p>Los CSV incluidos en las fuentes <code>data/</code> son cuadros agregados y resúmenes técnicos, nunca registros de persona. Para combinaciones de edad o sexo con dificultad y para municipios, el generador descarta celdas con menos de 30 personas o menos de cinco observaciones en cualquiera de las clases. El HTML final contiene los cuadros y gráficos necesarios para leer el informe y no requiere publicar los CSV. La visualización interactiva aplica supresiones y redondeos adicionales. Las figuras del HTML se dibujan con esos cuadros al compilar el libro (<code>R/graficos_libro.R</code>); las imágenes de <code>figures/</code> son su versión estática para otros formatos y se regeneran con el mismo script.</p>
 <p>El desarrollo del modelo se puede seguir paso a paso en el <a href="https://github.com/acarvajalb21/EDAPYTHON/blob/main/Modelo_acceso_salud_Atlantico_CNPV2018.ipynb">cuaderno Jupyter</a> del proyecto. El detalle de entrenamiento, búsqueda de parámetros, validación y sensibilidad está en <code>ml_salud/entrenar.py</code>, <code>ml_salud/auditoria_sensibilidad.py</code> y <code>ml_salud/resultados/INFORME_MODELO.md</code>. El archivo <code>ml_salud/resultados/resultados.json</code> conserva todos los valores, versiones y parámetros que alimentan los cuadros de este libro. La versión 1 queda sin cambios en <code>ml_salud/resultados_v1/</code>, y el protocolo y la decisión de la versión 2 en <code>ml_salud/experimento_contexto/</code>. La carpeta Bookdown contiene las fuentes R Markdown, la configuración de salida y los productos agregados para leer el informe sin disponer de los microdatos.</p>
 </div>
 <div id="volver-a-generar-el-libro" class="section level2 hasAnchor" number="7.2">
@@ -264,12 +272,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <pre class="text"><code>python scripts/preparar_resumen.py --data-dir &quot;RUTA/A/LOS/CSV_DANE&quot;
 python scripts/preparar_auditoria.py</code></pre>
 <p>El segundo script no usa microdatos: lee los resultados guardados en <code>ml_salud/experimentos_2026_10/salidas/</code> y actualiza los cuadros de la revisión de 2026.</p>
-<p>Para recompilar el HTML se necesitan R, Pandoc y los paquetes <code>bookdown</code>, <code>rmarkdown</code> y <code>knitr</code>:</p>
+<p>Para recompilar el HTML se necesitan R, Pandoc y los paquetes <code>bookdown</code>, <code>rmarkdown</code>, <code>knitr</code> y <code>plotly</code>:</p>
 <pre class="text"><code>Rscript build_bookdown.R</code></pre>
 <p>El script escribe el libro en <code>docs/</code>, la carpeta que publica GitHub Pages; en Windows usa el Pandoc incluido con RStudio si no encuentra otro. Si existe una carpeta local <code>.bookdown-library</code>, <code>.Rprofile</code> la antepone a las bibliotecas de R; es opcional y no forma parte del entregable. Después de recompilar, la copia integrada en el tablero (<code>dash_salud/informe/</code> en EDAPYTHON) debe reemplazarse por el contenido de <code>docs/</code>.</p>
 </div>
-<div id="referencias-de-interpretación" class="section level2 hasAnchor" number="7.3">
-<h2><span class="header-section-number">7.3</span> Referencias de interpretación<a href="reproducibilidad.html#referencias-de-interpretaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="referencias" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Referencias<a href="reproducibilidad.html#referencias" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li>DANE, <a href="https://microdatos.dane.gov.co/catalog/643">ficha y catálogo del CNPV 2018</a>.</li>
 <li>DANE, <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V581?name=P_ENFERMO"><code>P_ENFERMO</code>: problema de salud en los últimos 30 días sin hospitalización</a>.</li>
@@ -277,6 +285,11 @@ python scripts/preparar_auditoria.py</code></pre>
 <li>DANE, <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V583?name=PA_LO_ATENDIERON"><code>PA_LO_ATENDIERON</code>: respuesta sobre atención en la entidad</a>.</li>
 <li>DANE, <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V576?name=P_EDADR"><code>P_EDADR</code>: grupos quinquenales de edad</a>.</li>
 <li>DANE, <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/F11/V585?name=CONDICION_FISICA"><code>CONDICION_FISICA</code>: dificultad para actividades diarias</a>.</li>
+<li>DANE, <a href="https://microdatos.dane.gov.co/index.php/catalog/643/variable/V532?name=VA1_ESTRATO"><code>VA1_ESTRATO</code>: estrato de la vivienda según el servicio de energía</a>.</li>
+<li>Levesque, J.-F., Harris, M. F. y Russell, G. (2013). <a href="https://doi.org/10.1186/1475-9276-12-18">Patient-centred access to health care: conceptualising access at the interface of health systems and populations</a>. <em>International Journal for Equity in Health</em>, 12, 18.</li>
+<li>Saito, T. y Rehmsmeier, M. (2015). <a href="https://doi.org/10.1371/journal.pone.0118432">The precision-recall plot is more informative than the ROC plot when evaluating binary classifiers on imbalanced datasets</a>. <em>PLoS ONE</em>, 10(3), e0118432.</li>
+<li>scikit-learn. <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.average_precision_score.html"><code>average_precision_score</code></a>. Documentación de la versión 1.9.1, consultada el 2 de noviembre de 2026.</li>
+<li>scikit-learn. <a href="https://scikit-learn.org/stable/modules/permutation_importance.html">Permutation feature importance</a>. Documentación de la versión 1.9.1, consultada el 2 de noviembre de 2026.</li>
 </ul>
 
 </div>

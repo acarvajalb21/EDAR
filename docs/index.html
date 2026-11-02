@@ -51,6 +51,14 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.12.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+<script src="libs/plotly-locale-es-2.25.2/es.js"></script>
 
 
 <style type="text/css">
@@ -190,7 +198,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.1" data-path="reproducibilidad.html"><a href="reproducibilidad.html#origen-de-las-cifras"><i class="fa fa-check"></i><b>7.1</b> Origen de las cifras</a></li>
 <li class="chapter" data-level="7.2" data-path="reproducibilidad.html"><a href="reproducibilidad.html#volver-a-generar-el-libro"><i class="fa fa-check"></i><b>7.2</b> Volver a generar el libro</a></li>
-<li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias-de-interpretaci%C3%B3n"><i class="fa fa-check"></i><b>7.3</b> Referencias de interpretación</a></li>
+<li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias"><i class="fa fa-check"></i><b>7.3</b> Referencias</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>8</b> Aplicación Shiny</a>
 <ul>
@@ -225,9 +233,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="presentación" class="section level1 unnumbered hasAnchor">
 <h1>Presentación<a href="index.html#presentaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Este libro reúne la exploración de datos y la evaluación de un modelo de clasificación para personas del Atlántico que declararon un problema de salud en los 30 días anteriores al Censo Nacional de Población y Vivienda (CNPV) 2018 sin hospitalización. La pregunta es concreta: entre quienes están en ese grupo, ¿qué características se relacionan con el tratamiento principal declarado y qué tan bien permiten anticipar la clasificación definida en el proyecto?</p>
-<p>La cohorte analítica comprende 136.034 personas. Bajo la regla del análisis original, 28.650 (21,1 %) quedan <em>fuera de la ruta formal</em> y 107.384 (78,9 %) <em>dentro de la ruta formal</em>. Estas palabras resumen una regla aplicada a respuestas censales. No establecen por sí mismas que una persona haya sufrido una barrera, que nunca haya recibido otra atención o que haya tenido una necesidad clínica insatisfecha.</p>
-<p>El libro presenta primero la definición y la población; después revisa calidad y patrones descriptivos; finalmente documenta el diseño, los resultados y los límites del modelo. Las cifras proceden de los CSV originales del DANE y del experimento auditado en <code>ml_salud/resultados</code>. Los gráficos se regeneran mediante el script incluido en este proyecto; el libro no contiene registros individuales.</p>
+<p>Este libro reúne la exploración de datos y la evaluación de un modelo de clasificación para personas del Atlántico que, en el Censo Nacional de Población y Vivienda (CNPV) 2018, declararon un problema de salud sin hospitalización en los 30 días anteriores. La pregunta del proyecto es esta: entre quienes están en ese grupo, ¿qué características se relacionan con el tratamiento principal declarado y qué tan bien permiten anticipar la clasificación definida en el proyecto?</p>
+<p>La cohorte analítica comprende 136.034 personas. Bajo la regla del análisis original, 28.650 (21,1 %) quedan <em>fuera de la ruta formal</em> y 107.384 (78,9 %) <em>dentro de la ruta formal</em>. Estas expresiones nombran una regla aplicada a respuestas censales. No establecen por sí mismas que una persona haya sufrido una barrera, que nunca haya recibido otra atención o que haya tenido una necesidad clínica insatisfecha.</p>
+<p>El libro presenta primero la definición y la población; después revisa la calidad de los datos y los patrones descriptivos, y al final documenta el diseño, los resultados y los límites del modelo. Las cifras proceden de los CSV originales del DANE y del experimento auditado en <code>ml_salud/resultados</code>. Las figuras son interactivas: al pasar el cursor muestran el detalle de cada valor. Se dibujan con los cuadros agregados que genera el script del proyecto, y el libro no contiene registros individuales.</p>
 <blockquote>
 <p>Lectura recomendada. Use los porcentajes descriptivos para entender patrones observados en esta cohorte censal de 2018. Use las métricas del modelo como evaluación interna del poder de ordenación para la misma época y territorio. Ninguna de las dos piezas identifica efectos causales ni valida decisiones individuales actuales.</p>
 </blockquote>

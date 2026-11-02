@@ -115,6 +115,7 @@
       A.push(new Float32Array(total)); C.push(new Uint8Array(total)); T.push(1);
     }
     var etiquetas = [];
+    var trazos = d.mapa.municipios.map(function (m) { return new Path2D(m.trazo); });
     var W = 0, H = 0, proporcion = 1, actual = 0, objetivo = 0, pendiente = false, visible = true, ultimo = 0;
 
     function etiqueta(estado, html, clase) {
@@ -152,6 +153,36 @@
       return celda;
     }
 
+    // Reparte n puntos en rejilla dentro de la silueta del departamento; devuelve el paso.
+    function silueta(x0, y0, ancho, alto, cx, cy, n) {
+      var lienzoMapa = document.createElement("canvas");
+      lienzoMapa.width = Math.max(1, Math.ceil(ancho));
+      lienzoMapa.height = Math.max(1, Math.ceil(alto));
+      var c = lienzoMapa.getContext("2d");
+      c.scale(ancho / d.mapa.ancho, ancho / d.mapa.ancho);
+      trazos.forEach(function (t) { c.fill(t); });
+      var pixeles = c.getImageData(0, 0, lienzoMapa.width, lienzoMapa.height).data;
+      var lleno = 0;
+      for (var p = 3; p < pixeles.length; p += 4) if (pixeles[p] > 127) lleno++;
+      var paso = Math.sqrt(lleno / n), puntos = [];
+      for (var intento = 0; intento < 40; intento++) {
+        puntos = [];
+        for (var y = paso / 2; y < lienzoMapa.height; y += paso) {
+          for (var x = paso / 2; x < lienzoMapa.width; x += paso) {
+            if (pixeles[(Math.floor(y) * lienzoMapa.width + Math.floor(x)) * 4 + 3] > 127) puntos.push(x, y);
+          }
+        }
+        if (puntos.length / 2 >= n) break;
+        paso *= 0.97;
+      }
+      var hay = puntos.length / 2;
+      for (var j = 0; j < n; j++) {
+        var k = Math.min(hay - 1, Math.floor(j * hay / n));
+        cx[j] = x0 + puntos[2 * k]; cy[j] = y0 + puntos[2 * k + 1];
+      }
+      return paso;
+    }
+
     function maquetar() {
       var caja = escena.getBoundingClientRect();
       if (caja.width < 10 || caja.height < 10) return;
@@ -164,9 +195,21 @@
       var alto = H - (cabecera - 64);
       var area = movil ? { x: 18, y: cabecera + 28, w: W - 36, h: alto * 0.42 - 16 } : { x: W * 0.47, y: cabecera + 32, w: W * 0.49, h: alto - 196 };
 
-      // 0. Textura del censo a pantalla completa.
-      T[0] = rejilla(-10, -10, W + 20, H + 20, X[0], Y[0], total) * 0.34;
-      for (var j = 0; j < total; j++) { A[0][j] = j < cohorteMil ? 0.2 : 0.11; C[0][j] = 0; }
+      var relacion = d.mapa.alto / d.mapa.ancho;
+      var anchoMapa = Math.min(area.w, area.h / relacion);
+      // En pantallas bajas la leyenda va al lado del mapa para que el texto no la tape.
+      var lateral = movil && H < 640;
+      var mapaX = lateral ? area.x : area.x + (area.w - anchoMapa) / 2;
+      var mapaY = area.y + (area.h - anchoMapa * relacion) / 2;
+
+      // 0. Los cuadros del censo forman la silueta del Atlántico. En escritorio va pegada a la
+      // derecha para no cruzarse con el titular; en móvil ocupa el lugar del mapa.
+      var silAncho = movil ? anchoMapa : Math.min(W * 0.36, area.h / relacion);
+      var silX = movil ? mapaX : W * 0.97 - silAncho;
+      var silY = movil ? mapaY : area.y + (area.h - silAncho * relacion) / 2;
+      T[0] = silueta(silX, silY, silAncho, silAncho * relacion, X[0], Y[0], total) * 0.66;
+      // En móvil la silueta queda detrás del titular: se atenúa como la textura de fondo.
+      for (var j = 0; j < total; j++) { A[0][j] = movil ? 0.08 + semilla[j] * 0.12 : 0.24 + semilla[j] * 0.3; C[0][j] = 0; }
       // 1. El censo. 2. La cohorte: uno de cada diecisiete cuadros, repartido por la rejilla.
       T[1] = rejilla(area.x, area.y, area.w, area.h, X[1], Y[1], total) * 0.62;
       T[2] = T[1];
@@ -227,14 +270,10 @@
       }
       T[6] = T[5];
 
-      var relacion = d.mapa.alto / d.mapa.ancho;
-      var anchoMapa = Math.min(area.w, area.h / relacion);
-      // En pantallas bajas la leyenda va al lado del mapa para que el texto no la tape.
-      var lateral = movil && H < 640;
       capaMapa.classList.toggle("lateral", lateral);
       capaMapa.style.width = anchoMapa + "px";
-      capaMapa.style.left = (lateral ? area.x : area.x + (area.w - anchoMapa) / 2) + "px";
-      capaMapa.style.top = area.y + (area.h - anchoMapa * relacion) / 2 + "px";
+      capaMapa.style.left = mapaX + "px";
+      capaMapa.style.top = mapaY + "px";
       pendiente = true; pintar();
     }
 
