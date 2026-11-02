@@ -5,7 +5,7 @@
   "use strict";
 
   var origen = document.currentScript ? document.currentScript.src.replace(/[^/]*$/, "") : "";
-  var COLORES = [[245, 247, 250], [90, 134, 242], [236, 92, 120]]; // claro, dentro y fuera sobre noche
+  var COLORES = [[247, 249, 251], [79, 155, 217], [217, 112, 58]]; // claro, dentro y fuera sobre noche
   var reducido = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function entero(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+$)/g, "."); }
@@ -162,7 +162,7 @@
       // El Dash parte su cabecera en dos filas en pantallas medianas.
       var cabecera = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--cabecera")) || 64;
       var alto = H - (cabecera - 64);
-      var area = movil ? { x: 18, y: cabecera + 28, w: W - 36, h: alto * 0.42 - 16 } : { x: W * 0.47, y: cabecera + 32, w: W * 0.49, h: alto - 176 };
+      var area = movil ? { x: 18, y: cabecera + 28, w: W - 36, h: alto * 0.42 - 16 } : { x: W * 0.47, y: cabecera + 32, w: W * 0.49, h: alto - 196 };
 
       // 0. Textura del censo a pantalla completa.
       T[0] = rejilla(-10, -10, W + 20, H + 20, X[0], Y[0], total) * 0.34;
@@ -310,7 +310,7 @@
       var titulo = document.createElementNS(svgNS, "title");
       if (m.n) {
         var v = (m.sin_formal / m.n - minimo) / (maximo - minimo);
-        trazo.setAttribute("fill", "rgb(" + Math.round(38 + 198 * v) + "," + Math.round(54 + 38 * v) + "," + Math.round(92 + 28 * v) + ")");
+        trazo.setAttribute("fill", "rgb(" + Math.round(31 + 186 * v) + "," + Math.round(84 + 28 * v) + "," + Math.round(117 - 59 * v) + ")");
         var texto = m.municipio + ": " + pct(m.sin_formal / m.n) + " · base aproximada " + entero(m.n);
         titulo.textContent = texto;
         trazo.setAttribute("tabindex", "-1");

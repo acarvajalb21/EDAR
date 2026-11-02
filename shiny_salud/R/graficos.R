@@ -2,9 +2,9 @@
 # El color «fuera» significa siempre «fuera de la ruta formal». Los grupos usan otra pareja.
 
 TK <- list(
-  suelo = "#E9EDF2", tinta = "#14233A", tinta2 = "#3B4A60", tinta3 = "#556378",
-  hilo = "rgba(20, 35, 58, .13)", base = "#A9B4C2", dentro = "#2454D6", fuera = "#D93F4C", grupo_a = "#00908A",
-  grupo_b = "#A86C00", referencia = "#7C8799"
+  suelo = "#EEF2F5", tinta = "#10293B", tinta2 = "#3A4F60", tinta3 = "#54697A",
+  hilo = "rgba(16, 41, 59, .13)", base = "#A9B6C1", dentro = "#1B6CA8", fuera = "#DD6B20", grupo_a = "#5B6FB5",
+  grupo_b = "#A86C00", referencia = "#7D8A96"
 )
 FUENTE <- "Atkinson Hyperlegible Next, Segoe UI, Arial, sans-serif"
 

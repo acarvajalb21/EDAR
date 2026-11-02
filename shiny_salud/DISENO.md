@@ -10,32 +10,32 @@ La ruta. La navegación es una línea con nueve paradas, y las etapas del proyec
 
 ## Color
 
-Gama «Pizarra»: un neutro azulado de fondo y azul noche como estructura, todo en el mismo matiz. Los nombres de los tokens describen su función, no su tono, para poder cambiar la gama sin renombrar nada.
+Gama «Petróleo»: un neutro frío de fondo y azul petróleo como estructura, con el naranja reservado para quienes quedan fuera de la ruta formal. Los nombres de los tokens describen su función, no su tono, para poder cambiar la gama sin renombrar nada.
 
 | Token | Valor | Uso |
 |:--|:--|:--|
-| `suelo` | `#E9EDF2` | Fondo de página |
-| `pliego` | `#F5F7FA` | Controles y planos de lectura |
-| `noche` | `#14233A` | Cabecera, relato, banda de selección y pie |
-| `acento` | `#7FB4E6` | La ruta, la cobertura y los botones sobre fondo oscuro |
-| `tinta` | `#14233A` | Texto principal |
-| `tinta-media` | `#3B4A60` | Texto secundario |
-| `tinta-suave` | `#556378` | Notas y ejes |
-| `dentro` | `#2454D6` | **Dentro de la ruta formal**, acciones y modelo |
-| `fuera` | `#D93F4C` | **Fuera de la ruta formal** |
-| `grupo_a` y `grupo_b` | `#00908A`, `#A86C00` | Comparar grupos: sexo o dificultad funcional |
-| `referencia` | `#7C8799` | Azar, prevalencia y otras líneas de referencia |
-| `dentro-luz` y `fuera-luz` | `#5A86F2`, `#EC5C78` | Las mismas clases sobre `noche` |
+| `suelo` | `#EEF2F5` | Fondo de página |
+| `pliego` | `#F7F9FB` | Controles y planos de lectura |
+| `noche` | `#0B3C5D` | Cabecera, relato, banda de selección y pie |
+| `acento` | `#8FC7E8` | La ruta, la cobertura y los botones sobre fondo oscuro |
+| `tinta` | `#10293B` | Texto principal |
+| `tinta-media` | `#3A4F60` | Texto secundario |
+| `tinta-suave` | `#54697A` | Notas y ejes |
+| `dentro` | `#1B6CA8` | **Dentro de la ruta formal**, acciones y modelo |
+| `fuera` | `#DD6B20` | **Fuera de la ruta formal** |
+| `grupo_a` y `grupo_b` | `#5B6FB5`, `#A86C00` | Comparar grupos: sexo o dificultad funcional |
+| `referencia` | `#7D8A96` | Azar, prevalencia y otras líneas de referencia |
+| `dentro-luz` y `fuera-luz` | `#4F9BD9`, `#D9703A` | Las mismas clases sobre `noche` |
 
 Reglas:
 
 - `fuera` no decora ni alerta: siempre es la clase «fuera de la ruta formal». Por eso los titulares no llevan palabras en color.
 - `dentro`–`fuera` y `grupo_a`–`grupo_b` no se mezclan en una gráfica. Cada pareja pasó el validador de `dataviz` para daltonismo sobre `suelo`, y `dentro-luz` con `fuera-luz` sobre `noche`.
-- El texto usa las tintas, nunca el color de la serie. Sobre superficies tenues, usar `#A82C39` para `fuera` y `#1B3FA8` para `dentro`.
+- El texto usa las tintas, nunca el color de la serie. Sobre superficies tenues, usar `#A84E12` para `fuera` y `#155A8C` para `dentro`.
 
 ## Superficies
 
-Sin tarjetas, sombras ni degradados. La jerarquía la dan los planos de color y el espacio: las secciones se apoyan en el suelo, las cifras son una fila entre dos líneas y lo importante va en una banda de noche.
+Sin tarjetas, sombras ni degradados. La jerarquía la dan los planos de color y el espacio: las secciones se apoyan en el suelo, las cifras son una fila entre dos líneas y lo importante va en una banda de noche. La única sombra es la de BQSI abierto, porque flota sobre el contenido.
 
 ## Tipografía
 
@@ -50,6 +50,7 @@ Escala: texto 17 px con interlineado 1,6; notas 15 a 16 px; subtítulos 21 a 24 
 - **Banda de selección.** Filtros y resultado van juntos, para que se vea qué cambia cada filtro.
 - **Frase viva.** Resume cada selección y solo enuncia un porcentaje cuando las reglas lo permiten.
 - **Cinta de cobertura.** Muestra el estado del porcentaje, su motivo y la marca del mínimo de 80 %.
+- **BQSI.** El chatbot es una pestaña acoplada al borde inferior, en `acento` para verse sobre fondos claros y oscuros, que se despliega como ventana de chat. Sus curvas más amplias lo separan del contenido del proyecto.
 
 ## Contenido
 

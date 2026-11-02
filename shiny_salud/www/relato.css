@@ -38,16 +38,16 @@
 .relato-mapa svg { display: block; width: 100%; height: auto; overflow: visible; }
 .relato-mapa path { stroke: var(--noche); stroke-width: 1.1; cursor: pointer; transition: opacity .15s ease; outline: none; }
 .relato-mapa path:hover, .relato-mapa path:focus-visible { stroke: var(--acento); stroke-width: 2; paint-order: stroke; }
-.relato-mapa path.sin-dato { fill: transparent; stroke: #4B5C74; stroke-dasharray: 3 3; cursor: default; }
+.relato-mapa path.sin-dato { fill: transparent; stroke: #4F7088; stroke-dasharray: 3 3; cursor: default; }
 .relato-leyenda { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 9px; margin-top: 12px; color: var(--claro-suave); font-size: .9rem; }
 .relato-leyenda b { flex: 1 0 100%; font-weight: 500; color: var(--claro); }
-.relato-leyenda i { flex: 1 1 60px; max-width: 150px; height: 7px; border-radius: 4px; background: linear-gradient(90deg, rgb(38, 54, 92), rgb(236, 92, 120)); }
+.relato-leyenda i { flex: 1 1 60px; max-width: 150px; height: 7px; border-radius: 4px; background: linear-gradient(90deg, rgb(31, 84, 117), rgb(217, 112, 58)); }
 .relato-aviso { min-height: 1.4em; margin-top: 6px; color: var(--claro); font-size: .94rem; }
 
 @media (max-width: 859px) {
   .paso { align-items: flex-end; padding: 0 16px 26px; min-height: 112vh; }
   .paso-portada { align-items: center; padding-bottom: 0; }
-  .paso-texto { max-width: none; background: rgba(20, 35, 58, .84); padding: 16px 18px; border-radius: 10px; }
+  .paso-texto { max-width: none; background: rgba(11, 60, 93, .86); padding: 16px 18px; border-radius: 10px; }
   .paso-portada .paso-texto { background: none; padding: 0; }
   .relato-etiqueta { width: 104px; }
   .relato-etiqueta strong { font-size: 1.08rem; }

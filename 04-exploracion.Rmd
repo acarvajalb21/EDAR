@@ -4,7 +4,7 @@ Todas las figuras de este capítulo utilizan el mismo denominador inicial: las `
 
 ## De qué está hecha la clasificación
 
-```{r fig-composicion, fig.cap="Distribución por tratamiento principal declarado. Azul: dentro de la ruta formal; rojo: fuera de la ruta formal. La categoría de otras acciones o ninguna no implica que jamás se haya recibido atención formal."}
+```{r fig-composicion, fig.cap="Distribución por tratamiento principal declarado. Azul: dentro de la ruta formal; naranja: fuera de la ruta formal. La categoría de otras acciones o ninguna no implica que jamás se haya recibido atención formal."}
 knitr::include_graphics("figures/composicion_etiqueta.png")
 ```
 
@@ -44,7 +44,7 @@ knitr::kable(sd[, c("sexo", "dificultad", "Personas", "Fuera de la ruta formal",
 
 ## Territorio y condiciones de vivienda
 
-```{r fig-municipio, fig.cap="Porcentaje fuera de la ruta formal por municipio. Se publican municipios con al menos 30 personas y al menos cinco observaciones en cada clase; la línea roja muestra la tasa de la cohorte completa."}
+```{r fig-municipio, fig.cap="Porcentaje fuera de la ruta formal por municipio. Se publican municipios con al menos 30 personas y al menos cinco observaciones en cada clase; la línea discontinua muestra la tasa de la cohorte completa."}
 knitr::include_graphics("figures/municipio.png")
 ```
 

@@ -3,9 +3,14 @@
 from __future__ import annotations
 
 import json
-import shutil
 from pathlib import Path
 
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+import numpy as np
 import pandas as pd
 
 
@@ -26,9 +31,58 @@ LABELS = {
     "mezcla_fija_75_25": "Mezcla fija: boosting y logística",
 }
 
+# Mismos tokens que scripts/preparar_resumen.py: añil y ocre comparan grupos.
+ANIL = "#5B6FB5"
+OCRE = "#A86C00"
+INK = "#10293B"
+MUTED = "#54697A"
+GRID = "#D9E1E7"
+HOJA = "#F7F9FB"
+
 
 def read(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def entero(valor: int) -> str:
+    return f"{valor:,.0f}".replace(",", ".")
+
+
+def figura_brecha(breach: dict, destino: Path) -> None:
+    """Redibuja la figura de la auditoría con la paleta del libro; el registro original no cambia."""
+    plt.rcParams.update({
+        "font.family": "sans-serif", "font.sans-serif": ["Atkinson Hyperlegible Next", "DejaVu Sans"], "font.size": 10,
+        "axes.labelcolor": MUTED, "text.color": INK, "xtick.color": MUTED, "ytick.color": MUTED,
+        "axes.edgecolor": GRID, "axes.spines.top": False, "axes.spines.right": False, "axes.titleweight": "bold",
+        "figure.facecolor": HOJA, "axes.facecolor": HOJA, "savefig.facecolor": HOJA, "grid.color": GRID,
+    })
+    bandas = ["0-14", "15-59", "60+"]
+    fig, ax = plt.subplots(figsize=(8.2, 4.7))
+    for codigo, desplazamiento, nombre, color in ((1, -.14, "Con dificultad", OCRE), (2, .14, "Sin dificultad", ANIL)):
+        filas = [next(r for r in breach["rows"] if r["age_band"] == banda and r["difficulty_code"] == codigo) for banda in bandas]
+        valores = np.array([r["recall"] for r in filas])
+        abajo = valores - np.array([r["recall_wilson_95"][0] for r in filas])
+        arriba = np.array([r["recall_wilson_95"][1] for r in filas]) - valores
+        ax.errorbar(np.arange(3) + desplazamiento, valores, yerr=[abajo, arriba], fmt="o-", capsize=4,
+                    color=color, linewidth=2, markersize=7, label=nombre)
+        # Las etiquetas van al lado del punto, hacia donde no pasa la línea.
+        for i, r in enumerate(filas):
+            ax.annotate(f"{entero(r['true_positives'])}/{entero(r['positives'])}", (i + desplazamiento, valores[i]),
+                        xytext=(-10, 0) if codigo == 1 else ((10, -10), (10, 10), (10, 0))[i], textcoords="offset points", ha="right" if codigo == 1 else "left",
+                        va="center", fontsize=8.5, color=MUTED)
+    ax.set_xticks(range(3), ["0 a 14", "15 a 59", "60 o más"])
+    ax.set_xlim(-.65, 2.65)
+    ax.set_ylim(0, 1)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}".replace(".", ",")))
+    ax.set_xlabel("Edad en años")
+    ax.set_ylabel("Sensibilidad entre quienes están fuera de la ruta")
+    ax.set_title("Sensibilidad por edad y dificultad funcional declarada", loc="left")
+    ax.grid(axis="y", alpha=.6)
+    ax.set_axisbelow(True)
+    ax.legend(frameon=False)
+    fig.tight_layout(pad=1.8)
+    fig.savefig(destino, dpi=180, bbox_inches="tight")
+    plt.close(fig)
 
 
 def main():
@@ -88,7 +142,7 @@ def main():
         "roc_auc": item["held_out"]["roc_auc"],
     } for item in territory["results"]]).to_csv(
         data_dir / "auditoria_territorio_2026.csv", index=False, encoding="utf-8-sig")
-    shutil.copyfile(AUDIT / "brecha_dificultad.png", figures_dir / "brecha_dificultad_2026.png")
+    figura_brecha(breach, figures_dir / "brecha_dificultad_2026.png")
     print("Auditoría 2026 incorporada al Bookdown, sin cambiar el modelo seleccionado")
 
 

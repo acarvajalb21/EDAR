@@ -13,7 +13,7 @@
   font-display: swap;
   src: url("fonts/bricolage-grotesque-latin-wght-normal.woff2") format("woff2");
 }
-:root { --papel: #F5F7FA; --hoja: #F5F7FA; --tinta: #14233A; --tinta-media: #3B4A60; --tinta-suave: #556378; --hilo: #DFE4EB; --rio: #2454D6; --rio-oscuro: #1B3FA8; --rio-tenue: #DCE5F5; }
+:root { --papel: #F7F9FB; --hoja: #F7F9FB; --tinta: #10293B; --tinta-media: #3A4F60; --tinta-suave: #54697A; --hilo: #D9E1E7; --rio: #1B6CA8; --rio-oscuro: #155A8C; --rio-tenue: #DCE9F3; }
 body, .book, .book.font-family-1 { color: var(--tinta); font-family: "Atkinson Hyperlegible Next", "Segoe UI", Arial, sans-serif; font-synthesis: none; }
 .book .book-body, .book .book-body .page-wrapper { background: var(--hoja); }
 .book .book-body .page-wrapper .page-inner { max-width: 900px; }

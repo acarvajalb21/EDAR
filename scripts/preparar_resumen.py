@@ -44,17 +44,17 @@ RESULTS = ROOT / "ml_salud" / "resultados"
 RESULTS_V1 = ROOT / "ml_salud" / "resultados_v1"
 CONTEXT = ROOT / "ml_salud" / "experimento_contexto" / "salidas"
 
-# Tokens del sistema «Papel censal» (shiny_salud/DISENO.md).
+# Tokens de la gama «Petróleo» (shiny_salud/DISENO.md).
 # Río y arcilla son las dos clases; añil y ocre comparan grupos.
-RIO = "#2454D6"
-ARCILLA = "#D93F4C"
-ANIL = "#00908A"
+RIO = "#1B6CA8"
+ARCILLA = "#DD6B20"
+ANIL = "#5B6FB5"
 OCRE = "#A86C00"
-BASE_GRIS = "#A9B4C2"
-INK = "#14233A"
-MUTED = "#556378"
-GRID = "#DFE4EB"
-HOJA = "#F5F7FA"
+BASE_GRIS = "#A9B6C1"
+INK = "#10293B"
+MUTED = "#54697A"
+GRID = "#D9E1E7"
+HOJA = "#F7F9FB"
 
 AGE_LABELS = {
     1: "0–4", 2: "5–9", 3: "10–14", 4: "15–19", 5: "20–24",
@@ -121,12 +121,19 @@ def coma(valor: float, decimales: int = 3) -> str:
     return f"{valor:.{decimales}f}".replace(".", ",")
 
 
+def numero_eje(valor: float, _posicion=None) -> str:
+    # Coma decimal y punto de miles desde 10.000, como en el texto del libro.
+    if float(valor).is_integer() and abs(valor) >= 10000:
+        return f"{valor:,.0f}".replace(",", ".")
+    return f"{valor:g}".replace(".", ",")
+
+
 def finish(fig: plt.Figure, name: str) -> None:
     # Los ejes numéricos usan coma decimal; los de categorías no se tocan.
     for ax in fig.axes:
         for axis in (ax.xaxis, ax.yaxis):
             if isinstance(axis.get_major_formatter(), ScalarFormatter):
-                axis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}".replace(".", ",")))
+                axis.set_major_formatter(FuncFormatter(numero_eje))
     fig.tight_layout(pad=1.8)
     fig.savefig(FIGURES / name, dpi=180, bbox_inches="tight")
     plt.close(fig)
@@ -408,7 +415,7 @@ def make_model(results: dict, frame: pd.DataFrame) -> None:
     conf = results["test_metrics"][results["selected_model"]]["confusion"]
     matrix = np.array([[conf["tn"], conf["fp"]], [conf["fn"], conf["tp"]]])
     fig, ax = plt.subplots(figsize=(5.2, 4.7))
-    ax.imshow(matrix, cmap=LinearSegmentedColormap.from_list("rio", ["#EDF1F6", RIO]))
+    ax.imshow(matrix, cmap=LinearSegmentedColormap.from_list("rio", ["#EEF2F5", RIO]))
     ax.set_xticks([0, 1], ["Dentro de la ruta", "Fuera de la ruta"])
     ax.set_yticks([0, 1], ["Dentro de la ruta", "Fuera de la ruta"])
     ax.set_xlabel("Predicción")
