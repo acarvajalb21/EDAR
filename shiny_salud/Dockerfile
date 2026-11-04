@@ -2,6 +2,10 @@ FROM rocker/r-ver:4.6.1
 
 ENV PORT=8080
 
+# `fs`, dependencia de Shiny/bslib, necesita libuv en tiempo de ejecución.
+RUN apt-get update && apt-get install -y --no-install-recommends libuv1-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 # La etiqueta de rocker fija la fecha del repositorio de paquetes.
 RUN install2.r --error --skipinstalled --ncpus 2 shiny bslib plotly jsonlite
 
