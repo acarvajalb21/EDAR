@@ -3,16 +3,16 @@
   "publication_date": "2026-11-17",
   "repository": "EDAR",
   "html_sha256": {
-    "404.html": "3e8f71bbeedbad83f8358780168169584fadbf7805a59b2aefb8df58642c81d8",
-    "calidad.html": "7e4348f4ccbf9045921b152a18169cab372fd5bdaa6d9ed36d77ab941dac1fd3",
-    "codigo.html": "429d27d3681906dc8ab058cea8dbc6d67d1b666e83889905e5031820ba8febfd",
-    "conclusiones.html": "f920693579909c9a5caa0995294aa95ddcf65459e87d6e2e52e8965f44514a03",
-    "datos-metodo.html": "423f4c1efb6f82a843680b16015f5dc746d6a6f071670d9a59f156086d0225f8",
-    "exploracion.html": "21ce72983d2a68e36e906ae601099437ad432814f41b045aaa116abf391206ed",
-    "index.html": "ded6ccdd852752b710ec4d1f774f1d692b32f59935feba2d9b0d3662bd46990a",
-    "modelo.html": "b2c3970084c8af3b6a7c9d3f9da66601a69d02f8f1567e6e5b4d7b4d76540628",
-    "pregunta.html": "0079dbba0996db0afd39468d048e0e995f0fde7c590cc497ae4ec17e689b7efd",
-    "reproducibilidad.html": "7586450bce4343b20a57b8cbeedaf4184145c1938f036b76a8b0420ec394341a",
-    "shiny.html": "b37b66a932dc1db9a3beb30d5a775afcf1a1115b2d38981782a43b07d9de998e"
+    "404.html": "e97a5d784ee84a0d8aad5a69a66acca84eb37320f40e80fa24f8e79844b69300",
+    "calidad.html": "e7aff8d784f4c72a00b957ab75aadacfb43963baa926383d3d0ac8bf344f021b",
+    "codigo.html": "0a025625b6016682f095e758af01acd518ec487df3b9fc6506de367a0e219b29",
+    "conclusiones.html": "0c261f9695d513891deab0c9aa5b5aa155cb082ed7c802a5af24a9376265d82f",
+    "datos-metodo.html": "b63396d248e0d49062d88a1af6a494df86cce555e0543189645a8146a7fc7b92",
+    "exploracion.html": "bb6c7583ab8abe099eae2f83274c98bf3289d4e6640b495f2bd27f3da62ed51f",
+    "index.html": "ab870b3307f3181119bd7618228a2b54c8144e8f4848807611a742d0efdd0bcf",
+    "modelo.html": "bcfe7640b9ccf37049f7dbbb7587c23d85a12c53b5310904bb557c439f7b6c29",
+    "pregunta.html": "3003344fff075087631c881ecdcea2d2ebd5eacfd7c24c1cd951304f83217063",
+    "reproducibilidad.html": "6dc6ac8f27e0ce404c289296148ab749c355c49bb6c8ab511a9054d1f5a4cdf0",
+    "shiny.html": "58d0cf18a43ea8b41a9ba3cffd45d173da094e63d97d579eed7a2090d5293f97"
   }
 }
