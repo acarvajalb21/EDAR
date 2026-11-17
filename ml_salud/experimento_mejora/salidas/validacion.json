@@ -1,0 +1,201 @@
+{
+  "candidato": "F3_F2+agregados|lgb_nl31_lr0.02_mc100_cwNone_n400",
+  "referencia": "F0_v2|hgb_v2_params",
+  "tabla": {
+    "F0_v2|hgb_v2_params": {
+      "ap_cv_media": 0.37416905939306505,
+      "ap_cv_de": 0.004094988407285728,
+      "ap_val": 0.38605411340936086,
+      "roc_auc_val": 0.7011365062081989,
+      "brier_val": 0.15137766784092205
+    },
+    "F0_v2|lgb_nl63_lr0.02_mc100_cwNone_n400": {
+      "ap_cv_media": 0.3783115038146896,
+      "ap_cv_de": 0.005615096770882983,
+      "ap_val": 0.38915968078445945,
+      "roc_auc_val": 0.7046160315863997,
+      "brier_val": 0.1508856708173981
+    },
+    "F1_v2+TE_seccion|hgb_v2_params": {
+      "ap_cv_media": 0.3915329308577013,
+      "ap_cv_de": 0.001257713280460901,
+      "ap_val": 0.4061023552629567,
+      "roc_auc_val": 0.7221364614135619,
+      "brier_val": 0.14832044480083978
+    },
+    "F1_v2+TE_seccion|lgb_nl31_lr0.02_mc100_cwNone_n400": {
+      "ap_cv_media": 0.3939903951415667,
+      "ap_cv_de": 0.004075008916932665,
+      "ap_val": 0.4076848502805805,
+      "roc_auc_val": 0.7228244382207722,
+      "brier_val": 0.14821203115586287
+    },
+    "F2_v2+TE_seccion+TE_manzana|hgb_v2_params": {
+      "ap_cv_media": 0.40698978613432907,
+      "ap_cv_de": 0.0018326541910697255,
+      "ap_val": 0.42660321739676643,
+      "roc_auc_val": 0.740594010338959,
+      "brier_val": 0.14525062581597395
+    },
+    "F2_v2+TE_seccion+TE_manzana|lgb_nl31_lr0.02_mc100_cwNone_n400": {
+      "ap_cv_media": 0.40957593308799994,
+      "ap_cv_de": 0.003948061453554312,
+      "ap_val": 0.42816750664758774,
+      "roc_auc_val": 0.7412531462179148,
+      "brier_val": 0.1451465615063974
+    },
+    "F3_F2+agregados|hgb_v2_params": {
+      "ap_cv_media": 0.40964384282748806,
+      "ap_cv_de": 0.0013494760019333142,
+      "ap_val": 0.426115260676053,
+      "roc_auc_val": 0.7406095180128921,
+      "brier_val": 0.14525974238915174
+    },
+    "F3_F2+agregados|lgb_nl31_lr0.02_mc100_cwNone_n400": {
+      "ap_cv_media": 0.4132894061312095,
+      "ap_cv_de": 0.004667368468161242,
+      "ap_val": 0.4289459389719267,
+      "roc_auc_val": 0.741978733315989,
+      "brier_val": 0.14501169739114345
+    },
+    "F4_v2+agregados_sin_etiqueta|hgb_v2_params": {
+      "ap_cv_media": 0.3952269911062767,
+      "ap_cv_de": 0.0014631398005230845,
+      "ap_val": 0.405968217740063,
+      "roc_auc_val": 0.7170503585386958,
+      "brier_val": 0.14889019234920922
+    },
+    "F4_v2+agregados_sin_etiqueta|lgb_nl63_lr0.02_mc100_cwNone_n700": {
+      "ap_cv_media": 0.40154078270257765,
+      "ap_cv_de": 0.0020266530321851844,
+      "ap_val": 0.41394829322860494,
+      "roc_auc_val": 0.7269208615760971,
+      "brier_val": 0.1473618421927153
+    },
+    "prevalencia": {
+      "ap_cv_media": null,
+      "ap_cv_de": null,
+      "ap_val": 0.21056964956517266,
+      "roc_auc_val": 0.5,
+      "brier_val": 0.1662300744678085
+    }
+  },
+  "bootstrap_pareado": {
+    "definicion": "candidato menos v2; AP y ROC-AUC positivos favorecen al candidato, Brier negativo lo favorece",
+    "metodo": "bootstrap percentil pareado remuestreando viviendas completas",
+    "semilla": 44,
+    "replicas_solicitadas": 250,
+    "replicas_validas": 250,
+    "replicas_fallidas": 0,
+    "unidades_remuestreadas": 12718,
+    "delta_ap": 0.04289182556256582,
+    "ic95_delta_ap": [
+      0.031770337307084326,
+      0.05391011400495151
+    ],
+    "delta_roc_auc": 0.04084222710779006,
+    "ic95_delta_roc_auc": [
+      0.03289662987767411,
+      0.04757715176991183
+    ],
+    "delta_brier": -0.006365970449778602,
+    "ic95_delta_brier": [
+      -0.007617896591826576,
+      -0.005204692140842221
+    ],
+    "nota": "Condicionado a modelos ya entrenados: no incluye variabilidad de entrenamiento ni de selección."
+  },
+  "umbrales": {
+    "F0_v2|hgb_v2_params": {
+      "umbral_f1_validacion": {
+        "threshold": 0.22349873016112332,
+        "roc_auc": 0.7011365062081989,
+        "pr_auc": 0.38605411340936086,
+        "brier": 0.15137766784092205,
+        "f1": 0.4333189469141131,
+        "precision": 0.33497931402642467,
+        "recall": 0.6133919843597263,
+        "specificity": 0.6751841470569063,
+        "confusion": {
+          "tn": 10358,
+          "fp": 4983,
+          "fn": 1582,
+          "tp": 2510
+        },
+        "accuracy": 0.662172593011887,
+        "balanced_accuracy": 0.6442880657083163,
+        "flagged_fraction": 0.38558122780836723
+      },
+      "umbral_0_5": {
+        "threshold": 0.5,
+        "roc_auc": 0.7011365062081989,
+        "pr_auc": 0.38605411340936086,
+        "brier": 0.15137766784092205,
+        "f1": 0.09398075632132469,
+        "precision": 0.5570291777188329,
+        "recall": 0.051319648093841645,
+        "specificity": 0.9891141385828824,
+        "confusion": {
+          "tn": 15174,
+          "fp": 167,
+          "fn": 3882,
+          "tp": 210
+        },
+        "accuracy": 0.7916430813564556,
+        "balanced_accuracy": 0.5202168933383621,
+        "flagged_fraction": 0.01939998970822827
+      }
+    },
+    "F3_F2+agregados|lgb_nl31_lr0.02_mc100_cwNone_n400": {
+      "umbral_f1_validacion": {
+        "threshold": 0.23069215194867332,
+        "roc_auc": 0.741978733315989,
+        "pr_auc": 0.4289459389719267,
+        "brier": 0.14501169739114345,
+        "f1": 0.4706195632877685,
+        "precision": 0.36952885419570675,
+        "recall": 0.6478494623655914,
+        "specificity": 0.7051691545531582,
+        "confusion": {
+          "tn": 10818,
+          "fp": 4523,
+          "fn": 1441,
+          "tp": 2651
+        },
+        "accuracy": 0.6930993670560387,
+        "balanced_accuracy": 0.6765093084593747,
+        "flagged_fraction": 0.36916585190140483
+      },
+      "umbral_0_5": {
+        "threshold": 0.5,
+        "roc_auc": 0.741978733315989,
+        "pr_auc": 0.4289459389719267,
+        "brier": 0.14501169739114345,
+        "f1": 0.1980440097799511,
+        "precision": 0.5955882352941176,
+        "recall": 0.1187683284457478,
+        "specificity": 0.9784890163613845,
+        "confusion": {
+          "tn": 15011,
+          "fp": 330,
+          "fn": 3606,
+          "tp": 486
+        },
+        "accuracy": 0.7974579323830597,
+        "balanced_accuracy": 0.5486286724035662,
+        "flagged_fraction": 0.041990428652292494
+      }
+    }
+  },
+  "sensibilidad_dificultad_umbral_f1": {
+    "F0_v2|hgb_v2_params": 0.3877551020408163,
+    "F3_F2+agregados|lgb_nl31_lr0.02_mc100_cwNone_n400": 0.47309833024118736
+  },
+  "criterios": {
+    "ganancia_ap_val_>=0.010": true,
+    "ic95_sobre_cero": true,
+    "brier_no_empeora_>0.002": true
+  },
+  "decision": "cumple",
+  "tiempo_s_final": 56.3054563999176
+}

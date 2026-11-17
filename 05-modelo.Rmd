@@ -2,6 +2,88 @@
 
 Este capítulo presenta el modelo vigente (versión 2), con 28 variables. La versión 1, de 26 variables, se conserva como referencia: la sección \@ref(revision-modelo-2026) documenta su revisión y la sección \@ref(modelo-contexto-2026) explica por qué se reemplazó.
 
+```{r datos-resumen-modelo, include = FALSE}
+modelos_r <- leer("comparacion_modelos.csv")
+part_r <- leer("particiones.csv")
+mc_r <- leer("matriz_confusion.csv")[1, ]
+umb_r <- leer("umbrales_prueba.csv")
+pr_r <- leer("priorizacion_prueba.csv")
+inc_r <- leer("incertidumbre.csv")
+sel <- modelos_r[modelos_r$codigo == "hist_gradient_boosting", ]
+rf <- modelos_r[modelos_r$codigo == "random_forest", ]
+lg <- modelos_r[modelos_r$codigo == "logistica", ]
+bl <- modelos_r[modelos_r$codigo == "baseline", ]
+n_prueba <- part_r$n[part_r$particion == "Prueba"]
+prev_prueba <- (mc_r$falsos_negativos + mc_r$verdaderos_positivos) / n_prueba
+exactitud <- (mc_r$verdaderos_negativos + mc_r$verdaderos_positivos) / n_prueba
+exactitud_bal <- (sel$recall_prueba + umb_r$specificity[1]) / 2
+sens_05 <- umb_r$recall[2]
+top10 <- pr_r[abs(pr_r$fraction - .1) < 1e-9, ]
+delta <- inc_r[inc_r$metrica == "delta_ap_vs_competitor", ]
+pct_part <- 100 * part_r$n / sum(part_r$n)
+```
+
+## El modelo en cinco preguntas {#modelo-resumen}
+
+**1. ¿Qué predice?** Si una persona de la cohorte quedó *fuera de la ruta formal* (`SIN_ACCESO = 1`). Es la clase positiva de todas las métricas. Una de cada cinco personas pertenece a ella (`r porcentaje(100 * prev_prueba)` en la prueba).
+
+**2. ¿Cómo dividimos los datos de entrenamiento y prueba?** La cohorte se repartió en siete grupos iguales con `StratifiedGroupKFold` (semilla 42): cinco grupos para **entrenamiento** (`r porcentaje(pct_part[1])`, `r entero(part_r$n[1])` personas), uno para **validación** (`r porcentaje(pct_part[2])`, `r entero(part_r$n[2])`) y uno para **prueba** (`r porcentaje(pct_part[3])`, `r entero(part_r$n[3])`). Es una división *estratificada*, porque cada parte conserva la misma proporción fuera de la ruta, y *agrupada por vivienda*, porque las personas de un mismo hogar comparten condiciones y, si quedaran a ambos lados, el modelo se evaluaría con casas que ya vio. Cada parte tiene una sola función:
+
+- Entrenamiento: ajustar los modelos y escoger sus hiperparámetros con validación cruzada de tres pliegues, también agrupada por vivienda.
+- Validación: escoger el modelo ganador y el umbral de clasificación.
+- Prueba: medir una sola vez, al final, el modelo ya escogido.
+
+```{r fig-particion, fig.cap = "Reparto de las personas de la cohorte entre las tres particiones. Cada barra se divide según la etiqueta: la proporción fuera de la ruta formal es casi idéntica en las tres."}
+if (knitr::is_html_output()) {
+  orden <- rev(part_r$particion)
+  fuera_n <- part_r$n_sin_formal
+  dentro_n <- part_r$n - fuera_n
+  plotly::plot_ly(height = 300) |>
+    plotly::add_trace(y = factor(part_r$particion, levels = orden), x = dentro_n, type = "bar", orientation = "h",
+                      name = "Dentro de la ruta formal", marker = list(color = TK$dentro),
+                      customdata = paste0(part_r$particion, "<br>Dentro de la ruta: ", num_es(dentro_n), " personas"),
+                      hovertemplate = "%{customdata}<extra></extra>") |>
+    plotly::add_trace(y = factor(part_r$particion, levels = orden), x = fuera_n, type = "bar", orientation = "h",
+                      name = "Fuera de la ruta formal", marker = list(color = TK$fuera),
+                      customdata = paste0(part_r$particion, "<br>Fuera de la ruta: ", num_es(fuera_n), " personas (",
+                                          pct_es(part_r$porcentaje_sin_formal), ")"),
+                      hovertemplate = "%{customdata}<extra></extra>") |>
+    plotly::add_annotations(x = part_r$n, y = part_r$particion, xanchor = "left", showarrow = FALSE,
+                            text = paste0("  ", num_es(part_r$n), " (", pct_es(pct_part), ")"),
+                            font = list(color = TK$tinta2, size = 13)) |>
+    estilo_libro("Partición estratificada y agrupada por vivienda", margen = list(l = 10, r = 130, t = 84, b = 10)) |>
+    plotly::layout(barmode = "stack", bargap = .4, xaxis = eje("Personas", tickformat = ",d"),
+                   yaxis = eje(gridcolor = "rgba(0,0,0,0)"))
+}
+```
+
+**3. ¿Qué modelos comparamos?** Cuatro, con los mismos datos y particiones: una referencia que asigna a todos la prevalencia (sin modelo), una regresión logística regularizada, un bosque aleatorio (Random Forest) y un boosting de histogramas (`HistGradientBoostingClassifier`). La tabla \@ref(tab:tabla-modelos) y la figura \@ref(fig:fig-modelos) muestran sus resultados.
+
+**4. ¿Por qué escogimos el boosting de histogramas?**
+
+- *Ganó con la regla fijada antes de mirar la prueba.* La regla era la mayor precisión promedio (AP) en validación: `r fraccion(sel$ap_validacion)`, frente a `r fraccion(rf$ap_validacion)` del bosque, `r fraccion(lg$ap_validacion)` de la logística y `r fraccion(bl$ap_validacion)` sin modelo.
+- *Ganó en todas las métricas, no solo en una.* En la prueba tuvo el mayor ROC-AUC (`r fraccion(sel$roc_auc_prueba)`) y el menor Brier (`r fraccion(sel$brier_prueba)`).
+- *La ventaja es pequeña, pero distinta de cero.* La diferencia de AP en prueba, boosting menos bosque, fue `r fraccion(sel$ap_prueba - rf$ap_prueba)`, con intervalo pareado del 95 % de `r fraccion(delta$inferior)` a `r fraccion(delta$superior)` (250 remuestreos de viviendas). Ese intervalo se calcula con los modelos ya entrenados: no incluye la variabilidad del entrenamiento ni de la selección, y la prueba ya se había consultado con la versión 1.
+- *Se ajusta a estos datos.* Trata municipio, sexo o materiales como categorías y aprende combinaciones entre variables sin escribirlas a mano.
+
+**5. ¿Por qué las métricas se ven bajas? ¿El modelo predice?** Sí predice, pero hay que leerlo bien:
+
+- *Con el corte convencional de 0,5 casi no marca a nadie.* Como la clase es minoritaria y las probabilidades están calibradas, rara vez pasan de 0,5: con ese corte detecta solo `r porcentaje(100 * sens_05)` de los casos. Por eso se usa el umbral elegido en validación, `r fraccion(umb_r$threshold[1], 4)`, que detecta `r porcentaje(100 * sel$recall_prueba)`.
+- *La exactitud engaña.* Decir siempre «dentro de la ruta» acierta `r porcentaje(100 * (1 - prev_prueba))` sin encontrar a nadie. Con el umbral validado la exactitud es `r porcentaje(100 * exactitud)` y la exactitud balanceada `r porcentaje(100 * exactitud_bal)`. Por eso la métrica principal es la AP, comparada con la de la referencia (`r fraccion(bl$ap_prueba)`), no con 1.
+- *Ordena bastante mejor que el azar.* Entre el 10 % con mayor puntuación, `r porcentaje(100 * top10$precision)` está fuera de la ruta: `r fraccion(top10$lift, 1)` veces la proporción general.
+- *El techo está en los datos, no en el algoritmo.* El censo no registra la gravedad del problema, el tiempo de espera, la distancia ni las preferencias, que deciden buena parte de la acción. Las variantes de ajuste probadas en la sección \@ref(revision-modelo-2026) no mejoraron; la mejora llegó solo con información nueva (sección \@ref(modelo-contexto-2026)).
+
+```{r tabla-lectura-metricas}
+lectura <- data.frame(
+  Escenario = c("Siempre «dentro de la ruta» (sin modelo)", "Modelo con umbral 0,5", "Modelo con umbral validado"),
+  Exactitud = c(porcentaje(100 * (1 - prev_prueba)), porcentaje(100 * (umb_r$specificity[2] * (1 - prev_prueba) + sens_05 * prev_prueba)), porcentaje(100 * exactitud)),
+  Sensibilidad = c(porcentaje(0), porcentaje(100 * sens_05), porcentaje(100 * sel$recall_prueba)),
+  Precision = c("—", porcentaje(100 * umb_r$precision[2]), porcentaje(100 * sel$precision_prueba))
+)
+knitr::kable(lectura, col.names = c("Escenario en la prueba", "Exactitud", "Sensibilidad (casos detectados)", "Precisión"),
+             caption = "Por qué la exactitud no sirve para elegir: el escenario que nunca encuentra a nadie tiene la exactitud más alta.")
+```
+
 ## Pregunta predictiva y criterio de éxito
 
 La clase positiva para evaluar el modelo es `SIN_ACCESO = 1`, que corresponde a la clase 0 de `ACCESO_FORMAL_SALUD` en el notebook. Su prevalencia en la cohorte es `r porcentaje(resumen$porcentaje_sin_formal)`. Por eso la exactitud global (*accuracy*) no sería suficiente: un clasificador que siempre dijera «dentro de la ruta formal» acertaría en cerca de ocho de cada diez registros y nunca encontraría un caso de interés.
@@ -38,7 +120,7 @@ knitr::kable(hip, col.names = c("Parámetro del modelo seleccionado", "Valor"),
              caption = "Configuración seleccionada del boosting de histogramas. La parada temprana interna se desactivó para no crear otra partición de datos.")
 ```
 
-No se compararon XGBoost, LightGBM ni CatBoost porque no estaban disponibles en el entorno de ejecución del experimento. «Mejor modelo» significa mejor entre los candidatos efectivamente evaluados bajo el protocolo descrito.
+En el experimento original no se compararon XGBoost, LightGBM ni CatBoost porque no estaban disponibles; LightGBM se probó después, en la sección \@ref(mejora-2026), y no cambió la conclusión. «Mejor modelo» significa mejor entre los candidatos efectivamente evaluados bajo el protocolo descrito.
 
 ## Curvas, calibración y umbral
 
@@ -129,7 +211,7 @@ knitr::kable(territorio[, c("municipio", "Personas", "Positivos", "Prevalencia",
              caption = "Sensibilidad territorial exploratoria realizada dentro del entrenamiento histórico.")
 ```
 
-Los intervalos de AP de esta auditoría se calculan sobre las predicciones de modelos ya ajustados: no incorporan toda la incertidumbre del entrenamiento y de la selección. Tampoco hay validación temporal o geográfica externa. Como en el experimento original, CatBoost, LightGBM y XGBoost quedaron fuera: no estaban instalados y el acceso a PyPI estaba bloqueado, así que no se les atribuye rendimiento.
+Los intervalos de AP de esta auditoría se calculan sobre las predicciones de modelos ya ajustados: no incorporan toda la incertidumbre del entrenamiento y de la selección. Tampoco hay validación temporal o geográfica externa. Como en el experimento original, CatBoost, LightGBM y XGBoost quedaron fuera de esta revisión porque no estaban instalados; LightGBM se evaluó más tarde (sección \@ref(mejora-2026)).
 
 ## Modelo con contexto de salud (versión 2) {#modelo-contexto-2026}
 
@@ -208,6 +290,33 @@ knitr::kable(pr[, c("Revision", "Personas", "Hallados", "Precision", "Sensibilid
 ```
 
 Ambas variables se miden en el mismo censo que la respuesta, de modo que el modelo sigue siendo retrospectivo. A diferencia de `P_TRABAJO` y `PA_ASISTENCIA`, no describen a la propia persona después del episodio, pero tampoco son información previa a él.
+
+## ¿Se puede mejorar el modelo? Experimento de noviembre de 2026 {#mejora-2026}
+
+Ante la observación de que el modelo «predice poco», se buscó una mejora con un protocolo escrito antes de mirar la validación ([`ml_salud/experimento_mejora/INFORME.md`](https://github.com/acarvajalb21/EDAPYTHON/blob/main/ml_salud/experimento_mejora/INFORME.md)). Se mantuvieron la cohorte, la etiqueta y las particiones; las variantes se compararon con validación cruzada por vivienda dentro del entrenamiento y con la validación. **La prueba no se consultó.** Se probaron dos ideas: otro algoritmo (LightGBM) y variables territoriales nuevas, entre ellas la proporción de *vecinos* de la misma sección o manzana que quedó fuera de la ruta. Esa proporción se calcula solo con etiquetas de entrenamiento y nunca incluye la propia vivienda.
+
+```{r tabla-mejora}
+mej <- leer("experimento_mejora.csv")
+res_mej <- leer("experimento_mejora_resumen.csv")[1, ]
+mej$Rol <- ifelse(mej$es_referencia %in% c(TRUE, "True"), "Modelo actual",
+                  ifelse(mej$es_candidato %in% c(TRUE, "True"), "Mejor candidato", ""))
+for (nombre in c("ap_cv", "ap_validacion", "roc_auc_validacion", "brier_validacion")) {
+  mej[[nombre]] <- vapply(mej[[nombre]], fraccion, character(1))
+}
+mej$ap_secciones_no_vistas <- ifelse(is.na(mej$ap_secciones_no_vistas), "—",
+                                     vapply(mej$ap_secciones_no_vistas, function(x) if (is.na(x)) "—" else fraccion(x), character(1)))
+knitr::kable(mej[, c("variables", "algoritmo", "Rol", "ap_cv", "ap_validacion", "roc_auc_validacion", "brier_validacion", "ap_secciones_no_vistas")],
+             col.names = c("Variables", "Algoritmo", "", "AP CV", "AP validación", "ROC-AUC validación", "Brier validación", "AP en secciones no vistas"),
+             caption = "Variantes del experimento de mejora. La prueba no se usó. La última columna repite la validación cruzada agrupando por sección censal: mide si la mejora sirve en zonas que el modelo no conoce.")
+```
+
+Qué mostró:
+
+- *Cambiar de algoritmo casi no ayuda.* Con las mismas variables, LightGBM obtuvo AP `r fraccion(res_mej$ap_lightgbm_mismas)` frente a `r fraccion(res_mej$ap_v2)` del modelo actual.
+- *La mejora grande viene de las respuestas de los vecinos.* El mejor candidato llegó a AP `r fraccion(res_mej$ap_candidato)` en validación. La diferencia frente al modelo actual fue `r fraccion(res_mej$delta_ap)`, con intervalo pareado del 95 % de `r fraccion(res_mej$delta_ap_inf)` a `r fraccion(res_mej$delta_ap_sup)` (`r res_mej$replicas` remuestreos de `r entero(res_mej$viviendas)` viviendas), y la exactitud balanceada pasó de `r porcentaje(100 * res_mej$exactitud_bal_v2)` a `r porcentaje(100 * res_mej$exactitud_bal_candidato)`.
+- *Pero no generaliza a zonas nuevas.* Al evaluar en secciones censales que el modelo no vio, el candidato obtuvo `r fraccion(res_mej$ap_seccion_candidato)`, frente a `r fraccion(res_mej$ap_seccion_v2)` del modelo actual. La ganancia depende de conocer de antemano lo que respondieron los vecinos: es un efecto de conglomerado del mismo censo, que puede reflejar la oferta local de servicios o la forma de responder en cada zona, y el censo no permite separarlas.
+
+**Decisión: se conserva la versión 2.** El candidato no cumple el criterio de ganancia en secciones no vistas que se había fijado para cambiar de versión, y no serviría para territorios o años sin respuestas conocidas. El experimento confirma que el límite está en la información del censo, no en el algoritmo. Los intervalos están condicionados a los modelos ya entrenados y no incluyen la variabilidad de elegir entre las variantes exploradas.
 
 ## Alcance de la prueba
 

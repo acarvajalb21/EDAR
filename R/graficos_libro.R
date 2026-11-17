@@ -26,7 +26,7 @@ eje <- function(titulo = "", ...) {
   ), list(...))
 }
 
-estilo_libro <- function(p, titulo, leyenda = FALSE, margen = list(l = 10, r = 24, t = 56, b = 10)) {
+estilo_libro <- function(p, titulo, leyenda = TRUE, margen = list(l = 10, r = 24, t = 84, b = 10)) {
   p |>
     plotly::layout(
       title = list(text = titulo, x = 0, xanchor = "left", xref = "paper",
@@ -45,8 +45,8 @@ estilo_libro <- function(p, titulo, leyenda = FALSE, margen = list(l = 10, r = 2
                    toImageButtonOptions = list(format = "png", scale = 2))
 }
 
-barras_h <- function(categorias, valores, colores, textos, detalle, alto) {
-  plotly::plot_ly(x = valores, y = factor(categorias, levels = categorias), type = "bar", orientation = "h",
+barras_h <- function(categorias, valores, colores, textos, detalle, alto, nombre = "Valor") {
+  plotly::plot_ly(x = valores, y = factor(categorias, levels = categorias), type = "bar", orientation = "h", name = nombre,
                   marker = list(color = colores), text = textos, textposition = "outside", cliponaxis = FALSE,
                   textfont = list(color = TK$tinta), customdata = detalle,
                   hovertemplate = "%{customdata}<extra></extra>", height = alto)
@@ -57,7 +57,7 @@ g_faltantes <- function() {
   d <- d[order(d$pct), ]
   barras_h(d$descripcion, d$pct, TK$tinta3, pct_es(d$pct),
            paste0(d$descripcion, "<br>", pct_es(d$pct), " sin dato o con código de no informa<br>",
-                  num_es(d$missing_or_sentinel), " personas"), 430) |>
+                  num_es(d$missing_or_sentinel), " personas"), 450, nombre = "Sin dato o «no informa» (%)") |>
     estilo_libro("Variables con mayor ausencia en los predictores") |>
     plotly::layout(xaxis = eje("Faltantes o códigos de no informa (%)", range = c(0, max(d$pct) * 1.18)),
                    yaxis = eje(gridcolor = "rgba(0,0,0,0)"), bargap = .32)
@@ -66,10 +66,17 @@ g_faltantes <- function() {
 g_composicion <- function() {
   d <- leer("composicion_etiqueta.csv")
   d <- d[rev(seq_len(nrow(d))), ]
-  colores <- ifelse(d$clasificacion == "Dentro de la ruta formal", TK$dentro, TK$fuera)
-  barras_h(d$tratamiento_principal, d$n, colores, num_es(d$n),
-           paste0(d$tratamiento_principal, "<br>", num_es(d$n), " personas (", pct_es(d$porcentaje), ")<br>",
-                  d$clasificacion), 330) |>
+  niveles <- d$tratamiento_principal
+  p <- plotly::plot_ly(height = 360)
+  for (clase in c("Dentro de la ruta formal", "Fuera de la ruta formal")) {
+    x <- d[d$clasificacion == clase, ]
+    p <- plotly::add_trace(p, x = x$n, y = factor(x$tratamiento_principal, levels = niveles), type = "bar", orientation = "h",
+                           name = clase, marker = list(color = if (clase == "Dentro de la ruta formal") TK$dentro else TK$fuera),
+                           text = num_es(x$n), textposition = "outside", cliponaxis = FALSE, textfont = list(color = TK$tinta),
+                           customdata = paste0(x$tratamiento_principal, "<br>", num_es(x$n), " personas (", pct_es(x$porcentaje), ")<br>", clase),
+                           hovertemplate = "%{customdata}<extra></extra>")
+  }
+  p |>
     estilo_libro("Composición de la etiqueta operativa") |>
     plotly::layout(xaxis = eje("Personas", range = c(0, max(d$n) * 1.18), tickformat = ",d"),
                    yaxis = eje(gridcolor = "rgba(0,0,0,0)"), bargap = .38)
@@ -138,7 +145,7 @@ g_municipio <- function() {
   total <- resumen$porcentaje_sin_formal
   barras_h(d$municipio, d$porcentaje_sin_formal, TK$fuera, pct_es(d$porcentaje_sin_formal),
            paste0(d$municipio, "<br>Fuera de la ruta formal: ", pct_es(d$porcentaje_sin_formal),
-                  "<br>", num_es(d$sin_formal), " de ", num_es(d$n), " personas"), 640) |>
+                  "<br>", num_es(d$sin_formal), " de ", num_es(d$n), " personas"), 660, nombre = "Fuera de la ruta formal (%)") |>
     estilo_libro("Municipios con recuentos publicables") |>
     plotly::layout(
       bargap = .3, xaxis = eje("Fuera de la ruta formal (%)", range = c(0, max(d$porcentaje_sin_formal) * 1.16)),
@@ -170,25 +177,27 @@ g_curvas <- function() {
   r <- leer("curvas_resumen.csv")[1, ]
   roc <- d[d$curva == "roc", ]
   pr <- d[d$curva == "pr", ]
-  a <- plotly::plot_ly(height = 400) |>
-    plotly::add_trace(x = c(0, 1), y = c(0, 1), type = "scatter", mode = "lines", name = "Azar",
+  a <- plotly::plot_ly(height = 520) |>
+    plotly::add_trace(x = c(0, 1), y = c(0, 1), type = "scatter", mode = "lines", name = "Azar (curva ROC)",
                       line = list(color = TK$referencia, dash = "dash", width = 1.3), hoverinfo = "skip") |>
-    plotly::add_trace(x = roc$x, y = roc$y, type = "scatter", mode = "lines", name = "Modelo",
-                      line = list(color = TK$dentro, width = 2.4),
+    plotly::add_trace(x = roc$x, y = roc$y, type = "scatter", mode = "lines", name = "Modelo (boosting de histogramas)",
+                      legendgroup = "modelo", line = list(color = TK$dentro, width = 2.4),
                       hovertemplate = "Falsos positivos: %{x:.1%}<br>Sensibilidad: %{y:.1%}<extra></extra>") |>
     plotly::layout(xaxis = eje("Tasa de falsos positivos", range = c(0, 1), fixedrange = FALSE, tickformat = ".0%"),
                    yaxis = eje("Sensibilidad", range = c(0, 1), fixedrange = FALSE, tickformat = ".0%"))
-  b <- plotly::plot_ly(height = 400) |>
-    plotly::add_trace(x = c(0, 1), y = rep(r$prevalencia, 2), type = "scatter", mode = "lines", name = "Prevalencia",
+  b <- plotly::plot_ly(height = 520) |>
+    plotly::add_trace(x = c(0, 1), y = rep(r$prevalencia, 2), type = "scatter", mode = "lines", name = "Prevalencia (sin modelo, curva PR)",
                       line = list(color = TK$referencia, dash = "dash", width = 1.3), hoverinfo = "skip") |>
-    plotly::add_trace(x = pr$x, y = pr$y, type = "scatter", mode = "lines", name = "Modelo",
-                      line = list(color = TK$dentro, width = 2.4),
+    plotly::add_trace(x = pr$x, y = pr$y, type = "scatter", mode = "lines", name = "Modelo", showlegend = FALSE,
+                      legendgroup = "modelo", line = list(color = TK$dentro, width = 2.4),
                       hovertemplate = "Sensibilidad: %{x:.1%}<br>Precisión: %{y:.1%}<extra></extra>") |>
     plotly::layout(xaxis = eje("Sensibilidad", range = c(0, 1), fixedrange = FALSE, tickformat = ".0%"),
                    yaxis = eje("Precisión", range = c(0, 1), fixedrange = FALSE, tickformat = ".0%"))
   plotly::subplot(a, b, nrows = 1, margin = .07, titleX = TRUE, titleY = TRUE) |>
     estilo_libro("Modelo seleccionado, conjunto de prueba", margen = list(l = 10, r = 20, t = 84, b = 10)) |>
-    plotly::layout(annotations = list(
+    plotly::layout(legend = list(orientation = "h", x = 0, y = -0.3, xanchor = "left", yanchor = "top"),
+                   margin = list(l = 10, r = 20, t = 84, b = 110),
+                   annotations = list(
       list(x = 0, y = 1.02, xref = "paper", yref = "paper", xanchor = "left", yanchor = "bottom", showarrow = FALSE,
            text = paste0("ROC, AUC ", num_es(r$roc_auc, 3)), font = list(color = TK$tinta2, size = 13)),
       list(x = .535, y = 1.02, xref = "paper", yref = "paper", xanchor = "left", yanchor = "bottom", showarrow = FALSE,
@@ -205,9 +214,10 @@ g_confusion <- function() {
                   customdata = nombres, text = matrix(num_es(valores), nrow = 2),
                   hovertemplate = "%{customdata}<br>Observado: %{y}<br>Predicción: %{x}<br>%{text} personas<extra></extra>",
                   height = 380, xgap = 3, ygap = 3) |>
-    plotly::add_annotations(x = rep(ejes, 2), y = rep(ejes, each = 2), text = num_es(as.vector(t(valores))), showarrow = FALSE,
+    plotly::add_annotations(x = rep(ejes, 2), y = rep(ejes, each = 2), showarrow = FALSE,
+                            text = paste0(as.vector(t(nombres)), "<br>", num_es(as.vector(t(valores)))),
                             font = list(size = 17, color = ifelse(as.vector(t(valores)) > .7 * max(valores), "#FFFFFF", TK$tinta))) |>
-    estilo_libro("Matriz de confusión en prueba", margen = list(l = 10, r = 20, t = 56, b = 10)) |>
+    estilo_libro("Matriz de confusión en prueba (umbral elegido en validación)", leyenda = FALSE, margen = list(l = 10, r = 20, t = 56, b = 10)) |>
     plotly::layout(xaxis = eje("Predicción", gridcolor = "rgba(0,0,0,0)"),
                    yaxis = eje("Observado", gridcolor = "rgba(0,0,0,0)", autorange = "reversed"))
 }
@@ -231,9 +241,17 @@ g_importancia <- function() {
   d <- utils::head(d[order(-d$mean_ap_drop), ], 10)
   d <- d[order(d$mean_ap_drop), ]
   nuevas <- d$feature %in% c("HOGAR_OTROS_ENFERMOS", "SECCION_PCT_ENFERMOS")
-  barras_h(d$descripcion, d$mean_ap_drop, ifelse(nuevas, TK$dentro, TK$base), num_es(d$mean_ap_drop, 3),
-           paste0(d$descripcion, "<br>Caída media de AP: ", num_es(d$mean_ap_drop, 4), " (desviación ", num_es(d$std_ap_drop, 4), ")",
-                  ifelse(nuevas, "<br>Variable de contexto añadida en la versión 2", "")), 430) |>
+  p <- plotly::plot_ly(height = 450)
+  for (grupo in list(list(FALSE, "Variables de la versión 1", TK$base), list(TRUE, "Variables de contexto añadidas (versión 2)", TK$dentro))) {
+    x <- d[nuevas == grupo[[1]], ]
+    p <- plotly::add_trace(p, x = x$mean_ap_drop, y = factor(x$descripcion, levels = d$descripcion), type = "bar", orientation = "h",
+                           name = grupo[[2]], marker = list(color = grupo[[3]]), text = num_es(x$mean_ap_drop, 3),
+                           textposition = "outside", cliponaxis = FALSE, textfont = list(color = TK$tinta),
+                           customdata = paste0(x$descripcion, "<br>Caída media de AP: ", num_es(x$mean_ap_drop, 4),
+                                               " (desviación ", num_es(x$std_ap_drop, 4), ")"),
+                           hovertemplate = "%{customdata}<extra></extra>")
+  }
+  p |>
     estilo_libro("Importancia predictiva, sin interpretación causal") |>
     plotly::layout(xaxis = eje("Caída de AP al permutar la variable en validación", range = c(0, max(d$mean_ap_drop) * 1.2)),
                    yaxis = eje(gridcolor = "rgba(0,0,0,0)"), bargap = .32)

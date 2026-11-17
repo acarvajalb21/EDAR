@@ -1,0 +1,46 @@
+[   90.5s] datos 136034 train 97167 val 19433
+[  137.0s] agregados listos; secciones 1519 manzanas 16242
+[  157.1s] rejilla 1 / 24 lgb_nl15_lr0.02_mc20_cwNone_n1000 0.3748
+[  168.6s] rejilla 2 / 24 lgb_nl15_lr0.02_mc20_cwbalanced_n1000 0.37414
+[  180.6s] rejilla 3 / 24 lgb_nl15_lr0.02_mc100_cwNone_n1000 0.37732
+[  193.1s] rejilla 4 / 24 lgb_nl15_lr0.02_mc100_cwbalanced_n1000 0.37629
+[  201.8s] rejilla 5 / 24 lgb_nl15_lr0.05_mc20_cwNone_n400 0.3746
+[  209.7s] rejilla 6 / 24 lgb_nl15_lr0.05_mc20_cwbalanced_n700 0.37355
+[  219.6s] rejilla 7 / 24 lgb_nl15_lr0.05_mc100_cwNone_n400 0.37696
+[  232.6s] rejilla 8 / 24 lgb_nl15_lr0.05_mc100_cwbalanced_n700 0.37662
+[  248.7s] rejilla 9 / 24 lgb_nl31_lr0.02_mc20_cwNone_n700 0.37552
+[  264.9s] rejilla 10 / 24 lgb_nl31_lr0.02_mc20_cwbalanced_n1000 0.37557
+[  310.9s] rejilla 11 / 24 lgb_nl31_lr0.02_mc100_cwNone_n700 0.37807
+[  390.3s] rejilla 12 / 24 lgb_nl31_lr0.02_mc100_cwbalanced_n1000 0.37696
+[  454.1s] rejilla 13 / 24 lgb_nl31_lr0.05_mc20_cwNone_n400 0.37569
+[  528.1s] rejilla 14 / 24 lgb_nl31_lr0.05_mc20_cwbalanced_n400 0.37493
+[  593.3s] rejilla 15 / 24 lgb_nl31_lr0.05_mc100_cwNone_n400 0.37621
+[  660.3s] rejilla 16 / 24 lgb_nl31_lr0.05_mc100_cwbalanced_n400 0.37729
+[  753.4s] rejilla 17 / 24 lgb_nl63_lr0.02_mc20_cwNone_n400 0.37588
+[  777.7s] rejilla 18 / 24 lgb_nl63_lr0.02_mc20_cwbalanced_n700 0.37622
+[  809.1s] rejilla 19 / 24 lgb_nl63_lr0.02_mc100_cwNone_n400 0.37831
+[  844.6s] rejilla 20 / 24 lgb_nl63_lr0.02_mc100_cwbalanced_n700 0.37734
+[  867.4s] rejilla 21 / 24 lgb_nl63_lr0.05_mc20_cwNone_n200 0.37516
+[  890.5s] rejilla 22 / 24 lgb_nl63_lr0.05_mc20_cwbalanced_n200 0.37446
+[  920.2s] rejilla 23 / 24 lgb_nl63_lr0.05_mc100_cwNone_n200 0.37762
+[  946.9s] rejilla 24 / 24 lgb_nl63_lr0.05_mc100_cwbalanced_n200 0.3763
+[  946.9s] top3 [{'num_leaves': 63, 'learning_rate': 0.02, 'min_child_samples': 100, 'class_weight': None}, {'num_leaves': 31, 'learning_rate': 0.02, 'min_child_samples': 100, 'class_weight': None}, {'num_leaves': 63, 'learning_rate': 0.05, 'min_child_samples': 100, 'class_weight': None}]
+[  961.2s] conjunto F0_v2 HGB 0.37417
+[ 1081.0s] conjunto F1_v2+TE_seccion HGB 0.39153
+[ 1162.6s] conjunto F2_v2+TE_seccion+TE_manzana HGB 0.40699
+[ 1251.0s] conjunto F3_F2+agregados HGB 0.40964
+[ 1364.9s] conjunto F4_v2+agregados_sin_etiqueta HGB 0.39523
+[ 1371.0s] validación F0_v2|hgb_v2_params 0.38605
+[ 1374.8s] validación F0_v2|lgb_nl63_lr0.02_mc100_cwNone_n400 0.38916
+[ 1381.9s] validación F1_v2+TE_seccion|hgb_v2_params 0.4061
+[ 1385.7s] validación F1_v2+TE_seccion|lgb_nl31_lr0.02_mc100_cwNone_n400 0.40768
+[ 1392.9s] validación F2_v2+TE_seccion+TE_manzana|hgb_v2_params 0.4266
+[ 1396.4s] validación F2_v2+TE_seccion+TE_manzana|lgb_nl31_lr0.02_mc100_cwNone_n400 0.42817
+[ 1404.1s] validación F3_F2+agregados|hgb_v2_params 0.42612
+[ 1408.2s] validación F3_F2+agregados|lgb_nl31_lr0.02_mc100_cwNone_n400 0.42895
+[ 1414.9s] validación F4_v2+agregados_sin_etiqueta|hgb_v2_params 0.40597
+[ 1421.2s] validación F4_v2+agregados_sin_etiqueta|lgb_nl63_lr0.02_mc100_cwNone_n700 0.41395
+[ 1430.8s] CANDIDATO F3_F2+agregados|lgb_nl31_lr0.02_mc100_cwNone_n400 {"ap_cv_media": 0.4132894061312095, "ap_cv_de": 0.004667368468161242, "ap_val": 0.4289459389719267, "roc_auc_val": 0.741978733315989, "brier_val": 0.14501169739114345} BOOT 0.04289182556256582 [0.031770337307084326, 0.05391011400495151]
+[ 1444.6s] CV sección F0_v2|hgb_v2_params 0.35906
+[ 1453.9s] CV sección F3_F2+agregados|lgb_nl31_lr0.02_mc100_cwNone_n400 0.35022
+[ 1453.9s] FIN

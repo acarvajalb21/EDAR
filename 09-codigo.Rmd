@@ -1,0 +1,79 @@
+# Código del proyecto {#codigo}
+
+Este capítulo muestra el código que produce las cifras del modelo. Los fragmentos de Python se leen al compilar el libro directamente de `ml_salud/entrenar.py`, el mismo archivo que entrenó el modelo guardado: lo que aparece aquí es lo que se ejecutó. No se vuelven a ejecutar al compilar, porque necesitan los microdatos del DANE. El código R de cada figura está plegado junto a ella («Ver código R»), y las funciones de dibujo completas están al final del capítulo.
+
+```{r extraer-codigo, rotulo = "Ver la función que extrae el código de entrenar.py"}
+ENTRENAR <- readLines("ml_salud/entrenar.py", encoding = "UTF-8")
+
+# Devuelve una función de Python completa: desde «def nombre(» hasta la siguiente línea sin sangría.
+funcion_py <- function(nombre) {
+  inicio <- grep(paste0("^def ", nombre, "\\("), ENTRENAR)
+  resto <- seq(inicio + 1, length(ENTRENAR))
+  fin <- resto[grepl("^\\S", ENTRENAR[resto])][1] - 1
+  while (!nzchar(trimws(ENTRENAR[fin]))) fin <- fin - 1
+  ENTRENAR[inicio:fin]
+}
+
+# Devuelve las líneas entre dos marcas de texto (incluidas).
+tramo_py <- function(desde, hasta) {
+  inicio <- grep(desde, ENTRENAR, fixed = TRUE)[1]
+  fin <- inicio - 1 + grep(hasta, ENTRENAR[inicio:length(ENTRENAR)], fixed = TRUE)[1]
+  ENTRENAR[inicio:fin]
+}
+```
+
+## Cómo se dividieron los datos
+
+La cohorte se reparte en siete grupos del mismo tamaño con `StratifiedGroupKFold`. **Estratificado** significa que cada grupo conserva la proporción de personas fuera de la ruta formal (21 %); **agrupado** significa que todas las personas de una vivienda caen en el mismo grupo. De los siete grupos, cinco forman el entrenamiento (≈ 71 %), uno la validación (≈ 14 %) y uno la prueba (≈ 14 %). La función se detiene si alguna vivienda aparece en dos particiones.
+
+```{python split, eval = FALSE, python.reticulate = FALSE, code = c(funcion_py("group_ids"), "", funcion_py("split_three"))}
+```
+
+```{r tabla-particiones-codigo}
+part <- leer("particiones.csv")
+part$Porcentaje <- vapply(100 * part$n / sum(part$n), porcentaje, character(1))
+part$Personas <- vapply(part$n, entero, character(1))
+part$Viviendas <- vapply(part$viviendas, entero, character(1))
+part$Prevalencia <- vapply(part$porcentaje_sin_formal, porcentaje, character(1))
+knitr::kable(part[, c("particion", "Personas", "Porcentaje", "Viviendas", "Prevalencia")],
+             col.names = c("Partición", "Personas", "Porcentaje de la cohorte", "Viviendas", "Fuera de la ruta formal"),
+             caption = "Resultado de la partición: tamaños y proporción de la clase en cada parte.")
+```
+
+## Preprocesamiento dentro del pipeline
+
+La imputación y la codificación forman parte de cada pipeline. Así se aprenden solo con los datos de ajuste de cada pliegue y no con validación ni prueba, lo que evita fuga de información.
+
+```{python preprocesamiento, eval = FALSE, python.reticulate = FALSE, code = c(funcion_py("encoded_preprocessor"), "", funcion_py("hist_preprocessor"))}
+```
+
+## Candidatos, búsqueda de hiperparámetros y elección
+
+Cada familia se ajusta con `GridSearchCV` y validación cruzada de tres pliegues, también agrupada por vivienda y **solo dentro del entrenamiento**. La métrica de búsqueda es la precisión promedio (`average_precision`). Después, cada ganador se mide en validación; el modelo con mayor AP de validación es el elegido.
+
+```{python candidatos, eval = FALSE, python.reticulate = FALSE, code = tramo_py("    cv = StratifiedGroupKFold(n_splits=3", "search.fit(xt, yt)")}
+```
+
+## Métricas y umbral
+
+`metricas` calcula todas las medidas para una clase positiva `SIN_ACCESO = 1`. `optimize_threshold` busca en **validación** el umbral que maximiza F1; ese valor se fija antes de abrir la prueba.
+
+```{python metricas, eval = FALSE, python.reticulate = FALSE, code = c(funcion_py("metricas"), "", funcion_py("optimize_threshold"))}
+```
+
+## Cómo se reproduce
+
+Desde `proyecto_salud/`, con el entorno de `ml_salud` y los cuatro CSV del DANE en `datos/`:
+
+```text
+ml_salud\.venv\Scripts\python.exe -m ml_salud.entrenar --data-dir datos
+```
+
+El script usa la semilla 42 para la partición y 43 para los pliegues internos, y escribe `ml_salud/resultados/resultados.json`, que alimenta las tablas de este libro.
+
+## Funciones de las figuras (R)
+
+Las figuras interactivas del libro se dibujan con Plotly a partir de los cuadros agregados de `data/`.
+
+```{r graficos-libro, eval = FALSE, code = readLines("R/graficos_libro.R", encoding = "UTF-8"), rotulo = "Ver R/graficos_libro.R completo"}
+```

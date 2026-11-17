@@ -1,0 +1,11 @@
+﻿clave,variables,algoritmo,usa_respuestas_vecinos,es_referencia,es_candidato,ap_cv,ap_validacion,roc_auc_validacion,brier_validacion,ap_secciones_no_vistas
+F0_v2|hgb_v2_params,Mismas 28 variables del modelo actual,Boosting de histogramas,False,True,False,0.37416905939306505,0.38605411340936086,0.7011365062081989,0.15137766784092205,0.3590601681088877
+F0_v2|lgb_nl63_lr0.02_mc100_cwNone_n400,Mismas 28 variables del modelo actual,LightGBM,False,False,False,0.3783115038146896,0.38915968078445945,0.7046160315863997,0.1508856708173981,
+F1_v2+TE_seccion|hgb_v2_params,+ respuestas de los vecinos de la sección,Boosting de histogramas,True,False,False,0.3915329308577013,0.4061023552629567,0.7221364614135619,0.14832044480083978,
+F1_v2+TE_seccion|lgb_nl31_lr0.02_mc100_cwNone_n400,+ respuestas de los vecinos de la sección,LightGBM,True,False,False,0.3939903951415667,0.4076848502805805,0.7228244382207722,0.14821203115586287,
+F2_v2+TE_seccion+TE_manzana|hgb_v2_params,+ respuestas de los vecinos de la sección y la manzana,Boosting de histogramas,True,False,False,0.40698978613432907,0.42660321739676643,0.740594010338959,0.14525062581597395,
+F2_v2+TE_seccion+TE_manzana|lgb_nl31_lr0.02_mc100_cwNone_n400,+ respuestas de los vecinos de la sección y la manzana,LightGBM,True,False,False,0.40957593308799994,0.42816750664758774,0.7412531462179148,0.1451465615063974,
+F3_F2+agregados|hgb_v2_params,+ respuestas de los vecinos y perfil de la sección,Boosting de histogramas,True,False,False,0.40964384282748806,0.426115260676053,0.7406095180128921,0.14525974238915174,
+F3_F2+agregados|lgb_nl31_lr0.02_mc100_cwNone_n400,+ respuestas de los vecinos y perfil de la sección,LightGBM,True,False,True,0.4132894061312095,0.4289459389719267,0.741978733315989,0.14501169739114345,0.3502232952566149
+F4_v2+agregados_sin_etiqueta|hgb_v2_params,+ perfil de la sección (sin respuestas de vecinos),Boosting de histogramas,False,False,False,0.3952269911062767,0.405968217740063,0.7170503585386958,0.14889019234920922,0.3615523748361433
+F4_v2+agregados_sin_etiqueta|lgb_nl63_lr0.02_mc100_cwNone_n700,+ perfil de la sección (sin respuestas de vecinos),LightGBM,False,False,False,0.40154078270257765,0.41394829322860494,0.7269208615760971,0.1473618421927153,0.36029080330545044

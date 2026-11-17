@@ -9,8 +9,19 @@ description: "Análisis descriptivo y evaluación interna de un modelo para una 
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
                       fig.align = "center", out.width = "96%")
+# El código de cada bloque se muestra plegado: «Ver código» lo despliega sin interrumpir la lectura.
+local({
+  fuente <- knitr::knit_hooks$get("source")
+  knitr::knit_hooks$set(source = function(x, options) {
+    if (!knitr::is_html_output()) return(fuente(x, options))
+    lenguaje <- if (identical(options$engine, "python")) "python" else "r"
+    rotulo <- if (is.null(options$rotulo)) paste("Ver código", if (lenguaje == "r") "R" else "Python") else options$rotulo
+    paste0('\n\n<details class="codigo"><summary>', rotulo, '</summary>\n\n```', lenguaje, "\n",
+           paste(x, collapse = "\n"), "\n```\n\n</details>\n\n")
+  })
+})
 leer <- function(archivo) read.csv(file.path("data", archivo),
                                    fileEncoding = "UTF-8-BOM", check.names = FALSE)
 resumen <- leer("resumen_general.csv")[1, ]
@@ -33,7 +44,7 @@ Este libro reúne la exploración de datos y la evaluación de un modelo de clas
 
 La cohorte analítica comprende `r entero(resumen$cohorte)` personas. Bajo la regla del análisis original, `r entero(resumen$sin_formal)` (`r porcentaje(resumen$porcentaje_sin_formal)`) quedan *fuera de la ruta formal* y `r entero(resumen$con_formal)` (`r porcentaje(resumen$porcentaje_con_formal)`) *dentro de la ruta formal*. Estas expresiones nombran una regla aplicada a respuestas censales. No establecen por sí mismas que una persona haya sufrido una barrera, que nunca haya recibido otra atención o que haya tenido una necesidad clínica insatisfecha.
 
-El libro presenta primero la definición y la población; después revisa la calidad de los datos y los patrones descriptivos, y al final documenta el diseño, los resultados y los límites del modelo. Las cifras proceden de los CSV originales del DANE y del experimento auditado en `ml_salud/resultados`. Las figuras son interactivas: al pasar el cursor muestran el detalle de cada valor. Se dibujan con los cuadros agregados que genera el script del proyecto, y el libro no contiene registros individuales.
+El libro presenta primero la definición y la población; después revisa la calidad de los datos y los patrones descriptivos, y al final documenta el diseño, los resultados y los límites del modelo. Cada tabla y figura lleva un botón «Ver código R» con el código que la produce, y el capítulo \@ref(codigo) reúne el código de la partición, el entrenamiento y las gráficas. Las cifras proceden de los CSV originales del DANE y del experimento auditado en `ml_salud/resultados`. Las figuras son interactivas: al pasar el cursor muestran el detalle de cada valor. Se dibujan con los cuadros agregados que genera el script del proyecto, y el libro no contiene registros individuales.
 
 > Lectura recomendada. Use los porcentajes descriptivos para entender patrones observados en esta cohorte censal de 2018. Use las métricas del modelo como evaluación interna del poder de ordenación para la misma época y territorio. Ninguna de las dos piezas identifica efectos causales ni valida decisiones individuales actuales.
 

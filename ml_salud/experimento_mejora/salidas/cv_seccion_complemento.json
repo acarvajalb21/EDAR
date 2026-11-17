@@ -1,0 +1,25 @@
+{
+  "nota": "Exploratorio, decidido tras ver la validación; mismos pliegues por sección que cv_seccion.json.",
+  "cv_por_seccion": {
+    "F4_v2+agregados_sin_etiqueta|hgb_v2_params": {
+      "ap_pliegues": [
+        0.3703160566273477,
+        0.3474718001983675,
+        0.3668692676827145
+      ],
+      "ap_media": 0.3615523748361433,
+      "ap_de": 0.01231531668714578
+    },
+    "F4_v2+agregados_sin_etiqueta|lgb_nl63_lr0.02_mc100_cwNone_n700": {
+      "ap_pliegues": [
+        0.3711933709679829,
+        0.339884691474733,
+        0.3697943474736356
+      ],
+      "ap_media": 0.36029080330545044,
+      "ap_de": 0.017686050059870503
+    }
+  },
+  "tiempo_s": 99.64679336547852,
+  "prueba_consultada": false
+}

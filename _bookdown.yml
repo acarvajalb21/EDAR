@@ -11,6 +11,7 @@ rmd_files:
   - 06-conclusiones.Rmd
   - 07-reproducibilidad.Rmd
   - 08-aplicacion-shiny.Rmd
+  - 09-codigo.Rmd
 language:
   label:
     fig: "Figura "

@@ -47,7 +47,7 @@ server <- function(input, output, session) {
 
   for (b in barras_contenido()) local({
     grafica <- b
-    output[[grafica$id]] <- renderPlotly(g_barras(unlist(grafica$categorias), unlist(grafica$valores), grafica$unidad, grafica$color))
+    output[[grafica$id]] <- renderPlotly(g_barras(unlist(grafica$categorias), unlist(grafica$valores), grafica$unidad, grafica$color, meta = grafica$meta))
   })
 
   comparada <- reactive(variable_comparada(input$comp_variable))

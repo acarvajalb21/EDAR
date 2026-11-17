@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 9 Código del proyecto | Acceso formal a salud en el Atlántico</title>
+  <meta name="description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 9 Código del proyecto | Acceso formal a salud en el Atlántico" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 9 Código del proyecto | Acceso formal a salud en el Atlántico" />
+  
+  <meta name="twitter:description" content="Análisis descriptivo y evaluación interna de un modelo para una etiqueta operativa de acceso formal a salud en el Atlántico." />
+  
+
+<meta name="author" content="Alejandro Carvajal y Mateo Chang" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="shiny.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.12.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+<script src="libs/plotly-locale-es-2.25.2/es.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Acceso formal a salud · Atlántico</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Presentación</a></li>
+<li class="chapter" data-level="1" data-path="pregunta.html"><a href="pregunta.html"><i class="fa fa-check"></i><b>1</b> Pregunta, población y variable objetivo</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="pregunta.html"><a href="pregunta.html#qu%C3%A9-intenta-responder-el-proyecto"><i class="fa fa-check"></i><b>1.1</b> Qué intenta responder el proyecto</a></li>
+<li class="chapter" data-level="1.2" data-path="pregunta.html"><a href="pregunta.html#a-qui%C3%A9n-se-estudia"><i class="fa fa-check"></i><b>1.2</b> A quién se estudia</a></li>
+<li class="chapter" data-level="1.3" data-path="pregunta.html"><a href="pregunta.html#etiqueta"><i class="fa fa-check"></i><b>1.3</b> Regla operativa de acceso</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="datos-metodo.html"><a href="datos-metodo.html"><i class="fa fa-check"></i><b>2</b> Datos y método</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="datos-metodo.html"><a href="datos-metodo.html#archivos-y-unidad-de-an%C3%A1lisis"><i class="fa fa-check"></i><b>2.1</b> Archivos y unidad de análisis</a></li>
+<li class="chapter" data-level="2.2" data-path="datos-metodo.html"><a href="datos-metodo.html#diccionario-de-predictores"><i class="fa fa-check"></i><b>2.2</b> Diccionario de predictores</a></li>
+<li class="chapter" data-level="2.3" data-path="datos-metodo.html"><a href="datos-metodo.html#qu%C3%A9-se-excluy%C3%B3-para-reducir-fuga-de-informaci%C3%B3n"><i class="fa fa-check"></i><b>2.3</b> Qué se excluyó para reducir fuga de información</a></li>
+<li class="chapter" data-level="2.4" data-path="datos-metodo.html"><a href="datos-metodo.html#separaci%C3%B3n-y-preprocesamiento"><i class="fa fa-check"></i><b>2.4</b> Separación y preprocesamiento</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="calidad.html"><a href="calidad.html"><i class="fa fa-check"></i><b>3</b> Calidad de los datos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="calidad.html"><a href="calidad.html#comprobaciones-antes-de-analizar"><i class="fa fa-check"></i><b>3.1</b> Comprobaciones antes de analizar</a></li>
+<li class="chapter" data-level="3.2" data-path="calidad.html"><a href="calidad.html#faltantes-y-c%C3%B3digos-de-no-respuesta"><i class="fa fa-check"></i><b>3.2</b> Faltantes y códigos de no respuesta</a></li>
+<li class="chapter" data-level="3.3" data-path="calidad.html"><a href="calidad.html#controles-que-siguen-siendo-necesarios"><i class="fa fa-check"></i><b>3.3</b> Controles que siguen siendo necesarios</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exploracion.html"><a href="exploracion.html"><i class="fa fa-check"></i><b>4</b> Exploración descriptiva</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="exploracion.html"><a href="exploracion.html#de-qu%C3%A9-est%C3%A1-hecha-la-clasificaci%C3%B3n"><i class="fa fa-check"></i><b>4.1</b> De qué está hecha la clasificación</a></li>
+<li class="chapter" data-level="4.2" data-path="exploracion.html"><a href="exploracion.html#dificultad-funcional"><i class="fa fa-check"></i><b>4.2</b> Dificultad funcional</a></li>
+<li class="chapter" data-level="4.3" data-path="exploracion.html"><a href="exploracion.html#edad-y-sexo-mirar-dentro-de-los-grupos"><i class="fa fa-check"></i><b>4.3</b> Edad y sexo: mirar dentro de los grupos</a></li>
+<li class="chapter" data-level="4.4" data-path="exploracion.html"><a href="exploracion.html#territorio-y-condiciones-de-vivienda"><i class="fa fa-check"></i><b>4.4</b> Territorio y condiciones de vivienda</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="modelo.html"><a href="modelo.html"><i class="fa fa-check"></i><b>5</b> Modelo predictivo y evaluación</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="modelo.html"><a href="modelo.html#modelo-resumen"><i class="fa fa-check"></i><b>5.1</b> El modelo en cinco preguntas</a></li>
+<li class="chapter" data-level="5.2" data-path="modelo.html"><a href="modelo.html#pregunta-predictiva-y-criterio-de-%C3%A9xito"><i class="fa fa-check"></i><b>5.2</b> Pregunta predictiva y criterio de éxito</a></li>
+<li class="chapter" data-level="5.3" data-path="modelo.html"><a href="modelo.html#candidatos-y-elecci%C3%B3n"><i class="fa fa-check"></i><b>5.3</b> Candidatos y elección</a></li>
+<li class="chapter" data-level="5.4" data-path="modelo.html"><a href="modelo.html#curvas-calibraci%C3%B3n-y-umbral"><i class="fa fa-check"></i><b>5.4</b> Curvas, calibración y umbral</a></li>
+<li class="chapter" data-level="5.5" data-path="modelo.html"><a href="modelo.html#variables-relevantes-y-diferencias-entre-grupos"><i class="fa fa-check"></i><b>5.5</b> Variables relevantes y diferencias entre grupos</a></li>
+<li class="chapter" data-level="5.6" data-path="modelo.html"><a href="modelo.html#revision-modelo-2026"><i class="fa fa-check"></i><b>5.6</b> Revisión adicional del modelo en 2026</a></li>
+<li class="chapter" data-level="5.7" data-path="modelo.html"><a href="modelo.html#modelo-contexto-2026"><i class="fa fa-check"></i><b>5.7</b> Modelo con contexto de salud (versión 2)</a>
+<ul>
+<li class="chapter" data-level="" data-path="modelo.html"><a href="modelo.html#qu%C3%A9-significan-estas-variables"><i class="fa fa-check"></i>Qué significan estas variables</a></li>
+<li class="chapter" data-level="" data-path="modelo.html"><a href="modelo.html#errores-y-diferencias-entre-grupos"><i class="fa fa-check"></i>Errores y diferencias entre grupos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="modelo.html"><a href="modelo.html#mejora-2026"><i class="fa fa-check"></i><b>5.8</b> ¿Se puede mejorar el modelo? Experimento de noviembre de 2026</a></li>
+<li class="chapter" data-level="5.9" data-path="modelo.html"><a href="modelo.html#alcance-de-la-prueba"><i class="fa fa-check"></i><b>5.9</b> Alcance de la prueba</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>6</b> Conclusiones y decisiones para el proyecto</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="conclusiones.html"><a href="conclusiones.html#lo-que-s%C3%AD-muestran-los-datos"><i class="fa fa-check"></i><b>6.1</b> Lo que sí muestran los datos</a></li>
+<li class="chapter" data-level="6.2" data-path="conclusiones.html"><a href="conclusiones.html#l%C3%ADmites-que-deben-acompa%C3%B1ar-cada-gr%C3%A1fico"><i class="fa fa-check"></i><b>6.2</b> Límites que deben acompañar cada gráfico</a></li>
+<li class="chapter" data-level="6.3" data-path="conclusiones.html"><a href="conclusiones.html#c%C3%B3mo-llevarlo-al-tablero-interactivo"><i class="fa fa-check"></i><b>6.3</b> Cómo llevarlo al tablero interactivo</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="reproducibilidad.html"><a href="reproducibilidad.html"><i class="fa fa-check"></i><b>7</b> Reproducibilidad y fuentes</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="reproducibilidad.html"><a href="reproducibilidad.html#origen-de-las-cifras"><i class="fa fa-check"></i><b>7.1</b> Origen de las cifras</a></li>
+<li class="chapter" data-level="7.2" data-path="reproducibilidad.html"><a href="reproducibilidad.html#volver-a-generar-el-libro"><i class="fa fa-check"></i><b>7.2</b> Volver a generar el libro</a></li>
+<li class="chapter" data-level="7.3" data-path="reproducibilidad.html"><a href="reproducibilidad.html#referencias"><i class="fa fa-check"></i><b>7.3</b> Referencias</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>8</b> Aplicación Shiny</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="shiny.html"><a href="shiny.html#datos-que-usa"><i class="fa fa-check"></i><b>8.1</b> Datos que usa</a></li>
+<li class="chapter" data-level="8.2" data-path="shiny.html"><a href="shiny.html#reglas-de-protecci%C3%B3n"><i class="fa fa-check"></i><b>8.2</b> Reglas de protección</a></li>
+<li class="chapter" data-level="8.3" data-path="shiny.html"><a href="shiny.html#c%C3%B3mo-funciona-la-reactividad"><i class="fa fa-check"></i><b>8.3</b> Cómo funciona la reactividad</a></li>
+<li class="chapter" data-level="8.4" data-path="shiny.html"><a href="shiny.html#dise%C3%B1o"><i class="fa fa-check"></i><b>8.4</b> Diseño</a></li>
+<li class="chapter" data-level="8.5" data-path="shiny.html"><a href="shiny.html#comprobaciones"><i class="fa fa-check"></i><b>8.5</b> Comprobaciones</a></li>
+<li class="chapter" data-level="8.6" data-path="shiny.html"><a href="shiny.html#despliegue"><i class="fa fa-check"></i><b>8.6</b> Despliegue</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="codigo.html"><a href="codigo.html"><i class="fa fa-check"></i><b>9</b> Código del proyecto</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="codigo.html"><a href="codigo.html#c%C3%B3mo-se-dividieron-los-datos"><i class="fa fa-check"></i><b>9.1</b> Cómo se dividieron los datos</a></li>
+<li class="chapter" data-level="9.2" data-path="codigo.html"><a href="codigo.html#preprocesamiento-dentro-del-pipeline"><i class="fa fa-check"></i><b>9.2</b> Preprocesamiento dentro del pipeline</a></li>
+<li class="chapter" data-level="9.3" data-path="codigo.html"><a href="codigo.html#candidatos-b%C3%BAsqueda-de-hiperpar%C3%A1metros-y-elecci%C3%B3n"><i class="fa fa-check"></i><b>9.3</b> Candidatos, búsqueda de hiperparámetros y elección</a></li>
+<li class="chapter" data-level="9.4" data-path="codigo.html"><a href="codigo.html#m%C3%A9tricas-y-umbral"><i class="fa fa-check"></i><b>9.4</b> Métricas y umbral</a></li>
+<li class="chapter" data-level="9.5" data-path="codigo.html"><a href="codigo.html#c%C3%B3mo-se-reproduce"><i class="fa fa-check"></i><b>9.5</b> Cómo se reproduce</a></li>
+<li class="chapter" data-level="9.6" data-path="codigo.html"><a href="codigo.html#funciones-de-las-figuras-r"><i class="fa fa-check"></i><b>9.6</b> Funciones de las figuras (R)</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Acceso formal a salud en el Atlántico</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="codigo" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Capítulo 9</span> Código del proyecto<a href="codigo.html#codigo" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Este capítulo muestra el código que produce las cifras del modelo. Los fragmentos de Python se leen al compilar el libro directamente de <code>ml_salud/entrenar.py</code>, el mismo archivo que entrenó el modelo guardado: lo que aparece aquí es lo que se ejecutó. No se vuelven a ejecutar al compilar, porque necesitan los microdatos del DANE. El código R de cada figura está plegado junto a ella («Ver código R»), y las funciones de dibujo completas están al final del capítulo.</p>
+<details class="codigo">
+<summary>
+Ver la función que extrae el código de entrenar.py
+</summary>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="codigo.html#cb43-1" tabindex="-1"></a>ENTRENAR <span class="ot">&lt;-</span> <span class="fu">readLines</span>(<span class="st">&quot;../ml_salud/entrenar.py&quot;</span>, <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>)</span>
+<span id="cb43-2"><a href="codigo.html#cb43-2" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="codigo.html#cb43-3" tabindex="-1"></a><span class="co"># Devuelve una función de Python completa: desde «def nombre(» hasta la siguiente línea sin sangría.</span></span>
+<span id="cb43-4"><a href="codigo.html#cb43-4" tabindex="-1"></a>funcion_py <span class="ot">&lt;-</span> <span class="cf">function</span>(nombre) {</span>
+<span id="cb43-5"><a href="codigo.html#cb43-5" tabindex="-1"></a>  inicio <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="fu">paste0</span>(<span class="st">&quot;^def &quot;</span>, nombre, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">(&quot;</span>), ENTRENAR)</span>
+<span id="cb43-6"><a href="codigo.html#cb43-6" tabindex="-1"></a>  resto <span class="ot">&lt;-</span> <span class="fu">seq</span>(inicio <span class="sc">+</span> <span class="dv">1</span>, <span class="fu">length</span>(ENTRENAR))</span>
+<span id="cb43-7"><a href="codigo.html#cb43-7" tabindex="-1"></a>  fin <span class="ot">&lt;-</span> resto[<span class="fu">grepl</span>(<span class="st">&quot;^</span><span class="sc">\\</span><span class="st">S&quot;</span>, ENTRENAR[resto])][<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb43-8"><a href="codigo.html#cb43-8" tabindex="-1"></a>  <span class="cf">while</span> (<span class="sc">!</span><span class="fu">nzchar</span>(<span class="fu">trimws</span>(ENTRENAR[fin]))) fin <span class="ot">&lt;-</span> fin <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb43-9"><a href="codigo.html#cb43-9" tabindex="-1"></a>  ENTRENAR[inicio<span class="sc">:</span>fin]</span>
+<span id="cb43-10"><a href="codigo.html#cb43-10" tabindex="-1"></a>}</span>
+<span id="cb43-11"><a href="codigo.html#cb43-11" tabindex="-1"></a></span>
+<span id="cb43-12"><a href="codigo.html#cb43-12" tabindex="-1"></a><span class="co"># Devuelve las líneas entre dos marcas de texto (incluidas).</span></span>
+<span id="cb43-13"><a href="codigo.html#cb43-13" tabindex="-1"></a>tramo_py <span class="ot">&lt;-</span> <span class="cf">function</span>(desde, hasta) {</span>
+<span id="cb43-14"><a href="codigo.html#cb43-14" tabindex="-1"></a>  inicio <span class="ot">&lt;-</span> <span class="fu">grep</span>(desde, ENTRENAR, <span class="at">fixed =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span>]</span>
+<span id="cb43-15"><a href="codigo.html#cb43-15" tabindex="-1"></a>  fin <span class="ot">&lt;-</span> inicio <span class="sc">-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">grep</span>(hasta, ENTRENAR[inicio<span class="sc">:</span><span class="fu">length</span>(ENTRENAR)], <span class="at">fixed =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span>]</span>
+<span id="cb43-16"><a href="codigo.html#cb43-16" tabindex="-1"></a>  ENTRENAR[inicio<span class="sc">:</span>fin]</span>
+<span id="cb43-17"><a href="codigo.html#cb43-17" tabindex="-1"></a>}</span></code></pre></div>
+</details>
+<div id="cómo-se-dividieron-los-datos" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Cómo se dividieron los datos<a href="codigo.html#c%C3%B3mo-se-dividieron-los-datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La cohorte se reparte en siete grupos del mismo tamaño con <code>StratifiedGroupKFold</code>. <strong>Estratificado</strong> significa que cada grupo conserva la proporción de personas fuera de la ruta formal (21 %); <strong>agrupado</strong> significa que todas las personas de una vivienda caen en el mismo grupo. De los siete grupos, cinco forman el entrenamiento (≈ 71 %), uno la validación (≈ 14 %) y uno la prueba (≈ 14 %). La función se detiene si alguna vivienda aparece en dos particiones.</p>
+<details class="codigo">
+<summary>
+Ver código Python
+</summary>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="codigo.html#cb44-1" tabindex="-1"></a><span class="kw">def</span> group_ids(df: pd.DataFrame) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb44-2"><a href="codigo.html#cb44-2" tabindex="-1"></a>    <span class="co"># Separa viviendas completas, incluso cuando contienen más de un hogar.</span></span>
+<span id="cb44-3"><a href="codigo.html#cb44-3" tabindex="-1"></a>    <span class="co"># Incluye municipio y clase: COD_ENCUESTAS no se presume global.</span></span>
+<span id="cb44-4"><a href="codigo.html#cb44-4" tabindex="-1"></a>    <span class="cf">return</span> (</span>
+<span id="cb44-5"><a href="codigo.html#cb44-5" tabindex="-1"></a>        df[DWELL_KEY].fillna(<span class="op">-</span><span class="dv">1</span>).astype(<span class="st">&quot;int64&quot;</span>).astype(<span class="st">&quot;string&quot;</span>)</span>
+<span id="cb44-6"><a href="codigo.html#cb44-6" tabindex="-1"></a>        .agg(<span class="st">&quot;|&quot;</span>.join, axis<span class="op">=</span><span class="dv">1</span>).to_numpy()</span>
+<span id="cb44-7"><a href="codigo.html#cb44-7" tabindex="-1"></a>    )</span>
+<span id="cb44-8"><a href="codigo.html#cb44-8" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="codigo.html#cb44-9" tabindex="-1"></a><span class="kw">def</span> split_three(x, y, groups):</span>
+<span id="cb44-10"><a href="codigo.html#cb44-10" tabindex="-1"></a>    splitter <span class="op">=</span> StratifiedGroupKFold(n_splits<span class="op">=</span><span class="dv">7</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span>SEED)</span>
+<span id="cb44-11"><a href="codigo.html#cb44-11" tabindex="-1"></a>    folds <span class="op">=</span> [test <span class="cf">for</span> _, test <span class="kw">in</span> splitter.split(x, y, groups)]</span>
+<span id="cb44-12"><a href="codigo.html#cb44-12" tabindex="-1"></a>    train <span class="op">=</span> np.concatenate(folds[<span class="dv">2</span>:])</span>
+<span id="cb44-13"><a href="codigo.html#cb44-13" tabindex="-1"></a>    val, test <span class="op">=</span> folds[<span class="dv">1</span>], folds[<span class="dv">0</span>]</span>
+<span id="cb44-14"><a href="codigo.html#cb44-14" tabindex="-1"></a>    <span class="cf">if</span> (</span>
+<span id="cb44-15"><a href="codigo.html#cb44-15" tabindex="-1"></a>        <span class="bu">set</span>(groups[train]) <span class="op">&amp;</span> <span class="bu">set</span>(groups[val]) <span class="kw">or</span></span>
+<span id="cb44-16"><a href="codigo.html#cb44-16" tabindex="-1"></a>        <span class="bu">set</span>(groups[train]) <span class="op">&amp;</span> <span class="bu">set</span>(groups[test]) <span class="kw">or</span></span>
+<span id="cb44-17"><a href="codigo.html#cb44-17" tabindex="-1"></a>        <span class="bu">set</span>(groups[val]) <span class="op">&amp;</span> <span class="bu">set</span>(groups[test])</span>
+<span id="cb44-18"><a href="codigo.html#cb44-18" tabindex="-1"></a>    ):</span>
+<span id="cb44-19"><a href="codigo.html#cb44-19" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">AssertionError</span>(<span class="st">&quot;Una vivienda aparece en más de una partición&quot;</span>)</span>
+<span id="cb44-20"><a href="codigo.html#cb44-20" tabindex="-1"></a>    <span class="cf">return</span> train, val, test</span></code></pre></div>
+</details>
+<details class="codigo">
+<summary>
+Ver código R
+</summary>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="codigo.html#cb45-1" tabindex="-1"></a>part <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;particiones.csv&quot;</span>)</span>
+<span id="cb45-2"><a href="codigo.html#cb45-2" tabindex="-1"></a>part<span class="sc">$</span>Porcentaje <span class="ot">&lt;-</span> <span class="fu">vapply</span>(<span class="dv">100</span> <span class="sc">*</span> part<span class="sc">$</span>n <span class="sc">/</span> <span class="fu">sum</span>(part<span class="sc">$</span>n), porcentaje, <span class="fu">character</span>(<span class="dv">1</span>))</span>
+<span id="cb45-3"><a href="codigo.html#cb45-3" tabindex="-1"></a>part<span class="sc">$</span>Personas <span class="ot">&lt;-</span> <span class="fu">vapply</span>(part<span class="sc">$</span>n, entero, <span class="fu">character</span>(<span class="dv">1</span>))</span>
+<span id="cb45-4"><a href="codigo.html#cb45-4" tabindex="-1"></a>part<span class="sc">$</span>Viviendas <span class="ot">&lt;-</span> <span class="fu">vapply</span>(part<span class="sc">$</span>viviendas, entero, <span class="fu">character</span>(<span class="dv">1</span>))</span>
+<span id="cb45-5"><a href="codigo.html#cb45-5" tabindex="-1"></a>part<span class="sc">$</span>Prevalencia <span class="ot">&lt;-</span> <span class="fu">vapply</span>(part<span class="sc">$</span>porcentaje_sin_formal, porcentaje, <span class="fu">character</span>(<span class="dv">1</span>))</span>
+<span id="cb45-6"><a href="codigo.html#cb45-6" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(part[, <span class="fu">c</span>(<span class="st">&quot;particion&quot;</span>, <span class="st">&quot;Personas&quot;</span>, <span class="st">&quot;Porcentaje&quot;</span>, <span class="st">&quot;Viviendas&quot;</span>, <span class="st">&quot;Prevalencia&quot;</span>)],</span>
+<span id="cb45-7"><a href="codigo.html#cb45-7" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Partición&quot;</span>, <span class="st">&quot;Personas&quot;</span>, <span class="st">&quot;Porcentaje de la cohorte&quot;</span>, <span class="st">&quot;Viviendas&quot;</span>, <span class="st">&quot;Fuera de la ruta formal&quot;</span>),</span>
+<span id="cb45-8"><a href="codigo.html#cb45-8" tabindex="-1"></a>             <span class="at">caption =</span> <span class="st">&quot;Resultado de la partición: tamaños y proporción de la clase en cada parte.&quot;</span>)</span></code></pre></div>
+</details>
+<table>
+<caption><span id="tab:tabla-particiones-codigo">Tabla 9.1: </span>Resultado de la partición: tamaños y proporción de la clase en cada parte.</caption>
+<colgroup>
+<col width="17%" />
+<col width="10%" />
+<col width="30%" />
+<col width="12%" />
+<col width="29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Partición</th>
+<th align="left">Personas</th>
+<th align="left">Porcentaje de la cohorte</th>
+<th align="left">Viviendas</th>
+<th align="left">Fuera de la ruta formal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Entrenamiento</td>
+<td align="left">97.167</td>
+<td align="left">71,4 %</td>
+<td align="left">63.927</td>
+<td align="left">21,1 %</td>
+</tr>
+<tr class="even">
+<td align="left">Validación</td>
+<td align="left">19.433</td>
+<td align="left">14,3 %</td>
+<td align="left">12.718</td>
+<td align="left">21,1 %</td>
+</tr>
+<tr class="odd">
+<td align="left">Prueba</td>
+<td align="left">19.434</td>
+<td align="left">14,3 %</td>
+<td align="left">12.695</td>
+<td align="left">21,1 %</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="preprocesamiento-dentro-del-pipeline" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Preprocesamiento dentro del pipeline<a href="codigo.html#preprocesamiento-dentro-del-pipeline" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La imputación y la codificación forman parte de cada pipeline. Así se aprenden solo con los datos de ajuste de cada pliegue y no con validación ni prueba, lo que evita fuga de información.</p>
+<details class="codigo">
+<summary>
+Ver código Python
+</summary>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="codigo.html#cb46-1" tabindex="-1"></a><span class="kw">def</span> encoded_preprocessor(age_as_category<span class="op">=</span><span class="va">False</span>, numeric<span class="op">=</span>NUMERIC):</span>
+<span id="cb46-2"><a href="codigo.html#cb46-2" tabindex="-1"></a>    cats <span class="op">=</span> CATEGORICAL <span class="op">+</span> ([<span class="st">&quot;P_EDADR&quot;</span>] <span class="cf">if</span> age_as_category <span class="cf">else</span> [])</span>
+<span id="cb46-3"><a href="codigo.html#cb46-3" tabindex="-1"></a>    nums <span class="op">=</span> [column <span class="cf">for</span> column <span class="kw">in</span> numeric <span class="cf">if</span> column <span class="kw">not</span> <span class="kw">in</span> cats]</span>
+<span id="cb46-4"><a href="codigo.html#cb46-4" tabindex="-1"></a>    <span class="cf">return</span> ColumnTransformer([</span>
+<span id="cb46-5"><a href="codigo.html#cb46-5" tabindex="-1"></a>        (<span class="st">&quot;cat&quot;</span>, OneHotEncoder(handle_unknown<span class="op">=</span><span class="st">&quot;ignore&quot;</span>, min_frequency<span class="op">=</span><span class="dv">50</span>), cats),</span>
+<span id="cb46-6"><a href="codigo.html#cb46-6" tabindex="-1"></a>        (<span class="st">&quot;num&quot;</span>, Pipeline([</span>
+<span id="cb46-7"><a href="codigo.html#cb46-7" tabindex="-1"></a>            (<span class="st">&quot;impute&quot;</span>, SimpleImputer(strategy<span class="op">=</span><span class="st">&quot;median&quot;</span>, add_indicator<span class="op">=</span><span class="va">True</span>)),</span>
+<span id="cb46-8"><a href="codigo.html#cb46-8" tabindex="-1"></a>            (<span class="st">&quot;scale&quot;</span>, StandardScaler()),</span>
+<span id="cb46-9"><a href="codigo.html#cb46-9" tabindex="-1"></a>        ]), nums),</span>
+<span id="cb46-10"><a href="codigo.html#cb46-10" tabindex="-1"></a>    ])</span>
+<span id="cb46-11"><a href="codigo.html#cb46-11" tabindex="-1"></a></span>
+<span id="cb46-12"><a href="codigo.html#cb46-12" tabindex="-1"></a><span class="kw">def</span> hist_preprocessor(numeric<span class="op">=</span>NUMERIC):</span>
+<span id="cb46-13"><a href="codigo.html#cb46-13" tabindex="-1"></a>    <span class="cf">return</span> ColumnTransformer([</span>
+<span id="cb46-14"><a href="codigo.html#cb46-14" tabindex="-1"></a>        (<span class="st">&quot;cat&quot;</span>, OrdinalEncoder(</span>
+<span id="cb46-15"><a href="codigo.html#cb46-15" tabindex="-1"></a>            handle_unknown<span class="op">=</span><span class="st">&quot;use_encoded_value&quot;</span>, unknown_value<span class="op">=-</span><span class="dv">1</span>,</span>
+<span id="cb46-16"><a href="codigo.html#cb46-16" tabindex="-1"></a>        ), CATEGORICAL),</span>
+<span id="cb46-17"><a href="codigo.html#cb46-17" tabindex="-1"></a>        (<span class="st">&quot;num&quot;</span>, SimpleImputer(strategy<span class="op">=</span><span class="st">&quot;median&quot;</span>, add_indicator<span class="op">=</span><span class="va">True</span>), numeric),</span>
+<span id="cb46-18"><a href="codigo.html#cb46-18" tabindex="-1"></a>    ], sparse_threshold<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div>
+</details>
+</div>
+<div id="candidatos-búsqueda-de-hiperparámetros-y-elección" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Candidatos, búsqueda de hiperparámetros y elección<a href="codigo.html#candidatos-b%C3%BAsqueda-de-hiperpar%C3%A1metros-y-elecci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Cada familia se ajusta con <code>GridSearchCV</code> y validación cruzada de tres pliegues, también agrupada por vivienda y <strong>solo dentro del entrenamiento</strong>. La métrica de búsqueda es la precisión promedio (<code>average_precision</code>). Después, cada ganador se mide en validación; el modelo con mayor AP de validación es el elegido.</p>
+<details class="codigo">
+<summary>
+Ver código Python
+</summary>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="codigo.html#cb47-1" tabindex="-1"></a>    cv <span class="op">=</span> StratifiedGroupKFold(n_splits<span class="op">=</span><span class="dv">3</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span>SEED <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb47-2"><a href="codigo.html#cb47-2" tabindex="-1"></a>    specs <span class="op">=</span> {</span>
+<span id="cb47-3"><a href="codigo.html#cb47-3" tabindex="-1"></a>        <span class="st">&quot;logistica&quot;</span>: (</span>
+<span id="cb47-4"><a href="codigo.html#cb47-4" tabindex="-1"></a>            Pipeline([(<span class="st">&quot;prep&quot;</span>, encoded_preprocessor(age_as_category<span class="op">=</span><span class="va">True</span>, numeric<span class="op">=</span>NUMERIC_V2)),</span>
+<span id="cb47-5"><a href="codigo.html#cb47-5" tabindex="-1"></a>                      (<span class="st">&quot;model&quot;</span>, LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>, solver<span class="op">=</span><span class="st">&quot;lbfgs&quot;</span>))]),</span>
+<span id="cb47-6"><a href="codigo.html#cb47-6" tabindex="-1"></a>            {<span class="st">&quot;model__C&quot;</span>: [<span class="fl">0.05</span>, <span class="fl">0.5</span>, <span class="fl">5.0</span>], <span class="st">&quot;model__class_weight&quot;</span>: [<span class="va">None</span>, <span class="st">&quot;balanced&quot;</span>]},</span>
+<span id="cb47-7"><a href="codigo.html#cb47-7" tabindex="-1"></a>        ),</span>
+<span id="cb47-8"><a href="codigo.html#cb47-8" tabindex="-1"></a>        <span class="st">&quot;random_forest&quot;</span>: (</span>
+<span id="cb47-9"><a href="codigo.html#cb47-9" tabindex="-1"></a>            Pipeline([(<span class="st">&quot;prep&quot;</span>, encoded_preprocessor(numeric<span class="op">=</span>NUMERIC_V2)),</span>
+<span id="cb47-10"><a href="codigo.html#cb47-10" tabindex="-1"></a>                      (<span class="st">&quot;model&quot;</span>, RandomForestClassifier(</span>
+<span id="cb47-11"><a href="codigo.html#cb47-11" tabindex="-1"></a>                          n_estimators<span class="op">=</span><span class="dv">120</span>, n_jobs<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span>SEED</span>
+<span id="cb47-12"><a href="codigo.html#cb47-12" tabindex="-1"></a>                      ))]),</span>
+<span id="cb47-13"><a href="codigo.html#cb47-13" tabindex="-1"></a>            {<span class="st">&quot;model__max_depth&quot;</span>: [<span class="dv">12</span>, <span class="dv">20</span>],</span>
+<span id="cb47-14"><a href="codigo.html#cb47-14" tabindex="-1"></a>             <span class="st">&quot;model__min_samples_leaf&quot;</span>: [<span class="dv">10</span>, <span class="dv">40</span>]},</span>
+<span id="cb47-15"><a href="codigo.html#cb47-15" tabindex="-1"></a>        ),</span>
+<span id="cb47-16"><a href="codigo.html#cb47-16" tabindex="-1"></a>        <span class="st">&quot;hist_gradient_boosting&quot;</span>: (</span>
+<span id="cb47-17"><a href="codigo.html#cb47-17" tabindex="-1"></a>            Pipeline([(<span class="st">&quot;prep&quot;</span>, hist_preprocessor(numeric<span class="op">=</span>NUMERIC_V2)),</span>
+<span id="cb47-18"><a href="codigo.html#cb47-18" tabindex="-1"></a>                      (<span class="st">&quot;model&quot;</span>, HistGradientBoostingClassifier(</span>
+<span id="cb47-19"><a href="codigo.html#cb47-19" tabindex="-1"></a>                          categorical_features<span class="op">=</span><span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(CATEGORICAL))),</span>
+<span id="cb47-20"><a href="codigo.html#cb47-20" tabindex="-1"></a>                          early_stopping<span class="op">=</span><span class="va">False</span>, random_state<span class="op">=</span>SEED,</span>
+<span id="cb47-21"><a href="codigo.html#cb47-21" tabindex="-1"></a>                      ))]),</span>
+<span id="cb47-22"><a href="codigo.html#cb47-22" tabindex="-1"></a>            {<span class="st">&quot;model__learning_rate&quot;</span>: [<span class="fl">0.04</span>, <span class="fl">0.1</span>],</span>
+<span id="cb47-23"><a href="codigo.html#cb47-23" tabindex="-1"></a>             <span class="st">&quot;model__max_leaf_nodes&quot;</span>: [<span class="dv">15</span>, <span class="dv">31</span>],</span>
+<span id="cb47-24"><a href="codigo.html#cb47-24" tabindex="-1"></a>             <span class="st">&quot;model__min_samples_leaf&quot;</span>: [<span class="dv">30</span>],</span>
+<span id="cb47-25"><a href="codigo.html#cb47-25" tabindex="-1"></a>             <span class="st">&quot;model__max_iter&quot;</span>: [<span class="dv">180</span>, <span class="dv">320</span>, <span class="dv">500</span>]},</span>
+<span id="cb47-26"><a href="codigo.html#cb47-26" tabindex="-1"></a>        ),</span>
+<span id="cb47-27"><a href="codigo.html#cb47-27" tabindex="-1"></a>    }</span>
+<span id="cb47-28"><a href="codigo.html#cb47-28" tabindex="-1"></a>    dummy <span class="op">=</span> DummyClassifier(strategy<span class="op">=</span><span class="st">&quot;prior&quot;</span>).fit(xt, yt)</span>
+<span id="cb47-29"><a href="codigo.html#cb47-29" tabindex="-1"></a>    fitted <span class="op">=</span> {<span class="st">&quot;baseline&quot;</span>: dummy}</span>
+<span id="cb47-30"><a href="codigo.html#cb47-30" tabindex="-1"></a>    model_results <span class="op">=</span> {</span>
+<span id="cb47-31"><a href="codigo.html#cb47-31" tabindex="-1"></a>        <span class="st">&quot;baseline&quot;</span>: {</span>
+<span id="cb47-32"><a href="codigo.html#cb47-32" tabindex="-1"></a>            <span class="st">&quot;cv_pr_auc&quot;</span>: <span class="va">None</span>, <span class="st">&quot;best_params&quot;</span>: {},</span>
+<span id="cb47-33"><a href="codigo.html#cb47-33" tabindex="-1"></a>            <span class="st">&quot;validation&quot;</span>: metricas(yv, dummy.predict_proba(xv)[:, <span class="dv">1</span>]),</span>
+<span id="cb47-34"><a href="codigo.html#cb47-34" tabindex="-1"></a>        }</span>
+<span id="cb47-35"><a href="codigo.html#cb47-35" tabindex="-1"></a>    }</span>
+<span id="cb47-36"><a href="codigo.html#cb47-36" tabindex="-1"></a>    <span class="cf">for</span> name, (pipe, grid) <span class="kw">in</span> specs.items():</span>
+<span id="cb47-37"><a href="codigo.html#cb47-37" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&quot;ENTRENANDO&quot;</span>, name, flush<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb47-38"><a href="codigo.html#cb47-38" tabindex="-1"></a>        search <span class="op">=</span> GridSearchCV(</span>
+<span id="cb47-39"><a href="codigo.html#cb47-39" tabindex="-1"></a>            pipe, grid, scoring<span class="op">=</span><span class="st">&quot;average_precision&quot;</span>,</span>
+<span id="cb47-40"><a href="codigo.html#cb47-40" tabindex="-1"></a>            cv<span class="op">=</span>cv.split(xt, yt, gt), n_jobs<span class="op">=</span><span class="dv">1</span>, refit<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb47-41"><a href="codigo.html#cb47-41" tabindex="-1"></a>            error_score<span class="op">=</span><span class="st">&quot;raise&quot;</span>, return_train_score<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb47-42"><a href="codigo.html#cb47-42" tabindex="-1"></a>        )</span>
+<span id="cb47-43"><a href="codigo.html#cb47-43" tabindex="-1"></a>        search.fit(xt, yt)</span></code></pre></div>
+</details>
+</div>
+<div id="métricas-y-umbral" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Métricas y umbral<a href="codigo.html#m%C3%A9tricas-y-umbral" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>metricas</code> calcula todas las medidas para una clase positiva <code>SIN_ACCESO = 1</code>. <code>optimize_threshold</code> busca en <strong>validación</strong> el umbral que maximiza F1; ese valor se fija antes de abrir la prueba.</p>
+<details class="codigo">
+<summary>
+Ver código Python
+</summary>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="codigo.html#cb48-1" tabindex="-1"></a><span class="kw">def</span> metricas(y, score, threshold<span class="op">=</span><span class="fl">0.5</span>):</span>
+<span id="cb48-2"><a href="codigo.html#cb48-2" tabindex="-1"></a>    pred <span class="op">=</span> (score <span class="op">&gt;=</span> threshold).astype(<span class="bu">int</span>)</span>
+<span id="cb48-3"><a href="codigo.html#cb48-3" tabindex="-1"></a>    tn, fp, fn, tp <span class="op">=</span> confusion_matrix(y, pred, labels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>]).ravel()</span>
+<span id="cb48-4"><a href="codigo.html#cb48-4" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb48-5"><a href="codigo.html#cb48-5" tabindex="-1"></a>        <span class="st">&quot;threshold&quot;</span>: <span class="bu">float</span>(threshold),</span>
+<span id="cb48-6"><a href="codigo.html#cb48-6" tabindex="-1"></a>        <span class="st">&quot;roc_auc&quot;</span>: <span class="bu">float</span>(roc_auc_score(y, score)),</span>
+<span id="cb48-7"><a href="codigo.html#cb48-7" tabindex="-1"></a>        <span class="st">&quot;pr_auc&quot;</span>: <span class="bu">float</span>(average_precision_score(y, score)),</span>
+<span id="cb48-8"><a href="codigo.html#cb48-8" tabindex="-1"></a>        <span class="st">&quot;brier&quot;</span>: <span class="bu">float</span>(brier_score_loss(y, score)),</span>
+<span id="cb48-9"><a href="codigo.html#cb48-9" tabindex="-1"></a>        <span class="st">&quot;f1&quot;</span>: <span class="bu">float</span>(f1_score(y, pred, zero_division<span class="op">=</span><span class="dv">0</span>)),</span>
+<span id="cb48-10"><a href="codigo.html#cb48-10" tabindex="-1"></a>        <span class="st">&quot;precision&quot;</span>: <span class="bu">float</span>(precision_score(y, pred, zero_division<span class="op">=</span><span class="dv">0</span>)),</span>
+<span id="cb48-11"><a href="codigo.html#cb48-11" tabindex="-1"></a>        <span class="st">&quot;recall&quot;</span>: <span class="bu">float</span>(recall_score(y, pred, zero_division<span class="op">=</span><span class="dv">0</span>)),</span>
+<span id="cb48-12"><a href="codigo.html#cb48-12" tabindex="-1"></a>        <span class="st">&quot;specificity&quot;</span>: <span class="bu">float</span>(tn <span class="op">/</span> (tn <span class="op">+</span> fp)),</span>
+<span id="cb48-13"><a href="codigo.html#cb48-13" tabindex="-1"></a>        <span class="st">&quot;confusion&quot;</span>: {<span class="st">&quot;tn&quot;</span>: <span class="bu">int</span>(tn), <span class="st">&quot;fp&quot;</span>: <span class="bu">int</span>(fp), <span class="st">&quot;fn&quot;</span>: <span class="bu">int</span>(fn), <span class="st">&quot;tp&quot;</span>: <span class="bu">int</span>(tp)},</span>
+<span id="cb48-14"><a href="codigo.html#cb48-14" tabindex="-1"></a>    }</span>
+<span id="cb48-15"><a href="codigo.html#cb48-15" tabindex="-1"></a></span>
+<span id="cb48-16"><a href="codigo.html#cb48-16" tabindex="-1"></a><span class="kw">def</span> optimize_threshold(y, score):</span>
+<span id="cb48-17"><a href="codigo.html#cb48-17" tabindex="-1"></a>    precision, recall, threshold <span class="op">=</span> precision_recall_curve(y, score)</span>
+<span id="cb48-18"><a href="codigo.html#cb48-18" tabindex="-1"></a>    f1 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> precision[:<span class="op">-</span><span class="dv">1</span>] <span class="op">*</span> recall[:<span class="op">-</span><span class="dv">1</span>] <span class="op">/</span> np.maximum(</span>
+<span id="cb48-19"><a href="codigo.html#cb48-19" tabindex="-1"></a>        precision[:<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> recall[:<span class="op">-</span><span class="dv">1</span>], <span class="fl">1e-12</span></span>
+<span id="cb48-20"><a href="codigo.html#cb48-20" tabindex="-1"></a>    )</span>
+<span id="cb48-21"><a href="codigo.html#cb48-21" tabindex="-1"></a>    best <span class="op">=</span> <span class="bu">int</span>(np.argmax(f1))</span>
+<span id="cb48-22"><a href="codigo.html#cb48-22" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(threshold[best]), <span class="bu">float</span>(f1[best])</span></code></pre></div>
+</details>
+</div>
+<div id="cómo-se-reproduce" class="section level2 hasAnchor" number="9.5">
+<h2><span class="header-section-number">9.5</span> Cómo se reproduce<a href="codigo.html#c%C3%B3mo-se-reproduce" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Desde <code>proyecto_salud/</code>, con el entorno de <code>ml_salud</code> y los cuatro CSV del DANE en <code>datos/</code>:</p>
+<pre class="text"><code>ml_salud\.venv\Scripts\python.exe -m ml_salud.entrenar --data-dir datos</code></pre>
+<p>El script usa la semilla 42 para la partición y 43 para los pliegues internos, y escribe <code>ml_salud/resultados/resultados.json</code>, que alimenta las tablas de este libro.</p>
+</div>
+<div id="funciones-de-las-figuras-r" class="section level2 hasAnchor" number="9.6">
+<h2><span class="header-section-number">9.6</span> Funciones de las figuras (R)<a href="codigo.html#funciones-de-las-figuras-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Las figuras interactivas del libro se dibujan con Plotly a partir de los cuadros agregados de <code>data/</code>.</p>
+<details class="codigo">
+<summary>
+Ver R/graficos_libro.R completo
+</summary>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="codigo.html#cb50-1" tabindex="-1"></a><span class="co"># Figuras interactivas del libro con los tokens de la gama Petróleo (ver shiny_salud/DISENO.md).</span></span>
+<span id="cb50-2"><a href="codigo.html#cb50-2" tabindex="-1"></a><span class="co"># En HTML se dibujan con Plotly a partir de los agregados de data/; en otros formatos se usa</span></span>
+<span id="cb50-3"><a href="codigo.html#cb50-3" tabindex="-1"></a><span class="co"># la imagen estática que genera scripts/preparar_resumen.py. «Fuera» siempre es la clase</span></span>
+<span id="cb50-4"><a href="codigo.html#cb50-4" tabindex="-1"></a><span class="co"># «fuera de la ruta formal»; los grupos se comparan con otra pareja de colores.</span></span>
+<span id="cb50-5"><a href="codigo.html#cb50-5" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="codigo.html#cb50-6" tabindex="-1"></a>TK <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb50-7"><a href="codigo.html#cb50-7" tabindex="-1"></a>  <span class="at">hoja =</span> <span class="st">&quot;#F7F9FB&quot;</span>, <span class="at">tinta =</span> <span class="st">&quot;#10293B&quot;</span>, <span class="at">tinta2 =</span> <span class="st">&quot;#3A4F60&quot;</span>, <span class="at">tinta3 =</span> <span class="st">&quot;#54697A&quot;</span>, <span class="at">hilo =</span> <span class="st">&quot;#D9E1E7&quot;</span>,</span>
+<span id="cb50-8"><a href="codigo.html#cb50-8" tabindex="-1"></a>  <span class="at">base =</span> <span class="st">&quot;#A9B6C1&quot;</span>, <span class="at">suelo =</span> <span class="st">&quot;#EEF2F5&quot;</span>, <span class="at">dentro =</span> <span class="st">&quot;#1B6CA8&quot;</span>, <span class="at">fuera =</span> <span class="st">&quot;#DD6B20&quot;</span>, <span class="at">grupo_a =</span> <span class="st">&quot;#5B6FB5&quot;</span>,</span>
+<span id="cb50-9"><a href="codigo.html#cb50-9" tabindex="-1"></a>  <span class="at">grupo_b =</span> <span class="st">&quot;#A86C00&quot;</span>, <span class="at">referencia =</span> <span class="st">&quot;#7D8A96&quot;</span></span>
+<span id="cb50-10"><a href="codigo.html#cb50-10" tabindex="-1"></a>)</span>
+<span id="cb50-11"><a href="codigo.html#cb50-11" tabindex="-1"></a>FUENTE <span class="ot">&lt;-</span> <span class="st">&quot;Atkinson Hyperlegible Next, Segoe UI, Arial, sans-serif&quot;</span></span>
+<span id="cb50-12"><a href="codigo.html#cb50-12" tabindex="-1"></a></span>
+<span id="cb50-13"><a href="codigo.html#cb50-13" tabindex="-1"></a>num_es <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">decimales =</span> <span class="dv">0</span>) {</span>
+<span id="cb50-14"><a href="codigo.html#cb50-14" tabindex="-1"></a>  <span class="fu">formatC</span>(x, <span class="at">format =</span> <span class="st">&quot;f&quot;</span>, <span class="at">digits =</span> decimales, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>, <span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb50-15"><a href="codigo.html#cb50-15" tabindex="-1"></a>}</span>
+<span id="cb50-16"><a href="codigo.html#cb50-16" tabindex="-1"></a>pct_es <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">decimales =</span> <span class="dv">1</span>) <span class="fu">paste0</span>(<span class="fu">num_es</span>(x, decimales), <span class="st">&quot; %&quot;</span>)</span>
+<span id="cb50-17"><a href="codigo.html#cb50-17" tabindex="-1"></a></span>
+<span id="cb50-18"><a href="codigo.html#cb50-18" tabindex="-1"></a>figura <span class="ot">&lt;-</span> <span class="cf">function</span>(grafico, imagen) {</span>
+<span id="cb50-19"><a href="codigo.html#cb50-19" tabindex="-1"></a>  <span class="cf">if</span> (knitr<span class="sc">::</span><span class="fu">is_html_output</span>()) grafico <span class="cf">else</span> knitr<span class="sc">::</span><span class="fu">include_graphics</span>(imagen)</span>
+<span id="cb50-20"><a href="codigo.html#cb50-20" tabindex="-1"></a>}</span>
+<span id="cb50-21"><a href="codigo.html#cb50-21" tabindex="-1"></a></span>
+<span id="cb50-22"><a href="codigo.html#cb50-22" tabindex="-1"></a>eje <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">titulo =</span> <span class="st">&quot;&quot;</span>, ...) {</span>
+<span id="cb50-23"><a href="codigo.html#cb50-23" tabindex="-1"></a>  utils<span class="sc">::</span><span class="fu">modifyList</span>(<span class="fu">list</span>(</span>
+<span id="cb50-24"><a href="codigo.html#cb50-24" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">list</span>(<span class="at">text =</span> titulo, <span class="at">font =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>tinta3, <span class="at">size =</span> <span class="dv">13</span>)), <span class="at">gridcolor =</span> TK<span class="sc">$</span>hilo,</span>
+<span id="cb50-25"><a href="codigo.html#cb50-25" tabindex="-1"></a>    <span class="at">zeroline =</span> <span class="cn">FALSE</span>, <span class="at">linecolor =</span> TK<span class="sc">$</span>base, <span class="at">tickcolor =</span> TK<span class="sc">$</span>base, <span class="at">automargin =</span> <span class="cn">TRUE</span>, <span class="at">fixedrange =</span> <span class="cn">TRUE</span></span>
+<span id="cb50-26"><a href="codigo.html#cb50-26" tabindex="-1"></a>  ), <span class="fu">list</span>(...))</span>
+<span id="cb50-27"><a href="codigo.html#cb50-27" tabindex="-1"></a>}</span>
+<span id="cb50-28"><a href="codigo.html#cb50-28" tabindex="-1"></a></span>
+<span id="cb50-29"><a href="codigo.html#cb50-29" tabindex="-1"></a>estilo_libro <span class="ot">&lt;-</span> <span class="cf">function</span>(p, titulo, <span class="at">leyenda =</span> <span class="cn">TRUE</span>, <span class="at">margen =</span> <span class="fu">list</span>(<span class="at">l =</span> <span class="dv">10</span>, <span class="at">r =</span> <span class="dv">24</span>, <span class="at">t =</span> <span class="dv">84</span>, <span class="at">b =</span> <span class="dv">10</span>)) {</span>
+<span id="cb50-30"><a href="codigo.html#cb50-30" tabindex="-1"></a>  p <span class="sc">|&gt;</span></span>
+<span id="cb50-31"><a href="codigo.html#cb50-31" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(</span>
+<span id="cb50-32"><a href="codigo.html#cb50-32" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">list</span>(<span class="at">text =</span> titulo, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">xanchor =</span> <span class="st">&quot;left&quot;</span>, <span class="at">xref =</span> <span class="st">&quot;paper&quot;</span>,</span>
+<span id="cb50-33"><a href="codigo.html#cb50-33" tabindex="-1"></a>                   <span class="at">font =</span> <span class="fu">list</span>(<span class="at">family =</span> FUENTE, <span class="at">color =</span> TK<span class="sc">$</span>tinta, <span class="at">size =</span> <span class="dv">17</span>)),</span>
+<span id="cb50-34"><a href="codigo.html#cb50-34" tabindex="-1"></a>      <span class="at">margin =</span> margen, <span class="at">separators =</span> <span class="st">&quot;,.&quot;</span>, <span class="at">showlegend =</span> leyenda,</span>
+<span id="cb50-35"><a href="codigo.html#cb50-35" tabindex="-1"></a>      <span class="at">font =</span> <span class="fu">list</span>(<span class="at">family =</span> FUENTE, <span class="at">color =</span> TK<span class="sc">$</span>tinta2, <span class="at">size =</span> <span class="dv">13</span>),</span>
+<span id="cb50-36"><a href="codigo.html#cb50-36" tabindex="-1"></a>      <span class="at">paper_bgcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>, <span class="at">plot_bgcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>,</span>
+<span id="cb50-37"><a href="codigo.html#cb50-37" tabindex="-1"></a>      <span class="at">hoverlabel =</span> <span class="fu">list</span>(<span class="at">bgcolor =</span> TK<span class="sc">$</span>tinta, <span class="at">bordercolor =</span> TK<span class="sc">$</span>tinta, <span class="at">align =</span> <span class="st">&quot;left&quot;</span>,</span>
+<span id="cb50-38"><a href="codigo.html#cb50-38" tabindex="-1"></a>                        <span class="at">font =</span> <span class="fu">list</span>(<span class="at">family =</span> FUENTE, <span class="at">color =</span> <span class="st">&quot;#FFFFFF&quot;</span>, <span class="at">size =</span> <span class="dv">13</span>)),</span>
+<span id="cb50-39"><a href="codigo.html#cb50-39" tabindex="-1"></a>      <span class="at">legend =</span> <span class="fu">list</span>(<span class="at">orientation =</span> <span class="st">&quot;h&quot;</span>, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="fl">1.02</span>, <span class="at">xanchor =</span> <span class="st">&quot;left&quot;</span>, <span class="at">yanchor =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb50-40"><a href="codigo.html#cb50-40" tabindex="-1"></a>                    <span class="at">font =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>tinta2))</span>
+<span id="cb50-41"><a href="codigo.html#cb50-41" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb50-42"><a href="codigo.html#cb50-42" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">config</span>(<span class="at">displaylogo =</span> <span class="cn">FALSE</span>, <span class="at">locale =</span> <span class="st">&quot;es&quot;</span>, <span class="at">responsive =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb50-43"><a href="codigo.html#cb50-43" tabindex="-1"></a>                   <span class="at">modeBarButtonsToRemove =</span> <span class="fu">c</span>(<span class="st">&quot;select2d&quot;</span>, <span class="st">&quot;lasso2d&quot;</span>, <span class="st">&quot;autoScale2d&quot;</span>, <span class="st">&quot;toggleSpikelines&quot;</span>,</span>
+<span id="cb50-44"><a href="codigo.html#cb50-44" tabindex="-1"></a>                                              <span class="st">&quot;hoverClosestCartesian&quot;</span>, <span class="st">&quot;hoverCompareCartesian&quot;</span>),</span>
+<span id="cb50-45"><a href="codigo.html#cb50-45" tabindex="-1"></a>                   <span class="at">toImageButtonOptions =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">&quot;png&quot;</span>, <span class="at">scale =</span> <span class="dv">2</span>))</span>
+<span id="cb50-46"><a href="codigo.html#cb50-46" tabindex="-1"></a>}</span>
+<span id="cb50-47"><a href="codigo.html#cb50-47" tabindex="-1"></a></span>
+<span id="cb50-48"><a href="codigo.html#cb50-48" tabindex="-1"></a>barras_h <span class="ot">&lt;-</span> <span class="cf">function</span>(categorias, valores, colores, textos, detalle, alto, <span class="at">nombre =</span> <span class="st">&quot;Valor&quot;</span>) {</span>
+<span id="cb50-49"><a href="codigo.html#cb50-49" tabindex="-1"></a>  plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">x =</span> valores, <span class="at">y =</span> <span class="fu">factor</span>(categorias, <span class="at">levels =</span> categorias), <span class="at">type =</span> <span class="st">&quot;bar&quot;</span>, <span class="at">orientation =</span> <span class="st">&quot;h&quot;</span>, <span class="at">name =</span> nombre,</span>
+<span id="cb50-50"><a href="codigo.html#cb50-50" tabindex="-1"></a>                  <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">color =</span> colores), <span class="at">text =</span> textos, <span class="at">textposition =</span> <span class="st">&quot;outside&quot;</span>, <span class="at">cliponaxis =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb50-51"><a href="codigo.html#cb50-51" tabindex="-1"></a>                  <span class="at">textfont =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>tinta), <span class="at">customdata =</span> detalle,</span>
+<span id="cb50-52"><a href="codigo.html#cb50-52" tabindex="-1"></a>                  <span class="at">hovertemplate =</span> <span class="st">&quot;%{customdata}&lt;extra&gt;&lt;/extra&gt;&quot;</span>, <span class="at">height =</span> alto)</span>
+<span id="cb50-53"><a href="codigo.html#cb50-53" tabindex="-1"></a>}</span>
+<span id="cb50-54"><a href="codigo.html#cb50-54" tabindex="-1"></a></span>
+<span id="cb50-55"><a href="codigo.html#cb50-55" tabindex="-1"></a>g_faltantes <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-56"><a href="codigo.html#cb50-56" tabindex="-1"></a>  d <span class="ot">&lt;-</span> utils<span class="sc">::</span><span class="fu">head</span>(<span class="fu">leer</span>(<span class="st">&quot;calidad_variables.csv&quot;</span>), <span class="dv">12</span>)</span>
+<span id="cb50-57"><a href="codigo.html#cb50-57" tabindex="-1"></a>  d <span class="ot">&lt;-</span> d[<span class="fu">order</span>(d<span class="sc">$</span>pct), ]</span>
+<span id="cb50-58"><a href="codigo.html#cb50-58" tabindex="-1"></a>  <span class="fu">barras_h</span>(d<span class="sc">$</span>descripcion, d<span class="sc">$</span>pct, TK<span class="sc">$</span>tinta3, <span class="fu">pct_es</span>(d<span class="sc">$</span>pct),</span>
+<span id="cb50-59"><a href="codigo.html#cb50-59" tabindex="-1"></a>           <span class="fu">paste0</span>(d<span class="sc">$</span>descripcion, <span class="st">&quot;&lt;br&gt;&quot;</span>, <span class="fu">pct_es</span>(d<span class="sc">$</span>pct), <span class="st">&quot; sin dato o con código de no informa&lt;br&gt;&quot;</span>,</span>
+<span id="cb50-60"><a href="codigo.html#cb50-60" tabindex="-1"></a>                  <span class="fu">num_es</span>(d<span class="sc">$</span>missing_or_sentinel), <span class="st">&quot; personas&quot;</span>), <span class="dv">450</span>, <span class="at">nombre =</span> <span class="st">&quot;Sin dato o «no informa» (%)&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-61"><a href="codigo.html#cb50-61" tabindex="-1"></a>    <span class="fu">estilo_libro</span>(<span class="st">&quot;Variables con mayor ausencia en los predictores&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-62"><a href="codigo.html#cb50-62" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Faltantes o códigos de no informa (%)&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(d<span class="sc">$</span>pct) <span class="sc">*</span> <span class="fl">1.18</span>)),</span>
+<span id="cb50-63"><a href="codigo.html#cb50-63" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="at">gridcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>), <span class="at">bargap =</span> .<span class="dv">32</span>)</span>
+<span id="cb50-64"><a href="codigo.html#cb50-64" tabindex="-1"></a>}</span>
+<span id="cb50-65"><a href="codigo.html#cb50-65" tabindex="-1"></a></span>
+<span id="cb50-66"><a href="codigo.html#cb50-66" tabindex="-1"></a>g_composicion <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-67"><a href="codigo.html#cb50-67" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;composicion_etiqueta.csv&quot;</span>)</span>
+<span id="cb50-68"><a href="codigo.html#cb50-68" tabindex="-1"></a>  d <span class="ot">&lt;-</span> d[<span class="fu">rev</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(d))), ]</span>
+<span id="cb50-69"><a href="codigo.html#cb50-69" tabindex="-1"></a>  niveles <span class="ot">&lt;-</span> d<span class="sc">$</span>tratamiento_principal</span>
+<span id="cb50-70"><a href="codigo.html#cb50-70" tabindex="-1"></a>  p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">height =</span> <span class="dv">360</span>)</span>
+<span id="cb50-71"><a href="codigo.html#cb50-71" tabindex="-1"></a>  <span class="cf">for</span> (clase <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;Dentro de la ruta formal&quot;</span>, <span class="st">&quot;Fuera de la ruta formal&quot;</span>)) {</span>
+<span id="cb50-72"><a href="codigo.html#cb50-72" tabindex="-1"></a>    x <span class="ot">&lt;-</span> d[d<span class="sc">$</span>clasificacion <span class="sc">==</span> clase, ]</span>
+<span id="cb50-73"><a href="codigo.html#cb50-73" tabindex="-1"></a>    p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">add_trace</span>(p, <span class="at">x =</span> x<span class="sc">$</span>n, <span class="at">y =</span> <span class="fu">factor</span>(x<span class="sc">$</span>tratamiento_principal, <span class="at">levels =</span> niveles), <span class="at">type =</span> <span class="st">&quot;bar&quot;</span>, <span class="at">orientation =</span> <span class="st">&quot;h&quot;</span>,</span>
+<span id="cb50-74"><a href="codigo.html#cb50-74" tabindex="-1"></a>                           <span class="at">name =</span> clase, <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="cf">if</span> (clase <span class="sc">==</span> <span class="st">&quot;Dentro de la ruta formal&quot;</span>) TK<span class="sc">$</span>dentro <span class="cf">else</span> TK<span class="sc">$</span>fuera),</span>
+<span id="cb50-75"><a href="codigo.html#cb50-75" tabindex="-1"></a>                           <span class="at">text =</span> <span class="fu">num_es</span>(x<span class="sc">$</span>n), <span class="at">textposition =</span> <span class="st">&quot;outside&quot;</span>, <span class="at">cliponaxis =</span> <span class="cn">FALSE</span>, <span class="at">textfont =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>tinta),</span>
+<span id="cb50-76"><a href="codigo.html#cb50-76" tabindex="-1"></a>                           <span class="at">customdata =</span> <span class="fu">paste0</span>(x<span class="sc">$</span>tratamiento_principal, <span class="st">&quot;&lt;br&gt;&quot;</span>, <span class="fu">num_es</span>(x<span class="sc">$</span>n), <span class="st">&quot; personas (&quot;</span>, <span class="fu">pct_es</span>(x<span class="sc">$</span>porcentaje), <span class="st">&quot;)&lt;br&gt;&quot;</span>, clase),</span>
+<span id="cb50-77"><a href="codigo.html#cb50-77" tabindex="-1"></a>                           <span class="at">hovertemplate =</span> <span class="st">&quot;%{customdata}&lt;extra&gt;&lt;/extra&gt;&quot;</span>)</span>
+<span id="cb50-78"><a href="codigo.html#cb50-78" tabindex="-1"></a>  }</span>
+<span id="cb50-79"><a href="codigo.html#cb50-79" tabindex="-1"></a>  p <span class="sc">|&gt;</span></span>
+<span id="cb50-80"><a href="codigo.html#cb50-80" tabindex="-1"></a>    <span class="fu">estilo_libro</span>(<span class="st">&quot;Composición de la etiqueta operativa&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-81"><a href="codigo.html#cb50-81" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Personas&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(d<span class="sc">$</span>n) <span class="sc">*</span> <span class="fl">1.18</span>), <span class="at">tickformat =</span> <span class="st">&quot;,d&quot;</span>),</span>
+<span id="cb50-82"><a href="codigo.html#cb50-82" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="at">gridcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>), <span class="at">bargap =</span> .<span class="dv">38</span>)</span>
+<span id="cb50-83"><a href="codigo.html#cb50-83" tabindex="-1"></a>}</span>
+<span id="cb50-84"><a href="codigo.html#cb50-84" tabindex="-1"></a></span>
+<span id="cb50-85"><a href="codigo.html#cb50-85" tabindex="-1"></a>g_dificultad <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-86"><a href="codigo.html#cb50-86" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;dificultad.csv&quot;</span>)</span>
+<span id="cb50-87"><a href="codigo.html#cb50-87" tabindex="-1"></a>  d <span class="ot">&lt;-</span> d[<span class="fu">match</span>(<span class="fu">c</span>(<span class="st">&quot;Sin dificultad&quot;</span>, <span class="st">&quot;Con dificultad&quot;</span>), d<span class="sc">$</span>dificultad), ]</span>
+<span id="cb50-88"><a href="codigo.html#cb50-88" tabindex="-1"></a>  dentro <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">-</span> d<span class="sc">$</span>porcentaje_sin_formal</span>
+<span id="cb50-89"><a href="codigo.html#cb50-89" tabindex="-1"></a>  plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">y =</span> d<span class="sc">$</span>dificultad, <span class="at">x =</span> dentro, <span class="at">type =</span> <span class="st">&quot;bar&quot;</span>, <span class="at">orientation =</span> <span class="st">&quot;h&quot;</span>, <span class="at">name =</span> <span class="st">&quot;Dentro de la ruta formal&quot;</span>,</span>
+<span id="cb50-90"><a href="codigo.html#cb50-90" tabindex="-1"></a>                  <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>dentro), <span class="at">customdata =</span> <span class="fu">paste0</span>(d<span class="sc">$</span>dificultad, <span class="st">&quot;&lt;br&gt;Dentro de la ruta formal: &quot;</span>,</span>
+<span id="cb50-91"><a href="codigo.html#cb50-91" tabindex="-1"></a>                  <span class="fu">pct_es</span>(dentro), <span class="st">&quot;&lt;br&gt;&quot;</span>, <span class="fu">num_es</span>(d<span class="sc">$</span>con_formal), <span class="st">&quot; de &quot;</span>, <span class="fu">num_es</span>(d<span class="sc">$</span>n), <span class="st">&quot; personas&quot;</span>),</span>
+<span id="cb50-92"><a href="codigo.html#cb50-92" tabindex="-1"></a>                  <span class="at">hovertemplate =</span> <span class="st">&quot;%{customdata}&lt;extra&gt;&lt;/extra&gt;&quot;</span>, <span class="at">height =</span> <span class="dv">300</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-93"><a href="codigo.html#cb50-93" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">add_trace</span>(<span class="at">x =</span> d<span class="sc">$</span>porcentaje_sin_formal, <span class="at">name =</span> <span class="st">&quot;Fuera de la ruta formal&quot;</span>, <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>fuera),</span>
+<span id="cb50-94"><a href="codigo.html#cb50-94" tabindex="-1"></a>                      <span class="at">customdata =</span> <span class="fu">paste0</span>(d<span class="sc">$</span>dificultad, <span class="st">&quot;&lt;br&gt;Fuera de la ruta formal: &quot;</span>, <span class="fu">pct_es</span>(d<span class="sc">$</span>porcentaje_sin_formal),</span>
+<span id="cb50-95"><a href="codigo.html#cb50-95" tabindex="-1"></a>                                          <span class="st">&quot;&lt;br&gt;&quot;</span>, <span class="fu">num_es</span>(d<span class="sc">$</span>sin_formal), <span class="st">&quot; de &quot;</span>, <span class="fu">num_es</span>(d<span class="sc">$</span>n), <span class="st">&quot; personas&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-96"><a href="codigo.html#cb50-96" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">add_annotations</span>(<span class="at">x =</span> <span class="dv">101</span>, <span class="at">y =</span> d<span class="sc">$</span>dificultad, <span class="at">text =</span> <span class="fu">paste0</span>(<span class="st">&quot;n = &quot;</span>, <span class="fu">num_es</span>(d<span class="sc">$</span>n)), <span class="at">xanchor =</span> <span class="st">&quot;left&quot;</span>,</span>
+<span id="cb50-97"><a href="codigo.html#cb50-97" tabindex="-1"></a>                            <span class="at">showarrow =</span> <span class="cn">FALSE</span>, <span class="at">font =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>tinta2, <span class="at">size =</span> <span class="dv">12</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-98"><a href="codigo.html#cb50-98" tabindex="-1"></a>    <span class="fu">estilo_libro</span>(<span class="st">&quot;Clasificación por dificultad funcional declarada&quot;</span>, <span class="at">leyenda =</span> <span class="cn">TRUE</span>, <span class="at">margen =</span> <span class="fu">list</span>(<span class="at">l =</span> <span class="dv">10</span>, <span class="at">r =</span> <span class="dv">70</span>, <span class="at">t =</span> <span class="dv">84</span>, <span class="at">b =</span> <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-99"><a href="codigo.html#cb50-99" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">barmode =</span> <span class="st">&quot;stack&quot;</span>, <span class="at">bargap =</span> .<span class="dv">42</span>, <span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Porcentaje dentro de cada grupo&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)),</span>
+<span id="cb50-100"><a href="codigo.html#cb50-100" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="at">gridcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>))</span>
+<span id="cb50-101"><a href="codigo.html#cb50-101" tabindex="-1"></a>}</span>
+<span id="cb50-102"><a href="codigo.html#cb50-102" tabindex="-1"></a></span>
+<span id="cb50-103"><a href="codigo.html#cb50-103" tabindex="-1"></a>g_edad <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-104"><a href="codigo.html#cb50-104" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;edad_dificultad.csv&quot;</span>)</span>
+<span id="cb50-105"><a href="codigo.html#cb50-105" tabindex="-1"></a>  d <span class="ot">&lt;-</span> d[d<span class="sc">$</span>publicable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="st">&quot;True&quot;</span>), ]</span>
+<span id="cb50-106"><a href="codigo.html#cb50-106" tabindex="-1"></a>  d <span class="ot">&lt;-</span> d[<span class="fu">order</span>(d<span class="sc">$</span>P_EDADR), ]</span>
+<span id="cb50-107"><a href="codigo.html#cb50-107" tabindex="-1"></a>  niveles <span class="ot">&lt;-</span> <span class="fu">unique</span>(d<span class="sc">$</span>grupo_edad)</span>
+<span id="cb50-108"><a href="codigo.html#cb50-108" tabindex="-1"></a>  p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">height =</span> <span class="dv">420</span>)</span>
+<span id="cb50-109"><a href="codigo.html#cb50-109" tabindex="-1"></a>  <span class="cf">for</span> (grupo <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;Con dificultad&quot;</span>, <span class="st">&quot;Sin dificultad&quot;</span>)) {</span>
+<span id="cb50-110"><a href="codigo.html#cb50-110" tabindex="-1"></a>    parte <span class="ot">&lt;-</span> d[d<span class="sc">$</span>dificultad <span class="sc">==</span> grupo, ]</span>
+<span id="cb50-111"><a href="codigo.html#cb50-111" tabindex="-1"></a>    p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">add_trace</span>(p, <span class="at">x =</span> <span class="fu">factor</span>(parte<span class="sc">$</span>grupo_edad, <span class="at">levels =</span> niveles), <span class="at">y =</span> parte<span class="sc">$</span>porcentaje_sin_formal,</span>
+<span id="cb50-112"><a href="codigo.html#cb50-112" tabindex="-1"></a>                           <span class="at">type =</span> <span class="st">&quot;scatter&quot;</span>, <span class="at">mode =</span> <span class="st">&quot;lines+markers&quot;</span>, <span class="at">name =</span> grupo,</span>
+<span id="cb50-113"><a href="codigo.html#cb50-113" tabindex="-1"></a>                           <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="cf">if</span> (grupo <span class="sc">==</span> <span class="st">&quot;Con dificultad&quot;</span>) TK<span class="sc">$</span>grupo_b <span class="cf">else</span> TK<span class="sc">$</span>grupo_a, <span class="at">width =</span> <span class="fl">2.5</span>),</span>
+<span id="cb50-114"><a href="codigo.html#cb50-114" tabindex="-1"></a>                           <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">7</span>),</span>
+<span id="cb50-115"><a href="codigo.html#cb50-115" tabindex="-1"></a>                           <span class="at">customdata =</span> <span class="fu">paste0</span>(grupo, <span class="st">&quot;, &quot;</span>, parte<span class="sc">$</span>grupo_edad, <span class="st">&quot; años&lt;br&gt;Fuera de la ruta formal: &quot;</span>,</span>
+<span id="cb50-116"><a href="codigo.html#cb50-116" tabindex="-1"></a>                                               <span class="fu">pct_es</span>(parte<span class="sc">$</span>porcentaje_sin_formal), <span class="st">&quot;&lt;br&gt;Base: &quot;</span>, <span class="fu">num_es</span>(parte<span class="sc">$</span>n), <span class="st">&quot; personas&quot;</span>),</span>
+<span id="cb50-117"><a href="codigo.html#cb50-117" tabindex="-1"></a>                           <span class="at">hovertemplate =</span> <span class="st">&quot;%{customdata}&lt;extra&gt;&lt;/extra&gt;&quot;</span>)</span>
+<span id="cb50-118"><a href="codigo.html#cb50-118" tabindex="-1"></a>  }</span>
+<span id="cb50-119"><a href="codigo.html#cb50-119" tabindex="-1"></a>  <span class="fu">estilo_libro</span>(p, <span class="st">&quot;La relación cambia con la edad&quot;</span>, <span class="at">leyenda =</span> <span class="cn">TRUE</span>, <span class="at">margen =</span> <span class="fu">list</span>(<span class="at">l =</span> <span class="dv">10</span>, <span class="at">r =</span> <span class="dv">20</span>, <span class="at">t =</span> <span class="dv">84</span>, <span class="at">b =</span> <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-120"><a href="codigo.html#cb50-120" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Edad al censo (grupos quinquenales)&quot;</span>, <span class="at">tickangle =</span> <span class="sc">-</span><span class="dv">50</span>),</span>
+<span id="cb50-121"><a href="codigo.html#cb50-121" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Fuera de la ruta formal (%)&quot;</span>, <span class="at">rangemode =</span> <span class="st">&quot;tozero&quot;</span>))</span>
+<span id="cb50-122"><a href="codigo.html#cb50-122" tabindex="-1"></a>}</span>
+<span id="cb50-123"><a href="codigo.html#cb50-123" tabindex="-1"></a></span>
+<span id="cb50-124"><a href="codigo.html#cb50-124" tabindex="-1"></a>g_sexo <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-125"><a href="codigo.html#cb50-125" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;sexo_dificultad.csv&quot;</span>)</span>
+<span id="cb50-126"><a href="codigo.html#cb50-126" tabindex="-1"></a>  p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">height =</span> <span class="dv">360</span>)</span>
+<span id="cb50-127"><a href="codigo.html#cb50-127" tabindex="-1"></a>  <span class="cf">for</span> (grupo <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;Con dificultad&quot;</span>, <span class="st">&quot;Sin dificultad&quot;</span>)) {</span>
+<span id="cb50-128"><a href="codigo.html#cb50-128" tabindex="-1"></a>    parte <span class="ot">&lt;-</span> d[d<span class="sc">$</span>dificultad <span class="sc">==</span> grupo, ]</span>
+<span id="cb50-129"><a href="codigo.html#cb50-129" tabindex="-1"></a>    parte <span class="ot">&lt;-</span> parte[<span class="fu">match</span>(<span class="fu">c</span>(<span class="st">&quot;Hombre&quot;</span>, <span class="st">&quot;Mujer&quot;</span>), parte<span class="sc">$</span>sexo), ]</span>
+<span id="cb50-130"><a href="codigo.html#cb50-130" tabindex="-1"></a>    p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">add_trace</span>(p, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;Hombres&quot;</span>, <span class="st">&quot;Mujeres&quot;</span>), <span class="at">y =</span> parte<span class="sc">$</span>porcentaje_sin_formal, <span class="at">type =</span> <span class="st">&quot;bar&quot;</span>, <span class="at">name =</span> grupo,</span>
+<span id="cb50-131"><a href="codigo.html#cb50-131" tabindex="-1"></a>                           <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="cf">if</span> (grupo <span class="sc">==</span> <span class="st">&quot;Con dificultad&quot;</span>) TK<span class="sc">$</span>grupo_b <span class="cf">else</span> TK<span class="sc">$</span>grupo_a),</span>
+<span id="cb50-132"><a href="codigo.html#cb50-132" tabindex="-1"></a>                           <span class="at">text =</span> <span class="fu">pct_es</span>(parte<span class="sc">$</span>porcentaje_sin_formal), <span class="at">textposition =</span> <span class="st">&quot;outside&quot;</span>, <span class="at">cliponaxis =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb50-133"><a href="codigo.html#cb50-133" tabindex="-1"></a>                           <span class="at">customdata =</span> <span class="fu">paste0</span>(<span class="fu">c</span>(<span class="st">&quot;Hombres&quot;</span>, <span class="st">&quot;Mujeres&quot;</span>), <span class="st">&quot;, &quot;</span>, <span class="fu">tolower</span>(grupo), <span class="st">&quot;&lt;br&gt;Fuera de la ruta formal: &quot;</span>,</span>
+<span id="cb50-134"><a href="codigo.html#cb50-134" tabindex="-1"></a>                                               <span class="fu">pct_es</span>(parte<span class="sc">$</span>porcentaje_sin_formal), <span class="st">&quot;&lt;br&gt;Base: &quot;</span>, <span class="fu">num_es</span>(parte<span class="sc">$</span>n), <span class="st">&quot; personas&quot;</span>),</span>
+<span id="cb50-135"><a href="codigo.html#cb50-135" tabindex="-1"></a>                           <span class="at">hovertemplate =</span> <span class="st">&quot;%{customdata}&lt;extra&gt;&lt;/extra&gt;&quot;</span>)</span>
+<span id="cb50-136"><a href="codigo.html#cb50-136" tabindex="-1"></a>  }</span>
+<span id="cb50-137"><a href="codigo.html#cb50-137" tabindex="-1"></a>  <span class="fu">estilo_libro</span>(p, <span class="st">&quot;Sexo y dificultad funcional&quot;</span>, <span class="at">leyenda =</span> <span class="cn">TRUE</span>, <span class="at">margen =</span> <span class="fu">list</span>(<span class="at">l =</span> <span class="dv">10</span>, <span class="at">r =</span> <span class="dv">20</span>, <span class="at">t =</span> <span class="dv">84</span>, <span class="at">b =</span> <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-138"><a href="codigo.html#cb50-138" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">barmode =</span> <span class="st">&quot;group&quot;</span>, <span class="at">bargap =</span> .<span class="dv">35</span>, <span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="at">gridcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>),</span>
+<span id="cb50-139"><a href="codigo.html#cb50-139" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Fuera de la ruta formal (%)&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(d<span class="sc">$</span>porcentaje_sin_formal) <span class="sc">*</span> <span class="fl">1.2</span>)))</span>
+<span id="cb50-140"><a href="codigo.html#cb50-140" tabindex="-1"></a>}</span>
+<span id="cb50-141"><a href="codigo.html#cb50-141" tabindex="-1"></a></span>
+<span id="cb50-142"><a href="codigo.html#cb50-142" tabindex="-1"></a>g_municipio <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-143"><a href="codigo.html#cb50-143" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;municipio.csv&quot;</span>)</span>
+<span id="cb50-144"><a href="codigo.html#cb50-144" tabindex="-1"></a>  d <span class="ot">&lt;-</span> d[<span class="fu">order</span>(d<span class="sc">$</span>porcentaje_sin_formal), ]</span>
+<span id="cb50-145"><a href="codigo.html#cb50-145" tabindex="-1"></a>  total <span class="ot">&lt;-</span> resumen<span class="sc">$</span>porcentaje_sin_formal</span>
+<span id="cb50-146"><a href="codigo.html#cb50-146" tabindex="-1"></a>  <span class="fu">barras_h</span>(d<span class="sc">$</span>municipio, d<span class="sc">$</span>porcentaje_sin_formal, TK<span class="sc">$</span>fuera, <span class="fu">pct_es</span>(d<span class="sc">$</span>porcentaje_sin_formal),</span>
+<span id="cb50-147"><a href="codigo.html#cb50-147" tabindex="-1"></a>           <span class="fu">paste0</span>(d<span class="sc">$</span>municipio, <span class="st">&quot;&lt;br&gt;Fuera de la ruta formal: &quot;</span>, <span class="fu">pct_es</span>(d<span class="sc">$</span>porcentaje_sin_formal),</span>
+<span id="cb50-148"><a href="codigo.html#cb50-148" tabindex="-1"></a>                  <span class="st">&quot;&lt;br&gt;&quot;</span>, <span class="fu">num_es</span>(d<span class="sc">$</span>sin_formal), <span class="st">&quot; de &quot;</span>, <span class="fu">num_es</span>(d<span class="sc">$</span>n), <span class="st">&quot; personas&quot;</span>), <span class="dv">660</span>, <span class="at">nombre =</span> <span class="st">&quot;Fuera de la ruta formal (%)&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-149"><a href="codigo.html#cb50-149" tabindex="-1"></a>    <span class="fu">estilo_libro</span>(<span class="st">&quot;Municipios con recuentos publicables&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-150"><a href="codigo.html#cb50-150" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(</span>
+<span id="cb50-151"><a href="codigo.html#cb50-151" tabindex="-1"></a>      <span class="at">bargap =</span> .<span class="dv">3</span>, <span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Fuera de la ruta formal (%)&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(d<span class="sc">$</span>porcentaje_sin_formal) <span class="sc">*</span> <span class="fl">1.16</span>)),</span>
+<span id="cb50-152"><a href="codigo.html#cb50-152" tabindex="-1"></a>      <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="at">gridcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>),</span>
+<span id="cb50-153"><a href="codigo.html#cb50-153" tabindex="-1"></a>      <span class="at">shapes =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">type =</span> <span class="st">&quot;line&quot;</span>, <span class="at">x0 =</span> total, <span class="at">x1 =</span> total, <span class="at">y0 =</span> <span class="dv">0</span>, <span class="at">y1 =</span> <span class="dv">1</span>, <span class="at">yref =</span> <span class="st">&quot;paper&quot;</span>,</span>
+<span id="cb50-154"><a href="codigo.html#cb50-154" tabindex="-1"></a>                         <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>tinta, <span class="at">dash =</span> <span class="st">&quot;dash&quot;</span>, <span class="at">width =</span> <span class="fl">1.5</span>))),</span>
+<span id="cb50-155"><a href="codigo.html#cb50-155" tabindex="-1"></a>      <span class="at">annotations =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">x =</span> total, <span class="at">y =</span> <span class="dv">1</span>, <span class="at">yref =</span> <span class="st">&quot;paper&quot;</span>, <span class="at">yanchor =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">xanchor =</span> <span class="st">&quot;left&quot;</span>, <span class="at">showarrow =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb50-156"><a href="codigo.html#cb50-156" tabindex="-1"></a>                              <span class="at">text =</span> <span class="fu">paste0</span>(<span class="st">&quot;Atlántico: &quot;</span>, <span class="fu">pct_es</span>(total)), <span class="at">font =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>tinta, <span class="at">size =</span> <span class="dv">12</span>)))</span>
+<span id="cb50-157"><a href="codigo.html#cb50-157" tabindex="-1"></a>    )</span>
+<span id="cb50-158"><a href="codigo.html#cb50-158" tabindex="-1"></a>}</span>
+<span id="cb50-159"><a href="codigo.html#cb50-159" tabindex="-1"></a></span>
+<span id="cb50-160"><a href="codigo.html#cb50-160" tabindex="-1"></a>g_modelos <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-161"><a href="codigo.html#cb50-161" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;comparacion_modelos.csv&quot;</span>)</span>
+<span id="cb50-162"><a href="codigo.html#cb50-162" tabindex="-1"></a>  d <span class="ot">&lt;-</span> d[<span class="fu">rev</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(d))), ]</span>
+<span id="cb50-163"><a href="codigo.html#cb50-163" tabindex="-1"></a>  p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">height =</span> <span class="dv">360</span>)</span>
+<span id="cb50-164"><a href="codigo.html#cb50-164" tabindex="-1"></a>  <span class="cf">for</span> (parte <span class="cf">in</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="st">&quot;ap_validacion&quot;</span>, <span class="st">&quot;Validación&quot;</span>, TK<span class="sc">$</span>grupo_a), <span class="fu">list</span>(<span class="st">&quot;ap_prueba&quot;</span>, <span class="st">&quot;Prueba&quot;</span>, TK<span class="sc">$</span>grupo_b))) {</span>
+<span id="cb50-165"><a href="codigo.html#cb50-165" tabindex="-1"></a>    p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">add_trace</span>(p, <span class="at">y =</span> <span class="fu">factor</span>(d<span class="sc">$</span>modelo, <span class="at">levels =</span> d<span class="sc">$</span>modelo), <span class="at">x =</span> d[[parte[[<span class="dv">1</span>]]]], <span class="at">type =</span> <span class="st">&quot;bar&quot;</span>, <span class="at">orientation =</span> <span class="st">&quot;h&quot;</span>,</span>
+<span id="cb50-166"><a href="codigo.html#cb50-166" tabindex="-1"></a>                           <span class="at">name =</span> parte[[<span class="dv">2</span>]], <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">color =</span> parte[[<span class="dv">3</span>]]),</span>
+<span id="cb50-167"><a href="codigo.html#cb50-167" tabindex="-1"></a>                           <span class="at">customdata =</span> <span class="fu">paste0</span>(d<span class="sc">$</span>modelo, <span class="st">&quot;&lt;br&gt;AP en &quot;</span>, <span class="fu">tolower</span>(parte[[<span class="dv">2</span>]]), <span class="st">&quot;: &quot;</span>, <span class="fu">num_es</span>(d[[parte[[<span class="dv">1</span>]]]], <span class="dv">3</span>)),</span>
+<span id="cb50-168"><a href="codigo.html#cb50-168" tabindex="-1"></a>                           <span class="at">hovertemplate =</span> <span class="st">&quot;%{customdata}&lt;extra&gt;&lt;/extra&gt;&quot;</span>)</span>
+<span id="cb50-169"><a href="codigo.html#cb50-169" tabindex="-1"></a>  }</span>
+<span id="cb50-170"><a href="codigo.html#cb50-170" tabindex="-1"></a>  <span class="fu">estilo_libro</span>(p, <span class="st">&quot;Comparación bajo el mismo protocolo&quot;</span>, <span class="at">leyenda =</span> <span class="cn">TRUE</span>, <span class="at">margen =</span> <span class="fu">list</span>(<span class="at">l =</span> <span class="dv">10</span>, <span class="at">r =</span> <span class="dv">20</span>, <span class="at">t =</span> <span class="dv">84</span>, <span class="at">b =</span> <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-171"><a href="codigo.html#cb50-171" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">barmode =</span> <span class="st">&quot;group&quot;</span>, <span class="at">bargap =</span> .<span class="dv">3</span>, <span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Precisión promedio (AP)&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">42</span>)),</span>
+<span id="cb50-172"><a href="codigo.html#cb50-172" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="at">gridcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>))</span>
+<span id="cb50-173"><a href="codigo.html#cb50-173" tabindex="-1"></a>}</span>
+<span id="cb50-174"><a href="codigo.html#cb50-174" tabindex="-1"></a></span>
+<span id="cb50-175"><a href="codigo.html#cb50-175" tabindex="-1"></a>g_curvas <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-176"><a href="codigo.html#cb50-176" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;curvas_modelo.csv&quot;</span>)</span>
+<span id="cb50-177"><a href="codigo.html#cb50-177" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;curvas_resumen.csv&quot;</span>)[<span class="dv">1</span>, ]</span>
+<span id="cb50-178"><a href="codigo.html#cb50-178" tabindex="-1"></a>  roc <span class="ot">&lt;-</span> d[d<span class="sc">$</span>curva <span class="sc">==</span> <span class="st">&quot;roc&quot;</span>, ]</span>
+<span id="cb50-179"><a href="codigo.html#cb50-179" tabindex="-1"></a>  pr <span class="ot">&lt;-</span> d[d<span class="sc">$</span>curva <span class="sc">==</span> <span class="st">&quot;pr&quot;</span>, ]</span>
+<span id="cb50-180"><a href="codigo.html#cb50-180" tabindex="-1"></a>  a <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">height =</span> <span class="dv">520</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-181"><a href="codigo.html#cb50-181" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">add_trace</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">type =</span> <span class="st">&quot;scatter&quot;</span>, <span class="at">mode =</span> <span class="st">&quot;lines&quot;</span>, <span class="at">name =</span> <span class="st">&quot;Azar (curva ROC)&quot;</span>,</span>
+<span id="cb50-182"><a href="codigo.html#cb50-182" tabindex="-1"></a>                      <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>referencia, <span class="at">dash =</span> <span class="st">&quot;dash&quot;</span>, <span class="at">width =</span> <span class="fl">1.3</span>), <span class="at">hoverinfo =</span> <span class="st">&quot;skip&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-183"><a href="codigo.html#cb50-183" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">add_trace</span>(<span class="at">x =</span> roc<span class="sc">$</span>x, <span class="at">y =</span> roc<span class="sc">$</span>y, <span class="at">type =</span> <span class="st">&quot;scatter&quot;</span>, <span class="at">mode =</span> <span class="st">&quot;lines&quot;</span>, <span class="at">name =</span> <span class="st">&quot;Modelo (boosting de histogramas)&quot;</span>,</span>
+<span id="cb50-184"><a href="codigo.html#cb50-184" tabindex="-1"></a>                      <span class="at">legendgroup =</span> <span class="st">&quot;modelo&quot;</span>, <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>dentro, <span class="at">width =</span> <span class="fl">2.4</span>),</span>
+<span id="cb50-185"><a href="codigo.html#cb50-185" tabindex="-1"></a>                      <span class="at">hovertemplate =</span> <span class="st">&quot;Falsos positivos: %{x:.1%}&lt;br&gt;Sensibilidad: %{y:.1%}&lt;extra&gt;&lt;/extra&gt;&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-186"><a href="codigo.html#cb50-186" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Tasa de falsos positivos&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">fixedrange =</span> <span class="cn">FALSE</span>, <span class="at">tickformat =</span> <span class="st">&quot;.0%&quot;</span>),</span>
+<span id="cb50-187"><a href="codigo.html#cb50-187" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Sensibilidad&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">fixedrange =</span> <span class="cn">FALSE</span>, <span class="at">tickformat =</span> <span class="st">&quot;.0%&quot;</span>))</span>
+<span id="cb50-188"><a href="codigo.html#cb50-188" tabindex="-1"></a>  b <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">height =</span> <span class="dv">520</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-189"><a href="codigo.html#cb50-189" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">add_trace</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">y =</span> <span class="fu">rep</span>(r<span class="sc">$</span>prevalencia, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">&quot;scatter&quot;</span>, <span class="at">mode =</span> <span class="st">&quot;lines&quot;</span>, <span class="at">name =</span> <span class="st">&quot;Prevalencia (sin modelo, curva PR)&quot;</span>,</span>
+<span id="cb50-190"><a href="codigo.html#cb50-190" tabindex="-1"></a>                      <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>referencia, <span class="at">dash =</span> <span class="st">&quot;dash&quot;</span>, <span class="at">width =</span> <span class="fl">1.3</span>), <span class="at">hoverinfo =</span> <span class="st">&quot;skip&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-191"><a href="codigo.html#cb50-191" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">add_trace</span>(<span class="at">x =</span> pr<span class="sc">$</span>x, <span class="at">y =</span> pr<span class="sc">$</span>y, <span class="at">type =</span> <span class="st">&quot;scatter&quot;</span>, <span class="at">mode =</span> <span class="st">&quot;lines&quot;</span>, <span class="at">name =</span> <span class="st">&quot;Modelo&quot;</span>, <span class="at">showlegend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb50-192"><a href="codigo.html#cb50-192" tabindex="-1"></a>                      <span class="at">legendgroup =</span> <span class="st">&quot;modelo&quot;</span>, <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>dentro, <span class="at">width =</span> <span class="fl">2.4</span>),</span>
+<span id="cb50-193"><a href="codigo.html#cb50-193" tabindex="-1"></a>                      <span class="at">hovertemplate =</span> <span class="st">&quot;Sensibilidad: %{x:.1%}&lt;br&gt;Precisión: %{y:.1%}&lt;extra&gt;&lt;/extra&gt;&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-194"><a href="codigo.html#cb50-194" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Sensibilidad&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">fixedrange =</span> <span class="cn">FALSE</span>, <span class="at">tickformat =</span> <span class="st">&quot;.0%&quot;</span>),</span>
+<span id="cb50-195"><a href="codigo.html#cb50-195" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Precisión&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">fixedrange =</span> <span class="cn">FALSE</span>, <span class="at">tickformat =</span> <span class="st">&quot;.0%&quot;</span>))</span>
+<span id="cb50-196"><a href="codigo.html#cb50-196" tabindex="-1"></a>  plotly<span class="sc">::</span><span class="fu">subplot</span>(a, b, <span class="at">nrows =</span> <span class="dv">1</span>, <span class="at">margin =</span> .<span class="dv">07</span>, <span class="at">titleX =</span> <span class="cn">TRUE</span>, <span class="at">titleY =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-197"><a href="codigo.html#cb50-197" tabindex="-1"></a>    <span class="fu">estilo_libro</span>(<span class="st">&quot;Modelo seleccionado, conjunto de prueba&quot;</span>, <span class="at">margen =</span> <span class="fu">list</span>(<span class="at">l =</span> <span class="dv">10</span>, <span class="at">r =</span> <span class="dv">20</span>, <span class="at">t =</span> <span class="dv">84</span>, <span class="at">b =</span> <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-198"><a href="codigo.html#cb50-198" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">legend =</span> <span class="fu">list</span>(<span class="at">orientation =</span> <span class="st">&quot;h&quot;</span>, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">0.3</span>, <span class="at">xanchor =</span> <span class="st">&quot;left&quot;</span>, <span class="at">yanchor =</span> <span class="st">&quot;top&quot;</span>),</span>
+<span id="cb50-199"><a href="codigo.html#cb50-199" tabindex="-1"></a>                   <span class="at">margin =</span> <span class="fu">list</span>(<span class="at">l =</span> <span class="dv">10</span>, <span class="at">r =</span> <span class="dv">20</span>, <span class="at">t =</span> <span class="dv">84</span>, <span class="at">b =</span> <span class="dv">110</span>),</span>
+<span id="cb50-200"><a href="codigo.html#cb50-200" tabindex="-1"></a>                   <span class="at">annotations =</span> <span class="fu">list</span>(</span>
+<span id="cb50-201"><a href="codigo.html#cb50-201" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="fl">1.02</span>, <span class="at">xref =</span> <span class="st">&quot;paper&quot;</span>, <span class="at">yref =</span> <span class="st">&quot;paper&quot;</span>, <span class="at">xanchor =</span> <span class="st">&quot;left&quot;</span>, <span class="at">yanchor =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">showarrow =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb50-202"><a href="codigo.html#cb50-202" tabindex="-1"></a>           <span class="at">text =</span> <span class="fu">paste0</span>(<span class="st">&quot;ROC, AUC &quot;</span>, <span class="fu">num_es</span>(r<span class="sc">$</span>roc_auc, <span class="dv">3</span>)), <span class="at">font =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>tinta2, <span class="at">size =</span> <span class="dv">13</span>)),</span>
+<span id="cb50-203"><a href="codigo.html#cb50-203" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">x =</span> .<span class="dv">535</span>, <span class="at">y =</span> <span class="fl">1.02</span>, <span class="at">xref =</span> <span class="st">&quot;paper&quot;</span>, <span class="at">yref =</span> <span class="st">&quot;paper&quot;</span>, <span class="at">xanchor =</span> <span class="st">&quot;left&quot;</span>, <span class="at">yanchor =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">showarrow =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb50-204"><a href="codigo.html#cb50-204" tabindex="-1"></a>           <span class="at">text =</span> <span class="fu">paste0</span>(<span class="st">&quot;Precisión y sensibilidad, AP &quot;</span>, <span class="fu">num_es</span>(r<span class="sc">$</span>ap, <span class="dv">3</span>)), <span class="at">font =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>tinta2, <span class="at">size =</span> <span class="dv">13</span>))))</span>
+<span id="cb50-205"><a href="codigo.html#cb50-205" tabindex="-1"></a>}</span>
+<span id="cb50-206"><a href="codigo.html#cb50-206" tabindex="-1"></a></span>
+<span id="cb50-207"><a href="codigo.html#cb50-207" tabindex="-1"></a>g_confusion <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-208"><a href="codigo.html#cb50-208" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;matriz_confusion.csv&quot;</span>)[<span class="dv">1</span>, ]</span>
+<span id="cb50-209"><a href="codigo.html#cb50-209" tabindex="-1"></a>  valores <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(m<span class="sc">$</span>verdaderos_negativos, m<span class="sc">$</span>falsos_positivos, m<span class="sc">$</span>falsos_negativos, m<span class="sc">$</span>verdaderos_positivos), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb50-210"><a href="codigo.html#cb50-210" tabindex="-1"></a>  nombres <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="st">&quot;Verdaderos negativos&quot;</span>, <span class="st">&quot;Falsas alarmas&quot;</span>, <span class="st">&quot;No detectados&quot;</span>, <span class="st">&quot;Detectados&quot;</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb50-211"><a href="codigo.html#cb50-211" tabindex="-1"></a>  ejes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Dentro de la ruta&quot;</span>, <span class="st">&quot;Fuera de la ruta&quot;</span>)</span>
+<span id="cb50-212"><a href="codigo.html#cb50-212" tabindex="-1"></a>  plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">x =</span> ejes, <span class="at">y =</span> ejes, <span class="at">z =</span> valores, <span class="at">type =</span> <span class="st">&quot;heatmap&quot;</span>, <span class="at">showscale =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb50-213"><a href="codigo.html#cb50-213" tabindex="-1"></a>                  <span class="at">colorscale =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>, TK<span class="sc">$</span>suelo), <span class="fu">c</span>(<span class="dv">1</span>, TK<span class="sc">$</span>dentro)),</span>
+<span id="cb50-214"><a href="codigo.html#cb50-214" tabindex="-1"></a>                  <span class="at">customdata =</span> nombres, <span class="at">text =</span> <span class="fu">matrix</span>(<span class="fu">num_es</span>(valores), <span class="at">nrow =</span> <span class="dv">2</span>),</span>
+<span id="cb50-215"><a href="codigo.html#cb50-215" tabindex="-1"></a>                  <span class="at">hovertemplate =</span> <span class="st">&quot;%{customdata}&lt;br&gt;Observado: %{y}&lt;br&gt;Predicción: %{x}&lt;br&gt;%{text} personas&lt;extra&gt;&lt;/extra&gt;&quot;</span>,</span>
+<span id="cb50-216"><a href="codigo.html#cb50-216" tabindex="-1"></a>                  <span class="at">height =</span> <span class="dv">380</span>, <span class="at">xgap =</span> <span class="dv">3</span>, <span class="at">ygap =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-217"><a href="codigo.html#cb50-217" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">add_annotations</span>(<span class="at">x =</span> <span class="fu">rep</span>(ejes, <span class="dv">2</span>), <span class="at">y =</span> <span class="fu">rep</span>(ejes, <span class="at">each =</span> <span class="dv">2</span>), <span class="at">showarrow =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb50-218"><a href="codigo.html#cb50-218" tabindex="-1"></a>                            <span class="at">text =</span> <span class="fu">paste0</span>(<span class="fu">as.vector</span>(<span class="fu">t</span>(nombres)), <span class="st">&quot;&lt;br&gt;&quot;</span>, <span class="fu">num_es</span>(<span class="fu">as.vector</span>(<span class="fu">t</span>(valores)))),</span>
+<span id="cb50-219"><a href="codigo.html#cb50-219" tabindex="-1"></a>                            <span class="at">font =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">17</span>, <span class="at">color =</span> <span class="fu">ifelse</span>(<span class="fu">as.vector</span>(<span class="fu">t</span>(valores)) <span class="sc">&gt;</span> .<span class="dv">7</span> <span class="sc">*</span> <span class="fu">max</span>(valores), <span class="st">&quot;#FFFFFF&quot;</span>, TK<span class="sc">$</span>tinta))) <span class="sc">|&gt;</span></span>
+<span id="cb50-220"><a href="codigo.html#cb50-220" tabindex="-1"></a>    <span class="fu">estilo_libro</span>(<span class="st">&quot;Matriz de confusión en prueba (umbral elegido en validación)&quot;</span>, <span class="at">leyenda =</span> <span class="cn">FALSE</span>, <span class="at">margen =</span> <span class="fu">list</span>(<span class="at">l =</span> <span class="dv">10</span>, <span class="at">r =</span> <span class="dv">20</span>, <span class="at">t =</span> <span class="dv">56</span>, <span class="at">b =</span> <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-221"><a href="codigo.html#cb50-221" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Predicción&quot;</span>, <span class="at">gridcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>),</span>
+<span id="cb50-222"><a href="codigo.html#cb50-222" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Observado&quot;</span>, <span class="at">gridcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>, <span class="at">autorange =</span> <span class="st">&quot;reversed&quot;</span>))</span>
+<span id="cb50-223"><a href="codigo.html#cb50-223" tabindex="-1"></a>}</span>
+<span id="cb50-224"><a href="codigo.html#cb50-224" tabindex="-1"></a></span>
+<span id="cb50-225"><a href="codigo.html#cb50-225" tabindex="-1"></a>g_calibracion <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-226"><a href="codigo.html#cb50-226" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;calibracion.csv&quot;</span>)</span>
+<span id="cb50-227"><a href="codigo.html#cb50-227" tabindex="-1"></a>  plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">height =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-228"><a href="codigo.html#cb50-228" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">add_trace</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">type =</span> <span class="st">&quot;scatter&quot;</span>, <span class="at">mode =</span> <span class="st">&quot;lines&quot;</span>, <span class="at">name =</span> <span class="st">&quot;Calibración perfecta&quot;</span>,</span>
+<span id="cb50-229"><a href="codigo.html#cb50-229" tabindex="-1"></a>                      <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>referencia, <span class="at">dash =</span> <span class="st">&quot;dash&quot;</span>, <span class="at">width =</span> <span class="fl">1.3</span>), <span class="at">hoverinfo =</span> <span class="st">&quot;skip&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-230"><a href="codigo.html#cb50-230" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">add_trace</span>(<span class="at">x =</span> d<span class="sc">$</span>mean_predicted, <span class="at">y =</span> d<span class="sc">$</span>observed, <span class="at">type =</span> <span class="st">&quot;scatter&quot;</span>, <span class="at">mode =</span> <span class="st">&quot;lines+markers&quot;</span>, <span class="at">name =</span> <span class="st">&quot;Deciles en prueba&quot;</span>,</span>
+<span id="cb50-231"><a href="codigo.html#cb50-231" tabindex="-1"></a>                      <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>dentro, <span class="at">width =</span> <span class="fl">2.4</span>), <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb50-232"><a href="codigo.html#cb50-232" tabindex="-1"></a>                      <span class="at">customdata =</span> <span class="fu">num_es</span>(d<span class="sc">$</span>n),</span>
+<span id="cb50-233"><a href="codigo.html#cb50-233" tabindex="-1"></a>                      <span class="at">hovertemplate =</span> <span class="st">&quot;Probabilidad media: %{x:.1%}&lt;br&gt;Frecuencia observada: %{y:.1%}&lt;br&gt;%{customdata} personas&lt;extra&gt;&lt;/extra&gt;&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-234"><a href="codigo.html#cb50-234" tabindex="-1"></a>    <span class="fu">estilo_libro</span>(<span class="st">&quot;Calibración interna&quot;</span>, <span class="at">leyenda =</span> <span class="cn">TRUE</span>, <span class="at">margen =</span> <span class="fu">list</span>(<span class="at">l =</span> <span class="dv">10</span>, <span class="at">r =</span> <span class="dv">20</span>, <span class="at">t =</span> <span class="dv">84</span>, <span class="at">b =</span> <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-235"><a href="codigo.html#cb50-235" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Probabilidad media predicha&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">tickformat =</span> <span class="st">&quot;.0%&quot;</span>),</span>
+<span id="cb50-236"><a href="codigo.html#cb50-236" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Frecuencia observada&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">tickformat =</span> <span class="st">&quot;.0%&quot;</span>))</span>
+<span id="cb50-237"><a href="codigo.html#cb50-237" tabindex="-1"></a>}</span>
+<span id="cb50-238"><a href="codigo.html#cb50-238" tabindex="-1"></a></span>
+<span id="cb50-239"><a href="codigo.html#cb50-239" tabindex="-1"></a>g_importancia <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-240"><a href="codigo.html#cb50-240" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;importancia.csv&quot;</span>)</span>
+<span id="cb50-241"><a href="codigo.html#cb50-241" tabindex="-1"></a>  d <span class="ot">&lt;-</span> utils<span class="sc">::</span><span class="fu">head</span>(d[<span class="fu">order</span>(<span class="sc">-</span>d<span class="sc">$</span>mean_ap_drop), ], <span class="dv">10</span>)</span>
+<span id="cb50-242"><a href="codigo.html#cb50-242" tabindex="-1"></a>  d <span class="ot">&lt;-</span> d[<span class="fu">order</span>(d<span class="sc">$</span>mean_ap_drop), ]</span>
+<span id="cb50-243"><a href="codigo.html#cb50-243" tabindex="-1"></a>  nuevas <span class="ot">&lt;-</span> d<span class="sc">$</span>feature <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;HOGAR_OTROS_ENFERMOS&quot;</span>, <span class="st">&quot;SECCION_PCT_ENFERMOS&quot;</span>)</span>
+<span id="cb50-244"><a href="codigo.html#cb50-244" tabindex="-1"></a>  p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">height =</span> <span class="dv">450</span>)</span>
+<span id="cb50-245"><a href="codigo.html#cb50-245" tabindex="-1"></a>  <span class="cf">for</span> (grupo <span class="cf">in</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="cn">FALSE</span>, <span class="st">&quot;Variables de la versión 1&quot;</span>, TK<span class="sc">$</span>base), <span class="fu">list</span>(<span class="cn">TRUE</span>, <span class="st">&quot;Variables de contexto añadidas (versión 2)&quot;</span>, TK<span class="sc">$</span>dentro))) {</span>
+<span id="cb50-246"><a href="codigo.html#cb50-246" tabindex="-1"></a>    x <span class="ot">&lt;-</span> d[nuevas <span class="sc">==</span> grupo[[<span class="dv">1</span>]], ]</span>
+<span id="cb50-247"><a href="codigo.html#cb50-247" tabindex="-1"></a>    p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">add_trace</span>(p, <span class="at">x =</span> x<span class="sc">$</span>mean_ap_drop, <span class="at">y =</span> <span class="fu">factor</span>(x<span class="sc">$</span>descripcion, <span class="at">levels =</span> d<span class="sc">$</span>descripcion), <span class="at">type =</span> <span class="st">&quot;bar&quot;</span>, <span class="at">orientation =</span> <span class="st">&quot;h&quot;</span>,</span>
+<span id="cb50-248"><a href="codigo.html#cb50-248" tabindex="-1"></a>                           <span class="at">name =</span> grupo[[<span class="dv">2</span>]], <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">color =</span> grupo[[<span class="dv">3</span>]]), <span class="at">text =</span> <span class="fu">num_es</span>(x<span class="sc">$</span>mean_ap_drop, <span class="dv">3</span>),</span>
+<span id="cb50-249"><a href="codigo.html#cb50-249" tabindex="-1"></a>                           <span class="at">textposition =</span> <span class="st">&quot;outside&quot;</span>, <span class="at">cliponaxis =</span> <span class="cn">FALSE</span>, <span class="at">textfont =</span> <span class="fu">list</span>(<span class="at">color =</span> TK<span class="sc">$</span>tinta),</span>
+<span id="cb50-250"><a href="codigo.html#cb50-250" tabindex="-1"></a>                           <span class="at">customdata =</span> <span class="fu">paste0</span>(x<span class="sc">$</span>descripcion, <span class="st">&quot;&lt;br&gt;Caída media de AP: &quot;</span>, <span class="fu">num_es</span>(x<span class="sc">$</span>mean_ap_drop, <span class="dv">4</span>),</span>
+<span id="cb50-251"><a href="codigo.html#cb50-251" tabindex="-1"></a>                                               <span class="st">&quot; (desviación &quot;</span>, <span class="fu">num_es</span>(x<span class="sc">$</span>std_ap_drop, <span class="dv">4</span>), <span class="st">&quot;)&quot;</span>),</span>
+<span id="cb50-252"><a href="codigo.html#cb50-252" tabindex="-1"></a>                           <span class="at">hovertemplate =</span> <span class="st">&quot;%{customdata}&lt;extra&gt;&lt;/extra&gt;&quot;</span>)</span>
+<span id="cb50-253"><a href="codigo.html#cb50-253" tabindex="-1"></a>  }</span>
+<span id="cb50-254"><a href="codigo.html#cb50-254" tabindex="-1"></a>  p <span class="sc">|&gt;</span></span>
+<span id="cb50-255"><a href="codigo.html#cb50-255" tabindex="-1"></a>    <span class="fu">estilo_libro</span>(<span class="st">&quot;Importancia predictiva, sin interpretación causal&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-256"><a href="codigo.html#cb50-256" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Caída de AP al permutar la variable en validación&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(d<span class="sc">$</span>mean_ap_drop) <span class="sc">*</span> <span class="fl">1.2</span>)),</span>
+<span id="cb50-257"><a href="codigo.html#cb50-257" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="at">gridcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>), <span class="at">bargap =</span> .<span class="dv">32</span>)</span>
+<span id="cb50-258"><a href="codigo.html#cb50-258" tabindex="-1"></a>}</span>
+<span id="cb50-259"><a href="codigo.html#cb50-259" tabindex="-1"></a></span>
+<span id="cb50-260"><a href="codigo.html#cb50-260" tabindex="-1"></a>g_brecha <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-261"><a href="codigo.html#cb50-261" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">leer</span>(<span class="st">&quot;auditoria_brecha_2026.csv&quot;</span>)</span>
+<span id="cb50-262"><a href="codigo.html#cb50-262" tabindex="-1"></a>  bandas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;0-14&quot;</span> <span class="ot">=</span> <span class="st">&quot;0 a 14&quot;</span>, <span class="st">&quot;15-59&quot;</span> <span class="ot">=</span> <span class="st">&quot;15 a 59&quot;</span>, <span class="st">&quot;60+&quot;</span> <span class="ot">=</span> <span class="st">&quot;60 o más&quot;</span>)</span>
+<span id="cb50-263"><a href="codigo.html#cb50-263" tabindex="-1"></a>  p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">plot_ly</span>(<span class="at">height =</span> <span class="dv">400</span>)</span>
+<span id="cb50-264"><a href="codigo.html#cb50-264" tabindex="-1"></a>  <span class="cf">for</span> (grupo <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;Con dificultad&quot;</span>, <span class="st">&quot;Sin dificultad&quot;</span>)) {</span>
+<span id="cb50-265"><a href="codigo.html#cb50-265" tabindex="-1"></a>    parte <span class="ot">&lt;-</span> d[d<span class="sc">$</span>dificultad <span class="sc">==</span> grupo, ]</span>
+<span id="cb50-266"><a href="codigo.html#cb50-266" tabindex="-1"></a>    p <span class="ot">&lt;-</span> plotly<span class="sc">::</span><span class="fu">add_trace</span>(p, <span class="at">x =</span> <span class="fu">factor</span>(bandas[parte<span class="sc">$</span>edad], <span class="at">levels =</span> bandas), <span class="at">y =</span> parte<span class="sc">$</span>sensibilidad,</span>
+<span id="cb50-267"><a href="codigo.html#cb50-267" tabindex="-1"></a>                           <span class="at">type =</span> <span class="st">&quot;scatter&quot;</span>, <span class="at">mode =</span> <span class="st">&quot;lines+markers&quot;</span>, <span class="at">name =</span> grupo,</span>
+<span id="cb50-268"><a href="codigo.html#cb50-268" tabindex="-1"></a>                           <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="cf">if</span> (grupo <span class="sc">==</span> <span class="st">&quot;Con dificultad&quot;</span>) TK<span class="sc">$</span>grupo_b <span class="cf">else</span> TK<span class="sc">$</span>grupo_a, <span class="at">width =</span> <span class="fl">2.5</span>),</span>
+<span id="cb50-269"><a href="codigo.html#cb50-269" tabindex="-1"></a>                           <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb50-270"><a href="codigo.html#cb50-270" tabindex="-1"></a>                           <span class="at">error_y =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">&quot;data&quot;</span>, <span class="at">symmetric =</span> <span class="cn">FALSE</span>, <span class="at">array =</span> parte<span class="sc">$</span>superior <span class="sc">-</span> parte<span class="sc">$</span>sensibilidad,</span>
+<span id="cb50-271"><a href="codigo.html#cb50-271" tabindex="-1"></a>                                          <span class="at">arrayminus =</span> parte<span class="sc">$</span>sensibilidad <span class="sc">-</span> parte<span class="sc">$</span>inferior, <span class="at">thickness =</span> <span class="fl">1.5</span>, <span class="at">width =</span> <span class="dv">5</span>),</span>
+<span id="cb50-272"><a href="codigo.html#cb50-272" tabindex="-1"></a>                           <span class="at">customdata =</span> <span class="fu">paste0</span>(grupo, <span class="st">&quot;, &quot;</span>, bandas[parte<span class="sc">$</span>edad], <span class="st">&quot; años&lt;br&gt;Sensibilidad: &quot;</span>, <span class="fu">pct_es</span>(<span class="dv">100</span> <span class="sc">*</span> parte<span class="sc">$</span>sensibilidad),</span>
+<span id="cb50-273"><a href="codigo.html#cb50-273" tabindex="-1"></a>                                               <span class="st">&quot;&lt;br&gt;Detectados: &quot;</span>, <span class="fu">num_es</span>(parte<span class="sc">$</span>detectados), <span class="st">&quot; de &quot;</span>, <span class="fu">num_es</span>(parte<span class="sc">$</span>positivos),</span>
+<span id="cb50-274"><a href="codigo.html#cb50-274" tabindex="-1"></a>                                               <span class="st">&quot;&lt;br&gt;Intervalo Wilson 95 %: &quot;</span>, <span class="fu">pct_es</span>(<span class="dv">100</span> <span class="sc">*</span> parte<span class="sc">$</span>inferior), <span class="st">&quot; a &quot;</span>, <span class="fu">pct_es</span>(<span class="dv">100</span> <span class="sc">*</span> parte<span class="sc">$</span>superior)),</span>
+<span id="cb50-275"><a href="codigo.html#cb50-275" tabindex="-1"></a>                           <span class="at">hovertemplate =</span> <span class="st">&quot;%{customdata}&lt;extra&gt;&lt;/extra&gt;&quot;</span>)</span>
+<span id="cb50-276"><a href="codigo.html#cb50-276" tabindex="-1"></a>  }</span>
+<span id="cb50-277"><a href="codigo.html#cb50-277" tabindex="-1"></a>  <span class="fu">estilo_libro</span>(p, <span class="st">&quot;Sensibilidad por edad y dificultad funcional declarada&quot;</span>, <span class="at">leyenda =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb50-278"><a href="codigo.html#cb50-278" tabindex="-1"></a>               <span class="at">margen =</span> <span class="fu">list</span>(<span class="at">l =</span> <span class="dv">10</span>, <span class="at">r =</span> <span class="dv">20</span>, <span class="at">t =</span> <span class="dv">84</span>, <span class="at">b =</span> <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-279"><a href="codigo.html#cb50-279" tabindex="-1"></a>    plotly<span class="sc">::</span><span class="fu">layout</span>(<span class="at">xaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Edad en años&quot;</span>, <span class="at">gridcolor =</span> <span class="st">&quot;rgba(0,0,0,0)&quot;</span>),</span>
+<span id="cb50-280"><a href="codigo.html#cb50-280" tabindex="-1"></a>                   <span class="at">yaxis =</span> <span class="fu">eje</span>(<span class="st">&quot;Sensibilidad entre quienes están fuera de la ruta&quot;</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">tickformat =</span> <span class="st">&quot;.0%&quot;</span>))</span>
+<span id="cb50-281"><a href="codigo.html#cb50-281" tabindex="-1"></a>}</span></code></pre></div>
+</details>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="shiny.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": false,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

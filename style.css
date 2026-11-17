@@ -37,11 +37,34 @@ body, .book, .book.font-family-1 { color: var(--tinta); font-family: "Atkinson H
 .book .book-header { background: var(--hoja); }
 .small-note { color: var(--tinta-suave); font-size: .91em; }
 
-/* Sin negrillas en el texto: la jerarquía la dan títulos, tamaños y espacio. */
-.book .book-body .page-wrapper .page-inner section.normal { font-size: 1.06rem; line-height: 1.68; }
-.book .book-body .page-wrapper .page-inner section.normal h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 2.4rem; font-weight: 400; letter-spacing: -.02em; line-height: 1.1; margin: 0 0 1.1em; }
-.book .book-body .page-wrapper .page-inner section.normal h2 { font-family: "Bricolage Grotesque", sans-serif; font-size: 1.6rem; font-weight: 400; letter-spacing: -.012em; line-height: 1.2; margin: 2.2em 0 .6em; }
-.book .book-body .page-wrapper .page-inner section.normal h3 { font-size: 1.25rem; font-weight: 400; line-height: 1.25; margin: 1.8em 0 .5em; }
+/* Sin negrillas en el texto: la jerarquía la dan títulos, tamaños y espacio.
+   GitBook fija html { font-size: 62.5% } (10 px), así que aquí se usan px: con rem el texto quedaba en ~10,6 px. */
+.book .book-body .page-wrapper .page-inner { max-width: 1040px; }
+.book .book-body .page-wrapper .page-inner section.normal { font-size: 18px; line-height: 1.65; }
+.book .book-body .page-wrapper .page-inner section.normal h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 40px; font-weight: 400; letter-spacing: -.02em; line-height: 1.1; margin: 0 0 1.1em; }
+.book .book-body .page-wrapper .page-inner section.normal h2 { font-family: "Bricolage Grotesque", sans-serif; font-size: 28px; font-weight: 400; letter-spacing: -.012em; line-height: 1.2; margin: 2.2em 0 .6em; }
+.book .book-body .page-wrapper .page-inner section.normal h3 { font-size: 22px; font-weight: 400; line-height: 1.25; margin: 1.8em 0 .5em; }
+.book .book-body .page-wrapper .page-inner section.normal table { font-size: 16px; }
+.book .book-body .page-wrapper .page-inner section.normal pre,
+.book .book-body .page-wrapper .page-inner section.normal code { font-size: 15px; }
+.book .book-body .page-wrapper .page-inner section.normal .caption,
+.book .book-body .page-wrapper .page-inner section.normal caption { font-size: 16px; color: var(--tinta-media); }
+.book .book-summary, .book .book-summary ul.summary li a { font-size: 16px; }
+/* El botón «A» de GitBook sigue cambiando el tamaño (2 es el predeterminado). */
+.book.font-size-0 .book-body .page-wrapper .page-inner section.normal { font-size: 15px; }
+.book.font-size-1 .book-body .page-wrapper .page-inner section.normal { font-size: 16.5px; }
+.book.font-size-2 .book-body .page-wrapper .page-inner section.normal { font-size: 18px; }
+.book.font-size-3 .book-body .page-wrapper .page-inner section.normal { font-size: 20.5px; }
+.book.font-size-4 .book-body .page-wrapper .page-inner section.normal { font-size: 23px; }
+/* Código plegable: cada bloque R se puede abrir con «Ver código». */
+details.codigo { margin: .4em 0 1em; border: 1px solid var(--hilo); border-radius: 6px; background: var(--papel); }
+details.codigo > summary { cursor: pointer; padding: .45em .8em; color: var(--rio-oscuro); font-size: 15px; }
+details.codigo[open] > summary { border-bottom: 1px solid var(--hilo); }
+details.codigo pre { margin: 0; border: 0; }
+@media (max-width: 600px) {
+  .book .book-body .page-wrapper .page-inner section.normal { font-size: 17px; }
+  .book .book-body .page-wrapper .page-inner section.normal h1 { font-size: 32px; }
+}
 .book .book-body .page-wrapper .page-inner section.normal p { margin: 0 0 1em; }
 .book .book-body .page-wrapper .page-inner section.normal strong { font-weight: inherit; }
 /* Sin negrillas en ninguna parte: también los números del índice, encabezados de tabla y leyendas. */

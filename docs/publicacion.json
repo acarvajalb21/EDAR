@@ -1,0 +1,18 @@
+{
+  "source_commit": "cb6d100f67d57d49d53d34f7788492b7558590b6",
+  "publication_date": "2026-11-17",
+  "repository": "EDAR",
+  "html_sha256": {
+    "404.html": "3e8f71bbeedbad83f8358780168169584fadbf7805a59b2aefb8df58642c81d8",
+    "calidad.html": "7e4348f4ccbf9045921b152a18169cab372fd5bdaa6d9ed36d77ab941dac1fd3",
+    "codigo.html": "429d27d3681906dc8ab058cea8dbc6d67d1b666e83889905e5031820ba8febfd",
+    "conclusiones.html": "f920693579909c9a5caa0995294aa95ddcf65459e87d6e2e52e8965f44514a03",
+    "datos-metodo.html": "423f4c1efb6f82a843680b16015f5dc746d6a6f071670d9a59f156086d0225f8",
+    "exploracion.html": "21ce72983d2a68e36e906ae601099437ad432814f41b045aaa116abf391206ed",
+    "index.html": "ded6ccdd852752b710ec4d1f774f1d692b32f59935feba2d9b0d3662bd46990a",
+    "modelo.html": "b2c3970084c8af3b6a7c9d3f9da66601a69d02f8f1567e6e5b4d7b4d76540628",
+    "pregunta.html": "0079dbba0996db0afd39468d048e0e995f0fde7c590cc497ae4ec17e689b7efd",
+    "reproducibilidad.html": "7586450bce4343b20a57b8cbeedaf4184145c1938f036b76a8b0420ec394341a",
+    "shiny.html": "b37b66a932dc1db9a3beb30d5a775afcf1a1115b2d38981782a43b07d9de998e"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "tiempo_total_s": 1453.8640246391296,
+  "prueba_consultada": false,
+  "semillas": {
+    "particion": 42,
+    "cv": 43,
+    "modelo": 42,
+    "bootstrap": 44,
+    "te_pliegues": 45
+  },
+  "te": {
+    "m": 20.0,
+    "pliegues_internos": 5
+  },
+  "fuentes_sha256": {
+    "CNPV2018_5PER_A2_08.CSV": "e55981e90717fa238550f332b5a76334dd1854427cd8f161eff151f00b239bab",
+    "CNPV2018_2HOG_A2_08.CSV": "e4ab3a377decabcc3eaa935643770f262aa48d8ce85bc7559c485a33c68a9cc9",
+    "CNPV2018_1VIV_A2_08.CSV": "428ee27091e9c6ef8a052f130fd0f5cc0a766ad11e9f90b978ce89a0423c453d",
+    "CNPV2018_MGN_A2_08.CSV": "fffaef93c140ad37ac695e2ee848ece9c5b3d0d8286333a577671b69015ff8e6"
+  },
+  "versiones": {
+    "python": "3.12.10",
+    "pandas": "3.0.5",
+    "numpy": "2.5.2",
+    "scikit_learn": "1.9.1",
+    "lightgbm": "4.7.0"
+  },
+  "n_secciones": 1519,
+  "n_manzanas": 16242,
+  "faltantes_agregados": {
+    "SEC_PCT_DIFICULTAD": 0,
+    "SEC_EDU_MEDIA": 0,
+    "SEC_PCT_60MAS": 0,
+    "SEC_ESTRATO_MEDIO": 4,
+    "SEC_PCT_INTERNET": 0,
+    "SEC_LOG_PERSONAS": 0,
+    "MZA_PCT_ENFERMOS": 1
+  }
+}

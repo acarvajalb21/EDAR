@@ -12,6 +12,8 @@ tab:sexo-dificultad
 fig:fig-municipio
 tab:area-tabla
 tab:estrato-tabla
+fig:fig-particion
+tab:tabla-lectura-metricas
 fig:fig-modelos
 tab:tabla-modelos
 tab:hiperparametros
@@ -29,7 +31,9 @@ tab:tabla-contexto-hogar
 tab:tabla-contexto-seccion
 tab:tabla-mismo-marcado
 tab:tabla-priorizacion
+tab:tabla-mejora
 tab:huellas
+tab:tabla-particiones-codigo
 pregunta
 qué-intenta-responder-el-proyecto
 a-quién-se-estudia
@@ -49,12 +53,14 @@ dificultad-funcional
 edad-y-sexo-mirar-dentro-de-los-grupos
 territorio-y-condiciones-de-vivienda
 modelo
+modelo-resumen
 pregunta-predictiva-y-criterio-de-éxito
 candidatos-y-elección
 curvas-calibración-y-umbral
 variables-relevantes-y-diferencias-entre-grupos
 revision-modelo-2026
 modelo-contexto-2026
+mejora-2026
 alcance-de-la-prueba
 conclusiones
 lo-que-sí-muestran-los-datos
@@ -71,3 +77,10 @@ cómo-funciona-la-reactividad
 diseño
 comprobaciones
 despliegue
+codigo
+cómo-se-dividieron-los-datos
+preprocesamiento-dentro-del-pipeline
+candidatos-búsqueda-de-hiperparámetros-y-elección
+métricas-y-umbral
+cómo-se-reproduce
+funciones-de-las-figuras-r
