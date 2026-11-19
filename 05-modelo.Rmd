@@ -293,7 +293,7 @@ Ambas variables se miden en el mismo censo que la respuesta, de modo que el mode
 
 ## ¿Se puede mejorar el modelo? Experimento de noviembre de 2026 {#mejora-2026}
 
-Ante la observación de que el modelo «predice poco», se buscó una mejora con un protocolo escrito antes de mirar la validación ([`ml_salud/experimento_mejora/INFORME.md`](https://github.com/acarvajalb21/EDAPYTHON/blob/main/ml_salud/experimento_mejora/INFORME.md)). Se mantuvieron la cohorte, la etiqueta y las particiones; las variantes se compararon con validación cruzada por vivienda dentro del entrenamiento y con la validación. **La prueba no se consultó.** Se probaron dos ideas: otro algoritmo (LightGBM) y variables territoriales nuevas, entre ellas la proporción de *vecinos* de la misma sección o manzana que quedó fuera de la ruta. Esa proporción se calcula solo con etiquetas de entrenamiento y nunca incluye la propia vivienda.
+Se evaluó si el modelo podía mejorar con un protocolo escrito antes de mirar la validación ([`ml_salud/experimento_mejora/INFORME.md`](https://github.com/acarvajalb21/EDAPYTHON/blob/main/ml_salud/experimento_mejora/INFORME.md)). Se mantuvieron la cohorte, la etiqueta y las particiones; las variantes se compararon con validación cruzada por vivienda dentro del entrenamiento y con la validación. **La prueba no se consultó.** Se probaron dos ideas: otro algoritmo (LightGBM) y variables territoriales nuevas, entre ellas la proporción de *vecinos* de la misma sección o manzana que quedó fuera de la ruta. Esa proporción se calcula solo con etiquetas de entrenamiento y nunca incluye la propia vivienda.
 
 ```{r tabla-mejora}
 mej <- leer("experimento_mejora.csv")

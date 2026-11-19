@@ -1,5 +1,5 @@
 {
-  "source_commit": "cb6d100f67d57d49d53d34f7788492b7558590b6",
+  "source_commit": "b5a7347ebe4e49d520a7fa19a4636128a00e5679",
   "publication_date": "2026-11-17",
   "repository": "EDAR",
   "html_sha256": {
@@ -10,7 +10,7 @@
     "datos-metodo.html": "b63396d248e0d49062d88a1af6a494df86cce555e0543189645a8146a7fc7b92",
     "exploracion.html": "bb6c7583ab8abe099eae2f83274c98bf3289d4e6640b495f2bd27f3da62ed51f",
     "index.html": "ab870b3307f3181119bd7618228a2b54c8144e8f4848807611a742d0efdd0bcf",
-    "modelo.html": "bcfe7640b9ccf37049f7dbbb7587c23d85a12c53b5310904bb557c439f7b6c29",
+    "modelo.html": "bdf86d887630a89f9b39b0efa608adb59adb3d10610542ceb41e2158a43a2a89",
     "pregunta.html": "3003344fff075087631c881ecdcea2d2ebd5eacfd7c24c1cd951304f83217063",
     "reproducibilidad.html": "6dc6ac8f27e0ce404c289296148ab749c355c49bb6c8ab511a9054d1f5a4cdf0",
     "shiny.html": "58d0cf18a43ea8b41a9ba3cffd45d173da094e63d97d579eed7a2090d5293f97"
